@@ -4,15 +4,17 @@
 
 ## 👤 Autor del proyecto
 
-Aaron
+Aaron Gutiérrez Caña
 
 ## 📖 Introducción del proyecto
 
-El objetivo principal del proyecto es desarrollar una plataforma web llamada **ArenaGG**, destinada a la organización y gestión de torneos de videojuegos como **Valorant**, **League of Legends** y **Counter-Strike 2**. Esta plataforma permitirá a los usuarios inscribirse, gestionar sus equipos, seguir el progreso de los torneos y consultar resultados en tiempo real. 
+El objetivo principal del proyecto es desarrollar una plataforma web llamada **ArenaGG**, destinada a la organización y gestión de torneos de videojuegos como **Valorant**, **League of Legends**, **Counter-Strike 2**, etc... Esta plataforma permitirá a los usuarios inscribirse, gestionar sus equipos, seguir el progreso de los torneos y consultar resultados en tiempo real. 
 
 ## 🎯 Finalidad
 
 La plataforma **ArenaGG** servirá para facilitar la creación, administración y seguimiento de torneos de videojuegos, ofreciendo una experiencia fluida tanto para organizadores como para participantes. Permitirá automatizar procesos como la inscripción, el emparejamiento de equipos y la publicación de resultados.
+
+Además, los torneos podrán ofrecer puntos de la página que se podrán intercambiar por premios en efectivo, merchandising, suscripciones u otros beneficios, lo que fomentará la participación y la competitividad.
 
 ## ✅ Objetivos
 
