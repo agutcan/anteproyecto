@@ -4,7 +4,7 @@
 
 ## 👤 Autor del proyecto
 
-Aaron Gutiérrez Caña
+Aarón Gutiérrez Caña
 
 ## 📖 Introducción del proyecto
 
