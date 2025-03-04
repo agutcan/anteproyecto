@@ -41,7 +41,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🌐 **Frontend:** HTML5, CSS3 (con Bootstrap 5), JavaScript
 - 📦 **Contenerización:** Docker para empaquetar y desplegar la aplicación.
 - 🔄 **Control de versiones:** Git (con GitHub para la gestión del código)
-- 🛠️ **Entorno de desarrollo:** Visual Studio Code
+- 🛠️ **Entorno de desarrollo:** PyCharm
 
 ## 📊 Planificación
 
