@@ -2,7 +2,7 @@
 
 # Título del proyecto
 
-ArenaGG: Plataforma de gestión de torneos de videojuegos
+ArenaGG - Plataforma de gestión de torneos de videojuegos
 
 ## Autor del proyecto
 
