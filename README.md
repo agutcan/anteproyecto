@@ -32,14 +32,13 @@ Una vez puesta en marcha, la plataforma permitirá:
 ### 💻 Hardware
 
 - 🖥️ Ordenador con procesador Intel i5 o superior, 8GB de RAM, 256GB de almacenamiento SSD.
-- ☁️ Despliegue en **AWS** para la infraestructura en la nube.
 
 ### 📦 Software
 
 - 🐍 **Lenguaje de programación:** Python (con Django para el backend)
 - 🗄️ **Base de datos:** PostgreSQL
 - 🌐 **Frontend:** HTML5, CSS3 (con Bootstrap 5), JavaScript
-- 📦 **Contenerización:** Docker para empaquetar y desplegar la aplicación.
+- 📦 **Contenerización:** Docker para empaquetar y **AWS** para desplegar la aplicación. 
 - 🔄 **Control de versiones:** Git (con GitHub para la gestión del código)
 - 🛠️ **Entorno de desarrollo:** PyCharm
 
