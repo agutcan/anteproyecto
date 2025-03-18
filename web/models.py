@@ -134,11 +134,11 @@ class MatchResult(models.Model):
 
 class MatchLog(models.Model):
     """Registro de eventos en una partida."""
-    match = models.ForeignKey(Match, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    match = models.ForeignKey(Match, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     event = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Log {self.match}: {self.player.user.username} - {self.event}"
+        return f"Log {self.match if self.match else 'Sin partida'}: {self.player.user.username if self.player else 'Sin jugador'} - {self.event}"
