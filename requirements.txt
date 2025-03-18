@@ -1,0 +1,8 @@
+Django>=5.0
+psycopg2==2.9.10
+django-extensions
+ipdb
+Pillow
+psycopg2-binary
+django-debug-toolbar
+djangorestframework

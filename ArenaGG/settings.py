@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
+    'debug_toolbar',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'ArenaGG.urls'
@@ -76,12 +82,35 @@ WSGI_APPLICATION = 'ArenaGG.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        # Especifica el backend de la base de datos que se utilizará. En este caso, estamos usando PostgreSQL.
+        "ENGINE": "django.db.backends.postgresql",  # Backend de PostgreSQL
+
+        # Nombre de la base de datos que se utilizará. En este caso, la base de datos se llama "django_db".
+        "NAME": "django_db",  # Nombre de la base de datos
+
+        # Usuario que se usará para conectarse a la base de datos.
+        "USER": "postgres",  # Usuario de la base de datos
+
+        # Contraseña del usuario para acceder a la base de datos.
+        "PASSWORD": "password",  # Contraseña del usuario de la base de datos
+
+        # Dirección del servidor de la base de datos. Si estás usando Docker, el valor podría ser el nombre del servicio, como "db".
+        "HOST": "db",  # Dirección del host de la base de datos
+
+        # Puerto en el que se ejecuta la base de datos. El valor predeterminado de PostgreSQL es 5432.
+        "PORT": "5432",  # Puerto donde la base de datos escucha
     }
 }
 
+# Obtenemos el nombre del host (máquina local) y sus direcciones IP asociadas
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+
+# Creamos una lista de direcciones IP internas agregando '.1' al final de cada dirección
+INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "localhost"]
+
+# Si conseguimos la ip de nuestro contenedor docker con el comando (docker inspect django_web) y cogemos la ip del ("Gateway") podemos ponerlo de la siguiente manera
+# INTERNAL_IPS = ["172.19.0.1", "127.0.0.1", "localhost"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -118,6 +147,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Definir la URL a la que los usuarios serán redirigidos si intentan acceder a una página que requiere autenticación
+LOGIN_URL = '/accounts/login/'
+
+# Definir la URL a la que el usuario será redirigido después de iniciar sesión con éxito
+LOGIN_REDIRECT_URL = '/'
+
+# Definir la URL a la que el usuario será redirigido después de cerrar sesión
+LOGOUT_REDIRECT_URL = '/accounts/logout/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
