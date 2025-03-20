@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Player list / ArenaGG{% endblock %}
+{% block content %}
+    <h1>Jugadores</h1>
+    {% if player_list %}
+        <ul>
+            {% for p in player_list %}
+                <li>
+                    <img src="{{ p.avatar.url }}" class="player-image" alt="{{ p.user }}" style="height: 32px; width: 32px "> {{ p.user }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

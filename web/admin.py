@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django.utils.html import format_html
 
 # Configuración del administrador para el modelo Game
 @admin.register(Game)
@@ -26,10 +27,27 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     # Personalizamos el formulario para que se muestren ciertos campos
-    list_display = ('user', 'team', 'role', 'games_played', 'games_won', 'winrate')
+    list_display = ('user', 'team', 'role', 'games_played', 'games_won', 'winrate', 'avatar_preview', 'avatar_url')
     list_filter = ('role', 'team')  # Permite filtrar por rol y equipo
     search_fields = ('user__username', 'team__name')  # Permite buscar por nombre de usuario o nombre de equipo
     list_editable = ('role',)  # Permite editar el rol directamente desde la lista
+
+    def avatar_preview(self, obj):
+        """Muestra una miniatura de la imagen en el panel de administración."""
+        if obj.avatar:
+            return format_html('<img src="{}" style="width: 50px; height: 50px; border-radius: 5px;" />',
+                               obj.avatar.url)
+        return "No image"
+
+    avatar_preview.short_description = "Avatar"
+
+    def avatar_url(self, obj):
+        """Muestra la URL de la imagen en el admin de Django."""
+        if obj.avatar:
+            return obj.avatar.url
+        return "No image"
+
+    avatar_url.short_description = "Avatar URL"
 
 # Configuración del administrador para el modelo TournamentTeam
 @admin.register(TournamentTeam)

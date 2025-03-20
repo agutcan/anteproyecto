@@ -51,26 +51,25 @@ class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
 
-    # Roles de los jugadores (Capitán o Miembro)
-    CAPTAIN = 'Capitán'
-    MEMBER = 'Miembro'
+    # Roles de los jugadores (Premium o Normal)
+    PREMIUM = 'Premium'
+    DEFAULT = 'Normal'
     ROLE_CHOICES = [
-        (CAPTAIN, 'Capitán'),
-        (MEMBER, 'Miembro'),
+        (PREMIUM, 'Premium'),
+        (DEFAULT, 'Normal'),
     ]
     role = models.CharField(
         max_length=10,
         choices=ROLE_CHOICES,
-        default=MEMBER,  # Por defecto, el rol es Miembro
+        default=DEFAULT,  # Por defecto, el rol es Normal
     )
 
-    # Datos del perfil (Antes en Profile)
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=50, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
-    avatar_url = models.URLField(blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default_avatar.png')
 
     # Estadísticas
     games_played = models.IntegerField(default=0)

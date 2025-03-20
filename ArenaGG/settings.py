@@ -148,6 +148,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'web/static'),  # Aquí van imágenes como logotipos, fondos, etc.
+]
+
+# Archivos subidos por usuarios (avatars, imágenes de perfil, etc.)
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'web/static/media')  # Los archivos subidos se guardarán en "media/"
+
 # Definir la URL a la que los usuarios serán redirigidos si intentan acceder a una página que requiere autenticación
 LOGIN_URL = '/accounts/login/'
 
@@ -156,6 +165,10 @@ LOGIN_REDIRECT_URL = '/'
 
 # Definir la URL a la que el usuario será redirigido después de cerrar sesión
 LOGOUT_REDIRECT_URL = '/accounts/logout/'
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

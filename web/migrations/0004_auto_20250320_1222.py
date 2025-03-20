@@ -88,10 +88,10 @@ def poblar_datos(apps, schema_editor):
 
     # Crear jugadores
     players = [
-        Player(user=users[0], team=teams[0], role='Capitán', games_played=100, games_won=70),
-        Player(user=users[1], team=teams[1], role='Miembro', games_played=80, games_won=50),
-        Player(user=users[2], team=teams[2], role='Capitán', games_played=120, games_won=90),
-        Player(user=users[3], team=teams[3], role='Miembro', games_played=90, games_won=65)
+        Player(user=users[0], team=teams[0], role='Premium', games_played=100, games_won=70),
+        Player(user=users[1], team=teams[1], games_played=80, games_won=50),
+        Player(user=users[2], team=teams[2], role='Premium', games_played=120, games_won=90),
+        Player(user=users[3], team=teams[3], games_played=90, games_won=65)
     ]
     Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
 
@@ -139,11 +139,10 @@ def poblar_datos(apps, schema_editor):
     User.objects.create_user(username='prueba', password='prueba')  # Crear un usuario normal
     User.objects.create_superuser(username='admin', email='admin@example.com', password='admin')  # Crear un superusuario
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0002_alter_matchlog_match_alter_matchlog_player_and_more'),
+        ('web', '0003_remove_player_avatar_url_player_avatar_and_more'),
     ]
 
     # Operaciones que se ejecutan: poblar los datos y definir cómo eliminarlos
