@@ -8,11 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      - DEBUG=True
-      - DATABASE_URL=postgres://postgres:password@db:5432/django_db
-      - EMAIL_HOST=mailpit
-      - EMAIL_PORT=1025
+    env_file:
+      - .env
     depends_on:
       - db
       - mailpit
@@ -24,9 +21,8 @@ services:
     container_name: postgres_db
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: django_db
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -39,11 +35,8 @@ services:
     ports:
       - "8025:8025" # Interfaz web
       - "1025:1025" # SMTP de prueba
-    environment:
-      MP_MAX_MESSAGES: 5000
-      MP_DATABASE: /data/mailpit.db
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    env_file:
+      - .env
     restart: unless-stopped
 
 volumes:
