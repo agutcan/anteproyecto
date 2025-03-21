@@ -9,8 +9,9 @@ app_name = 'web'
 # Definir las rutas de URL para la aplicación
 urlpatterns = [
     # Ruta para la vista principal del índice
-    path('', views.index, name='index'),  # Cambia esto por las vistas que tengas
+    path('', views.IndexView.as_view(), name='index'),  # Cambia esto por las vistas que tengas
     path('player/', views.PlayerListView.as_view(), name='playerView'),  # Vista de lista de jugadores
+    path('accounts/register/', views.RegisterView.as_view(), name='register'),  # Vista para registro de usuarios
 
 ]
 

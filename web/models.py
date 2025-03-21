@@ -67,7 +67,22 @@ class Player(models.Model):
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
-    country = models.CharField(max_length=50, blank=True, null=True)
+
+    COUNTRY_CHOICES = [
+        ('AR', 'Argentina'),
+        ('BR', 'Brasil'),
+        ('CL', 'Chile'),
+        ('CO', 'Colombia'),
+        ('ES', 'España'),
+        ('MX', 'México'),
+        ('US', 'Estados Unidos'),
+    ]
+
+    country = models.CharField(
+        max_length=2,
+        choices=COUNTRY_CHOICES,
+        default='ES'  # Puedes cambiar el país por defecto
+    )
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default_avatar.png')
 

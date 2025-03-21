@@ -27,10 +27,15 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     # Personalizamos el formulario para que se muestren ciertos campos
-    list_display = ('user', 'team', 'role', 'games_played', 'games_won', 'winrate', 'avatar_preview', 'avatar_url')
-    list_filter = ('role', 'team')  # Permite filtrar por rol y equipo
+    list_display = ('user', 'team', 'role', 'country', 'games_played', 'games_won', 'winrate_preview', 'avatar_preview', 'avatar_url')
+    list_filter = ('role', 'team', 'country')  # Permite filtrar por rol, comunidad y equipo
     search_fields = ('user__username', 'team__name')  # Permite buscar por nombre de usuario o nombre de equipo
-    list_editable = ('role',)  # Permite editar el rol directamente desde la lista
+    list_editable = ('role', 'country')  # Permite editar el rol y comunidad directamente desde la lista
+
+    def winrate_preview(self, obj):
+        return f"{obj.winrate:.0f}%"  # Redondea a 0 decimales
+
+    winrate_preview.short_description = 'Winrate'  # Personaliza el título de la columna
 
     def avatar_preview(self, obj):
         """Muestra una miniatura de la imagen en el panel de administración."""
