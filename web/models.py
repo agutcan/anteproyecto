@@ -1,3 +1,6 @@
+from sys import maxsize
+
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 # Create your models here.
@@ -85,6 +88,8 @@ class Player(models.Model):
     )
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default_avatar.png')
+    coins = models.IntegerField(default=0)
+    renombre = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
 
     # Estadísticas
     games_played = models.IntegerField(default=0)
@@ -148,11 +153,33 @@ class MatchResult(models.Model):
 
 class MatchLog(models.Model):
     """Registro de eventos en una partida."""
-    match = models.ForeignKey(Match, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    match = models.ForeignKey(Match, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     event = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Log {self.match if self.match else 'Sin partida'}: {self.player.user.username if self.player else 'Sin jugador'} - {self.event}"
+        return f"Log {self.match}: - {self.event}"
+
+
+class Reward(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    coins_cost = models.PositiveIntegerField(default=100)
+    stock = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to='rewards/', blank=True, null=True, default='rewards/default_reward.webp')
+
+    def __str__(self):
+        return f"{self.name} ({self.coins_cost} coins)"
+
+class Redemption(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="redemptions")
+    reward = models.ForeignKey(Reward, on_delete=models.CASCADE, related_name="redemptions")
+    redeemed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} redeemed {self.reward.name} on {self.redeemed_at}"

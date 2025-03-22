@@ -5,6 +5,11 @@ from django.db import migrations
 # Función que elimina todos los datos de la base de datos de la aplicación
 from django.db import migrations
 
+from web.admin import RedemptionAdmin
+from web.models import Redemption
+from django.utils import timezone
+
+
 def eliminar_datos(apps, schema_editor):
     # Obtener los modelos de la aplicación 'web'
     Game = apps.get_model('web', 'Game')
@@ -16,6 +21,8 @@ def eliminar_datos(apps, schema_editor):
     TournamentTeam = apps.get_model('web', 'TournamentTeam')
     MatchLog = apps.get_model('web', 'MatchLog')
     User = apps.get_model('auth', 'User')  # Modelo User de Django
+    Reward = apps.get_model('web', 'Reward')
+    Redemption = apps.get_model('web', 'Redemption')
 
     # Eliminar registros de log de partidos
     MatchLog.objects.all().delete()
@@ -35,6 +42,10 @@ def eliminar_datos(apps, schema_editor):
     Game.objects.all().delete()
     # Eliminar los usuarios
     User.objects.all().delete()
+    # Eliminar las recomponsas
+    Reward.objects.all().delete()
+    # Eliminar las reclamaciones
+    Redemption.objects.all().delete()
 
 # Función que pobla la base de datos con datos de prueba
 def poblar_datos(apps, schema_editor):
@@ -48,6 +59,8 @@ def poblar_datos(apps, schema_editor):
     TournamentTeam = apps.get_model('web', 'TournamentTeam')
     User = apps.get_model('auth', 'User')  # Modelo User de Django
     MatchLog = apps.get_model('web', 'MatchLog')  # Modelo para los logs
+    Reward = apps.get_model('web', 'Reward')
+    Redemption = apps.get_model('web', 'Redemption')
 
     # Función para crear registros de eventos en el log
     def log_event(match, team, player, event):
@@ -92,22 +105,17 @@ def poblar_datos(apps, schema_editor):
 
     # Crear jugadores
     players = [
-        Player(user=users[0], team=teams[0], role='Premium', games_played=100, games_won=70),
-        Player(user=users[1], team=teams[1], games_played=80, games_won=50),
-        Player(user=users[2], team=teams[2], country='AR', role='Premium', games_played=120, games_won=90),
-        Player(user=users[3], team=teams[3], country='BR', games_played=90, games_won=65),
-        Player(user=users[4], team=teams[0], games_played=50, games_won=25),
+        Player(user=users[0], team=teams[0], role='Premium', games_played=100, games_won=70, coins=4550),
+        Player(user=users[1], team=teams[1], games_played=80, games_won=50, renombre=40, coins=3000),
+        Player(user=users[2], team=teams[2], country='AR', role='Premium', games_played=120, games_won=90, coins=2000),
+        Player(user=users[3], team=teams[3], country='BR', games_played=90, games_won=65, renombre=100, coins=1000),
+        Player(user=users[4], team=teams[0], games_played=50, games_won=25, coins=500),
         Player(user=users[5], team=teams[1], games_played=90, games_won=65),
-        Player(user=users[6], team=teams[2], country='AR', games_played=30, games_won=25),
+        Player(user=users[6], team=teams[2], country='AR', games_played=30, games_won=25, renombre=90),
         Player(user=users[7], team=teams[3], country='BR', games_played=90, games_won=50),
     ]
     Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
 
-    # Llamar a update_winrate() para cada jugador creado y registrar el log
-    for player in players:
-        player.winrate = (player.games_won / player.games_played) * 100 if player.games_played > 0 else 0
-        player.save()
-        log_event(None, player.team, player, f"Winrate actualizado: {player.winrate:.2f}%")  # Registrar evento de actualización
 
     # Crear torneos
     tournaments = [
@@ -132,6 +140,13 @@ def poblar_datos(apps, schema_editor):
     ]
     Match.objects.bulk_create(matches)  # Guardar todos los partidos de una vez
 
+    # Llamar a update_winrate() para cada jugador creado y registrar el log
+    for player in players:
+        player.winrate = (player.games_won / player.games_played) * 100 if player.games_played > 0 else 0
+        player.save()
+        log_event(matches[0], player.team, player,
+                  f"Winrate actualizado: {player.winrate:.2f}%")  # Registrar evento de actualización
+
     # Crear resultados de partidos (ejemplo)
     match_results = [
         MatchResult(match=matches[0], winner=teams[0], team1_score=2, team2_score=1),
@@ -143,6 +158,31 @@ def poblar_datos(apps, schema_editor):
     log_event(matches[0], teams[0], None, "Partido programado: 2-1 vs Los Guerreros del Sol vs La Legión Oscura")
     log_event(matches[1], teams[2], None, "Partido programado: 3-0 vs Los Centinelas del Reino vs Héroes de la Alianza")
 
+    # Crear recompensas
+    rewards = [
+        Reward(name="Premium Skin", description="Una skin exclusiva para tu personaje en el juego.",
+               coins_cost=500, stock=100, is_active=True,
+               created_at=timezone.now(), updated_at=timezone.now()),
+        Reward(name="Double XP Boost", description="Duplica tu experiencia ganada en partidas durante 24 horas.",
+               coins_cost=300, stock=50, is_active=True,
+               created_at=timezone.now(), updated_at=timezone.now()),
+        Reward(name="VIP Access", description="Accede a eventos VIP exclusivos dentro del juego.",
+               coins_cost=1000, stock=20, is_active=True,
+               created_at=timezone.now(), updated_at=timezone.now())
+    ]
+
+    # Usar bulk_create para insertar las recompensas de forma eficiente
+    Reward.objects.bulk_create(rewards)
+
+    redemptions = [
+        Redemption(user=users[0], reward=rewards[0], redeemed_at=timezone.now()),
+        Redemption(user=users[1], reward=rewards[1], redeemed_at=timezone.now()),
+        Redemption(user=users[2], reward=rewards[2], redeemed_at=timezone.now())
+    ]
+
+    # Usar bulk_create para insertar las redenciones de forma eficiente
+    Redemption.objects.bulk_create(redemptions)
+
     # Creación de usuarios para la administración
     User.objects.create_user(username='prueba', password='prueba')  # Crear un usuario normal
     User.objects.create_superuser(username='admin', email='admin@example.com', password='admin')  # Crear un superusuario
@@ -150,7 +190,7 @@ def poblar_datos(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0004_alter_player_country'),
+        ('web', '0005_reward_player_coins_player_renombre_and_more'),
     ]
 
     # Operaciones que se ejecutan: poblar los datos y definir cómo eliminarlos

@@ -27,10 +27,10 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     # Personalizamos el formulario para que se muestren ciertos campos
-    list_display = ('user', 'team', 'role', 'country', 'games_played', 'games_won', 'winrate_preview', 'avatar_preview', 'avatar_url')
+    list_display = ('user', 'team', 'role', 'country', 'games_played', 'games_won', 'winrate_preview', 'avatar_preview', 'avatar_url', 'coins', 'renombre')
     list_filter = ('role', 'team', 'country')  # Permite filtrar por rol, comunidad y equipo
     search_fields = ('user__username', 'team__name')  # Permite buscar por nombre de usuario o nombre de equipo
-    list_editable = ('role', 'country')  # Permite editar el rol y comunidad directamente desde la lista
+    list_editable = ('role', 'country', 'coins', 'renombre')  # Permite editar el rol, comunidad, puntos y honor directamente desde la lista
 
     def winrate_preview(self, obj):
         return f"{obj.winrate:.0f}%"  # Redondea a 0 decimales
@@ -82,3 +82,26 @@ class MatchLogAdmin(admin.ModelAdmin):
     search_fields = ('match__team1__name', 'match__team2__name', 'player__user__username')
     list_filter = ('created_at',)
 
+
+# Configuración del administrador para el modelo Reward
+@admin.register(Reward)
+class RewardAdmin(admin.ModelAdmin):
+    list_display = ('name', 'coins_cost', 'stock', 'is_active', 'image_preview', 'created_at')
+    search_fields = ('name',)
+    list_filter = ('is_active',)
+
+    def image_preview(self, obj):
+        """Muestra una miniatura de la imagen en el panel de administración."""
+        if obj.image:
+            return format_html('<img src="{}" style="width: 50px; height: 50px; border-radius: 5px;" />', obj.image.url)
+        return "No image"
+
+    image_preview.short_description = "Image Preview"
+
+
+# Configuración del administrador para el modelo Redemption
+@admin.register(Redemption)
+class RedemptionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'reward', 'redeemed_at')
+    search_fields = ('user__username', 'reward__name')
+    list_filter = ('redeemed_at',)
