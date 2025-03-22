@@ -5,9 +5,26 @@ from django.utils.html import format_html
 # Configuración del administrador para el modelo Game
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('name', 'genre', 'created_at')
-    search_fields = ('name', 'genre')
+    list_display = ('name', 'genre', 'created_at', 'image_preview', 'image_url')
+    search_fields = ('name', 'genre',)
     list_filter = ('genre',)
+
+    def image_preview(self, obj):
+        """Muestra una miniatura de la imagen en el panel de administración."""
+        if obj.image:
+            return format_html('<img src="{}" style="width: 50px; height: 50px; border-radius: 5px;" />',
+                               obj.image.url)
+        return "No image"
+
+    image_preview.short_description = "Imagen"
+
+    def image_url(self, obj):
+        """Muestra la URL de la imagen en el admin de Django."""
+        if obj.image:
+            return obj.image.url
+        return "No image"
+
+    image_url.short_description = "Imagen URL"
 
 # Configuración del administrador para el modelo Tournament
 @admin.register(Tournament)
@@ -27,7 +44,7 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     # Personalizamos el formulario para que se muestren ciertos campos
-    list_display = ('user', 'team', 'role', 'country', 'games_played', 'games_won', 'winrate_preview', 'avatar_preview', 'avatar_url', 'coins', 'renombre')
+    list_display = ('user', 'team', 'role', 'country', 'coins', 'renombre', 'mmr', 'games_played', 'games_won', 'winrate_preview', 'avatar_preview', 'avatar_url')
     list_filter = ('role', 'team', 'country')  # Permite filtrar por rol, comunidad y equipo
     search_fields = ('user__username', 'team__name')  # Permite buscar por nombre de usuario o nombre de equipo
     list_editable = ('role', 'country', 'coins', 'renombre')  # Permite editar el rol, comunidad, puntos y honor directamente desde la lista

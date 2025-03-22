@@ -14,7 +14,16 @@
             {# Enlaces hacia las paginas #}
             <ul class="nav col-12 col-lg-auto me-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>
-                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:index' %}">.</a></button>
+                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:playerListView' %}">Jugadores</a></button>
+                </li>
+                <li>
+                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:rankingView' %}">Ranking</a></button>
+                </li>
+                <li>
+                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:rewardListView' %}">Recompensas</a></button>
+                </li>
+                <li>
+                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">.</a></button>
                 </li>
             </ul>
 

@@ -17,6 +17,7 @@ class Game(models.Model):
     name = models.CharField(max_length=100, unique=True)
     genre = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='games', blank=True, null=True, default='games/default_game.webp')
 
     def __str__(self):
         return self.name
@@ -90,6 +91,7 @@ class Player(models.Model):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default_avatar.png')
     coins = models.IntegerField(default=0)
     renombre = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    mmr = models.IntegerField(default=50, validators=[MinValueValidator(10)])
 
     # Estadísticas
     games_played = models.IntegerField(default=0)

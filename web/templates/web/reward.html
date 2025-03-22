@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Rewards / ArenaGG{% endblock %}
+{% block content %}
+    <h1>Reward</h1>
+    {% if reward_list %}
+        <ul>
+            {% for r in reward_list %}
+                <li>{{ r }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

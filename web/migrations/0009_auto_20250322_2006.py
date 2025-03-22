@@ -4,6 +4,7 @@ from django.db import migrations
 
 # Función que elimina todos los datos de la base de datos de la aplicación
 from django.db import migrations
+from django.shortcuts import get_object_or_404
 
 from web.admin import RedemptionAdmin
 from web.models import Redemption
@@ -106,11 +107,11 @@ def poblar_datos(apps, schema_editor):
     # Crear jugadores
     players = [
         Player(user=users[0], team=teams[0], role='Premium', games_played=100, games_won=70, coins=4550),
-        Player(user=users[1], team=teams[1], games_played=80, games_won=50, renombre=40, coins=3000),
+        Player(user=users[1], team=teams[1], games_played=80, games_won=50, mmr=90, renombre=40, coins=3000),
         Player(user=users[2], team=teams[2], country='AR', role='Premium', games_played=120, games_won=90, coins=2000),
         Player(user=users[3], team=teams[3], country='BR', games_played=90, games_won=65, renombre=100, coins=1000),
         Player(user=users[4], team=teams[0], games_played=50, games_won=25, coins=500),
-        Player(user=users[5], team=teams[1], games_played=90, games_won=65),
+        Player(user=users[5], team=teams[1], games_played=90, games_won=65, mmr=80),
         Player(user=users[6], team=teams[2], country='AR', games_played=30, games_won=25, renombre=90),
         Player(user=users[7], team=teams[3], country='BR', games_played=90, games_won=50),
     ]
@@ -187,10 +188,16 @@ def poblar_datos(apps, schema_editor):
     User.objects.create_user(username='prueba', password='prueba')  # Crear un usuario normal
     User.objects.create_superuser(username='admin', email='admin@example.com', password='admin')  # Crear un superusuario
 
+    players = [
+        Player(user=get_object_or_404(User, username="prueba")),
+        Player(user=get_object_or_404(User, username="admin")),
+    ]
+    Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0005_reward_player_coins_player_renombre_and_more'),
+        ('web', '0008_player_mmr'),
     ]
 
     # Operaciones que se ejecutan: poblar los datos y definir cómo eliminarlos

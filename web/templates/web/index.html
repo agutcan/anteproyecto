@@ -2,4 +2,11 @@
 {% block title %}Start / ArenaGG{% endblock %}
 {% block content %}
     <h1>Inicio</h1>
+    {% if game_list %}
+        <ul>
+            {% for g in game_list %}
+                <li>{{ g.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}

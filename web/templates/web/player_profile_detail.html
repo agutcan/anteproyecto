@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Profile / ArenaGG{% endblock %}
+{% block content %}
+    <h1>Profile</h1>
+    <li>{{ player }}</li>
+    <li><img src="{{ player.avatar.url }}" class="player-image" alt="{{ player.user }}" style="height: 32px; width: 32px "> {{ player.user }}</li>
+    <li>{{ player.bio }}</li>
+    <li>{{ player.birth_date }}</li>
+    <li>{{ player.coins }}</li>
+    <li>{{ player.country }}</li>
+    <li>{{ player.first_name }}</li>
+    <li>{{ player.last_name }}</li>
+    <li>{{ player.games_played }}</li>
+    <li>{{ player.games_won }}</li>
+    <li>{{ player.renombre }}</li>
+    <li>{{ player.role }}</li>
+    <li>{{ player.winrate }}</li>
+    <li>{{ player.team }}</li>
+
+{% endblock %}

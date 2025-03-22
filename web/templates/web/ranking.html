@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Ranking / ArenaGG{% endblock %}
+{% block content %}
+    <h1>Ranking</h1>
+    {% if ranking_list %}
+        <ul>
+            {% for p in ranking_list %}
+                <li>{{ forloop.counter }}. {{ p.user }} - {{ p.mmr }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
