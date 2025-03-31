@@ -1,3 +1,5 @@
+# Readme Inicial
+---
 # 🎮 Título del proyecto
 
 **ArenaGG - Plataforma de gestión de torneos de videojuegos**
@@ -72,7 +74,8 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📚 Redactar la documentación del sistema y el manual de usuario.
 
 **⏳ Duración total estimada:** 10 semanas.
+---
 
-
+# Actualicaciones
 
 
