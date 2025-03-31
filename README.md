@@ -78,4 +78,30 @@ Una vez puesta en marcha, la plataforma permitirá:
 
 # Actualicaciones
 
+## Hecho
+
+- 📋 Definir requisitos funcionales y no funcionales.
+- 📐 Crear diagramas de flujo y esquemas de base de datos.
+- 🔑 Implementar la autenticación de usuarios.
+
+## En proceso
+
+- 🏆 Crear el sistema de gestión de torneos.
+  - 📝 Inscribir equipos y jugadores en torneos específicos.
+  - 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
+  - 📅 Mostrar calendarios y resultados en tiempo real.
+  - 🗂️ Gestionar múltiples torneos de forma simultánea.
+
+## Por hacer
+
+- 🏆 Crear el sistema de gestión de torneos.
+- 🔢 Automatizar los emparejamientos y resultados.
+- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
+- 🔗 Integrar las vistas con el backend.
+- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
+- ✅ Realizar pruebas unitarias con **Django TestCase**.
+- 📊 Validar el correcto funcionamiento de la plataforma.
+- 📚 Redactar la documentación del sistema y el manual de usuario.
+
+
 
