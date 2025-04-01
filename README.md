@@ -1,3 +1,5 @@
+# Readme Inicial
+---
 # 🎮 Título del proyecto
 
 **ArenaGG - Plataforma de gestión de torneos de videojuegos**
@@ -72,6 +74,42 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📚 Redactar la documentación del sistema y el manual de usuario.
 
 **⏳ Duración total estimada:** 10 semanas.
+---
+
+# Actualicaciones
+
+## Hecho
+
+- 📋 Definir requisitos funcionales y no funcionales.
+- 📐 Crear diagramas de flujo y esquemas de base de datos.
+- 🔑 Implementar la autenticación de usuarios.
+- 🐳 Dockerizar la aplicación para facilitar el despliegue
+
+## En proceso
+
+- 🔐 Registrar usuarios y crear perfiles personalizados.
+- 🏆 Crear el sistema de gestión de torneos.
+- 📝 Inscribir equipos y jugadores en torneos específicos.
+- 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
+- 📅 Mostrar calendarios y resultados en tiempo real.
+- 🗂️ Gestionar múltiples torneos de forma simultánea.
+- 🔗 Integrar las vistas con el backend.
+
+## Por hacer
+
+- 🔐 Registrar usuarios y crear perfiles personalizados.
+- 🏆 Crear el sistema de gestión de torneos.
+- 📝 Inscribir equipos y jugadores en torneos específicos.
+- 🗂️ Gestionar múltiples torneos de forma simultánea.
+- 🔢 Automatizar los emparejamientos y resultados.
+- 📅 Mostrar calendarios y resultados en tiempo real.
+- 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
+- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
+- 🔗 Integrar las vistas con el backend.
+- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
+- ✅ Realizar pruebas unitarias con **Django TestCase**.
+- 📊 Validar el correcto funcionamiento de la plataforma.
+- 📚 Redactar la documentación del sistema y el manual de usuario.
 
 
 
