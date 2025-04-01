@@ -27,6 +27,7 @@ class Tournament(models.Model):
     """Modelo de torneo."""
     name = models.CharField(max_length=100)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255, blank=True, null=True, default='Torneo...')
     status = models.CharField(
         max_length=10,
         choices=[('upcoming', 'Upcoming'), ('ongoing', 'Ongoing'), ('completed', 'Completed')],

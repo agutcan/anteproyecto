@@ -3,10 +3,10 @@
 {% block content %}
     <h1>Ranking</h1>
     {% if ranking_list %}
-        <ul>
+        <ol>
             {% for p in ranking_list %}
-                <li>{{ forloop.counter }}. {{ p.user }} - {{ p.mmr }}</li>
+                <li><img src="{{ p.avatar.url }}" class="player-image" alt="{{ p.user }}" style="height: 32px; width: 32px "> <a href="{% url 'web:playerDetailView' p.id %}">{{ p.user }}</a> - {{ p.mmr }}</li>
             {% endfor %}
-        </ul>
+        </ol>
     {% endif %}
 {% endblock %}

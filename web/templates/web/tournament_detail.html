@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Tournament / ArenaGG{% endblock %}
+{% block content %}
+    <h1>Tournament</h1>
+    <li>{{ tournament.name }}</li>
+    <li>{{ tournament.game }}</li>
+    <li>{{ tournament.created_by }}</li>
+    <li>{{ tournament.description }}</li>
+    <li>{{ tournament.end_date }}</li>
+    <li>{{ tournament.prize_pool }}</li>
+    <li>{{ tournament.start_date }}</li>
+    <li>{{ tournament.status }}</li>
+    <li><img src="{{ tournament.game.image.url }}" class="game-image" alt="{{ tournament.game.name }}" style="height: 32px; width: 32px "> {{ tournament.game.name }}</li>
+{% endblock %}

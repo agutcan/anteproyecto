@@ -1,12 +1,146 @@
 {% extends 'base.html' %}
 {% block title %}Start / ArenaGG{% endblock %}
 {% block content %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
+    <style>
+
+        #calendar {
+            max-width: 400px;  /* 📏 Más pequeño */
+            height: 350px;  /* 📏 Altura reducida */
+            background-color: #1e1e1e; /* 🎨 Fondo oscuro */
+            border-radius: 8px; /* 🔹 Bordes redondeados */
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* ✨ Efecto de brillo */
+        }
+        .fc-toolbar-title {
+            font-size: 16px; /* 🔹 Texto más pequeño */
+        }
+        .fc-daygrid-day {
+            font-size: 12px; /* 📅 Días más pequeños */
+        }
+        .fc-event {
+            font-size: 10px; /* 📌 Eventos más compactos */
+            background-color: red !important; /* 🎨 Eventos resaltados */
+        }
+        .fc-daygrid-event {
+            background: transparent !important;  /* Elimina cualquier fondo de evento */
+        }
+
+    </style>
+
     <h1>Inicio</h1>
     {% if game_list %}
         <ul>
             {% for g in game_list %}
-                <li>{{ g.name }}</li>
+                <li><a href="{% url 'web:gameDetailView' g.id %}">{{ g.name }}</a></li>
             {% endfor %}
         </ul>
+         <div id="calendar"></div>
+
     {% endif %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let calendarEl = document.getElementById("calendar");
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            locale: "es",
+            events: function(fetchInfo, successCallback, failureCallback) {
+                fetch("/api/tournaments/")
+                    .then(response => response.json())
+                    .then(data => {
+                        let events = data.map(tournament => ({
+                            id: tournament.id,
+                            title: tournament.title,
+                            start: tournament.start,
+                            extendedProps: {
+                                link: `/tournament/${tournament.id}`,
+                                description: tournament.description,
+                                endDate: tournament.end
+                            }
+                        }));
+                        successCallback(events);
+                    })
+                    .catch(error => failureCallback(error));
+            },
+            eventDidMount: function(info) {
+                info.el.innerHTML = '';
+
+                let link = document.createElement("a");
+                link.href = "#";
+                link.setAttribute("aria-label", info.event.title);
+                link.style.display = "inline-block";
+                link.style.width = "8px";
+                link.style.height = "8px";
+                link.style.borderRadius = "50%";
+                link.style.backgroundColor = "#ffcc00";
+                link.style.position = "absolute";
+                link.style.top = "50%";
+                link.style.left = "50%";
+                link.style.transform = "translate(-50%, -50%)";
+
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+
+                    let existingCard = document.querySelector(".tournament-card");
+                    if (existingCard) existingCard.remove();
+
+                    let card = document.createElement("div");
+                    card.classList.add("tournament-card", "card", "p-1");
+                    card.style.position = "fixed";  // 🔹 Ahora es "fixed" para evitar el corte
+                    card.style.width = "220px";  // 🔹 Un poco más ancho para evitar texto cortado
+                    card.style.backgroundColor = "#222";
+                    card.style.color = "#fff";
+                    card.style.borderRadius = "6px";
+                    card.style.border = "1px solid #444";
+                    card.style.boxShadow = "0px 3px 6px rgba(0, 0, 0, 0.5)";
+                    card.style.padding = "10px";
+                    card.style.zIndex = "1000";
+                    card.style.fontSize = "12px";
+
+                    card.innerHTML = `
+                        <div>
+                            <strong>${info.event.title}</strong><br>
+                            <small><strong>Inicio:</strong> ${new Date(info.event.start).toLocaleString()}</small><br>
+                            <small><strong>Fin:</strong> ${new Date(info.event.extendedProps.endDate).toLocaleString()}</small><br>
+                            <a href="${info.event.extendedProps.link}" class="btn btn-sm btn-primary mt-1">Ver más</a>
+                        </div>
+                    `;
+
+                    // 📌 Posicionar la tarjeta dinámicamente según el viewport
+                    let rect = info.el.getBoundingClientRect();
+                    let left = rect.left;
+                    let top = rect.top + window.scrollY + 20;  // 🔹 Ajuste para que no quede pegado
+
+                    if (left + 250 > window.innerWidth) {
+                        left = window.innerWidth - 260;  // Si está muy a la derecha, moverlo a la izquierda
+                    }
+                    if (top + 100 > window.innerHeight) {
+                        top = window.innerHeight - 110;  // Si está muy abajo, subirlo
+                    }
+
+                    card.style.left = `${left}px`;
+                    card.style.top = `${top}px`;
+
+                    document.body.appendChild(card);
+
+                    document.addEventListener("click", function closeCard(e) {
+                        if (!card.contains(e.target) && e.target !== link) {
+                            card.remove();
+                            document.removeEventListener("click", closeCard);
+                        }
+                    });
+                });
+
+                info.el.appendChild(link);
+            }
+        });
+        calendar.render();
+    });
+</script>
+
+
+
+
 {% endblock %}

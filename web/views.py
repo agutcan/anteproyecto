@@ -8,17 +8,27 @@ from web.forms import *
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, FormView, DetailView
-
+from rest_framework import generics
+from .serializers import TournamentSerializer
 from web.models import *
 
+class TournamentListAPI(generics.ListAPIView):
+    queryset = Tournament.objects.all()
+    serializer_class = TournamentSerializer
+
+class PublicIndexView(TemplateView):
+    template_name = 'web/public_index.html'
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'web/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['game_list'] = Game.objects.all()  # Ordena por renombre y desempata por winrate
+        context['game_list'] = Game.objects.all()
         return context
+
+class PrivacyPolicyView(TemplateView):
+    template_name = 'web/privacy_policy.html'
 
 class RankingView(LoginRequiredMixin, TemplateView):
     template_name = 'web/ranking.html'
@@ -28,21 +38,16 @@ class RankingView(LoginRequiredMixin, TemplateView):
         context['ranking_list'] = Player.objects.order_by('-mmr')
         return context
 
-class PlayerListView(LoginRequiredMixin, ListView):
-    model = Player
-    template_name = 'web/player.html'
-    context_object_name = 'player_list'
-
-    def get_queryset(self):
-        # Optimizamos la consulta con select_related y prefetch_related
-        return Player.objects.select_related(
-            'team'
-        ).all()
 
 class PlayerDetailView(LoginRequiredMixin, DetailView):
     model = Player
     template_name = 'web/player_detail.html'
     context_object_name = 'player'
+
+class TournamentDetailView(LoginRequiredMixin, DetailView):
+    model = Tournament
+    template_name = 'web/tournament_detail.html'
+    context_object_name = 'tournament'
 
 class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
     model = Player
@@ -58,9 +63,9 @@ class RewardListView(LoginRequiredMixin, ListView):
         return Reward.objects.all()
 
 class GameDetailView(LoginRequiredMixin, DetailView):
-    model = Reward
+    model = Game
     template_name = 'web/game.html'
-    context_object_name = 'game_list'
+    context_object_name = 'game'
 
 class RegisterView(FormView):
     template_name = 'registration/register.html'

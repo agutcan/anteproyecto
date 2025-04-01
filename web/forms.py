@@ -8,6 +8,11 @@ class CustomUserCreationForm(UserCreationForm):
     error_messages = {
         "password_mismatch": ("Las contraseñas no coinciden"),
     }
+    accept_privacy_policy = forms.BooleanField(
+        required=True,
+        label="Acepto las Políticas de Privacidad",
+        error_messages={"required": "Debes aceptar las políticas de privacidad para registrarte."}
+    )
 
     class Meta:
         model = User

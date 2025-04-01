@@ -6,7 +6,7 @@
         <ul>
             {% for p in player_list %}
                 <li>
-                    <img src="{{ p.avatar.url }}" class="player-image" alt="{{ p.user }}" style="height: 32px; width: 32px "> {{ p.user }}
+                    <img src="{{ p.avatar.url }}" class="player-image" alt="{{ p.user }}" style="height: 32px; width: 32px "> <a href="{% url 'web:playerDetailView' p.id %}">{{ p.user }}</a>
                 </li>
             {% endfor %}
         </ul>
