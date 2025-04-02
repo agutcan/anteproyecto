@@ -111,6 +111,10 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📊 Validar el correcto funcionamiento de la plataforma.
 - 📚 Redactar la documentación del sistema y el manual de usuario.
 
+## Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
+## Posibles mejoras al proyecto (“Posibles mejoras futuras”)
+
+## Bibliografía (“Si es posible con enlace a la fuente”)
 
 
