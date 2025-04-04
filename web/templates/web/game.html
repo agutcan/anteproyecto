@@ -9,4 +9,36 @@
     {% for t in game.tournament_set.all %}
         <li><a href="{% url 'web:tournamentDetailView' t.id %}">{{ t.name }}</a></li>
     {% endfor %}
+{% if request.user.player.role == "Premium" %}
+    <a href="{% url 'web:tournamentCreateView' %}">Crear torneo</a>
+{% else %}
+    <button id="create-tournament-button">Crear torneo</button>
+{% endif %}
+
+<!-- Popup Modal -->
+<div id="premium-popup" style="display: none;">
+    <div class="popup-content">
+        <p>Debes ser premium para poder crear un torneo.</p>
+        <a href="{% url 'web:becomePremium' %}">Hazte Premium</a>
+        <button onclick="closePopup()">Cerrar</button>
+    </div>
+</div>
+
+<script>
+    // Función para abrir el popup
+    function openPopup() {
+        document.getElementById('premium-popup').style.display = 'block';
+    }
+
+    // Función para cerrar el popup
+    function closePopup() {
+        document.getElementById('premium-popup').style.display = 'none';
+    }
+
+    // Añadir evento al botón si el usuario no es premium
+    document.getElementById('create-tournament-button')?.addEventListener('click', function(event) {
+        event.preventDefault();  // Prevenir la acción por defecto
+        openPopup();  // Mostrar el popup
+    });
+</script>
 {% endblock %}

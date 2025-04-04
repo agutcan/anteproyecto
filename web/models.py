@@ -1,15 +1,14 @@
 from sys import maxsize
-
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils import timezone
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-
-from django.db import models
-from django.contrib.auth.models import User
 
 
 class Game(models.Model):
@@ -40,6 +39,25 @@ class Tournament(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
+
+    def update_status(self):
+        """Actualizar el estado del torneo en función de la fecha actual."""
+        now = timezone.now()
+
+        if now < self.start_date:
+            self.status = 'upcoming'
+        elif self.start_date <= now <= self.end_date:
+            self.status = 'ongoing'
+        else:
+            self.status = 'completed'
+
+        # Guardar los cambios al modelo
+        self.save()
+
+    def save(self, *args, **kwargs):
+        # Llamar a update_status antes de guardar
+        self.update_status()
+        super().save(*args, **kwargs)
 
 
 class Team(models.Model):

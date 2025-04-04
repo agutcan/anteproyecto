@@ -25,3 +25,8 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
 
         return user
+
+class TournamentForm(forms.ModelForm):
+    class Meta:
+        model = Tournament
+        fields = ['name', 'game', 'description', 'status', 'prize_pool', 'start_date', 'end_date']
