@@ -84,6 +84,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📐 Crear diagramas de flujo y esquemas de base de datos.
 - 🔑 Implementar la autenticación de usuarios.
 - 🐳 Dockerizar la aplicación para facilitar el despliegue
+- 📅 Mostrar calendarios
 
 ## En proceso
 
@@ -111,6 +112,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📊 Validar el correcto funcionamiento de la plataforma.
 - 📚 Redactar la documentación del sistema y el manual de usuario.
 - 🛠️ Creación de tareas automatizadas.
+- 🖥️ Apis para ver o crear algunos modelos.
 
 ## Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
