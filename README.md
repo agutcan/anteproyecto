@@ -110,6 +110,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - ✅ Realizar pruebas unitarias con **Django TestCase**.
 - 📊 Validar el correcto funcionamiento de la plataforma.
 - 📚 Redactar la documentación del sistema y el manual de usuario.
+- 🛠️ Creación de tareas automatizadas.
 
 ## Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
