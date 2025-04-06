@@ -9,6 +9,9 @@ from django.views.generic import ListView, TemplateView, FormView, DetailView, C
 from rest_framework import generics
 from .serializers import TournamentSerializer
 from web.models import *
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 # Create your views here.
 
@@ -32,6 +35,12 @@ class IndexView(LoginRequiredMixin, TemplateView):
 class PrivacyPolicyView(TemplateView):
     template_name = 'web/privacy_policy.html'
 
+class TermsOfUseView(TemplateView):
+    template_name = 'web/terms_of_use.html'
+
+class FaqView(TemplateView):
+    template_name = 'web/faq.html'
+
 class RankingView(LoginRequiredMixin, TemplateView):
     template_name = 'web/ranking.html'
 
@@ -45,6 +54,30 @@ class PlayerDetailView(LoginRequiredMixin, DetailView):
     model = Player
     template_name = 'web/player_detail.html'
     context_object_name = 'player'
+
+class TournamentListView(LoginRequiredMixin, ListView):
+    model = Tournament
+    template_name = 'web/tournament_list.html'
+    context_object_name = 'tournament_list'
+
+    def get_queryset(self):
+        return Tournament.objects.all()
+
+class MyTournamentListView(LoginRequiredMixin, ListView):
+    model = Tournament
+    template_name = 'web/my_tournament_list.html'
+    context_object_name = 'tournament_list'
+
+    def get_queryset(self):
+        return Tournament.objects.all().filter(pk=self.kwargs['pk'])
+
+class GameListView(LoginRequiredMixin, ListView):
+    model = Game
+    template_name = 'web/game_list.html'
+    context_object_name = 'game_list'
+
+    def get_queryset(self):
+        return Game.objects.all()
 
 class TournamentDetailView(LoginRequiredMixin, DetailView):
     model = Tournament
@@ -65,13 +98,20 @@ class RewardListView(LoginRequiredMixin, ListView):
         return Reward.objects.all()
 
 class BecomePremiumView(LoginRequiredMixin, TemplateView):
-    pass
+    template_name = 'web/premium.html'
 
+class HowItWorkView(LoginRequiredMixin, TemplateView):
+    template_name = 'web/how_it_work.html'
+
+class SupportView(LoginRequiredMixin, TemplateView):
+    template_name = 'web/support.html'
 
 class GameDetailView(LoginRequiredMixin, DetailView):
     model = Game
     template_name = 'web/game.html'
     context_object_name = 'game'
+
+
 
 class TournamentCreateView(LoginRequiredMixin, CreateView):
     """
@@ -92,9 +132,19 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
         """
         # Asignar el campo `created_by` al usuario actual
         form.instance.created_by = self.request.user
-
+        form.instance.prize_pool = 1000
+        form.instance.game = self.kwargs['pk']
         # Guardamos el torneo
         tournament = form.save()
+
+        # Enviar correo al usuario
+        send_mail(
+            subject='🎮 Has creado un nuevo torneo en ArenaGG',
+            message=f'Hola {self.request.user.username},\n\nHas creado con éxito el torneo "{tournament.name}".\n\n¡Mucha suerte a todos los participantes!\n\n- El equipo de ArenaGG',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[self.request.user.email],
+            fail_silently=False,
+        )
 
         # Usamos `reverse` directamente para obtener la URL
         return redirect(reverse_lazy('web:gameDetailView', kwargs={'pk': tournament.game.pk}))
@@ -109,4 +159,19 @@ class RegisterView(FormView):
         # Crear automáticamente un Gamer asociado al usuario
         Player.objects.create(user=user)
         login(self.request, user)
+
+        # Enviar correo de confirmación
+        send_mail(
+            subject='✅ ¡Bienvenido a ArenaGG!',
+            message=(
+                f'Hola {user.username},\n\n'
+                'Tu cuenta ha sido creada exitosamente. Ya puedes participar en torneos, crear equipos y mucho más.\n\n'
+                '¡Nos alegra tenerte a bordo!\n\n'
+                '- El equipo de ArenaGG'
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
         return super().form_valid(form)

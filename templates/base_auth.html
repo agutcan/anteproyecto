@@ -8,8 +8,7 @@
     <title>{% block title %}ArenaGG{% endblock %}</title>
     {% load static %}
 </head>
-<body class="d-flex flex-column min-vh-100" style="background-image: url('{% static 'images/fondo.webp' %}'); background-size: cover; background-repeat: no-repeat; background-position: center;background-attachment: fixed; /* Fija el fondo */
-    min-height: 100vh;">
+<body class="d-flex flex-column min-vh-100" style="min-height: 100vh;">
     {% include 'header_auth.html' %}
     <div class="container-fluid flex-grow-1 text-white">
         {% block content %}{% endblock %}

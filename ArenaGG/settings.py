@@ -44,7 +44,7 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-DEFAULT_FROM_EMAIL = "no-reply@arenagg.com"
+DEFAULT_FROM_EMAIL = "administracion@arenagg.com"
 
 
 # Quick-start development settings - unsuitable for production
@@ -190,7 +190,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'web/static/media')  # Los archivos subidos 
 LOGIN_URL = '/accounts/login/'
 
 # Definir la URL a la que el usuario será redirigido después de iniciar sesión con éxito
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/start/'
 
 # Definir la URL a la que el usuario será redirigido después de cerrar sesión
 LOGOUT_REDIRECT_URL = '/accounts/logout/'

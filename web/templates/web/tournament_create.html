@@ -4,5 +4,7 @@
     <form method="post" enctype="multipart/form-data" class="card bg-dark text-white shadow p-4">
             {% csrf_token %}
             {{ form.as_p }}
-        </form>
+        <button type="submit" class="btn btn-danger">Crear Torneo</button>
+        <a href="{% url 'web:tournamentListView' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
 {% endblock %}

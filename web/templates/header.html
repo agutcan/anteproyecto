@@ -1,36 +1,102 @@
-<header class="p-3 sticky-top" style="background-color: rgba(0,0,0,0.81)">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a class="navbar-brand fw-bold" href="{% url 'web:indexView' %}">
+            <span class="text-warning">Arena</span>GG
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'web:indexView' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/tournaments/' %}active{% endif %}" href="{% url 'web:tournamentListView' %}">Torneos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/ranking/' %}active{% endif %}" href="{% url 'web:rankingView' %}">Ranking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/games/' %}active{% endif %}" href="{% url 'web:gameListView' %}">Juegos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/how-it-works/' %}active{% endif %}" href="{% url 'web:howItWorkView' %}">Cómo funciona</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/rewards/' %}active{% endif %}" href="{% url 'web:rewardListView' %}">Premios</a>
+                </li>
 
-            {# Enlace a inicio #}
-            <div class="text-start">
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li>
-                        <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:index' %}">Inicio</a></button>
+                {% if user.is_authenticated %}
+                    <!-- Dropdown de usuario -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!-- Imagen de usuario (si existe) -->
+                            {% if request.user.player.avatar %}
+                                <img src="{{ request.user.player.avatar.url }}" alt="Foto de perfil" class="rounded-circle" style="width: 30px; height: 30px;">
+                            {% else %}
+                                <i class="fas fa-user" style="font-size: 30px;"></i> <!-- Icono de usuario -->
+                            {% endif %}
+                            <span class="text-warning">{{ user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
+                            <li><a class="dropdown-item" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                        </ul>
                     </li>
-                </ul>
-            </div>
-
-            {# Enlaces hacia las paginas #}
-            <ul class="nav col-12 col-lg-auto me-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0">
-                <li>
-                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:rankingView' %}">Ranking</a></button>
-                </li>
-                <li>
-                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:rewardListView' %}">Recompensas</a></button>
-                </li>
-                <li>
-                    <button class="btn btn-primary m-1 p-1"><a class="nav-link px-2 text-white p-0 m-0" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">.</a></button>
-                </li>
+                {% else %}
+                    <!-- Si no está autenticado, mostrar los botones de login y register -->
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-outline-warning mb-1" href="{% url 'login' %}">Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary" href="{% url 'web:register' %}">Registrarse</a>
+                    </li>
+                {% endif %}
             </ul>
-
-            {# Cerrar sesion #}
-            <div class="text-end">
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <input type="submit" value="Cerrar sesión" class="btn btn-primary">
-                </form>
-            </div>
         </div>
     </div>
-</header>
+</nav>
+
+<script>
+// Cambiar navbar al hacer scroll
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scrolled', 'bg-black');
+        navbar.classList.remove('bg-dark');
+    } else {
+        navbar.classList.remove('navbar-scrolled', 'bg-black');
+        navbar.classList.add('bg-dark');
+    }
+});
+</script>
+
+<style>
+/* Estilo adicional para mejorar la apariencia del dropdown */
+.navbar .dropdown-menu {
+    border-radius: 8px;
+    background-color: #343a40;  /* Color de fondo más oscuro para que combine con la navbar */
+    border: 1px solid #444;     /* Borde sutil */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);  /* Sombra para darle profundidad */
+}
+
+.navbar .dropdown-item {
+    color: #f8f9fa;  /* Color claro para los elementos */
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #007bff;  /* Color azul al pasar el mouse */
+    color: white;
+}
+
+.navbar .nav-item .dropdown-toggle {
+    color: #f8f9fa;  /* Color claro para el nombre de usuario */
+}
+
+.navbar .nav-item .dropdown-toggle:hover {
+    color: #007bff;  /* Color azul al pasar el mouse */
+}
+</style>

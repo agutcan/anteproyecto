@@ -36,6 +36,7 @@ class Tournament(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    max_player_per_team = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"

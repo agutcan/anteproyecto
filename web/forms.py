@@ -29,4 +29,8 @@ class CustomUserCreationForm(UserCreationForm):
 class TournamentForm(forms.ModelForm):
     class Meta:
         model = Tournament
-        fields = ['name', 'game', 'description', 'status', 'prize_pool', 'start_date', 'end_date']
+        fields = ['name', 'description','max_player_per_team', 'start_date', 'end_date']
+        widgets = {
+            'start_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
