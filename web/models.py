@@ -52,9 +52,6 @@ class Tournament(models.Model):
         else:
             self.status = 'completed'
 
-        # Guardar los cambios al modelo
-        self.save()
-
     def save(self, *args, **kwargs):
         # Llamar a update_status antes de guardar
         self.update_status()

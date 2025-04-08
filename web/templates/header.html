@@ -43,7 +43,11 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
                             <li><a class="dropdown-item" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
                             <li><a class="dropdown-item" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                            <li><form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Cerrar sesión" class="dropdown-item">
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 {% else %}

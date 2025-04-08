@@ -1,28 +1,200 @@
 {% extends 'base.html' %}
-{% block title %}Tournament / ArenaGG{% endblock %}
+{% block title %}{{ tournament.name }} / ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>Tournament</h1>
-    <li>{{ tournament.name }}</li>
-    <li>{{ tournament.game }}</li>
-    <li>{{ tournament.created_by }}</li>
-    <li>{{ tournament.description }}</li>
-    <li>{{ tournament.end_date }}</li>
-    <li>{{ tournament.prize_pool }}</li>
-    <li>{{ tournament.start_date }}</li>
-    <li>{{ tournament.status }}
-        <ul>
-            {% for tournamentTeam in tournament.tournamentteam_set.all %}
-                <li>{{ tournamentTeam.team }}
-                    <ul>
-                        {% for p in tournamentTeam.team.player_set.all %}
-                        <li>
-                        {{ p }}
+<div class="container py-5">
+    <!-- Header del torneo -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-2">
+            <img src="{{ tournament.game.image.url }}" class="img-fluid rounded shadow" alt="{{ tournament.game.name }}">
+        </div>
+        <div class="col-md-10">
+            <h1 class="display-4 fw-bold text-warning">{{ tournament.name }}</h1>
+            <div class="d-flex flex-wrap gap-3">
+                <span class="badge bg-primary">{{ tournament.game }}</span>
+                <span class="badge bg-{% if tournament.status == 'open' %}success{% elif tournament.status == 'ongoing' %}warning text-dark{% else %}secondary{% endif %}">
+                    {{ tournament.get_status_display }}
+                </span>
+                <span class="badge bg-dark"><i class="bi bi-trophy-fill text-warning"></i> ${{ tournament.prize_pool }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección principal -->
+    <div class="row">
+        <!-- Columna izquierda: Información básica -->
+        <div class="col-lg-4 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-info-circle"></i> Detalles del Torneo</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <strong class="d-block text-light">Organizador</strong>
+                            <span class="text-white">{{ tournament.created_by }}</span>
                         </li>
-                        {% endfor %}
+                        <li class="mb-3">
+                            <strong class="d-block text-light">Fecha de inicio</strong>
+                            <span class="text-white">{{ tournament.start_date|date:"d M Y H:i" }}</span>
+                        </li>
+                        <li class="mb-3">
+                            <strong class="d-block text-light">Fecha de finalización</strong>
+                            <span class="text-white">{{ tournament.end_date|date:"d M Y H:i" }}</span>
+                        </li>
+                        <li class="mb-3">
+                            <strong class="d-block text-light">Premio total</strong>
+                            <span class="text-warning fw-bold">${{ tournament.prize_pool }}</span>
+                        </li>
                     </ul>
-                </li>
-            {% endfor %}
-        </ul>
-    </li>
-    <li><img src="{{ tournament.game.image.url }}" class="game-image" alt="{{ tournament.game.name }}" style="height: 32px; width: 32px "> {{ tournament.game.name }}</li>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna central: Descripción y equipos -->
+        <div class="col-lg-5 mb-4">
+            <div class="card bg-dark border-secondary shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-people-fill"></i> Equipos Participantes</h3>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="teamsAccordion">
+                        {% for tournamentTeam in tournament.tournamentteam_set.all %}
+                        <div class="accordion-item bg-dark border-secondary mb-2">
+                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false">
+                                    <span class="badge bg-primary me-2">{{ forloop.counter }}</span>
+                                    {{ tournamentTeam.team.name }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#teamsAccordion">
+                                <div class="accordion-body">
+                                    <ul class="list-group list-group-flush">
+                                        {% for player in tournamentTeam.team.player_set.all %}
+                                        <li class="list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center">
+                                            <span>{{ player.user.username }}</span>
+                                            <span class="badge bg-info">Nivel {{ player.level }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna derecha: Partidos -->
+        <div class="col-lg-3 mb-4">
+            <div class="card bg-dark border-secondary shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-controller"></i> Partidos</h3>
+                </div>
+                <div class="card-body">
+                    {% if tournament.match_set.all %}
+                    <div class="list-group list-group-flush">
+                        {% for match in tournament.match_set.all %}
+                        <a href="{% url 'web:matchDetailView' match.id %}" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-light d-block">Ronda {{ match.round_number }}</small>
+                                <strong>{{ match.team1 }} vs {{ match.team2 }}</strong>
+                            </div>
+                            <span class="badge bg-{% if match.status == 'completed' %}success{% elif match.status == 'ongoing' %}warning text-dark{% else %}secondary{% endif %}">
+                                {{ match.get_status_display }}
+                            </span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info bg-dark border-info text-center">
+                        <i class="bi bi-info-circle"></i> Los partidos se anunciarán pronto
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Descripción del torneo -->
+    <div class="card bg-dark border-secondary shadow-lg mb-4">
+        <div class="card-header bg-black text-warning">
+            <h3 class="h5 mb-0"><i class="bi bi-journal-text"></i> Sobre este torneo</h3>
+        </div>
+        <div class="card-body">
+            <p class="lead text-white">{{ tournament.description }}</p>
+        </div>
+    </div>
+
+    <!-- Botón de acción -->
+    <div class="text-center py-3">
+        {% if tournament.status == 'upcoming' %}
+    {% if is_registered %}
+        <form method="post" action="{% url 'web:leaveTournament' tournament.id %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger btn-lg px-5 fw-bold">
+                <i class="bi bi-box-arrow-right"></i> Abandonar torneo
+            </button>
+        </form>
+    {% else %}
+        <form method="post" action="{% url 'web:joinTournament' tournament.id %}">
+            {% csrf_token %}
+            <button class="btn btn-warning btn-lg px-5 fw-bold" data-bs-toggle="modal" data-bs-target="#joinTournamentModal">
+                <i class="bi bi-trophy"></i> ¡Inscribirse ahora!
+            </button>
+        </form>
+    {% endif %}
+{% elif tournament.status == 'ongoing' %}
+    <button class="btn btn-primary btn-lg px-5 fw-bold">
+        <i class="bi bi-eye"></i> Ver historial del partido
+    </button>
+{% endif %}
+    </div>
+</div>
+
+    <!-- Modal: Elegir cómo unirse al torneo -->
+<div class="modal fade" id="joinTournamentModal" tabindex="-1" aria-labelledby="joinTournamentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-warning">
+            <div class="modal-header border-bottom border-warning">
+                <h5 class="modal-title text-warning" id="joinTournamentModalLabel">¿Cómo deseas unirte?</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
+                <div class="d-grid gap-3">
+                    <a href="{% url 'web:joinTeamView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
+                        <i class="bi bi-person-add"></i> Unirse a un equipo
+                    </a>
+                    <a href="{% url 'web:teamCreateView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">
+                        <i class="bi bi-plus-circle"></i> Crear un equipo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    .game-image {
+        transition: transform 0.3s ease;
+    }
+    .game-image:hover {
+        transform: scale(1.1);
+    }
+    .accordion-button:not(.collapsed) {
+        background-color: rgba(255, 107, 0, 0.1);
+        color: var(--primary);
+    }
+    .list-group-item-action:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+    /* En tu sección <style> o archivo CSS */
+    .form-control::placeholder {
+        color: #6c757d !important; /* Gris de Bootstrap para placeholders */
+        opacity: 1 !important;
+    }
+</style>
 {% endblock %}

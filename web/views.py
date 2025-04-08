@@ -55,6 +55,11 @@ class PlayerDetailView(LoginRequiredMixin, DetailView):
     template_name = 'web/player_detail.html'
     context_object_name = 'player'
 
+class MatchDetailView(LoginRequiredMixin, DetailView):
+    model = Match
+    template_name = 'web/match_detail.html'
+    context_object_name = 'match'
+
 class TournamentListView(LoginRequiredMixin, ListView):
     model = Tournament
     template_name = 'web/tournament_list.html'
@@ -84,6 +89,27 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
     template_name = 'web/tournament_detail.html'
     context_object_name = 'tournament'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tournament = self.get_object()
+        user = self.request.user
+
+        # Por defecto asumimos que no está registrado
+        is_registered = False
+
+        if user.is_authenticated:
+            try:
+                player = Player.objects.get(user=user)
+                is_registered = TournamentTeam.objects.filter(
+                    tournament=tournament,
+                    team__player=player
+                ).exists()
+            except Player.DoesNotExist:
+                is_registered = False
+
+        context['is_registered'] = is_registered
+        return context
+
 class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
     model = Player
     template_name = 'web/player_profile_detail.html'
@@ -93,6 +119,14 @@ class RewardListView(LoginRequiredMixin, ListView):
     model = Reward
     template_name = 'web/reward.html'
     context_object_name = 'reward_list'
+
+    def get_queryset(self):
+        return Reward.objects.all()
+
+class JoinTeamListView(LoginRequiredMixin, ListView):
+    model = Team
+    template_name = 'web/join_team.html'
+    context_object_name = 'team_list'
 
     def get_queryset(self):
         return Reward.objects.all()
@@ -133,7 +167,43 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
         # Asignar el campo `created_by` al usuario actual
         form.instance.created_by = self.request.user
         form.instance.prize_pool = 1000
-        form.instance.game = self.kwargs['pk']
+        form.instance.game = Game.objects.all().filter(pk=self.kwargs['pk']).first()
+        # Guardamos el torneo
+        tournament = form.save()
+
+        # Enviar correo al usuario
+        send_mail(
+            subject='🎮 Has creado un nuevo torneo en ArenaGG',
+            message=f'Hola {self.request.user.username},\n\nHas creado con éxito el torneo "{tournament.name}".\n\n¡Mucha suerte a todos los participantes!\n\n- El equipo de ArenaGG',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[self.request.user.email],
+            fail_silently=False,
+        )
+
+        # Usamos `reverse` directamente para obtener la URL
+        return redirect(reverse_lazy('web:gameDetailView', kwargs={'pk': tournament.game.pk}))
+
+class TeamCreateView(LoginRequiredMixin, CreateView):
+    """
+    Vista para crear una nueva facción.
+
+    Utiliza un formulario de creación (`FactionDefaultForm`) para que el usuario
+    pueda crear una nueva facción.
+    """
+
+    model = Tournament  # Especifica el modelo relacionado
+    form_class = TournamentForm  # Usamos el formulario `FactionDefaultForm`
+    template_name = 'web/team_create.html'  # Especifica el template para renderizar la vista
+
+    def form_valid(self, form):
+        """
+        Cuando el formulario es válido, guardamos el torneo y redirigimos a la página del juego
+        relacionado.
+        """
+        # Asignar el campo `created_by` al usuario actual
+        form.instance.created_by = self.request.user
+        form.instance.prize_pool = 1000
+        form.instance.game = Game.objects.all().filter(pk=self.kwargs['pk']).first()
         # Guardamos el torneo
         tournament = form.save()
 
@@ -175,3 +245,4 @@ class RegisterView(FormView):
         )
 
         return super().form_valid(form)
+
