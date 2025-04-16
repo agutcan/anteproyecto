@@ -6,6 +6,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -37,6 +38,7 @@ class Tournament(models.Model):
     end_date = models.DateTimeField()
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     max_player_per_team = models.PositiveIntegerField(default=1)
+    max_teams = models.PositiveIntegerField(default=2)
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
@@ -56,6 +58,34 @@ class Tournament(models.Model):
         # Llamar a update_status antes de guardar
         self.update_status()
         super().save(*args, **kwargs)
+
+    def count_registered_players(self):
+        """Cuenta jugadores inscritos (optimizado para BD)"""
+        from django.db.models import Count
+        return self.tournamentteam_set.aggregate(
+            total_players=Count('team__player', distinct=True)
+        )['total_players'] or 0
+
+    def get_max_total_players(self):
+        """Máximo teórico de jugadores"""
+        return self.max_teams * self.max_player_per_team
+
+    def get_available_slots(self):
+        """Slots disponibles para inscripción"""
+        return max(0, self.get_max_total_players() - self.count_registered_players())
+
+    def clean(self):
+        super().clean()
+
+        # Validación de número par
+        if self.max_teams % 2 != 0:
+            raise ValidationError(
+                {'max_teams': 'El número de equipos debe ser par (2, 4, 8, etc.) para el formato de eliminatorias.'}
+            )
+
+        # Otras validaciones del modelo si las necesitas
+        if self.start_date < timezone.now():
+            raise ValidationError("La fecha de inicio no puede ser en el pasado")
 
 
 class Team(models.Model):

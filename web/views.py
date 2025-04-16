@@ -68,6 +68,8 @@ class TournamentListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Tournament.objects.all()
 
+
+
 class MyTournamentListView(LoginRequiredMixin, ListView):
     model = Tournament
     template_name = 'web/my_tournament_list.html'
@@ -75,6 +77,7 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Tournament.objects.all().filter(pk=self.kwargs['pk'])
+
 
 class GameListView(LoginRequiredMixin, ListView):
     model = Game
@@ -128,8 +131,18 @@ class JoinTeamListView(LoginRequiredMixin, ListView):
     template_name = 'web/join_team.html'
     context_object_name = 'team_list'
 
-    def get_queryset(self):
-        return Reward.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tournament_id = self.kwargs['pk']
+        tournament = Tournament.objects.get(pk=tournament_id)
+
+        teams = Team.objects.filter(tournamentteam__tournament=tournament)
+        available_teams = [team for team in teams if team.player_set.count() < 5]
+
+        context['tournament_id'] = tournament_id
+        context['tournament'] = tournament
+        context['available_teams'] = available_teams
+        return context
 
 class BecomePremiumView(LoginRequiredMixin, TemplateView):
     template_name = 'web/premium.html'
@@ -161,63 +174,59 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         """
-        Cuando el formulario es válido, guardamos el torneo y redirigimos a la página del juego
-        relacionado.
+        Cuando el formulario es válido, guardamos el torneo.
+        La validación de max_teams par ahora se hace en el modelo.
         """
-        # Asignar el campo `created_by` al usuario actual
-        form.instance.created_by = self.request.user
-        form.instance.prize_pool = 1000
-        form.instance.game = Game.objects.all().filter(pk=self.kwargs['pk']).first()
-        # Guardamos el torneo
-        tournament = form.save()
+        try:
+            # Asignar campos automáticos
+            form.instance.created_by = self.request.user
+            form.instance.prize_pool = 1000  # Valor por defecto
 
-        # Enviar correo al usuario
-        send_mail(
-            subject='🎮 Has creado un nuevo torneo en ArenaGG',
-            message=f'Hola {self.request.user.username},\n\nHas creado con éxito el torneo "{tournament.name}".\n\n¡Mucha suerte a todos los participantes!\n\n- El equipo de ArenaGG',
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[self.request.user.email],
-            fail_silently=False,
-        )
+            # El método save() automáticamente llama a full_clean()
+            # que ejecuta las validaciones del modelo
+            tournament = form.save()
 
-        # Usamos `reverse` directamente para obtener la URL
-        return redirect(reverse_lazy('web:gameDetailView', kwargs={'pk': tournament.game.pk}))
+            # Enviar correo de confirmación
+            send_mail(
+                subject='🎮 Torneo creado en ArenaGG',
+                message=f'Hola {self.request.user.username},\n\nHas creado el torneo "{tournament.name}" para {tournament.max_teams} equipos.\n\nFecha: {tournament.start_date.strftime("%d/%m/%Y")}',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[self.request.user.email],
+                fail_silently=True,
+            )
+
+            return redirect('web:tournamentListView')
+
+        except ValidationError as e:
+            # Captura errores de validación del modelo y los muestra en el formulario
+            for field, errors in e.message_dict.items():
+                for error in errors:
+                    form.add_error(field, error)
+            return self.form_invalid(form)
+
+        except Exception as e:
+            # Para otros errores inesperados
+            form.add_error(None, f"Error al crear torneo: {str(e)}")
+            return self.form_invalid(form)
 
 class TeamCreateView(LoginRequiredMixin, CreateView):
-    """
-    Vista para crear una nueva facción.
+    model = Team
+    form_class = TeamForm
+    template_name = 'web/team_create.html'
 
-    Utiliza un formulario de creación (`FactionDefaultForm`) para que el usuario
-    pueda crear una nueva facción.
-    """
-
-    model = Tournament  # Especifica el modelo relacionado
-    form_class = TournamentForm  # Usamos el formulario `FactionDefaultForm`
-    template_name = 'web/team_create.html'  # Especifica el template para renderizar la vista
+    def get_success_url(self):
+        tournament_id = self.kwargs['tournament_id']
+        return reverse_lazy('web:tournamentDetailView', kwargs={'pk': tournament_id})
 
     def form_valid(self, form):
-        """
-        Cuando el formulario es válido, guardamos el torneo y redirigimos a la página del juego
-        relacionado.
-        """
-        # Asignar el campo `created_by` al usuario actual
-        form.instance.created_by = self.request.user
-        form.instance.prize_pool = 1000
-        form.instance.game = Game.objects.all().filter(pk=self.kwargs['pk']).first()
-        # Guardamos el torneo
-        tournament = form.save()
+        response = super().form_valid(form)
 
-        # Enviar correo al usuario
-        send_mail(
-            subject='🎮 Has creado un nuevo torneo en ArenaGG',
-            message=f'Hola {self.request.user.username},\n\nHas creado con éxito el torneo "{tournament.name}".\n\n¡Mucha suerte a todos los participantes!\n\n- El equipo de ArenaGG',
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[self.request.user.email],
-            fail_silently=False,
-        )
+        # Asocia al jugador existente (que ya es un Player) al equipo recién creado
+        player = Player.objects.get(user=self.request.user)
+        player.team = self.object
+        player.save()
 
-        # Usamos `reverse` directamente para obtener la URL
-        return redirect(reverse_lazy('web:gameDetailView', kwargs={'pk': tournament.game.pk}))
+        return response
 
 class RegisterView(FormView):
     template_name = 'registration/register.html'

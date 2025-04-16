@@ -130,26 +130,46 @@
     <!-- Botón de acción -->
     <div class="text-center py-3">
         {% if tournament.status == 'upcoming' %}
-    {% if is_registered %}
-        <form method="post" action="{% url 'web:leaveTournament' tournament.id %}">
-            {% csrf_token %}
-            <button class="btn btn-outline-danger btn-lg px-5 fw-bold">
-                <i class="bi bi-box-arrow-right"></i> Abandonar torneo
+            {% if is_registered %}
+                <form method="post" action="{% url 'web:leaveTournament' tournament.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger btn-lg px-5 fw-bold">
+                        <i class="bi bi-box-arrow-right"></i> Abandonar torneo
+                    </button>
+                </form>
+            {% else %}
+                    {% csrf_token %}
+                    <button class="btn btn-warning btn-lg px-5 fw-bold" data-bs-toggle="modal" data-bs-target="#joinTournamentModal">
+                        <i class="bi bi-trophy"></i> ¡Inscribirse ahora!
+                    </button>
+                    <!-- Modal: Elegir cómo unirse al torneo -->
+                    <div class="modal fade" id="joinTournamentModal" tabindex="-1" aria-labelledby="joinTournamentModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content bg-dark text-white border-warning">
+                                <div class="modal-header border-bottom border-warning">
+                                    <h5 class="modal-title text-warning" id="joinTournamentModalLabel">¿Cómo deseas unirte?</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
+                                    <div class="d-grid gap-3">
+                                        <a href="{% url 'web:joinTeamListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
+                                            <i class="bi bi-person-add"></i> Unirse a un equipo
+                                        </a>
+                                        <a href="{% url 'web:teamCreateView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">
+                                            <i class="bi bi-plus-circle"></i> Crear un equipo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            {% endif %}
+        {% elif tournament.status == 'ongoing' %}
+            <button class="btn btn-primary btn-lg px-5 fw-bold">
+                <i class="bi bi-eye"></i> Ver historial del partido
             </button>
-        </form>
-    {% else %}
-        <form method="post" action="{% url 'web:joinTournament' tournament.id %}">
-            {% csrf_token %}
-            <button class="btn btn-warning btn-lg px-5 fw-bold" data-bs-toggle="modal" data-bs-target="#joinTournamentModal">
-                <i class="bi bi-trophy"></i> ¡Inscribirse ahora!
-            </button>
-        </form>
-    {% endif %}
-{% elif tournament.status == 'ongoing' %}
-    <button class="btn btn-primary btn-lg px-5 fw-bold">
-        <i class="bi bi-eye"></i> Ver historial del partido
-    </button>
-{% endif %}
+        {% endif %}
     </div>
 </div>
 
@@ -164,7 +184,7 @@
             <div class="modal-body text-center">
                 <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
                 <div class="d-grid gap-3">
-                    <a href="{% url 'web:joinTeamView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
+                    <a href="{% url 'web:joinTeamListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
                         <i class="bi bi-person-add"></i> Unirse a un equipo
                     </a>
                     <a href="{% url 'web:teamCreateView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">

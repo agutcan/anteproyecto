@@ -29,8 +29,16 @@ class CustomUserCreationForm(UserCreationForm):
 class TournamentForm(forms.ModelForm):
     class Meta:
         model = Tournament
-        fields = ['name', 'description','max_player_per_team', 'start_date', 'end_date']
+        fields = ['name', 'description','max_player_per_team', 'game', 'max_teams', 'start_date', 'end_date']
         widgets = {
             'start_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+class TeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control bg-dark text-white border-secondary'}),
         }

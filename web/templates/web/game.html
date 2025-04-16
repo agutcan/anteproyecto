@@ -10,7 +10,7 @@
         <li><a href="{% url 'web:tournamentDetailView' t.id %}">{{ t.name }}</a></li>
     {% endfor %}
 {% if request.user.player.role == "Premium" %}
-    <a href="{% url 'web:tournamentCreateView' game.pk %}">Crear torneo</a>
+    <a href="{% url 'web:tournamentCreateView' %}">Crear torneo</a>
 {% else %}
     <button id="create-tournament-button">Crear torneo</button>
 {% endif %}

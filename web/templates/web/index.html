@@ -38,103 +38,135 @@
 
     {% endif %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let calendarEl = document.getElementById("calendar");
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: "dayGridMonth",
-            locale: "es",
-            events: function(fetchInfo, successCallback, failureCallback) {
-                fetch("/api/tournaments/")
-                    .then(response => response.json())
-                    .then(data => {
-                        let events = data.map(tournament => ({
-                            id: tournament.id,
-                            title: tournament.title,
-                            start: tournament.start,
-                            extendedProps: {
-                                link: `/start/tournament/${tournament.id}`,
-                                description: tournament.description,
-                                endDate: tournament.end
-                            }
-                        }));
-                        successCallback(events);
-                    })
-                    .catch(error => failureCallback(error));
-            },
-            eventDidMount: function(info) {
-                info.el.innerHTML = '';
-
-                let link = document.createElement("a");
-                link.href = "#";
-                link.setAttribute("aria-label", info.event.title);
-                link.style.display = "inline-block";
-                link.style.width = "8px";
-                link.style.height = "8px";
-                link.style.borderRadius = "50%";
-                link.style.backgroundColor = "#ffcc00";
-                link.style.position = "absolute";
-                link.style.top = "50%";
-                link.style.left = "50%";
-                link.style.transform = "translate(-50%, -50%)";
-
-                link.addEventListener("click", function (event) {
-                    event.preventDefault();
-
-                    let existingCard = document.querySelector(".tournament-card");
-                    if (existingCard) existingCard.remove();
-
-                    let card = document.createElement("div");
-                    card.classList.add("tournament-card", "card", "p-1");
-                    card.style.position = "fixed";  // 🔹 Ahora es "fixed" para evitar el corte
-                    card.style.width = "220px";  // 🔹 Un poco más ancho para evitar texto cortado
-                    card.style.backgroundColor = "#222";
-                    card.style.color = "#fff";
-                    card.style.borderRadius = "6px";
-                    card.style.border = "1px solid #444";
-                    card.style.boxShadow = "0px 3px 6px rgba(0, 0, 0, 0.5)";
-                    card.style.padding = "10px";
-                    card.style.zIndex = "1000";
-                    card.style.fontSize = "12px";
-
-                    card.innerHTML = `
-                        <div>
-                            <strong>${info.event.title}</strong><br>
-                            <small><strong>Inicio:</strong> ${new Date(info.event.start).toLocaleString()}</small><br>
-                            <small><strong>Fin:</strong> ${new Date(info.event.extendedProps.endDate).toLocaleString()}</small><br>
-                            <a href="${info.event.extendedProps.link}" class="btn btn-sm btn-primary mt-1">Ver más</a>
-                        </div>
-                    `;
-
-                    // 📌 Posicionar la tarjeta dinámicamente según el viewport
-                    let rect = info.el.getBoundingClientRect();
-                    let left = rect.left;
-                    let top = rect.top + window.scrollY + 20;  // 🔹 Ajuste para que no quede pegado
-
-                    if (left + 250 > window.innerWidth) {
-                        left = window.innerWidth - 260;  // Si está muy a la derecha, moverlo a la izquierda
-                    }
-                    if (top + 100 > window.innerHeight) {
-                        top = window.innerHeight - 110;  // Si está muy abajo, subirlo
-                    }
-
-                    card.style.left = `${left}px`;
-                    card.style.top = `${top}px`;
-
-                    document.body.appendChild(card);
-
-                    document.addEventListener("click", function closeCard(e) {
-                        if (!card.contains(e.target) && e.target !== link) {
-                            card.remove();
-                            document.removeEventListener("click", closeCard);
-                        }
+document.addEventListener("DOMContentLoaded", function () {
+    let calendarEl = document.getElementById("calendar");
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        locale: "es",
+        events: function(fetchInfo, successCallback, failureCallback) {
+            fetch("/api/tournaments/")
+                .then(response => response.json())
+                .then(data => {
+                    // Agrupar por fecha
+                    let grouped = {};
+                    data.forEach(t => {
+                        let date = t.start.split("T")[0];
+                        if (!grouped[date]) grouped[date] = [];
+                        grouped[date].push(t);
                     });
-                });
 
-                info.el.appendChild(link);
+                    // Aplanar para calendar (no importa, solo para poder pintar)
+                    let flat = [];
+                    for (let date in grouped) {
+                        grouped[date].forEach(t => {
+                            flat.push({
+                                id: t.id,
+                                title: t.title,
+                                start: t.start,
+                                extendedProps: {
+                                    groupDate: date,
+                                    link: `/start/tournament/${t.id}`,
+                                    description: t.description,
+                                    endDate: t.end
+                                }
+                            });
+                        });
+                    }
+
+                    calendar._groupedEventsByDate = grouped; // guardar agrupados para uso posterior
+                    successCallback(flat);
+                })
+                .catch(error => failureCallback(error));
+        },
+        eventContent: function() {
+        return { domNodes: [] }; // Oculta texto y punto por defecto
+        },
+        eventDidMount: function(info) {
+    const date = info.event.startStr.split("T")[0];
+
+    // Si ya agregamos el punto para este día, no hacer nada
+    if (document.querySelector(`[data-dot="${date}"]`)) return;
+
+    let dot = document.createElement("a");
+    dot.href = "#";
+    dot.dataset.dot = date;
+    dot.style.display = "inline-block";
+    dot.style.width = "8px";
+    dot.style.height = "8px";
+    dot.style.borderRadius = "50%";
+    dot.style.backgroundColor = "#ffcc00";
+    dot.style.position = "absolute";
+    dot.style.top = "50%";
+    dot.style.left = "50%";
+    dot.style.transform = "translate(-50%, -50%)";
+
+    dot.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        let existingCard = document.querySelector(".tournament-card");
+        if (existingCard) existingCard.remove();
+
+        let tournaments = calendar._groupedEventsByDate[date];
+        if (!tournaments || tournaments.length === 0) return;
+
+        let card = document.createElement("div");
+        card.classList.add("tournament-card");
+        card.style.position = "fixed";
+        card.style.width = "260px";
+        card.style.backgroundColor = "#222";
+        card.style.color = "#fff";
+        card.style.borderRadius = "6px";
+        card.style.border = "1px solid #444";
+        card.style.boxShadow = "0px 3px 6px rgba(0, 0, 0, 0.5)";
+        card.style.padding = "10px";
+        card.style.zIndex = "1000";
+        card.style.fontSize = "12px";
+
+        let content = `<strong>Torneos del ${date}</strong><hr><ul style="padding-left: 15px;">`;
+        tournaments.forEach(t => {
+            content += `
+                <li>
+                    <strong>${t.title}</strong><br>
+                    <small><strong>Inicio:</strong> ${new Date(t.start).toLocaleString()}</small><br>
+                    <small><strong>Fin:</strong> ${new Date(t.end).toLocaleString()}</small><br>
+                    <a href="/start/tournament/${t.id}" class="btn btn-sm btn-primary mt-1">Ver más</a>
+                </li><hr>
+            `;
+        });
+        content += "</ul>";
+
+        card.innerHTML = content;
+
+        let rect = info.el.getBoundingClientRect();
+        let left = rect.left;
+        let top = rect.top + window.scrollY + 20;
+
+        if (left + 270 > window.innerWidth) {
+            left = window.innerWidth - 280;
+        }
+        if (top + 200 > window.innerHeight) {
+            top = window.innerHeight - 210;
+        }
+
+        card.style.left = `${left}px`;
+        card.style.top = `${top}px`;
+
+        document.body.appendChild(card);
+
+        document.addEventListener("click", function closeCard(e) {
+            if (!card.contains(e.target) && e.target !== dot) {
+                card.remove();
+                document.removeEventListener("click", closeCard);
             }
         });
-        calendar.render();
     });
+
+    info.el.innerHTML = ''; // Limpiamos lo que había
+    info.el.appendChild(dot); // Insertamos solo un punto
+}
+    });
+    calendar.render();
+});
 </script>
 
 
