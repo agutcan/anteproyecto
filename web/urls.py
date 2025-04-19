@@ -23,6 +23,7 @@ urlpatterns = [
     path('start/tournament/<int:pk>/join/', views.JoinTeamListView.as_view(), name='joinTeamListView'),
     path('start/tournament/<int:pk>/create_team/', views.TeamCreateView.as_view(), name='teamCreateView'),
     path('start/tournament/create/', views.TournamentCreateView.as_view(), name='tournamentCreateView'),
+    path('start/tournament/leave/<int:pk>', views.LeaveTournamentView.as_view(), name='leaveTournamentView'),
     path('start/my_tournaments/<int:pk>', views.MyTournamentListView.as_view(), name='myTournamentListView'),  # Vista los detalles de un torneo
     path('start/games/', views.GameListView.as_view(), name='gameListView'),  # Vista los detalles de un torneo
     path('start/tournament/create/', views.TournamentCreateView.as_view(), name='tournamentCreateView'),  # Vista los detalles de un torneo

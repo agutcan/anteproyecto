@@ -74,6 +74,9 @@ class Tournament(models.Model):
         """Slots disponibles para inscripción"""
         return max(0, self.get_max_total_players() - self.count_registered_players())
 
+    def get_registered_teams(self):
+        return [tt.team for tt in self.tournamentteam_set.all()]
+
     def clean(self):
         super().clean()
 
@@ -83,10 +86,17 @@ class Tournament(models.Model):
                 {'max_teams': 'El número de equipos debe ser par (2, 4, 8, etc.) para el formato de eliminatorias.'}
             )
 
-        # Otras validaciones del modelo si las necesitas
-        if self.start_date < timezone.now():
-            raise ValidationError("La fecha de inicio no puede ser en el pasado")
+        # Otras validaciones del modelo
+        if self.start_date and self.end_date:
 
+            if self.start_date < timezone.now():
+                raise ValidationError("La fecha de inicio no puede ser en el pasado")
+
+            if self.end_date < self.start_date:
+                raise ValidationError("La fecha de finalización no puede ser anterior a la de inicio.")
+
+            if self.end_date == self.start_date:
+                raise ValidationError("La fecha de fin no puede ser la misma a la fecha de inicio o estar en el pasado")
 
 class Team(models.Model):
     """Modelo de equipo."""

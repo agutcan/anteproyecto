@@ -131,7 +131,7 @@
     <div class="text-center py-3">
         {% if tournament.status == 'upcoming' %}
             {% if is_registered %}
-                <form method="post" action="{% url 'web:leaveTournament' tournament.id %}">
+                <form method="post" action="{% url 'web:leaveTournamentView' tournament.id %}">
                     {% csrf_token %}
                     <button class="btn btn-outline-danger btn-lg px-5 fw-bold">
                         <i class="bi bi-box-arrow-right"></i> Abandonar torneo

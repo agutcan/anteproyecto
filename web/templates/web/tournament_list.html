@@ -6,9 +6,22 @@
     <!-- Header de torneos -->
     <div class="d-flex justify-content-between align-items-center mb-5">
         <h1 class="text-warning">Torneos Disponibles</h1>
-        <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning">
-            <i class="bi bi-plus-circle"></i> Crear Torneo
-        </a>
+        {% if user.is_authenticated %}
+            {% if user.player.role == 'Premium' %}
+                <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning">
+                    <i class="bi bi-plus-circle"></i> Crear Torneo
+                </a>
+            {% else %}
+                <!-- Botón que activa el modal para no premium -->
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
+                    <i class="bi bi-plus-circle"></i> Crear Torneo
+                </button>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}?next={% url 'web:tournamentCreateView' %}" class="btn btn-warning">
+                <i class="bi bi-plus-circle"></i> Crear Torneo
+            </a>
+        {% endif %}
     </div>
 
     <!-- Filtros y búsqueda -->
@@ -47,6 +60,15 @@
                  data-game="{{ tournament.game.slug }}"
                  data-status="{{ tournament.status }}">
                 <div class="position-relative">
+                    {% if tournament.banner %}
+                    <img src="{{ tournament.banner.url }}" class="card-img-top" alt="{{ tournament.name }}"
+                         style="height: 180px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-black d-flex align-items-center justify-content-center"
+                         style="height: 180px;">
+                        <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem;"></i>
+                    </div>
+                    {% endif %}
                     <span class="position-absolute top-0 end-0 m-2 badge
                                 {% if tournament.status == 'open' %}bg-success{% elif tournament.status == 'ongoing' %}bg-primary{% else %}bg-secondary{% endif %}">
                         {{ tournament.get_status_display }}
@@ -63,18 +85,13 @@
                         <small class="text-muted">{{ tournament.game.name }}</small>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>
-                                <i class="bi bi-people-fill"></i>
-                                Jugadores: {{ tournament.count_registered_players }}/{{ tournament.get_max_total_players }}
-                            </span>
-                            <span class="text-warning">
-                                {% if tournament.get_available_slots > 0 %}
-                                    {{ tournament.get_available_slots }} plazas libres
-                                {% else %}
-                                    ¡Torneo lleno!
-                                {% endif %}
-                            </span>
+                        <div>
+                            <i class="bi bi-people-fill me-1"></i>
+                            <small>
+                                {% with total_players=tournament.count_registered_players %}
+                                    {{ total_players }}/{{ tournament.get_max_total_players }}
+                                {% endwith %}
+                            </small>
                         </div>
                         <div>
                             <i class="bi bi-calendar-event me-1"></i>
@@ -99,9 +116,15 @@
                 <i class="bi bi-trophy-fill display-4 text-warning"></i>
                 <h3 class="mt-3">No hay torneos disponibles</h3>
                 <p class="text-muted">Crea el primer torneo o vuelve más tarde</p>
-                <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning mt-3">
-                    Crear Torneo
-                </a>
+                {% if user.is_authenticated and user.player.role == 'Premium' %}
+                    <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning mt-3">
+                        Crear Torneo
+                    </a>
+                {% else %}
+                    <button class="btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
+                        Crear Torneo
+                    </button>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -140,9 +163,46 @@
     {% endif %}
 </div>
 
+<!-- Modal Premium Required -->
+<div class="modal fade" id="premiumRequiredModal" tabindex="-1" aria-labelledby="premiumRequiredModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-darker border-warning">
+            <div class="modal-header border-warning">
+                <h5 class="modal-title text-warning" id="premiumRequiredModalLabel">
+                    <i class="bi bi-stars me-2"></i>Cuenta Premium Requerida
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-gem display-4 text-warning"></i>
+                </div>
+                <h6 class="text-light mb-3">Beneficios de ser Premium:</h6>
+                <ul class="list-unstyled text-white-50">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Crear torneos ilimitados</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Premios exclusivos</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Estadísticas avanzadas</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Soporte prioritario</li>
+                </ul>
+                <div class="alert alert-warning mt-4">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Necesitas una cuenta Premium para crear torneos.
+                </div>
+            </div>
+            <div class="modal-footer border-warning">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <a href="{% url 'web:becomePremiumView' %}" class="btn btn-warning">
+                    <i class="bi bi-arrow-up-circle-fill me-1"></i> Actualizar a Premium
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- JavaScript para filtros -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Filtrado de torneos
     const searchInput = document.getElementById('searchTournaments');
     const gameFilter = document.getElementById('gameFilter');
     const statusFilter = document.getElementById('statusFilter');
@@ -173,6 +233,13 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.addEventListener('input', filterTournaments);
     gameFilter.addEventListener('change', filterTournaments);
     statusFilter.addEventListener('change', filterTournaments);
+
+    // Mostrar modal si hay parámetro en URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has('show_premium_modal')) {
+        const modal = new bootstrap.Modal(document.getElementById('premiumRequiredModal'));
+        modal.show();
+    }
 });
 </script>
 
@@ -185,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .tournament-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255, 107, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(255, 107, 0, 0.2);
 }
 
 .page-link {
@@ -201,6 +268,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .page-item.active .page-link {
     font-weight: bold;
+}
+
+/* Estilos para el modal premium */
+#premiumRequiredModal .modal-content {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    border: 1px solid var(--primary);
+}
+
+#premiumRequiredModal .modal-header {
+    border-bottom: 1px solid var(--primary);
+}
+
+#premiumRequiredModal .modal-footer {
+    border-top: 1px solid var(--primary);
+}
+
+#premiumRequiredModal .bi-gem {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 </style>
 {% endblock %}

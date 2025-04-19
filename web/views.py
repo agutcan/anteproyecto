@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
@@ -10,6 +12,7 @@ from rest_framework import generics
 from .serializers import TournamentSerializer
 from web.models import *
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 
@@ -127,21 +130,22 @@ class RewardListView(LoginRequiredMixin, ListView):
         return Reward.objects.all()
 
 class JoinTeamListView(LoginRequiredMixin, ListView):
-    model = Team
+    model = TournamentTeam
     template_name = 'web/join_team.html'
     context_object_name = 'team_list'
 
+    def get_queryset(self):
+        tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
+        return TournamentTeam.objects.filter(tournament=tournament)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tournament_id = self.kwargs['pk']
-        tournament = Tournament.objects.get(pk=tournament_id)
+        tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
 
-        teams = Team.objects.filter(tournamentteam__tournament=tournament)
-        available_teams = [team for team in teams if team.player_set.count() < 5]
+        tournament_teams = TournamentTeam.objects.filter(tournament=tournament)
 
-        context['tournament_id'] = tournament_id
         context['tournament'] = tournament
-        context['available_teams'] = available_teams
+        context['team_list'] = tournament_teams
         return context
 
 class BecomePremiumView(LoginRequiredMixin, TemplateView):
@@ -209,24 +213,37 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
             form.add_error(None, f"Error al crear torneo: {str(e)}")
             return self.form_invalid(form)
 
+
 class TeamCreateView(LoginRequiredMixin, CreateView):
     model = Team
-    form_class = TeamForm
     template_name = 'web/team_create.html'
+    fields = ['name']
 
-    def get_success_url(self):
-        tournament_id = self.kwargs['tournament_id']
-        return reverse_lazy('web:tournamentDetailView', kwargs={'pk': tournament_id})
+    def dispatch(self, request, *args, **kwargs):
+        # Obtener el torneo al que se le va a asociar el equipo
+        self.tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        # Crear el equipo
+        team = form.save()
 
-        # Asocia al jugador existente (que ya es un Player) al equipo recién creado
-        player = Player.objects.get(user=self.request.user)
-        player.team = self.object
-        player.save()
+        # Asociar el equipo con el torneo
+        TournamentTeam.objects.create(tournament=self.tournament, team=team)
 
-        return response
+        # Asignar el jugador logueado al equipo recién creado
+        player = Player.objects.filter(user=self.request.user).first()
+        if player:
+            player.team = team
+            player.save()
+
+        # Redirigir al usuario a la vista de los equipos en el torneo
+        return redirect('web:joinTeamListView', pk=self.tournament.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tournament'] = self.tournament
+        return context
 
 class RegisterView(FormView):
     template_name = 'registration/register.html'
@@ -255,3 +272,6 @@ class RegisterView(FormView):
 
         return super().form_valid(form)
 
+
+class LeaveTournamentView(LoginRequiredMixin, TemplateView):
+    pass
