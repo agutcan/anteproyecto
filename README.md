@@ -85,22 +85,26 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🔑 Implementar la autenticación de usuarios.
 - 🐳 Dockerizar la aplicación para facilitar el despliegue
 - 📅 Mostrar calendarios
+- 🔐 Registrar usuarios y crear perfiles personalizados.
+- 📝 Inscribir equipos y jugadores en torneos específicos.
+- 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados. (Creado localmente es decir con mailpit, para despliegue tendría que cambiarlo)
+
+
 
 ## En proceso
 
-- 🔐 Registrar usuarios y crear perfiles personalizados.
 - 🏆 Crear el sistema de gestión de torneos.
-- 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
-- 📅 Mostrar calendarios y resultados en tiempo real.
+- 📅 Mostrar resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔗 Integrar las vistas con el backend.
+- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
+
+
 
 ## Por hacer
 
-- 🔐 Registrar usuarios y crear perfiles personalizados.
 - 🏆 Crear el sistema de gestión de torneos.
-- 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔢 Automatizar los emparejamientos y resultados.
 - 📅 Mostrar calendarios y resultados en tiempo real.
