@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Abandonar Torneo / ArenaGG{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2 class="text-warning mb-4">¿Estás seguro que deseas abandonar el torneo <span class="text-white">{{ tournament.name }}</span>?</h2>
+
+    <div class="alert alert-danger border-danger">
+        <i class="bi bi-exclamation-triangle-fill"></i> Esta acción no se puede deshacer.
+        <br>
+        Si tu equipo queda vacío, será eliminado del torneo.
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger fw-bold me-2">
+            <i class="bi bi-box-arrow-right"></i> Abandonar torneo
+        </button>
+        <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Cancelar
+        </a>
+    </form>
+</div>
+{% endblock %}

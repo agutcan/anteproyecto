@@ -171,7 +171,6 @@ class TournamentTeam(models.Model):
     """Equipos inscritos en un torneo."""
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    seed = models.IntegerField(blank=True, null=True)
 
     class Meta:
         unique_together = ('tournament', 'team')

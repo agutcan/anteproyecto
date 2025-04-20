@@ -10,6 +10,8 @@ app_name = 'web'
 urlpatterns = [
 
     path("api/tournaments/", views.TournamentListAPI.as_view(), name="tournamentListApi"),
+    path('api/player-stats/', views.PlayerStatsListAPI.as_view(), name='playerStatsListApi'),
+
     # Ruta para la vista principal del índice
     path('', views.PublicIndexView.as_view(), name='publicIndex'),  # Cambia esto por las vistas que tengas
     path('start/', views.IndexView.as_view(), name='indexView'),  # Cambia esto por las vistas que tengas
@@ -28,6 +30,7 @@ urlpatterns = [
     path('start/games/', views.GameListView.as_view(), name='gameListView'),  # Vista los detalles de un torneo
     path('start/tournament/create/', views.TournamentCreateView.as_view(), name='tournamentCreateView'),  # Vista los detalles de un torneo
     path('start/profile/<int:pk>', views.PlayerProfileDetailView.as_view(), name='playerProfileDetailView'),  # Vista de lista de jugadores
+    path('start/profile/update/<int:pk>/', views.PlayerUpdateView.as_view(), name='playerUpdateView'),  # Vista de lista de jugadores
     path('start/ranking/', views.RankingView.as_view(), name='rankingView'),  # Vista para mostrar un ranking de jugadores
     path('privacy_policy/', views.PrivacyPolicyView.as_view(), name='privacyPolicyView'),  # Vista para mostrar un ranking de jugadores
     path('temrs_of_use/', views.TermsOfUseView.as_view(), name='termsOfUseView'),  # Vista para mostrar un ranking de jugadores

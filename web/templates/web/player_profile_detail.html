@@ -1,20 +1,99 @@
 {% extends 'base.html' %}
-{% block title %}Profile / ArenaGG{% endblock %}
+
+{% block title %}Perfil de {{ player.user.username }} / ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>Profile</h1>
-    <li>{{ player }}</li>
-    <li><img src="{{ player.avatar.url }}" class="player-image" alt="{{ player.user }}" style="height: 32px; width: 32px "> {{ player.user }}</li>
-    <li>{{ player.bio }}</li>
-    <li>{{ player.birth_date }}</li>
-    <li>{{ player.coins }}</li>
-    <li>{{ player.country }}</li>
-    <li>{{ player.first_name }}</li>
-    <li>{{ player.last_name }}</li>
-    <li>{{ player.games_played }}</li>
-    <li>{{ player.games_won }}</li>
-    <li>{{ player.renombre }}</li>
-    <li>{{ player.role }}</li>
-    <li>{{ player.winrate }}</li>
-    <li>{{ player.team }}</li>
+<div class="container mt-4">
+    <h2 class="text-warning mb-4 text-center">Perfil de {{ player.user.username }}</h2>
+
+    <div class="card mx-auto bg-dark text-white border-secondary shadow-lg" style="max-width: 600px;">
+        <div class="card-header bg-black text-center">
+            <img src="{{ player.avatar.url }}" alt="Avatar de {{ player.user.username }}" class="rounded-circle shadow-sm" width="96" height="96">
+            <h4 class="mt-3 mb-0">{{ player.user.username }}</h4>
+            <small class="text-muted">{{ player.role }}</small>
+        </div>
+
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Nombre:</strong> {{ player.first_name }} {{ player.last_name }}
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Biografía:</strong><br> {{ player.bio|default:"No hay biografía" }}
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Fecha de nacimiento:</strong> {{ player.birth_date|date:"d/m/Y" }}
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>País:</strong> {{ player.get_country_display }}
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Equipo:</strong>
+                    {% if player.team %}
+                        {{ player.team.name }}
+                    {% else %}
+                        Sin equipo
+                    {% endif %}
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Partidas jugadas:</strong> {{ player.games_played }}<br>
+                    <strong>Partidas ganadas:</strong> {{ player.games_won }}<br>
+                    <strong>Winrate:</strong> {{ player.winrate|floatformat:2 }}%
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Renombre:</strong> {{ player.renombre }}<br>
+                    <strong>Coins:</strong> {{ player.coins }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between bg-black">
+            <a href="{% url 'web:playerUpdateView' player.id %}" class="btn btn-outline-warning w-100 me-2">
+                <i class="bi bi-pencil-square"></i> Editar perfil
+            </a>
+            <a href="{% url 'web:indexView' %}" class="btn btn-outline-secondary w-100">
+                <i class="bi bi-house"></i> Volver al inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- Gráfico de Partidas Jugadas vs Ganadas -->
+    <div class="card mt-4 bg-dark text-white border-secondary shadow-lg">
+        <div class="card-header bg-black text-center">
+            <h5>Estadísticas del Jugador</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="statsChart"></canvas>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Datos para el gráfico
+    var ctx = document.getElementById('statsChart').getContext('2d');
+    var statsChart = new Chart(ctx, {
+        type: 'bar', // Tipo de gráfico: Barras
+        data: {
+            labels: ['Partidas Jugadas', 'Partidas Ganadas'], // Etiquetas
+            datasets: [{
+                label: 'Estadísticas de Juego',
+                data: [{{ player.games_played }}, {{ player.games_won }}], // Datos de las partidas
+                backgroundColor: ['#ff5733', '#28a745'], // Colores
+                borderColor: ['#ff5733', '#28a745'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            responsive: true
+        }
+    });
+</script>
 
 {% endblock %}

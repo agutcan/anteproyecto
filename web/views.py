@@ -4,16 +4,18 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from web.forms import *
+from django.urls import reverse
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, FormView, DetailView, CreateView
+from django.views.generic import ListView, TemplateView, FormView, DetailView, CreateView, UpdateView
 from rest_framework import generics
-from .serializers import TournamentSerializer
+from .serializers import *
 from web.models import *
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.contrib import messages
 
 
 # Create your views here.
@@ -23,6 +25,10 @@ from django.conf import settings
 class TournamentListAPI(generics.ListAPIView):
     queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
+
+class PlayerStatsListAPI(generics.ListAPIView):
+    queryset = Player.objects.all()
+    serializer_class = PlayerStatsSerializer
 
 class PublicIndexView(TemplateView):
     template_name = 'web/public_index.html'
@@ -69,7 +75,31 @@ class TournamentListView(LoginRequiredMixin, ListView):
     context_object_name = 'tournament_list'
 
     def get_queryset(self):
-        return Tournament.objects.all()
+        queryset = Tournament.objects.all()
+
+        # Filtrar por nombre de torneo
+        search_term = self.request.GET.get('search', '')
+        if search_term:
+            queryset = queryset.filter(name__icontains=search_term)
+
+        # Filtrar por juego
+        game_filter = self.request.GET.get('game', '')
+        if game_filter:
+            queryset = queryset.filter(game__id=game_filter)  # Filtrar por ID del juego
+
+        # Filtrar por estado
+        status_filter = self.request.GET.get('status', '')
+        if status_filter:
+            queryset = queryset.filter(status=status_filter)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        games = Game.objects.all()
+
+        context['games'] = games
+        return context
 
 
 
@@ -120,6 +150,23 @@ class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
     model = Player
     template_name = 'web/player_profile_detail.html'
     context_object_name = 'player'
+
+class PlayerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Player
+    form_class = PlayerForm  # Tu formulario personalizado o ModelForm
+    template_name = 'web/player_profile_update.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Player, user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['player'] = self.get_object()
+        return context
+
+    def get_success_url(self):
+        return reverse('web:playerProfileDetailView', kwargs={'pk': self.object.pk})
+
 
 class RewardListView(LoginRequiredMixin, ListView):
     model = Reward
@@ -274,4 +321,33 @@ class RegisterView(FormView):
 
 
 class LeaveTournamentView(LoginRequiredMixin, TemplateView):
-    pass
+    template_name = 'web/leave_tournament_confirm.html'  # si quieres una página de confirmación
+
+    def post(self, request, *args, **kwargs):
+        tournament_id = self.kwargs['pk']
+        tournament = get_object_or_404(Tournament, pk=tournament_id)
+        player = get_object_or_404(Player, user=request.user)
+
+        team = player.team
+        if not team:
+            messages.warning(request, "No estás en ningún equipo.")
+            return redirect('web:tournamentDetailView', tournament.id)
+
+        tt = TournamentTeam.objects.filter(tournament=tournament, team=team).first()
+        if not tt:
+            messages.warning(request, "Tu equipo no pertenece a este torneo.")
+            return redirect('web:tournamentDetailView', tournament.id)
+
+        # Quitar al jugador del equipo
+        player.team = None
+        player.save()
+
+        # Si el equipo está vacío, eliminarlo junto con la relación
+        if team.player_set.count() == 0:
+            tt.delete()
+            team.delete()
+            messages.success(request, "Has abandonado el torneo y tu equipo ha sido eliminado.")
+        else:
+            messages.success(request, "Has abandonado el torneo.")
+
+        return redirect('web:tournamentDetailView', tournament.id)

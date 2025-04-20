@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block title %}Torneos / ArenaGG{% endblock %}
 
 {% block content %}
@@ -25,39 +26,44 @@
     </div>
 
     <!-- Filtros y búsqueda -->
-    <div class="card bg-dark border-secondary mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <input type="text" class="form-control bg-darker border-secondary text-light"
-                           placeholder="Buscar torneos..." id="searchTournaments">
+    <form method="get" action="{% url 'web:tournamentListView' %}">
+        <div class="card bg-dark border-secondary mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control bg-darker border-secondary text-light"
+                               placeholder="Buscar torneos..." name="search">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select bg-darker border-secondary text-light" name="game">
+                            <option value="">Todos los juegos</option>
+                            {% for game in games %}
+                                <option value="{{ game.id }}" {% if request.GET.game == game.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ game.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select bg-darker border-secondary text-light" name="status">
+                            <option value="">Todos los estados</option>
+                            <option value="upcoming">Inscripciones abiertas</option>
+                            <option value="ongoing">En progreso</option>
+                            <option value="completed">Finalizados</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <select class="form-select bg-darker border-secondary text-light" id="gameFilter">
-                        <option value="">Todos los juegos</option>
-                        {% for game in games %}
-                        <option value="{{ game.slug }}">{{ game.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select bg-darker border-secondary text-light" id="statusFilter">
-                        <option value="">Todos los estados</option>
-                        <option value="open">Inscripciones abiertas</option>
-                        <option value="ongoing">En progreso</option>
-                        <option value="finished">Finalizados</option>
-                    </select>
-                </div>
+                <button type="submit" class="btn btn-warning mt-3">Filtrar</button>
             </div>
         </div>
-    </div>
+    </form>
 
     <!-- Lista de torneos -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for tournament in tournament_list %}
         <div class="col">
             <div class="card h-100 bg-darker border-0 tournament-card"
-                 data-game="{{ tournament.game.slug }}"
+                 data-game="{{ tournament.game.id }}"
                  data-status="{{ tournament.status }}">
                 <div class="position-relative">
                     {% if tournament.banner %}
@@ -129,38 +135,6 @@
         </div>
         {% endfor %}
     </div>
-
-    <!-- Paginación -->
-    {% if is_paginated %}
-    <nav class="mt-5">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link bg-darker border-secondary"
-                   href="?page={{ page_obj.previous_page_number }}">
-                    &laquo; Anterior
-                </a>
-            </li>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-            <li class="page-item {% if num == page_obj.number %}active{% endif %}">
-                <a class="page-link {% if num == page_obj.number %}bg-warning border-warning text-dark{% else %}bg-darker border-secondary{% endif %}"
-                   href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link bg-darker border-secondary"
-                   href="?page={{ page_obj.next_page_number }}">
-                    Siguiente &raquo;
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
 </div>
 
 <!-- Modal Premium Required -->
@@ -191,107 +165,10 @@
             </div>
             <div class="modal-footer border-warning">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <a href="{% url 'web:becomePremiumView' %}" class="btn btn-warning">
-                    <i class="bi bi-arrow-up-circle-fill me-1"></i> Actualizar a Premium
-                </a>
+                <a href="{% url 'web:becomePremiumView' %}" class="btn btn-warning">Hacerme Premium</a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- JavaScript para filtros -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Filtrado de torneos
-    const searchInput = document.getElementById('searchTournaments');
-    const gameFilter = document.getElementById('gameFilter');
-    const statusFilter = document.getElementById('statusFilter');
-    const tournamentCards = document.querySelectorAll('.tournament-card');
-
-    function filterTournaments() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const gameValue = gameFilter.value;
-        const statusValue = statusFilter.value;
-
-        tournamentCards.forEach(card => {
-            const name = card.querySelector('.card-title').textContent.toLowerCase();
-            const game = card.dataset.game;
-            const status = card.dataset.status;
-
-            const matchesSearch = name.includes(searchTerm);
-            const matchesGame = gameValue === '' || game === gameValue;
-            const matchesStatus = statusValue === '' || status === statusValue;
-
-            if (matchesSearch && matchesGame && matchesStatus) {
-                card.parentElement.style.display = 'block';
-            } else {
-                card.parentElement.style.display = 'none';
-            }
-        });
-    }
-
-    searchInput.addEventListener('input', filterTournaments);
-    gameFilter.addEventListener('change', filterTournaments);
-    statusFilter.addEventListener('change', filterTournaments);
-
-    // Mostrar modal si hay parámetro en URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.has('show_premium_modal')) {
-        const modal = new bootstrap.Modal(document.getElementById('premiumRequiredModal'));
-        modal.show();
-    }
-});
-</script>
-
-<style>
-.tournament-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.tournament-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255, 107, 0, 0.2);
-}
-
-.page-link {
-    margin: 0 5px;
-    color: var(--light);
-}
-
-.page-link:hover {
-    color: var(--dark);
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-.page-item.active .page-link {
-    font-weight: bold;
-}
-
-/* Estilos para el modal premium */
-#premiumRequiredModal .modal-content {
-    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-    border: 1px solid var(--primary);
-}
-
-#premiumRequiredModal .modal-header {
-    border-bottom: 1px solid var(--primary);
-}
-
-#premiumRequiredModal .modal-footer {
-    border-top: 1px solid var(--primary);
-}
-
-#premiumRequiredModal .bi-gem {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-</style>
 {% endblock %}

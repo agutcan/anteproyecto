@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tournament
+from .models import *
 
 class TournamentSerializer(serializers.ModelSerializer):
     title = serializers.CharField(source='name')
@@ -9,3 +9,10 @@ class TournamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
         fields = ["id", "title", "game", "start", "end", "description"]
+
+class PlayerStatsSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+
+    class Meta:
+        model = Player
+        fields = ['username', 'games_won', 'winrate']

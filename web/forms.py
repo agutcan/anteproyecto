@@ -74,3 +74,45 @@ class TeamForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control bg-dark text-white border-secondary'}),
         }
+
+class PlayerForm(forms.ModelForm):
+    class Meta:
+        model = Player
+        fields = [
+            'first_name', 'last_name', 'birth_date', 'country',
+            'bio', 'avatar'
+        ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'birth_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'country': forms.Select(attrs={'class': 'form-select'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Cuéntanos algo sobre ti...'}),
+            'avatar': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'first_name': 'Nombre',
+            'last_name': 'Apellido',
+            'birth_date': 'Fecha de nacimiento',
+            'country': 'País',
+            'bio': 'Biografía',
+            'avatar': 'Avatar',
+        }
+
+class TournamentFilterForm(forms.Form):
+    game = forms.ModelChoiceField(
+        queryset=Game.objects.all(),
+        required=False,
+        empty_label="Todos los juegos",
+        widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
+    )
+    status = forms.ChoiceField(
+        choices=[('', 'Todos los estados'), ('open', 'Inscripciones abiertas'), ('ongoing', 'En progreso'), ('finished', 'Finalizados')],
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
+    )
+    search = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control bg-darker border-secondary text-light', 'placeholder': 'Buscar torneos...'})
+    )
