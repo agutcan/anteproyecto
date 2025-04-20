@@ -11,7 +11,6 @@ from django.core.exceptions import ValidationError
 # Create your models here.
 
 
-
 class Game(models.Model):
     """Modelo para representar los juegos."""
     name = models.CharField(max_length=100, unique=True)

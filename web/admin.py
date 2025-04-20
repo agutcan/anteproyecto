@@ -74,7 +74,7 @@ class PlayerAdmin(admin.ModelAdmin):
 # Configuración del administrador para el modelo TournamentTeam
 @admin.register(TournamentTeam)
 class TournamentTeamAdmin(admin.ModelAdmin):
-    list_display = ('tournament', 'team', 'seed')
+    list_display = ('tournament', 'team')
     search_fields = ('tournament__name', 'team__name')
     list_filter = ('tournament',)
 
