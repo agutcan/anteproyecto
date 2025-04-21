@@ -29,7 +29,7 @@ class GameAdmin(admin.ModelAdmin):
 # Configuración del administrador para el modelo Tournament
 @admin.register(Tournament)
 class TournamentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'game', 'status', 'description', 'start_date', 'end_date', 'created_by')
+    list_display = ('name', 'game', 'status', 'description', 'start_date', 'end_date', 'created_by', 'matches_generated', 'max_teams', 'max_player_per_team')
     search_fields = ('name', 'game__name', 'created_by__username')
     list_filter = ('status', 'game')
 

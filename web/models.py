@@ -38,6 +38,7 @@ class Tournament(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     max_player_per_team = models.PositiveIntegerField(default=1)
     max_teams = models.PositiveIntegerField(default=2)
+    matches_generated = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
@@ -89,6 +90,11 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+    def get_avg_mmr(self):
+        players = self.player_set.all()
+        if not players:
+            return 0
+        return sum(player.mmr for player in players) / players.count()
 
 class Player(models.Model):
     """Modelo para representar jugadores."""

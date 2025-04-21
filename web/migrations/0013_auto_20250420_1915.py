@@ -116,8 +116,8 @@ def poblar_datos(apps, schema_editor):
 
     # Crear torneos
     tournaments = [
-        Tournament(name="Torneo Internacional de Valorant", game=games[0], max_player_per_team=2, max_teams=2, start_date="2025-04-01", end_date="2025-04-30", status="upcoming", prize_pool=5000.00, created_by=users[0]),
-        Tournament(name="Campeonato Mundial de League of Legends", game=games[1],  max_player_per_team=2, max_teams=4, start_date="2025-05-01", end_date="2025-04-20T22:20:00", status="upcoming", prize_pool=10000.00, created_by=users[1])
+        Tournament(name="Torneo Internacional de Valorant", game=games[0], max_player_per_team=2, max_teams=2, start_date="2025-04-21T22:10:00", end_date="2025-04-30", prize_pool=5000.00, created_by=users[0]),
+        Tournament(name="Campeonato Mundial de League of Legends", game=games[1],  max_player_per_team=2, max_teams=4, start_date="2025-05-01", end_date="2025-04-20T22:20:00", prize_pool=10000.00, created_by=users[1])
     ]
     Tournament.objects.bulk_create(tournaments)  # Guardar todos los torneos de una vez
 
@@ -132,7 +132,6 @@ def poblar_datos(apps, schema_editor):
 
     # Crear partidos entre equipos
     matches = [
-        Match(tournament=tournaments[0], round=1, team1=teams[0], team2=teams[1], scheduled_at="2025-04-05T10:00:00", status="pending"),
         Match(tournament=tournaments[1], round=1, team1=teams[2], team2=teams[3], scheduled_at="2025-05-02T10:00:00", status="pending")
     ]
     Match.objects.bulk_create(matches)  # Guardar todos los partidos de una vez
@@ -147,13 +146,11 @@ def poblar_datos(apps, schema_editor):
     # Crear resultados de partidos (ejemplo)
     match_results = [
         MatchResult(match=matches[0], winner=teams[0], team1_score=2, team2_score=1),
-        MatchResult(match=matches[1], winner=teams[2], team1_score=3, team2_score=0)
     ]
     MatchResult.objects.bulk_create(match_results)  # Guardar todos los resultados de los partidos
 
     # Crear logs para los partidos
     log_event(matches[0], teams[0], None, "Partido programado: 2-1 vs Los Guerreros del Sol vs La Legión Oscura")
-    log_event(matches[1], teams[2], None, "Partido programado: 3-0 vs Los Centinelas del Reino vs Héroes de la Alianza")
 
     # Crear recompensas
     rewards = [
