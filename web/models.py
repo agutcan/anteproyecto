@@ -42,22 +42,6 @@ class Tournament(models.Model):
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
 
-    def update_status(self):
-        """Actualizar el estado del torneo en función de la fecha actual."""
-        now = timezone.now()
-
-        if now < self.start_date:
-            self.status = 'upcoming'
-        elif self.start_date <= now <= self.end_date:
-            self.status = 'ongoing'
-        else:
-            self.status = 'completed'
-
-    def save(self, *args, **kwargs):
-        # Llamar a update_status antes de guardar
-        self.update_status()
-        super().save(*args, **kwargs)
-
     def count_registered_players(self):
         """Cuenta jugadores inscritos (optimizado para BD)"""
         from django.db.models import Count

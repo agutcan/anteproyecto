@@ -117,7 +117,7 @@ def poblar_datos(apps, schema_editor):
     # Crear torneos
     tournaments = [
         Tournament(name="Torneo Internacional de Valorant", game=games[0], max_player_per_team=2, max_teams=2, start_date="2025-04-01", end_date="2025-04-30", status="upcoming", prize_pool=5000.00, created_by=users[0]),
-        Tournament(name="Campeonato Mundial de League of Legends", game=games[1],  max_player_per_team=2, max_teams=4, start_date="2025-05-01", end_date="2025-05-15", status="upcoming", prize_pool=10000.00, created_by=users[1])
+        Tournament(name="Campeonato Mundial de League of Legends", game=games[1],  max_player_per_team=2, max_teams=4, start_date="2025-05-01", end_date="2025-04-20T22:20:00", status="upcoming", prize_pool=10000.00, created_by=users[1])
     ]
     Tournament.objects.bulk_create(tournaments)  # Guardar todos los torneos de una vez
 

@@ -46,6 +46,15 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = "administracion@arenagg.com"
 
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Madrid'  # o tu zona
+
+# Opcional, para controlar la periodicidad desde el admin
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -71,6 +80,9 @@ INSTALLED_APPS = [
     'web.apps.WebConfig',
     'debug_toolbar',
     'rest_framework',
+    'django_celery_beat',
+    'celery',
+
 ]
 
 MIDDLEWARE = [
@@ -194,9 +206,6 @@ LOGIN_REDIRECT_URL = '/start/'
 
 # Definir la URL a la que el usuario será redirigido después de cerrar sesión
 LOGOUT_REDIRECT_URL = '/accounts/logout/'
-
-
-
 
 
 # Default primary key field type
