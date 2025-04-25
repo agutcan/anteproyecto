@@ -10,7 +10,7 @@ Aarón Gutiérrez Caña
 
 ## 📌 Tabla de Contenidos
 - [✨ Introducción](#introducción-del-proyecto)
-- [🚀 Finalidad](#finalidad)
+- [🚀 Finalidad](#Finalidad)
 - [🛠️ Objetivos](#objetivos)
 - [📊 Medios hardware y software a utilizar](#medios-hardware-y-software-a-utilizar)
   - [📅 Hardware](#hardware)
