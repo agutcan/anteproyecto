@@ -38,6 +38,7 @@ urlpatterns = [
     path('start/how_it_works/', views.HowItWorkView.as_view(), name='howItWorkView'),  # Vista para mostrar las recompensas
     path('start/game/<int:pk>', views.GameDetailView.as_view(), name='gameDetailView'),  # Vista de lista de juegos con sus torneos
     path('accounts/register/', views.RegisterView.as_view(), name='register'),  # Vista para registro de usuarios
+    path('start/confirm_result/<int:pk>/', views.MatchConfirmView.as_view(), name='matchConfirmView'),
 
 ]
 

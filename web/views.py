@@ -16,6 +16,8 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.contrib import messages
+from django.http import HttpResponseForbidden
+
 
 
 # Create your views here.
@@ -64,10 +66,6 @@ class PlayerDetailView(LoginRequiredMixin, DetailView):
     template_name = 'web/player_detail.html'
     context_object_name = 'player'
 
-class MatchDetailView(LoginRequiredMixin, DetailView):
-    model = Match
-    template_name = 'web/match_detail.html'
-    context_object_name = 'match'
 
 class TournamentListView(LoginRequiredMixin, ListView):
     model = Tournament
@@ -351,3 +349,66 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
             messages.success(request, "Has abandonado el torneo.")
 
         return redirect('web:tournamentDetailView', tournament.id)
+
+
+class MatchDetailView(LoginRequiredMixin, DetailView):
+    model = Match
+    template_name = 'web/match_detail.html'
+    context_object_name = 'match'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        match = self.get_object()
+
+        # Verificar si el usuario es jugador en este partido
+        user_is_player = match.team1.player_set.filter(user=self.request.user).exists() or \
+                         match.team2.player_set.filter(user=self.request.user).exists()
+
+        # Si el usuario es un jugador, agregar el botón para confirmar el resultado
+        context['user_is_player'] = user_is_player
+
+        return context
+
+class MatchConfirmView(LoginRequiredMixin, TemplateView):
+    """Vista para confirmar el resultado de un partido."""
+
+    def dispatch(self, request, *args, **kwargs):
+        # Obtener el partido que se va a confirmar
+        self.match = get_object_or_404(Match, pk=self.kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Procesar la confirmación del resultado del partido."""
+        winner = request.POST.get('winner')
+
+        # Verificar si el usuario pertenece a uno de los equipos
+        if request.user.team != self.match.team1 and request.user.team != self.match.team2:
+            return HttpResponse('No estás en ninguno de los equipos de este partido', status=403)
+
+        # Marcar la confirmación del equipo
+        if request.user.team == self.match.team1:
+            self.match.team1_confirmed = True
+            self.match.team1_winner = (winner == 'team1')
+        elif request.user.team == self.match.team2:
+            self.match.team2_confirmed = True
+            self.match.team2_winner = (winner == 'team2')
+
+        self.match.save()
+
+        # Comprobar si ambos equipos han confirmado el resultado
+        if self.match.team1_confirmed and self.match.team2_confirmed:
+            if self.match.team1_winner:
+                self.match.winner = self.match.team1
+            elif self.match.team2_winner:
+                self.match.winner = self.match.team2
+            self.match.status = 'completed'
+            self.match.save()
+            return redirect('web:match_completed', pk=self.match.pk)
+
+        return HttpResponse('Resultado del partido parcialmente confirmado.')
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'match': self.match,
+        }
+        return context

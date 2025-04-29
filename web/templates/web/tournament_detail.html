@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% load tz %}
+
 {% block title %}{{ tournament.name }} / ArenaGG{% endblock %}
 
 {% block content %}
@@ -34,9 +37,10 @@
                             <strong class="d-block text-light">Organizador</strong>
                             <span class="text-white">{{ tournament.created_by }}</span>
                         </li>
+
                         <li class="mb-3">
                             <strong class="d-block text-light">Fecha de inicio</strong>
-                            <span class="text-white">{{ tournament.start_date|date:"d M Y H:i" }}</span>
+                            <span class="text-white">{{ tournament.start_date|localtime|date:"d M Y H:i" }}</span>
                         </li>
                         <li class="mb-3">
                             <strong class="d-block text-light">Fecha de finalización</strong>

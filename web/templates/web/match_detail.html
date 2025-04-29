@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalles del Partido - {{ match.team1.name }} vs {{ match.team2.name }}{% endblock %}
+
+{% block content %}
+<h2 class="text-warning mb-4">Detalles del Partido</h2>
+
+<div class="card bg-dark text-white border-secondary mb-4">
+    <div class="card-header bg-black">
+        <strong>{{ match.team1.name }} vs {{ match.team2.name }}</strong>
+    </div>
+    <div class="card-body">
+        <p><strong>Fecha y hora programada:</strong> {{ match.scheduled_at }}</p>
+        <p><strong>Estado:</strong> {{ match.get_status_display }}</p>
+
+        {% if match.status == 'completed' %}
+            <div class="alert alert-success text-center">
+                <h5>Resultado Confirmado</h5>
+                <p>El ganador es {{ match.result.winner.name }} con un puntaje de {{ match.result.team1_score }} - {{ match.result.team2_score }}.</p>
+            </div>
+        {% else %}
+            {% if user_is_player %}
+                <a href="{% url 'web:matchConfirmView' match.id %}" class="btn btn-primary w-100 fw-bold mt-3">Confirmar que el partido ha terminado</a>
+            {% else %}
+                <div class="alert alert-warning text-center mt-3">
+                    <i class="bi bi-exclamation-triangle"></i> Este partido aún no ha sido confirmado como finalizado.
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="d-flex justify-content-center gap-3">
+    <a href="{% url 'web:tournamentDetailView' match.tournament.id %}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Volver al Torneo
+    </a>
+</div>
+
+{% endblock %}

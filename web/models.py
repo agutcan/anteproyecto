@@ -181,6 +181,12 @@ class Match(models.Model):
         choices=[('pending', 'Pending'), ('ongoing', 'Ongoing'), ('completed', 'Completed')],
         default='pending'
     )
+    team1_ready = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para comenzar)
+    team2_ready = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para comenzar)
+    team1_confirmed = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para finalizar)
+    team2_confirmed = models.BooleanField(default=False)  # Confirmación del equipo 2 (Para finalizar)
+    team1_winner = models.BooleanField(default=False)  # Equipo 1 marca si es ganador
+    team2_winner = models.BooleanField(default=False)  # Equipo 2 marca si es ganador
 
     def __str__(self):
         return f"Partido {self.round}: {self.team1.name} vs {self.team2.name} - {self.get_status_display()}"
