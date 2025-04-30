@@ -30,6 +30,9 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📅 Mostrar calendarios y resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
+- Ganar puntos y reclamar recompensas.
+- Ofrecer la posibilidad de ser VIP.
+- Sistema de soporte.
 
 ## 🛠️ Medios hardware y software a utilizar
 
@@ -86,7 +89,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📐 Crear diagramas de flujo y esquemas de base de datos.
 - 🔑 Implementar la autenticación de usuarios.
 - 🐳 Dockerizar la aplicación para facilitar el despliegue
-- 📅 Mostrar calendarios
+- 📅 Mostrar calendarios y estadísticas con apis.
 - 🔐 Registrar usuarios y crear perfiles personalizados.
 - 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados. (Creado localmente es decir con mailpit, para despliegue tendría que cambiarlo)
@@ -101,7 +104,9 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔗 Integrar las vistas con el backend.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
-
+- Sistema de recompensas.
+- Ofrecer la posibilidad de ser VIP.
+- Sistema de soporte.
 
 
 ## Por hacer
@@ -109,6 +114,8 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🏆 Crear el sistema de gestión de torneos.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔢 Automatizar los emparejamientos y resultados.
+- Sistema de recompensas.
+- Ofrecer la posibilidad de ser VIP. 
 - 📅 Mostrar calendarios y resultados en tiempo real.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
@@ -122,10 +129,12 @@ Una vez puesta en marcha, la plataforma permitirá:
 
 ## Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
-- He decidido añadir tareas automatizadas para modificar el estado de cada torneo (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo. (Con redis, celery y celery-beat)
 
 ## Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
+- He decidido añadir tareas automatizadas para modificar el estado de cada torneo (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo. (Con redis, celery y celery-beat)
+
 ## Bibliografía (“Si es posible con enlace a la fuente”)
 
+# Documentación
 
