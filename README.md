@@ -30,7 +30,9 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📅 Mostrar calendarios y resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
-- Sistema de recompensas.
+- Ganar puntos y reclamar recompensas.
+- Ofrecer la posibilidad de ser VIP.
+- Sistema de soporte.
 
 ## 🛠️ Medios hardware y software a utilizar
 
@@ -103,7 +105,8 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🔗 Integrar las vistas con el backend.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - Sistema de recompensas.
-
+- Ofrecer la posibilidad de ser VIP.
+- Sistema de soporte.
 
 
 ## Por hacer
@@ -111,6 +114,8 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🏆 Crear el sistema de gestión de torneos.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔢 Automatizar los emparejamientos y resultados.
+- Sistema de recompensas.
+- Ofrecer la posibilidad de ser VIP. 
 - 📅 Mostrar calendarios y resultados en tiempo real.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
