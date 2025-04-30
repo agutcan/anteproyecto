@@ -31,10 +31,9 @@ class CustomUserCreationForm(UserCreationForm):
 class TournamentForm(forms.ModelForm):
     class Meta:
         model = Tournament
-        fields = ['name', 'description','max_player_per_team', 'game', 'max_teams', 'start_date', 'end_date']
+        fields = ['name', 'description','max_player_per_team', 'game', 'max_teams', 'start_date']
         widgets = {
             'start_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -48,21 +47,12 @@ class TournamentForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         start_date = cleaned_data.get('start_date')
-        end_date = cleaned_data.get('end_date')
 
         # Comprobación para la fecha de inicio
         if not start_date:
             self.add_error('start_date', 'Debes introducir la fecha de inicio del torneo.')
         elif start_date < timezone.now() + timedelta(days=1):
             self.add_error('start_date', 'La fecha de inicio debe ser al menos 1 día después de la fecha actual.')
-
-        # Comprobación para la fecha de finalización
-        if not end_date:
-            self.add_error('end_date', 'Debes introducir la fecha de fin del torneo.')
-
-        if start_date and end_date:
-            if end_date < start_date + timedelta(hours=1):
-                self.add_error('end_date', 'La fecha de finalización debe ser como minimo 1 hora posterior a la fecha de inicio.')
 
         return cleaned_data
 

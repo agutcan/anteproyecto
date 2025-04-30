@@ -34,7 +34,6 @@ class Tournament(models.Model):
     )
     prize_pool = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     max_player_per_team = models.PositiveIntegerField(default=1)
     max_teams = models.PositiveIntegerField(default=2)
@@ -71,16 +70,10 @@ class Tournament(models.Model):
             )
 
         # Otras validaciones del modelo
-        if self.start_date and self.end_date:
+        if self.start_date:
 
             if self.start_date < timezone.now():
                 raise ValidationError("La fecha de inicio no puede ser en el pasado")
-
-            if self.end_date < self.start_date:
-                raise ValidationError("La fecha de finalización no puede ser anterior a la de inicio.")
-
-            if self.end_date == self.start_date:
-                raise ValidationError("La fecha de fin no puede ser la misma a la fecha de inicio o estar en el pasado")
 
 class Team(models.Model):
     """Modelo de equipo."""
@@ -181,8 +174,6 @@ class Match(models.Model):
         choices=[('pending', 'Pending'), ('ongoing', 'Ongoing'), ('completed', 'Completed')],
         default='pending'
     )
-    team1_ready = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para comenzar)
-    team2_ready = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para comenzar)
     team1_confirmed = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para finalizar)
     team2_confirmed = models.BooleanField(default=False)  # Confirmación del equipo 2 (Para finalizar)
     team1_winner = models.BooleanField(default=False)  # Equipo 1 marca si es ganador

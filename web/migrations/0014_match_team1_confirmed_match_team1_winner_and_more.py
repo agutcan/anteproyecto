@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0014_tournament_matches_generated'),
+        ('web', '0013_tournament_matches_generated'),
     ]
 
     operations = [

@@ -47,9 +47,9 @@ def generate_matches_by_mmr(tournament_id):
             Match.objects.create(
                 tournament=tournament,
                 round=1,
+                scheduled_at=timezone.now() + timezone.timedelta(minutes=5),
                 team1=team1.team,
                 team2=team2.team,
-                scheduled_date=timezone.now()
             )
 
     # Marcar que los partidos han sido generados

@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0013_auto_20250420_1915'),
+        ('web', '0012_remove_tournamentteam_seed'),
     ]
 
     operations = [

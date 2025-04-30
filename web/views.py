@@ -3,6 +3,8 @@ from datetime import timedelta
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.views import View
+
 from web.forms import *
 from django.urls import reverse
 from django.shortcuts import redirect
@@ -107,7 +109,14 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
     context_object_name = 'tournament_list'
 
     def get_queryset(self):
-        return Tournament.objects.all().filter(pk=self.kwargs['pk'])
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        player = Player.objects.filter(user=user).first()
+
+        if player and player.team:
+            return Tournament.objects.filter(
+                tournamentteam__team=player.team
+            ).distinct()
+        return Tournament.objects.none()
 
 
 class GameListView(LoginRequiredMixin, ListView):
@@ -193,8 +202,22 @@ class JoinTeamListView(LoginRequiredMixin, ListView):
         context['team_list'] = tournament_teams
         return context
 
-class BecomePremiumView(LoginRequiredMixin, TemplateView):
+class PremiumView(LoginRequiredMixin, TemplateView):
     template_name = 'web/premium.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        player = Player.objects.get(user=self.request.user)
+        context['player'] = player
+        return context
+
+class UpgradeToPremiumView(LoginRequiredMixin, View):
+    """Convierte al usuario en Premium (gratis por tiempo limitado)."""
+    def get(self, request, *args, **kwargs):
+        player = Player.objects.get(user=request.user)
+        player.role = Player.PREMIUM
+        player.save()
+        return redirect(reverse_lazy('web:premiumView'))
 
 class HowItWorkView(LoginRequiredMixin, TemplateView):
     template_name = 'web/how_it_work.html'
@@ -204,7 +227,7 @@ class SupportView(LoginRequiredMixin, TemplateView):
 
 class GameDetailView(LoginRequiredMixin, DetailView):
     model = Game
-    template_name = 'web/game.html'
+    template_name = 'web/game_detail.html'
     context_object_name = 'game'
 
 

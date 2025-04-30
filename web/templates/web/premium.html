@@ -1,5 +1,41 @@
 {% extends 'base.html' %}
-{% block title %}Status page / ArenaGG{% endblock %}
+{% block title %}Hazte Premium / ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>Vuelvete Premium</h1>
+<div class="container mt-5">
+    <h2 class="text-warning mb-4">Hazte <span class="text-uppercase">Premium</span></h2>
+
+    {% if player.role == 'Premium' %}
+        <div class="alert alert-success">
+            <strong>¡Ya eres usuario Premium!</strong><br>
+            Gracias por apoyar ArenaGG. Disfruta de tus beneficios exclusivos.
+        </div>
+    {% else %}
+        <div class="card bg-dark text-white border-warning mb-4">
+            <div class="card-body">
+                <h4 class="card-title text-warning">Ventajas de ser Premium</h4>
+                <ul class="list-group list-group-flush mt-3 mb-4">
+                    <li class="list-group-item bg-dark text-white border-secondary">✅ Participa en torneos exclusivos</li>
+                    <li class="list-group-item bg-dark text-white border-secondary">✅ Gana más monedas por victoria</li>
+                    <li class="list-group-item bg-dark text-white border-secondary">✅ Avatar personalizado y distintivo</li>
+                    <li class="list-group-item bg-dark text-white border-secondary">✅ Soporte prioritario</li>
+                </ul>
+                <div class="alert alert-info text-center">
+                    Precio: <del>4.99€/mes</del> <strong class="text-success">¡0€ por tiempo limitado!</strong>
+                </div>
+                <div class="d-grid">
+                    <a href="{% url 'web:upgradeToPremiumView' %}" class="btn btn-warning btn-lg fw-bold">
+                        Hazte Premium Gratis Ahora
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="text-center">
+        <a href="{% url 'web:indexView' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+</div>
 {% endblock %}

@@ -68,18 +68,6 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="{{ form.end_date.id_for_label }}" class="form-label text-light">Fecha de Finalización</label>
-                                    {{ form.end_date }}
-                                    {% if form.end_date.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {% for error in form.end_date.errors %}
-                                                {{ error }}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="mb-3">
                                     <label for="{{ form.max_player_per_team.id_for_label }}" class="form-label text-light">Jugadores por Equipo</label>
                                     {{ form.max_player_per_team }}
                                     {% if form.max_player_per_team.errors %}

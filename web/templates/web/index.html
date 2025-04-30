@@ -66,8 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 extendedProps: {
                                     groupDate: date,
                                     link: `/start/tournament/${t.id}`,
-                                    description: t.description,
-                                    endDate: t.end
                                 }
                             });
                         });
@@ -128,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 <li>
                     <strong>${t.title}</strong><br>
                     <small><strong>Inicio:</strong> ${new Date(t.start).toLocaleString()}</small><br>
-                    <small><strong>Fin:</strong> ${new Date(t.end).toLocaleString()}</small><br>
                     <a href="/start/tournament/${t.id}" class="btn btn-sm btn-primary mt-1">Ver más</a>
                 </li><hr>
             `;

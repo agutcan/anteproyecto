@@ -11,17 +11,15 @@ def update_tournament_status():
     now = timezone.now()
     print(f"[DEBUG] Ejecutando task a las: {now}")
 
-    tournaments = Tournament.objects.all()
+    tournaments = Tournament.objects.filter(status__icontains="upcoming")
     for tournament in tournaments:
         print(f"[DEBUG] Torneo: {tournament.name}")
         print(f"  Start: {tournament.start_date}")
-        print(f"  End:   {tournament.end_date}")
         print(f"  Status actual: {tournament.status}")
 
-        if tournament.start_date <= now < tournament.end_date:
+        if tournament.start_date <= now:
             new_status = 'ongoing'
-        elif now >= tournament.end_date:
-            new_status = 'completed'
+            generate_matches_by_mmr(tournament.id)
         else:
             new_status = 'upcoming'
 
@@ -37,7 +35,6 @@ def update_tournament_status():
                 print(f"  Generando partidas para el torneo {tournament.name}...")
                 generate_matches_by_mmr(tournament.id)  # Llamada a la tarea de generar partidas
                 print(f"  ✅ Partidas generadas.")
-
 
         else:
             print(f"  ⏩ Estado ya era correcto. No se guarda.")
