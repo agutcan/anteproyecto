@@ -1,4 +1,3 @@
-# Readme Inicial
 ---
 # 🎮 Título del proyecto
 
@@ -30,6 +29,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📅 Mostrar calendarios y resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
+- Sistema de recompensas.
 
 ## 🛠️ Medios hardware y software a utilizar
 
@@ -86,7 +86,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 📐 Crear diagramas de flujo y esquemas de base de datos.
 - 🔑 Implementar la autenticación de usuarios.
 - 🐳 Dockerizar la aplicación para facilitar el despliegue
-- 📅 Mostrar calendarios
+- 📅 Mostrar calendarios y estadísticas con apis.
 - 🔐 Registrar usuarios y crear perfiles personalizados.
 - 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados. (Creado localmente es decir con mailpit, para despliegue tendría que cambiarlo)
@@ -101,6 +101,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔗 Integrar las vistas con el backend.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
+- Sistema de recompensas.
 
 
 
@@ -128,4 +129,5 @@ Una vez puesta en marcha, la plataforma permitirá:
 
 ## Bibliografía (“Si es posible con enlace a la fuente”)
 
+# Documentación
 
