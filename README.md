@@ -129,9 +129,10 @@ Una vez puesta en marcha, la plataforma permitirá:
 
 ## Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
-- He decidido añadir tareas automatizadas para modificar el estado de cada torneo (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo. (Con redis, celery y celery-beat)
 
 ## Posibles mejoras al proyecto (“Posibles mejoras futuras”)
+
+- He decidido añadir tareas automatizadas para modificar el estado de cada torneo (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo. (Con redis, celery y celery-beat)
 
 ## Bibliografía (“Si es posible con enlace a la fuente”)
 
