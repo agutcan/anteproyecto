@@ -45,6 +45,7 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = "administracion@arenagg.com"
+SUPPORT_EMAIL = "soporte@arenagg.com"
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 

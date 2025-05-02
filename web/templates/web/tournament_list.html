@@ -31,11 +31,11 @@
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <input type="text" class="form-control bg-darker border-secondary text-light"
+                        <input type="text" class="form-control bg-darker border-secondary "
                                placeholder="Buscar torneos..." name="search">
                     </div>
                     <div class="col-md-3">
-                        <select class="form-select bg-darker border-secondary text-light" name="game">
+                        <select class="form-select bg-darker border-secondary" name="game">
                             <option value="">Todos los juegos</option>
                             {% for game in games %}
                                 <option value="{{ game.id }}" {% if request.GET.game == game.id|stringformat:"s" %}selected{% endif %}>
@@ -45,7 +45,7 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-select bg-darker border-secondary text-light" name="status">
+                        <select class="form-select bg-darker border-secondary " name="status">
                             <option value="">Todos los estados</option>
                             <option value="upcoming">Inscripciones abiertas</option>
                             <option value="ongoing">En progreso</option>

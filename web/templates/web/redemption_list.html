@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis Recompensas | ArenaGG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Sección de introducción -->
+    <div class="mb-5">
+        <h1 class="text-warning"><i class="bi bi-trophy-fill me-2"></i> Mis Recompensas Canjeadas</h1>
+        <p class="text-white fs-5">
+            En esta sección podrás ver todas las recompensas que has canjeado utilizando tus monedas acumuladas en ArenaGG.
+            ¡Continúa participando en torneos y completando desafíos para obtener más recompensas exclusivas!
+        </p>
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <i class="bi bi-info-circle-fill me-2 fs-4"></i>
+            <div>
+                Recuerda que las recompensas pueden ser tanto digitales como físicas. Si tienes alguna pregunta o necesitas
+                ayuda, no dudes en <a href="{% url 'web:supportView' %}" class="text-info">contactar con soporte</a>.
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de recompensas canjeadas -->
+    {% if redemption_list %}
+        <div class="row">
+            {% for redemption in redemption_list %}
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-dark text-white border-warning shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">{{ redemption.reward.name }}</h5>
+                            <p class="card-text">{{ redemption.reward.description }}</p>
+
+                            {% if redemption.reward.image %}
+                                <img src="{{ redemption.reward.image.url }}" class="img-fluid mb-3" alt="{{ redemption.reward.name }}">
+                            {% else %}
+                                <p class="text-muted">Sin imagen disponible</p>
+                            {% endif %}
+
+                            <p class="text-warning">
+                                <strong>Precio:</strong> {{ redemption.reward.coins_cost }} <i class="bi bi-trophy-fill"></i>
+                            </p>
+
+                            <p class="text-secondary">Canjeado el {{ redemption.redeemed_at|date:"d M Y, H:i" }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            No has canjeado ninguna recompensa aún.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

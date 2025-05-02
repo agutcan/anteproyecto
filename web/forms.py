@@ -1,7 +1,9 @@
 from datetime import timedelta
 
 from django.contrib.auth.forms import UserCreationForm
+from django.core.validators import validate_email
 from django import forms
+
 from web.models import *
 
 
@@ -111,3 +113,42 @@ class MatchResultForm(forms.Form):
     team1_score = forms.IntegerField(min_value=0, label="Puntaje de {{ match.team1.name }}")
     team2_score = forms.IntegerField(min_value=0, label="Puntaje de {{ match.team2.name }}")
     winner = forms.ModelChoiceField(queryset=Team.objects.all(), label="Selecciona al ganador", empty_label="Selecciona un equipo")
+
+
+class SupportForm(forms.Form):
+    email = forms.EmailField(
+        label="Tu correo electrónico",
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'ejemplo@correo.com'
+        }),
+        error_messages={
+            'invalid': 'Ingresa un correo electrónico válido'
+        }
+    )
+
+    subject = forms.CharField(
+        label="Asunto",
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ej: Problema con torneo...'
+        })
+    )
+
+    message = forms.CharField(
+        label="Mensaje",
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 5,
+            'placeholder': 'Describe tu problema o consulta en detalle...'
+        })
+    )
+
+    attach_file = forms.FileField(
+        label="Adjuntar archivo (opcional)",
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'form-control'
+        })
+    )

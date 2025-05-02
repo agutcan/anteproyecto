@@ -1,5 +1,128 @@
 {% extends 'base.html' %}
-{% block title %}Terms of use / ArenaGG{% endblock %}
+
+{% block title %}Términos de Uso | ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>Terminos de uso</h1>
+<div class="container py-5">
+    <!-- Encabezado -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-10">
+            <h1 class="display-4 fw-bold text-warning">Términos de Uso</h1>
+            <div class="d-flex flex-wrap gap-3">
+                <span class="badge bg-secondary">Condiciones Legales</span>
+                <span class="badge bg-success">Actualizado: {% now "M Y" %}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="row">
+        <!-- Columna izquierda -->
+        <div class="col-lg-4 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-person-lines-fill"></i> Aceptación del Servicio</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-white small mb-2">
+                        Al registrarte en ArenaGG, aceptas cumplir con estos términos y condiciones. Si no estás de acuerdo, no debes usar la plataforma.
+                    </p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <i class="bi bi-check-circle text-warning me-2"></i>
+                            Ser mayor de edad o tener permiso de un tutor legal.
+                        </li>
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <i class="bi bi-check-circle text-warning me-2"></i>
+                            No usar ArenaGG con fines ilegales o fraudulentos.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna central -->
+        <div class="col-lg-5 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-shield-exclamation"></i> Conducta del Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-ban text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Prohibiciones</h4>
+                                    <p class="mb-0 small">No se permite el uso de trampas, lenguaje ofensivo ni conductas abusivas en la plataforma.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-chat-square-quote text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Respeto</h4>
+                                    <p class="mb-0 small">Se espera un comportamiento respetuoso hacia otros usuarios, administradores y equipos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-flag text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Reportes</h4>
+                                    <p class="mb-0 small">Puedes denunciar comportamientos indebidos a través de nuestros formularios de contacto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-lg-3 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-journal-check"></i> Legal</h3>
+                </div>
+                <div class="card-body">
+                    <p class="small text-white">Nos reservamos el derecho de modificar los términos en cualquier momento. Las modificaciones serán notificadas mediante la plataforma.</p>
+                    <hr class="border-secondary">
+                    <h6 class="text-warning">Suspensión y Cancelación</h6>
+                    <p class="small text-white mb-2">Podemos suspender o eliminar cuentas por incumplimiento de estos términos.</p>
+                    <h6 class="text-warning">Jurisdicción</h6>
+                    <p class="small text-white mb-0">Cualquier disputa legal será resuelta según las leyes de España o el país donde opere ArenaGG.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón contacto -->
+    <div class="text-center py-4 mt-3">
+        <a href="{% url 'web:supportView' %}" class="btn btn-warning btn-lg px-5 fw-bold">
+            <i class="bi bi-envelope-fill me-2"></i> Consultas Legales
+        </a>
+    </div>
+</div>
+
+<style>
+    .list-group-item {
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+</style>
 {% endblock %}

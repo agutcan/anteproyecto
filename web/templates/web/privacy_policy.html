@@ -1,7 +1,161 @@
-{% extends 'base_auth.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Privacy Policy / ArenaGG{% endblock %}
+{% block title %}Política de Privacidad | ArenaGG{% endblock %}
 
 {% block content %}
- <h1>Privacy policy</h1>
+<div class="container py-5">
+    <!-- Encabezado -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-10">
+            <h1 class="display-4 fw-bold text-warning">Políticas de Privacidad</h1>
+            <div class="d-flex flex-wrap gap-3">
+                <span class="badge bg-primary">Protección de Datos</span>
+                <span class="badge bg-success">Actualizado: {% now "M Y" %}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="row">
+        <!-- Columna izquierda -->
+        <div class="col-lg-4 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-database"></i> Datos que Recopilamos</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <i class="bi bi-person-vcard text-warning me-2"></i>
+                            Información de cuenta: nombre de usuario, correo electrónico, contraseña cifrada.
+                        </li>
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <i class="bi bi-controller text-warning me-2"></i>
+                            Actividad de juego: partidas, estadísticas, equipos, torneos.
+                        </li>
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <i class="bi bi-laptop text-warning me-2"></i>
+                            Información técnica: IP, navegador, cookies, sistema operativo.
+                        </li>
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <i class="bi bi-calendar-event text-warning me-2"></i>
+                            Información opcional de perfil: país, fecha de nacimiento, avatar, biografía.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna central -->
+        <div class="col-lg-5 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-gear"></i> Uso de Datos</h3>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-trophy-fill text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Organización de Torneos</h4>
+                                    <p class="mb-0 small">Utilizamos tus datos para emparejar jugadores y estructurar competiciones.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-graph-up-arrow text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Análisis y Mejora</h4>
+                                    <p class="mb-0 small">Estudiamos el uso de la plataforma para mejorar el rendimiento y la experiencia.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-envelope-paper text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Comunicaciones</h4>
+                                    <p class="mb-0 small">Podemos enviarte notificaciones relevantes sobre torneos, premios y novedades.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-dark text-white border-secondary">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-shield-check text-warning fs-4 me-3"></i>
+                                <div>
+                                    <h4 class="h6 mb-1 text-warning">Cumplimiento Legal</h4>
+                                    <p class="mb-0 small">Guardamos algunos datos según las leyes de protección de datos aplicables.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-lg-3 mb-4">
+            <div class="card bg-dark border-warning shadow-lg h-100">
+                <div class="card-header bg-black text-warning">
+                    <h3 class="h5 mb-0"><i class="bi bi-shield-lock"></i> Seguridad</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="badge bg-success">
+                            <i class="fas fa-lock me-1"></i> Encriptación
+                        </span>
+                        <span class="badge bg-info text-dark">
+                            <i class="fas fa-firewall me-1"></i> Firewalls
+                        </span>
+                        <span class="badge bg-warning text-dark">
+                            <i class="fas fa-shield-alt me-1"></i> Protección
+                        </span>
+                    </div>
+                    <p class="small text-white">Aplicamos buenas prácticas de seguridad informática para proteger tus datos. Sin embargo, ningún sistema es infalible.</p>
+                    <hr class="border-secondary">
+                    <h6 class="text-warning">Tus derechos</h6>
+                    <p class="small text-white mb-0">Puedes acceder, modificar o eliminar tu información desde tu perfil o escribiéndonos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Botón contacto -->
+    <div class="text-center py-4 mt-3">
+        <a href="{% url 'web:supportView' %}" class="btn btn-warning btn-lg px-5 fw-bold">
+            <i class="bi bi-envelope-fill me-2"></i> Consultas Legales
+        </a>
+    </div>
+</div>
+
+<style>
+    .privacy-icon-container {
+        background: rgba(255, 193, 7, 0.1);
+        border: 2px solid #ffc107;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .list-group-item {
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+</style>
 {% endblock %}

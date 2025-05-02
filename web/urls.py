@@ -15,7 +15,6 @@ urlpatterns = [
     # Ruta para la vista principal del índice
     path('', views.PublicIndexView.as_view(), name='publicIndex'),  # Cambia esto por las vistas que tengas
     path('start/', views.IndexView.as_view(), name='indexView'),  # Cambia esto por las vistas que tengas
-    path('start/player/<int:pk>', views.PlayerDetailView.as_view(), name='playerDetailView'),  # Vista de lista de jugadores
     path('start/premium/', views.PremiumView.as_view(), name='premiumView'),  # Vista de lista de jugadores
     path('start/premium/upgrade/', views.UpgradeToPremiumView.as_view(), name='upgradeToPremiumView'),
     path('start/support/', views.SupportView.as_view(), name='supportView'),  # Vista de lista de jugadores
@@ -36,6 +35,8 @@ urlpatterns = [
     path('privacy_policy/', views.PrivacyPolicyView.as_view(), name='privacyPolicyView'),  # Vista para mostrar un ranking de jugadores
     path('temrs_of_use/', views.TermsOfUseView.as_view(), name='termsOfUseView'),  # Vista para mostrar un ranking de jugadores
     path('start/rewards/', views.RewardListView.as_view(), name='rewardListView'),  # Vista para mostrar las recompensas
+    path('start/rewards/<int:pk>/redeem/', views.RewardRedemptionView.as_view(), name='redeemRewardView'),
+    path('start/<int:pk>/redemptions/', views.RedemptionListView.as_view(), name='redemptionListView'),
     path('start/how_it_works/', views.HowItWorkView.as_view(), name='howItWorkView'),  # Vista para mostrar las recompensas
     path('start/game/<int:pk>', views.GameDetailView.as_view(), name='gameDetailView'),  # Vista de lista de juegos con sus torneos
     path('accounts/register/', views.RegisterView.as_view(), name='register'),  # Vista para registro de usuarios

@@ -15,7 +15,7 @@
             <div class="mb-2 form-check">
                 <input type="checkbox" class="form-check-input border-danger" id="{{ field.id_for_label }}" name="{{ field.name }}" {% if field.value %}checked{% endif %} {% if field.field.required %}required{% endif %}>
                 <label for="{{ field.id_for_label }}" class="form-check-label text-light fs-5 fw-semibold">
-                    Acepto las <a href="{% url 'web:privacyPolicyView' %}" class="text-danger" target="_blank">Políticas de Privacidad</a>
+                    Acepto las <a href="{% url 'web:privacyPolicyView' %}" class="text-danger" target="_blank">Políticas de Privacidad</a> y los <a href="{% url 'web:termsOfUseView' %}" class="text-danger" target="_blank">Términos de uso</a>
                 </label>
 
                 {% if field.errors %}

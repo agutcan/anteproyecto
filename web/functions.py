@@ -3,11 +3,12 @@ from django.utils import timezone
 from .models import *
 from itertools import zip_longest
 
-def generate_matches_by_mmr(tournament_id):
+def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     tournament = Tournament.objects.get(id=tournament_id)
 
     # Verificar el número de equipos en el torneo
-    tournament_teams = TournamentTeam.objects.filter(tournament=tournament).select_related('team')
+    if not tournament_teams:
+        tournament_teams = TournamentTeam.objects.filter(tournament=tournament).select_related('team')
     num_teams = tournament_teams.count()
 
     # Si el número de equipos es impar o 0, eliminamos el torneo y notificamos a los jugadores
@@ -46,7 +47,7 @@ def generate_matches_by_mmr(tournament_id):
             team2 = pair[1][0]
             Match.objects.create(
                 tournament=tournament,
-                round=1,
+                round=round,
                 scheduled_at=timezone.now() + timezone.timedelta(minutes=5),
                 team1=team1.team,
                 team2=team2.team,
@@ -69,3 +70,25 @@ def record_match_result(match, winner, team1_score, team2_score):
     match.save()
 
     print(f"Resultado registrado para el partido {match}: {team1_score}-{team2_score}")
+
+def create_match_log(match, event, team=None, player=None):
+    """
+    Crea un registro (log) de evento en una partida.
+
+    Args:
+        match (Match): Instancia del partido.
+        event (str): Descripción del evento.
+        team (Team, optional): Instancia del equipo relacionado al evento.
+        player (Player, optional): Instancia del jugador relacionado al evento.
+
+    Returns:
+        MatchLog: El registro creado.
+    """
+    log = MatchLog.objects.create(
+        match=match,
+        event=event,
+        team=team,
+        player=player
+    )
+    print(f"Log creado para el partido {match}: {event}")
+    return log

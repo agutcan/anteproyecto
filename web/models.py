@@ -174,6 +174,8 @@ class Match(models.Model):
         choices=[('pending', 'Pending'), ('ongoing', 'Ongoing'), ('completed', 'Completed')],
         default='pending'
     )
+    team1_ready = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para comenzar)
+    team2_ready = models.BooleanField(default=False)  # Confirmación del equipo 2 (Para comenzar)
     team1_confirmed = models.BooleanField(default=False)  # Confirmación del equipo 1 (Para finalizar)
     team2_confirmed = models.BooleanField(default=False)  # Confirmación del equipo 2 (Para finalizar)
     team1_winner = models.BooleanField(default=False)  # Equipo 1 marca si es ganador

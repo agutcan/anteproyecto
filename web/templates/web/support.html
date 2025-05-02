@@ -1,5 +1,90 @@
 {% extends 'base.html' %}
-{% block title %}Support / ArenaGG{% endblock %}
+{% block title %}Contactar Soporte | ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>Contacto</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Introducción -->
+            <div class="mb-4 text-center text-white">
+                <h1 class="display-5 fw-bold text-warning"><i class="bi bi-life-preserver me-2"></i>¿Necesitas ayuda?</h1>
+                <p class="lead">Nuestro equipo de soporte está aquí para ayudarte. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.</p>
+                <p class="text-secondary small">
+                    ¿Tienes problemas con un torneo, errores en la plataforma o dudas generales? Escríbenos. Intentaremos responderte dentro de las próximas 24 horas hábiles.
+                </p>
+            </div>
+
+            <div class="card bg-dark border-warning shadow-lg">
+                <div class="card-header bg-black text-warning border-warning">
+                    <h2 class="h4 mb-0"><i class="bi bi-headset me-2"></i> Contactar Soporte</h2>
+                </div>
+
+                <div class="card-body">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error:</strong> Por favor corrige los errores debajo.
+                        </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label text-white">
+                                {{ form.email.label }}
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label text-white">
+                                {{ form.subject.label }}
+                            </label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="text-danger small mt-1">{{ form.subject.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.message.id_for_label }}" class="form-label text-white">
+                                {{ form.message.label }}
+                            </label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                                <div class="text-danger small mt-1">{{ form.message.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.attach_file.id_for_label }}" class="form-label text-white">
+                                {{ form.attach_file.label }}
+                            </label>
+                            {{ form.attach_file }}
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold">
+                            <i class="bi bi-send-fill me-2"></i> Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}

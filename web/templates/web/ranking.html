@@ -1,12 +1,85 @@
 {% extends 'base.html' %}
-{% block title %}Ranking / ArenaGG{% endblock %}
+
+{% block title %}Ranking | ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>Ranking</h1>
+<div class="container py-4">
+    <!-- Encabezado -->
+    <div class="d-flex align-items-center mb-4">
+        <div class="me-3">
+            <i class="bi bi-trophy-fill text-warning" style="font-size: 2.5rem;"></i>
+        </div>
+        <div>
+            <h1 class="text-warning mb-1">Ranking de Jugadores</h1>
+            <p class="text-white-50 mb-0">
+                Los mejores jugadores de ArenaGG ordenados por MMR
+            </p>
+        </div>
+    </div>
+
+    <!-- Lista de jugadores -->
     {% if ranking_list %}
-        <ol>
+        <div class="list-group">
             {% for p in ranking_list %}
-                <li><img src="{{ p.avatar.url }}" class="player-image" alt="{{ p.user }}" style="height: 32px; width: 32px "> <a href="{% url 'web:playerDetailView' p.id %}">{{ p.user }}</a> - {{ p.mmr }}</li>
+            <div class="list-group-item bg-dark text-white border-warning mb-2 rounded">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <!-- Posición -->
+                        <div class="me-3 text-center" style="width: 40px;">
+                            <span class="fw-bold {% if forloop.counter <= 3 %}text-warning{% else %}text-white-50{% endif %}"
+                                  style="font-size: 1.1rem;">
+                                {{ forloop.counter }}
+                            </span>
+                        </div>
+
+                        <!-- Avatar -->
+                        {% if p.avatar %}
+                            <img src="{{ p.avatar.url }}" class="rounded-circle me-3"
+                                 alt="{{ p.user }}" width="50" height="50">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center me-3"
+                                 style="width: 50px; height: 50px;">
+                                <i class="bi bi-person-fill text-dark" style="font-size: 1.5rem;"></i>
+                            </div>
+                        {% endif %}
+
+                        <!-- Nombre y MMR -->
+                        <div>
+                            <h5 class="mb-0">{{ p.user }}</h5>
+                            <small class="text-warning">
+                                <i class="bi bi-star-fill"></i> {{ p.mmr }} MMR
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Renombre/Reputación -->
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-award-fill text-info me-1"></i>
+                        <span class="text-info fw-bold">
+                            {{ p.renombre|default:"0" }} RP
+                        </span>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
-        </ol>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-emoji-frown text-warning" style="font-size: 3rem;"></i>
+            <h4 class="text-warning mt-3 mb-2">¡No hay jugadores aún!</h4>
+            <p class="text-white-50">Participa en partidas para aparecer en el ranking</p>
+        </div>
     {% endif %}
+</div>
+
+<style>
+    .list-group-item {
+        transition: transform 0.2s ease;
+    }
+
+    .list-group-item:hover {
+        transform: translateX(5px);
+        background-color: rgba(255, 193, 7, 0.05) !important;
+    }
+</style>
 {% endblock %}

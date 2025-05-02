@@ -18,7 +18,7 @@
                 <span class="badge bg-{% if tournament.status == 'open' %}success{% elif tournament.status == 'ongoing' %}warning text-dark{% else %}secondary{% endif %}">
                     {{ tournament.get_status_display }}
                 </span>
-                <span class="badge bg-dark"><i class="bi bi-trophy-fill text-warning"></i> ${{ tournament.prize_pool }}</span>
+                <span class="badge bg-dark"><i class="bi bi-trophy-fill text-warning"></i>{{ tournament.prize_pool }}</span>
             </div>
         </div>
     </div>
@@ -43,12 +43,8 @@
                             <span class="text-white">{{ tournament.start_date|localtime|date:"d M Y H:i" }}</span>
                         </li>
                         <li class="mb-3">
-                            <strong class="d-block text-light">Fecha de finalización</strong>
-                            <span class="text-white">{{ tournament.end_date|date:"d M Y H:i" }}</span>
-                        </li>
-                        <li class="mb-3">
                             <strong class="d-block text-light">Premio total</strong>
-                            <span class="text-warning fw-bold">${{ tournament.prize_pool }}</span>
+                            <span class="text-warning fw-bold">{{ tournament.prize_pool }}</span>
                         </li>
                     </ul>
                 </div>

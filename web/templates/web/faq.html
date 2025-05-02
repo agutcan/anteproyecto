@@ -1,5 +1,394 @@
 {% extends 'base.html' %}
-{% block title %}FAQ / ArenaGG{% endblock %}
+{% block title %}Preguntas Frecuentes | ArenaGG{% endblock %}
+
 {% block content %}
-    <h1>FAQ</h1>
+<style>
+    .faq-section {
+        padding: 80px 0;
+    }
+
+    .accordion-item {
+        background-color: rgba(30, 41, 59, 0.7);
+        border: 1px solid #ffc107;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .accordion-button {
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
+        font-weight: 500;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: #ffc107;
+    }
+
+    .category-title {
+        position: relative;
+        margin: 40px 0 25px;
+        padding-bottom: 10px;
+        color: #ffc107;
+    }
+
+    .category-title:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 2px;
+        background: #ffc107;
+        bottom: 0;
+        left: 0;
+    }
+
+</style>
+
+<div class="faq-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold text-warning mb-4">Preguntas Frecuentes</h1>
+                <p class="lead text-white">Encuentra respuestas a las preguntas más comunes sobre ArenaGG</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- Torneos -->
+                <h3 class="category-title">
+                    <i class="bi bi-trophy me-2"></i> Torneos
+                </h3>
+
+                <div class="accordion" id="torneosAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo1">
+                                ¿Cómo me registro para un torneo?
+                            </button>
+                        </h3>
+                        <div id="torneo1" class="accordion-collapse collapse" data-bs-parent="#torneosAccordion">
+                            <div class="accordion-body">
+                                <p>Para registrarte en un torneo:</p>
+                                <ol>
+                                    <li>Inicia sesión en tu cuenta ArenaGG</li>
+                                    <li>Navega a la página del torneo que te interesa</li>
+                                    <li>Haz clic en "Inscribirse"</li>
+                                    <li>Crea o únete a un equipo</li>
+                                    <li>Espera a que comience el torneo</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo2">
+                                ¿Qué pasa si mi equipo no se presenta a un partido?
+                            </button>
+                        </h3>
+                        <div id="torneo2" class="accordion-collapse collapse" data-bs-parent="#torneosAccordion">
+                            <div class="accordion-body">
+                                <p>Si tu equipo no se presenta a un partido programado:</p>
+                                <ul>
+                                    <li>Recibirás una derrota automática</li>
+                                    <li>Podrías recibir una penalización temporal (30 min - 24h) para unirte a nuevos torneos</li>
+                                    <li>En casos repetidos, tu cuenta podría ser suspendida</li>
+                                </ul>
+                                <p class="text-warning mt-2"><i class="bi bi-exclamation-triangle"></i> Siempre puedes notificar con anticipación si tienes un problema.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo3">
+                                ¿Cómo funcionan los brackets de torneos?
+                            </button>
+                        </h3>
+                        <div id="torneo3" class="accordion-collapse collapse" data-bs-parent="#torneosAccordion">
+                            <div class="accordion-body">
+                                <p>Nuestros brackets funcionan de la siguiente manera:</p>
+                                <ul>
+                                    <li><strong>Eliminatoria simple:</strong> Pierdes y quedas fuera del torneo</li>
+                                    <li><strong>Doble eliminación:</strong> Tienes una segunda oportunidad después de perder</li>
+                                    <li><strong>Round Robin:</strong> Todos juegan contra todos antes de la fase final</li>
+                                </ul>
+                                <p>Cada torneo especifica qué tipo de bracket utiliza en su descripción.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premios y Pagos -->
+                <h3 class="category-title mt-5">
+                    <i class="bi bi-cash-coin me-2"></i> Premios y Pagos
+                </h3>
+
+                <div class="accordion" id="premiosAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio1">
+                                ¿Cómo recibo mis premios?
+                            </button>
+                        </h3>
+                        <div id="premio1" class="accordion-collapse collapse" data-bs-parent="#premiosAccordion">
+                            <div class="accordion-body">
+                                <p>Los premios se distribuyen de diferentes formas según el torneo:</p>
+                                <ul>
+                                    <li><strong>Puntos Arena:</strong> Se acreditan automáticamente a tu cuenta</li>
+                                    <li><strong>Premios en efectivo:</strong> Requieren verificación y transferencia (proceso de 3-5 días hábiles)</li>
+                                    <li><strong>Skins/ítems:</strong> Se coordina la entrega con los organizadores (generalmente dentro de 72 horas)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio2">
+                                ¿Hay algún requisito para retirar dinero?
+                            </button>
+                        </h3>
+                        <div id="premio2" class="accordion-collapse collapse" data-bs-parent="#premiosAccordion">
+                            <div class="accordion-body">
+                                <p>Sí, para retirar premios en efectivo necesitas:</p>
+                                <ol>
+                                    <li>Haber verificado tu cuenta con documento de identidad</li>
+                                    <li>Tener al menos $10 USD acumulados</li>
+                                    <li>Haber jugado al menos 3 torneos en los últimos 30 días</li>
+                                    <li>No tener sanciones activas en tu cuenta</li>
+                                </ol>
+                                <p>Los retiros se procesan los días martes y viernes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio3">
+                                ¿Qué son los Puntos Arena y para qué sirven?
+                            </button>
+                        </h3>
+                        <div id="premio3" class="accordion-collapse collapse" data-bs-parent="#premiosAccordion">
+                            <div class="accordion-body">
+                                <p>Los Puntos Arena (PA) son nuestra moneda virtual:</p>
+                                <ul>
+                                    <li>1 PA ≈ $0.10 USD en valor</li>
+                                    <li>Puedes usarlos para:
+                                        <ul>
+                                            <li>Inscribirte a torneos premium</li>
+                                            <li>Comprar artículos en nuestra tienda</li>
+                                            <li>Mejorar tu cuenta a VIP</li>
+                                            <li>Canjear por efectivo (con una comisión del 10%)</li>
+                                        </ul>
+                                    </li>
+                                    <li>No expiran y son transferibles entre cuentas verificadas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cuenta y Perfil -->
+                <h3 class="category-title mt-5">
+                    <i class="bi bi-person-circle me-2"></i> Cuenta y Perfil
+                </h3>
+
+                <div class="accordion" id="cuentaAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cuenta1">
+                                ¿Cómo cambio mi nombre de usuario?
+                            </button>
+                        </h3>
+                        <div id="cuenta1" class="accordion-collapse collapse" data-bs-parent="#cuentaAccordion">
+                            <div class="accordion-body">
+                                <p>Para cambiar tu nombre de usuario:</p>
+                                <ol>
+                                    <li>Ve a "Configuración de cuenta" en tu perfil</li>
+                                    <li>Haz clic en "Editar perfil"</li>
+                                    <li>Cambia tu nombre de usuario</li>
+                                    <li>Guarda los cambios</li>
+                                </ol>
+                                <p class="text-warning"><i class="bi bi-exclamation-triangle"></i> Solo puedes cambiar tu nombre 1 vez cada 30 días.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cuenta2">
+                                ¿Cómo verifico mi cuenta?
+                            </button>
+                        </h3>
+                        <div id="cuenta2" class="accordion-collapse collapse" data-bs-parent="#cuentaAccordion">
+                            <div class="accordion-body">
+                                <p>La verificación de cuenta es necesaria para:</p>
+                                <ul>
+                                    <li>Retirar premios en efectivo</li>
+                                    <li>Participar en torneos con premios mayores a $100 USD</li>
+                                    <li>Crear torneos oficiales</li>
+                                </ul>
+                                <p>Para verificarte:</p>
+                                <ol>
+                                    <li>Sube una foto de tu documento de identidad</li>
+                                    <li>Proporciona un selfie sosteniendo el documento</li>
+                                    <li>Verifica tu correo electrónico y número de teléfono</li>
+                                </ol>
+                                <p>El proceso toma de 1 a 3 días hábiles.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Organización de Torneos -->
+                <h3 class="category-title mt-5">
+                    <i class="bi bi-megaphone me-2"></i> Organización de Torneos
+                </h3>
+
+                <div class="accordion" id="organizacionAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org1">
+                                ¿Puedo organizar mi propio torneo?
+                            </button>
+                        </h3>
+                        <div id="org1" class="accordion-collapse collapse" data-bs-parent="#organizacionAccordion">
+                            <div class="accordion-body">
+                                <p>¡Sí! Pero solo los usuarios VIP pueden crear torneos en ArenaGG:</p>
+                                <ol>
+                                    <li>Ve a "Crear torneo" en tu panel de control</li>
+                                    <li>Completa los detalles del torneo</li>
+                                    <li>Configura las reglas y formato</li>
+                                    <li>Establece los premios (opcional)</li>
+                                    <li>Publica el torneo</li>
+                                </ol>
+                                <p class="text-warning"><i class="bi bi-exclamation-triangle"></i> Para torneos con premios en efectivo, se requiere verificación adicional.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org2">
+                                ¿Qué comisión cobra ArenaGG por organizar torneos?
+                            </button>
+                        </h3>
+                        <div id="org2" class="accordion-collapse collapse" data-bs-parent="#organizacionAccordion">
+                            <div class="accordion-body">
+                                <p>Nuestra estructura de comisiones es:</p>
+                                <ul>
+                                    <li><strong>Torneos gratuitos:</strong> 0% comisión</li>
+                                    <li><strong>Torneos con entrada &lt;$10 USD:</strong> 10% comisión</li>
+                                    <li><strong>Torneos con entrada ≥$10 USD:</strong> 7% comisión</li>
+                                    <li><strong>Torneos patrocinados:</strong> Comisión negociable</li>
+                                </ul>
+                                <p>Las comisiones se deducen automáticamente del pool de premios.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org3">
+                                ¿Cómo promociono mi torneo?
+                            </button>
+                        </h3>
+                        <div id="org3" class="accordion-collapse collapse" data-bs-parent="#organizacionAccordion">
+                            <div class="accordion-body">
+                                <p>Puedes promocionar tu torneo de varias formas:</p>
+                                <ul>
+                                    <li><strong>Destacado en la página principal:</strong> (Costo adicional)</li>
+                                    <li><strong>Notificaciones push:</strong> Para usuarios interesados en tu juego</li>
+                                    <li><strong>Compartir en redes sociales:</strong> Genera un enlace especial con tu código de afiliado</li>
+                                    <li><strong>Promoción cruzada:</strong> Ofrece descuentos o bonificaciones por participación temprana</li>
+                                </ul>
+                                <p>Los torneos con al menos 10 participantes confirmados aparecen automáticamente en nuestro feed principal.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soporte Técnico -->
+                <h3 class="category-title mt-5">
+                    <i class="bi bi-headset me-2"></i> Soporte Técnico
+                </h3>
+
+                <div class="accordion" id="soporteAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soporte1">
+                                ¿Qué hago si encuentro un error o bug?
+                            </button>
+                        </h3>
+                        <div id="soporte1" class="accordion-collapse collapse" data-bs-parent="#soporteAccordion">
+                            <div class="accordion-body">
+                                <p>Si encuentras un error:</p>
+                                <ol>
+                                    <li>Revisa si ya ha sido reportado en nuestro <a href="#" class="text-warning">centro de estado</a></li>
+                                    <li>Toma capturas de pantalla o graba un video del problema</li>
+                                    <li>Envía un reporte detallado a soporte@arenagg.com incluyendo:
+                                        <ul>
+                                            <li>Tus datos de cuenta</li>
+                                            <li>Pasos para reproducir el error</li>
+                                            <li>Hora y fecha del incidente</li>
+                                            <li>Tus archivos de evidencia</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                                <p>Normalmente respondemos en menos de 24 horas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soporte2">
+                                ¿Cómo contacto al soporte directamente?
+                            </button>
+                        </h3>
+                        <div id="soporte2" class="accordion-collapse collapse" data-bs-parent="#soporteAccordion">
+                            <div class="accordion-body">
+                                <p>Puedes contactar a nuestro soporte técnico:</p>
+                                <ul>
+                                    <li><strong>Correo electrónico:</strong> soporte@arenagg.com</li>
+                                    <li><strong>Chat en vivo:</strong> Disponible 24/7 en nuestra app móvil</li>
+                                    <li><strong>Redes sociales:</strong> Twitter @ArenaGGSoporte</li>
+                                    <li><strong>Formulario web:</strong> <a href="/contacto" class="text-warning">arena.gg/contacto</a></li>
+                                </ul>
+                                <p>Nuestros tiempos de respuesta promedio son:</p>
+                                <ul>
+                                    <li>Chat en vivo: Inmediato</li>
+                                    <li>Correo electrónico: 6-12 horas</li>
+                                    <li>Redes sociales: 12-24 horas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contacto adicional -->
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto text-center py-4 bg-dark rounded-3 border border-warning">
+                <h3 class="text-warning mb-4">¿No encontraste lo que buscabas?</h3>
+                <p class="text-white mb-4">Nuestro equipo de soporte está listo para ayudarte con cualquier pregunta.</p>
+                <a href="{% url 'web:contactFormView' %}" class="btn btn-warning btn-lg px-5 me-3">
+                    <i class="bi bi-envelope-fill me-2"></i> Contactar Soporte
+                </a>
+                <a href="{% url 'web:howItWorkView' %}" class="btn btn-outline-light btn-lg px-5">
+                    <i class="bi bi-play-circle me-2"></i> Ver Tutorial
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

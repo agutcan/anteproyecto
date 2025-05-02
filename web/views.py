@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,6 +37,11 @@ class PlayerStatsListAPI(generics.ListAPIView):
 class PublicIndexView(TemplateView):
     template_name = 'web/public_index.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('web:indexView')
+        return super().dispatch(request, *args, **kwargs)
+
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'web/index.html'
 
@@ -59,14 +64,8 @@ class RankingView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ranking_list'] = Player.objects.order_by('-mmr')
+        context['ranking_list'] = Player.objects.order_by('-mmr').select_related('user')
         return context
-
-
-class PlayerDetailView(LoginRequiredMixin, DetailView):
-    model = Player
-    template_name = 'web/player_detail.html'
-    context_object_name = 'player'
 
 
 class TournamentListView(LoginRequiredMixin, ListView):
@@ -221,9 +220,6 @@ class UpgradeToPremiumView(LoginRequiredMixin, View):
 
 class HowItWorkView(LoginRequiredMixin, TemplateView):
     template_name = 'web/how_it_work.html'
-
-class SupportView(LoginRequiredMixin, TemplateView):
-    template_name = 'web/support.html'
 
 class GameDetailView(LoginRequiredMixin, DetailView):
     model = Game
@@ -435,3 +431,96 @@ class MatchConfirmView(LoginRequiredMixin, TemplateView):
             'match': self.match,
         }
         return context
+
+
+class SupportView(LoginRequiredMixin, FormView):
+    template_name = 'web/support.html'
+    form_class = SupportForm
+    success_url = reverse_lazy('web:supportView')
+
+    def form_valid(self, form):
+        # Procesar los datos del formulario
+        user_email = form.cleaned_data['email']
+        subject = form.cleaned_data['subject']
+        message_content = form.cleaned_data['message']
+        username = self.request.user.username
+
+        # Construir el mensaje
+        message = f"""
+        Mensaje de contacto de ArenaGG:
+
+        Usuario: {username}
+        Email: {user_email}
+        Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+        Asunto: {subject}
+
+        Mensaje:
+        {message_content}
+        """
+
+        # Enviar el correo electrónico
+        try:
+            send_mail(
+                subject=f"[Contacto ArenaGG] {subject}",
+                message=message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.SUPPORT_EMAIL],
+                fail_silently=False,
+            )
+
+            messages.success(
+                self.request,
+                '¡Mensaje enviado con éxito! '
+                'Nuestro equipo te responderá a la brevedad.'
+            )
+        except Exception as e:
+            messages.error(
+                self.request,
+                f'Ocurrió un error al enviar tu mensaje. '
+                f'Por favor intenta nuevamente. Error: {str(e)}'
+            )
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.request.user.is_authenticated:
+            kwargs['initial'] = {'email': self.request.user.email}
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+class RewardRedemptionView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        reward = get_object_or_404(Reward, id=pk)
+        player = request.user.player  # Asumes que cada user tiene un perfil Player
+
+        if player.coins >= reward.coins_cost:
+            # Restar las monedas y guardar
+            player.coins -= reward.coins_cost
+            player.save()
+
+            # Crear la redención
+            Redemption.objects.create(user=request.user, reward=reward)
+
+            messages.success(request, f'¡Has canjeado "{reward.name}" exitosamente!')
+        else:
+            messages.error(request, 'No tienes suficientes monedas para esta recompensa.')
+
+        # Redirigir a la lista de recompensas
+        return redirect('web:rewardListView')
+
+
+class RedemptionListView(LoginRequiredMixin, ListView):
+    model = Redemption
+    template_name = 'web/redemption_list.html'
+    context_object_name = 'redemption_list'
+
+    def get_queryset(self):
+        # Filtrar las redenciones del usuario actual
+        return Redemption.objects.filter(user=self.request.user).order_by('-redeemed_at')
