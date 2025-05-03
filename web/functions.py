@@ -92,3 +92,65 @@ def create_match_log(match, event, team=None, player=None):
     )
     print(f"Log creado para el partido {match}: {event}")
     return log
+
+def decrease_player_renombre(player, amount, reason=None):
+    """
+    Disminuye el renombre de un jugador y crea un log del evento,
+    salvo que ya tenga 1 o menos de renombre.
+
+    Args:
+        player (Player): Instancia del jugador.
+        amount (int): Cantidad de renombre a disminuir.
+        reason (str, optional): Razón del castigo o pérdida de renombre.
+
+    Returns:
+        Player: El jugador actualizado (o sin cambios si no se aplicó reducción).
+    """
+
+    original_renombre = player.renombre
+    player.renombre = max(1, player.renombre - amount)
+    player.save()
+
+    # Crear log asociado si se proporciona razón
+    if reason and hasattr(player, 'match_set'):
+        last_match = player.match_set.order_by('-scheduled_at').first()
+        if last_match:
+            create_match_log(
+                match=last_match,
+                event=f"Renombre reducido en {amount} por: {reason}",
+                player=player
+            )
+
+    print(f"Renombre reducido para {player}: {original_renombre} → {player.renombre}")
+    return player
+
+def increase_player_renombre(player, amount, reason=None):
+    """
+    Aumenta el renombre de un jugador y crea un log del evento,
+    salvo que ya tenga 100 o más de renombre.
+
+    Args:
+        player (Player): Instancia del jugador.
+        amount (int): Cantidad de renombre a aumentar.
+        reason (str, optional): Razón del reconocimiento o aumento de renombre.
+
+    Returns:
+        Player: El jugador actualizado (o sin cambios si no se aplicó aumento).
+    """
+
+    original_renombre = player.renombre
+    player.renombre = min(100, player.renombre + amount)
+    player.save()
+
+    # Crear log asociado si se proporciona razón
+    if reason and hasattr(player, 'match_set'):
+        last_match = player.match_set.order_by('-scheduled_at').first()
+        if last_match:
+            create_match_log(
+                match=last_match,
+                event=f"Renombre incrementado en {amount} por: {reason}",
+                player=player
+            )
+
+    print(f"Renombre aumentado para {player}: {original_renombre} → {player.renombre}")
+    return player

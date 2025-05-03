@@ -165,9 +165,9 @@
                     </div>
             {% endif %}
         {% elif tournament.status == 'ongoing' %}
-            <button class="btn btn-primary btn-lg px-5 fw-bold">
-                <i class="bi bi-eye"></i> Ver historial del partido
-            </button>
+            <div class="alert alert-warning d-inline-block fw-bold fs-5 mb-0">
+                <i class="bi bi-hourglass-split me-2"></i> El torneo está en curso
+            </div>
         {% endif %}
     </div>
 </div>

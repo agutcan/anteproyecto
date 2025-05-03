@@ -11,6 +11,11 @@
     </div>
     <div class="card-body">
         <p><strong>Fecha y hora programada:</strong> {{ match.scheduled_at }}</p>
+
+        {% if match.status != 'completed' %}
+            <p><strong>Tiempo restante:</strong> <span id="countdown"></span></p>
+        {% endif %}
+
         <p><strong>Estado:</strong> {{ match.get_status_display }}</p>
 
         {% if match.status == 'completed' %}
@@ -20,7 +25,32 @@
             </div>
         {% else %}
             {% if user_is_player %}
-                <a href="{% url 'web:matchConfirmView' match.id %}" class="btn btn-primary w-100 fw-bold mt-3">Confirmar que el partido ha terminado</a>
+                {% if match.status == 'pending' %}
+                <form method="post" action="{% url 'web:matchReadyView' match.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success w-100 fw-bold mt-3">
+                        Confirmar que el equipo está listo
+                    </button>
+                </form>
+                {% endif %}
+                {% if match.status == 'ongoing' %}
+                    <form method="post" action="{% url 'web:matchConfirmView' match.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="winner" value="team1"> <!-- TERMINAR ESTO -->
+                        <button type="submit" class="btn btn-primary w-100 fw-bold mt-3">
+                            Confirmar que el partido ha terminado
+                        </button>
+                    </form>
+                {% endif %}
+                {% if match.team1_ready and match.team2_ready %}
+                    <div class="alert alert-info text-center mt-3">
+                        <i class="bi bi-check-circle"></i> Ambos equipos están listos. El partido comenzará pronto.
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning text-center mt-3">
+                        <i class="bi bi-exclamation-triangle"></i> Aún falta que ambos equipos confirmen que están listos.
+                    </div>
+                {% endif %}
             {% else %}
                 <div class="alert alert-warning text-center mt-3">
                     <i class="bi bi-exclamation-triangle"></i> Este partido aún no ha sido confirmado como finalizado.
@@ -35,5 +65,31 @@
         <i class="bi bi-arrow-left"></i> Volver al Torneo
     </a>
 </div>
+
+<script>
+    // Usa la hora del servidor en formato ISO (UTC)
+    const scheduledAt = new Date("{{ match.scheduled_at|date:'c' }}");  // ISO 8601
+    const countdownElement = document.getElementById("countdown");
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = scheduledAt - now;
+
+        if (diff <= 0) {
+            countdownElement.textContent = "¡El partido ha comenzado!";
+            clearInterval(timer);
+            return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown();  // Ejecutar al cargar
+    const timer = setInterval(updateCountdown, 1000);  // Actualizar cada segundo
+</script>
 
 {% endblock %}

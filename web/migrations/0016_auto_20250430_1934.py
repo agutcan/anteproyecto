@@ -73,14 +73,14 @@ def poblar_datos(apps, schema_editor):
 
     # Crear usuarios
     users = [
-        User(username="player1", password="password1", first_name="John", last_name="Doe", email="john@example.com"),
-        User(username="player2", password="password2", first_name="Jane", last_name="Doe", email="jane@example.com"),
-        User(username="player3", password="password3", first_name="Alice", last_name="Smith", email="alice@example.com"),
-        User(username="player4", password="password4", first_name="Bob", last_name="Johnson", email="bob@example.com"),
-        User(username="player5", password="password5", first_name="Esther", last_name="Smith", email="esther@example.com"),
-        User(username="player6", password="password6", first_name="Martin", last_name="Johnson", email="Martin@example.com"),
-        User(username="player7", password="password7", first_name="Rex", last_name="Doe", email="Rex@example.com"),
-        User(username="player8", password="password8", first_name="Leo", last_name="Doe", email="Leo@example.com"),
+        User(username="player1", password="Usuario1", first_name="John", last_name="Doe", email="john@example.com"),
+        User(username="player2", password="Usuario1", first_name="Jane", last_name="Doe", email="jane@example.com"),
+        User(username="player3", password="Usuario1", first_name="Alice", last_name="Smith", email="alice@example.com"),
+        User(username="player4", password="Usuario1", first_name="Bob", last_name="Johnson", email="bob@example.com"),
+        User(username="player5", password="Usuario1", first_name="Esther", last_name="Smith", email="esther@example.com"),
+        User(username="player6", password="Usuario1", first_name="Martin", last_name="Johnson", email="Martin@example.com"),
+        User(username="player7", password="Usuario1", first_name="Rex", last_name="Doe", email="Rex@example.com"),
+        User(username="player8", password="Usuario1", first_name="Leo", last_name="Doe", email="Leo@example.com"),
     ]
     User.objects.bulk_create(users)  # Crear todos los usuarios de una vez
 

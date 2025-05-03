@@ -12,6 +12,8 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, FormView, DetailView, CreateView, UpdateView
 from rest_framework import generics
+
+from .functions import record_match_result
 from .serializers import *
 from web.models import *
 from django.core.mail import send_mail
@@ -388,7 +390,7 @@ class MatchDetailView(LoginRequiredMixin, DetailView):
 
         return context
 
-class MatchConfirmView(LoginRequiredMixin, TemplateView):
+class MatchConfirmView(LoginRequiredMixin, View):
     """Vista para confirmar el resultado de un partido."""
 
     def dispatch(self, request, *args, **kwargs):
@@ -399,38 +401,62 @@ class MatchConfirmView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         """Procesar la confirmación del resultado del partido."""
         winner = request.POST.get('winner')
+        match = get_object_or_404(Match, pk=self.kwargs['pk'])
 
         # Verificar si el usuario pertenece a uno de los equipos
-        if request.user.team != self.match.team1 and request.user.team != self.match.team2:
+        if request.user.player.team != match.team1 and request.user.player.team != match.team2:
             return HttpResponse('No estás en ninguno de los equipos de este partido', status=403)
 
         # Marcar la confirmación del equipo
-        if request.user.team == self.match.team1:
-            self.match.team1_confirmed = True
-            self.match.team1_winner = (winner == 'team1')
-        elif request.user.team == self.match.team2:
-            self.match.team2_confirmed = True
-            self.match.team2_winner = (winner == 'team2')
+        if request.user.player.team == match.team1:
+            match.team1_confirmed = True
+            match.team1_winner = (winner == 'team1')
+        elif request.user.team == match.team2:
+            match.team2_confirmed = True
+            match.team2_winner = (winner == 'team2')
 
-        self.match.save()
+        match.save()
 
         # Comprobar si ambos equipos han confirmado el resultado
-        if self.match.team1_confirmed and self.match.team2_confirmed:
-            if self.match.team1_winner:
-                self.match.winner = self.match.team1
-            elif self.match.team2_winner:
-                self.match.winner = self.match.team2
-            self.match.status = 'completed'
-            self.match.save()
-            return redirect('web:match_completed', pk=self.match.pk)
+        if match.team1_confirmed and match.team2_confirmed:
+            if match.team1_winner:
+                match.winner = match.team1
+                record_match_result(match, match.winner,)
+            elif match.team2_winner:
+                match.winner = match.team2
+                record_match_result(match, match.winner,)
 
-        return HttpResponse('Resultado del partido parcialmente confirmado.')
+            match.save()
+            return redirect('web:matchDetailView', pk=match.id)
+
+        return redirect('web:matchDetailView', pk=match.id)
 
     def get_context_data(self, **kwargs):
         context = {
             'match': self.match,
         }
         return context
+
+class MatchReadyView(LoginRequiredMixin, View):
+    """Vista para confirmar que el equipo está listo para jugar."""
+
+    def post(self, request, *args, **kwargs):
+        # Obtener el partido
+        match = get_object_or_404(Match, pk=self.kwargs['pk'])
+
+        # Verificar que el usuario pertenece a uno de los equipos
+        if request.user.team != match.team1 and request.user.team != match.team2:
+            return HttpResponse('No estás en ninguno de los equipos de este partido', status=403)
+
+        # Marcar el equipo como listo
+        if request.user.team == match.team1:
+            match.team1_ready = True
+        elif request.user.team == match.team2:
+            match.team2_ready = True
+
+        match.save()
+
+        return redirect('web:matchDetailView', pk=match.id)
 
 
 class SupportView(LoginRequiredMixin, FormView):
@@ -524,3 +550,5 @@ class RedemptionListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         # Filtrar las redenciones del usuario actual
         return Redemption.objects.filter(user=self.request.user).order_by('-redeemed_at')
+
+
