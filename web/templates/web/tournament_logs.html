@@ -12,31 +12,27 @@
     </div>
 
     {% if match_logs %}
-        {% for match in match_logs|dictsort:"match" %}
+        {% for log in match_logs %}
             <div class="card bg-dark border-secondary shadow-lg mb-4">
                 <div class="card-header bg-black text-warning">
                     <h5 class="mb-0">
-                        Partida: {{ match.match.team1.name }} vs {{ match.match.team2.name }} (Ronda {{ match.match.round_number }})
+                        Partida: {{ log.match.team1.name }} vs {{ log.match.team2.name }} (Ronda {{ log.match.round }})
                     </h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        {% for log in match_logs %}
-                            {% if log.match == match.match %}
-                            <li class="list-group-item bg-dark text-white border-secondary">
-                                <span class="text-info fw-bold">
-                                    {{ log.created_at|localtime|date:"d M Y H:i:s" }}
-                                </span>
-                                — {{ log.event }}
-                                {% if log.player %}
-                                    <span class="badge bg-primary ms-2">{{ log.player.user.username }}</span>
-                                {% endif %}
-                                {% if log.team %}
-                                    <span class="badge bg-secondary ms-1">{{ log.team.name }}</span>
-                                {% endif %}
-                            </li>
+                        <li class="list-group-item bg-dark text-white border-secondary">
+                            <span class="text-info fw-bold">
+                                {{ log.created_at|localtime|date:"d M Y H:i:s" }}
+                            </span>
+                            — {{ log.event }}
+                            {% if log.player %}
+                                <span class="badge bg-primary ms-2">{{ log.player.user.username }}</span>
                             {% endif %}
-                        {% endfor %}
+                            {% if log.team %}
+                                <span class="badge bg-secondary ms-1">{{ log.team.name }}</span>
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>

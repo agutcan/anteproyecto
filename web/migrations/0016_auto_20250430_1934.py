@@ -199,7 +199,7 @@ def poblar_datos(apps, schema_editor):
     )
 
     # Nombre de la tarea (coincide con la función @shared_task)
-    task_name = 'update_tournament_status'
+    task_name = 'web.tasks.update_tournament_status'
 
     PeriodicTask.objects.create(
         interval=schedule,
@@ -211,7 +211,7 @@ def poblar_datos(apps, schema_editor):
 
 
     # Nombre de la tarea (coincide con la función @shared_task)
-    task_name = 'check_teams_ready_for_match'
+    task_name = 'web.tasks.check_teams_ready_for_match'
 
     # Crear la tarea periódica si no existe
     PeriodicTask.objects.create(
@@ -224,7 +224,7 @@ def poblar_datos(apps, schema_editor):
 
 
     # Nombre de la tarea (coincide con la función @shared_task)
-    task_name = 'check_tournament_match_progress'
+    task_name = 'web.tasks.check_tournament_match_progress'
 
     PeriodicTask.objects.create(
         interval=schedule,

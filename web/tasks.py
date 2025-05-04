@@ -61,24 +61,45 @@ def check_teams_ready_for_match():
             if match.team1_ready and not match.team2_ready:
                 winner = match.team1
                 team1_score, team2_score = 1, 0
+                match.winner = winner
+                match.save()
                 reason = "solo el equipo 1 estaba listo"
-                for player in match.team2.players.all():
+                update_players_stats(match.team1, True)
+                update_players_stats(match.team2)
+                for player in match.team2.player_set.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
+
             elif match.team2_ready and not match.team1_ready:
                 winner = match.team2
                 team1_score, team2_score = 0, 1
+                match.winner = winner
+                match.save()
                 reason = "solo el equipo 2 estaba listo"
+                update_players_stats(match.team1)
+                update_players_stats(match.team2, True)
+
                 for player in match.team1.players.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
+
             else:
                 winner = random.choice([match.team1, match.team2])
                 team1_score, team2_score = (1, 0) if winner == match.team1 else (0, 1)
+                match.winner = winner
+                match.save()
                 reason = "ningún equipo estaba listo, ganador aleatorio"
                 for player in match.team2.player_set.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
 
                 for player in match.team1.player_set.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
+
+                if winner == match.team1:
+                    update_players_stats(match.team1, True)
+                    update_players_stats(match.team2)
+                else:
+                    update_players_stats(match.team2, True)
+                    update_players_stats(match.team1)
+
 
             record_match_result(match, winner, team1_score, team2_score)
             create_match_log(match, f"Partido finalizado automáticamente. Ganador: {winner.name} ({reason}).")

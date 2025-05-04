@@ -194,7 +194,10 @@ def process_final_match(tournament, completed_matches_queryset):
             if players.exists() and tournament.prize_pool:
                 reward_per_player = tournament.prize_pool / players.count()
                 for player in players:
-                    player.coins += reward_per_player
+                    if player.role == "Premium":
+                        player.coins += reward_per_player * 2
+                    else:
+                        player.coins += reward_per_player
                     player.save()
             print(f"   🏅 Torneo finalizado. Ganador: {winner.name}")
     else:

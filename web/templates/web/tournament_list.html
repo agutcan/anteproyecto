@@ -101,7 +101,7 @@
                         </div>
                         <div>
                             <i class="bi bi-calendar-event me-1"></i>
-                            <small>{{ tournament.start_date|date:"d M Y" }}</small>
+                            <small>{{ tournament.start_date|date:"d M Y H:i" }}</small>
                         </div>
                     </div>
                     <p class="card-text text-white-50 small">{{ tournament.description|truncatechars:100 }}</p>

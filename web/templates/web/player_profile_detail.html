@@ -10,30 +10,22 @@
         <div class="card-header bg-black text-center">
             <img src="{{ player.avatar.url }}" alt="Avatar de {{ player.user.username }}" class="rounded-circle shadow-sm" width="96" height="96">
             <h4 class="mt-3 mb-0">{{ player.user.username }}</h4>
-            <small class="text-muted">{{ player.role }}</small>
+            <small class="text-secondary">{{ player.role }}</small>
         </div>
 
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark text-white">
-                    <strong>Nombre:</strong> {{ player.first_name }} {{ player.last_name }}
+                    <strong>Nombre:</strong> {{ player.user }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>Biografía:</strong><br> {{ player.bio|default:"No hay biografía" }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
-                    <strong>Fecha de nacimiento:</strong> {{ player.birth_date|date:"d/m/Y" }}
+                    <strong>Fecha de nacimiento:</strong> {{ player.user.birth_date|date:"d/m/Y"|default:"No hay fecha de nacimiento" }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>País:</strong> {{ player.get_country_display }}
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Equipo:</strong>
-                    {% if player.team %}
-                        {{ player.team.name }}
-                    {% else %}
-                        Sin equipo
-                    {% endif %}
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>Partidas jugadas:</strong> {{ player.games_played }}<br>
