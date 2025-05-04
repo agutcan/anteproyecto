@@ -1,3 +1,5 @@
+from functools import total_ordering
+
 from celery import shared_task
 from django.utils import timezone
 from .models import *
@@ -87,3 +89,46 @@ def check_teams_ready_for_match():
     print("[DEBUG] Tarea 'check_teams_ready_for_match' finalizada.")
 
 
+@shared_task
+def check_tournament_match_progress():
+    now = timezone.now()
+    print(f"[DEBUG] Ejecutando tarea de verificación de torneos a las: {now}")
+
+    ongoing_tournaments = Tournament.objects.filter(status='ongoing')
+    if not ongoing_tournaments.exists():
+        print("[INFO] No hay torneos en curso.")
+        return
+
+    for tournament in ongoing_tournaments:
+        ongoing_matches = Match.objects.filter(tournament=tournament, status='ongoing').count()
+        completed_matches = Match.objects.filter(tournament=tournament, status='completed').count()
+        total_matches = Match.objects.filter(tournament=tournament).count()
+        team_count = tournament.tournamentteam_set.count()
+
+        print(f"🏆 Torneo: {tournament.name}")
+        print(f"   🔄 Partidas en curso: {ongoing_matches}")
+        print(f"   ✅ Partidas completadas: {completed_matches}")
+        print(f"   📊 Total de partidas: {total_matches}")
+        print(f"   📊 Total de equipos: {team_count}")
+
+        # Obtener las partidas completadas
+        completed_matches_queryset = Match.objects.filter(tournament=tournament, status='completed')
+
+        if team_count == 2 and completed_matches == 1:
+            process_final_match(tournament, completed_matches_queryset)
+
+        elif team_count == 4:
+            if completed_matches == 2:
+                process_round(tournament, completed_matches_queryset, round_number=2)
+            elif completed_matches == 4:
+                process_final_match(tournament, completed_matches_queryset)
+
+        elif team_count == 8:
+            if completed_matches == 4:
+                process_round(tournament, completed_matches_queryset, round_number=2)
+            elif completed_matches == 6:
+                process_round(tournament, completed_matches_queryset, round_number=3)
+            elif completed_matches == 8:
+                process_final_match(tournament, completed_matches_queryset)
+
+    print("[DEBUG] Tarea 'check_tournament_match_progress' finalizada.")

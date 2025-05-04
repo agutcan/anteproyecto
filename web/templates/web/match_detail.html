@@ -16,7 +16,15 @@
             <p><strong>Tiempo restante:</strong> <span id="countdown"></span></p>
         {% endif %}
 
-        <p><strong>Estado:</strong> {{ match.get_status_display }}</p>
+        <p><strong>Estado:</strong>
+        {% if match.status == 'pending' %}
+            Pendiente
+        {% elif match.status == 'ongoing' %}
+            En curso
+        {% elif match.status == 'completed' %}
+            Completado
+        {% endif %}
+        </p>
 
         {% if match.status == 'pending'%}
         <p><strong>Equipo 1 listo: {% if match.team1_ready %} <i class="bi bi-check-circle-fill text-success"></i>{% else %} <i class="bi bi-x-circle-fill text-danger"></i>{% endif %}</strong></p>
@@ -26,7 +34,7 @@
         {% if match.status == 'completed' %}
             <div class="alert alert-success text-center">
                 <h5>Resultado Confirmado</h5>
-                <p>El ganador es {{ match.result.winner.name }} con un puntaje de {{ match.result.team1_score }} - {{ match.result.team2_score }}.</p>
+                <p>El ganador es {{ match.winner.name }} con un puntaje de {{ match.matchresult.team1_score }} - {{ match.matchresult.team2_score }}.</p>
             </div>
         {% else %}
             {% if user_is_player %}
@@ -38,41 +46,61 @@
                                 Confirmar que el equipo está listo
                             </button>
                         </form>
-                        {% endif %}
+                    {% endif %}
                 {% endif %}
                 {% if match.status == 'ongoing' and not team_confirmed %}
-                        <p>Elige el ganador de este partido.</p>
+                    <p>Elige el ganador de este partido.</p>
 
-                        {% if match.team1_confirmed %}
-                        <div class="alert alert-success mb-3">
-                            <strong>{{ match.team1.name }}</strong> ya ha confirmado el resultado.
-                        </div>
-                        {% endif %}
-
-                        {% if match.team2_confirmed %}
-                        <div class="alert alert-success mb-3">
-                            <strong>{{ match.team2.name }}</strong> ya ha confirmado el resultado.
-                        </div>
-                        {% endif %}
-                        <form method="post" action="{% url 'web:matchConfirmView' match.id %}" class="mb-3">
-                            {% csrf_token %}
-                            <label for="team1_winner" class="text-white">
-                                <input type="radio" name="winner" value="team1" class="form-check-input" id="team1_winner">
-                                {{ match.team1.name }} es el ganador
-                            </label><br>
-                            <label for="team2_winner" class="text-white">
-                                <input type="radio" name="winner" value="team2" class="form-check-input" id="team2_winner">
-                                {{ match.team2.name }} es el ganador
-                            </label><br>
-                            <button type="submit" class="btn btn-success w-100 fw-bold mt-2">Confirmar resultado</button>
-                        </form>
-
-                        {% if match.team1_confirmed and match.team2_confirmed %}
-                        <div class="alert alert-info text-center">
-                            Ambos equipos han confirmado el resultado. El partido está <strong>completado</strong>.
-                        </div>
-                        {% endif %}
+                    {% if match.team1_confirmed %}
+                    <div class="alert alert-success mb-3">
+                        <strong>{{ match.team1.name }}</strong> ya ha confirmado el resultado.
+                    </div>
                     {% endif %}
+
+                    {% if match.team2_confirmed %}
+                    <div class="alert alert-success mb-3">
+                        <strong>{{ match.team2.name }}</strong> ya ha confirmado el resultado.
+                    </div>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'web:matchConfirmView' match.id %}" class="mb-3">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        <!-- Radio buttons para el ganador -->
+                        <div class="form-group">
+                            {% for radio in form.winner %}
+                                <label for="{{ radio.id_for_label }}" class="text-white">
+
+                                    {{ radio.tag }}
+                                    {% if radio.choice_label == "Equipo 1" %}
+                                        {{ match.team1.name }} es el ganador
+                                    {% else %}
+                                        {{ match.team2.name }} es el ganador
+                                    {% endif %}
+                                </label><br>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Puntajes -->
+                        <div class="mt-3">
+                            <label class="text-white" for="{{ form.team1_score.id_for_label }}">{{ form.team1_score.label }}</label>
+                            {{ form.team1_score }}
+                        </div>
+                        <div class="mt-2">
+                            <label class="text-white" for="{{ form.team2_score.id_for_label }}">{{ form.team2_score.label }}</label>
+                            {{ form.team2_score }}
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 fw-bold mt-3">Confirmar resultado</button>
+                    </form>
+
+                    {% if match.team1_confirmed and match.team2_confirmed %}
+                    <div class="alert alert-info text-center">
+                        Ambos equipos han confirmado el resultado. El partido está <strong>completado</strong>.
+                    </div>
+                    {% endif %}
+                {% endif %}
                 {% if match.team1_ready and match.team2_ready %}
                     <div class="alert alert-info text-center mt-3">
                         {% if match.status == 'pending' %}

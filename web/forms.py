@@ -109,11 +109,6 @@ class TournamentFilterForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control bg-darker border-secondary text-light', 'placeholder': 'Buscar torneos...'})
     )
 
-class MatchResultForm(forms.Form):
-    team1_score = forms.IntegerField(min_value=0, label="Puntaje de {{ match.team1.name }}")
-    team2_score = forms.IntegerField(min_value=0, label="Puntaje de {{ match.team2.name }}")
-    winner = forms.ModelChoiceField(queryset=Team.objects.all(), label="Selecciona al ganador", empty_label="Selecciona un equipo")
-
 
 class SupportForm(forms.Form):
     email = forms.EmailField(
@@ -152,3 +147,11 @@ class SupportForm(forms.Form):
             'class': 'form-control'
         })
     )
+
+class MatchResultForm(forms.Form):
+    winner = forms.ChoiceField(
+        choices=[('team1', 'Equipo 1'), ('team2', 'Equipo 2')],
+        widget=forms.RadioSelect
+    )
+    team1_score = forms.IntegerField(min_value=0)
+    team2_score = forms.IntegerField(min_value=0)

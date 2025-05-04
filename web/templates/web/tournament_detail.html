@@ -46,6 +46,12 @@
                             <strong class="d-block text-light">Premio total</strong>
                             <span class="text-warning fw-bold">{{ tournament.prize_pool }}</span>
                         </li>
+                        {% if tournament.winner %}
+                        <li class="mb-3">
+                            <strong class="d-block text-light">Ganador</strong>
+                            <span class="text-warning fw-bold">{{ tournament.winner }}</span>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -168,6 +174,10 @@
             <div class="alert alert-warning d-inline-block fw-bold fs-5 mb-0">
                 <i class="bi bi-hourglass-split me-2"></i> El torneo está en curso
             </div>
+        {% elif tournament.status == 'completed' %}
+        <a href="{% url 'web:tournamentLogsView' tournament.id %}" class="btn btn-outline-info btn-lg px-5 fw-bold">
+            <i class="bi bi-journal-code"></i> Ver registros del torneo
+        </a>
         {% endif %}
     </div>
 </div>

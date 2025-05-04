@@ -1,7 +1,31 @@
 from django.core.mail import send_mail
 from django.utils import timezone
 from .models import *
+from django.db import transaction
 from itertools import zip_longest
+
+def update_players_stats(team, is_winner=False):
+    """Actualiza las estadísticas, renombre y MMR de los jugadores de un equipo."""
+    for player in team.player_set.all():
+        player.games_played += 1
+        if is_winner:
+            player.games_won += 1
+
+        # Actualizar winrate
+        player.update_winrate()
+
+        # Actualizar MMR
+        if is_winner:
+            player.mmr += 10
+        else:
+            player.mmr = max(10, player.mmr - 5)
+
+        # Aumentar renombre si gana
+        if is_winner:
+            increase_player_renombre(player, amount=5, reason="Victoria en partido oficial")
+
+        player.save()
+
 
 def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     tournament = Tournament.objects.get(id=tournament_id)
@@ -14,7 +38,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Si el número de equipos es impar o 0, eliminamos el torneo y notificamos a los jugadores
     if num_teams == 0 or num_teams % 2 != 0:
         # Enviar correo a todos los jugadores del torneo
-        players = Player.objects.filter(team__tournamentteam__tournament=tournament)
+        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('tournament')
         for player in players:
             send_mail(
                 'Torneo Cancelado',
@@ -154,3 +178,38 @@ def increase_player_renombre(player, amount, reason=None):
 
     print(f"Renombre aumentado para {player}: {original_renombre} → {player.renombre}")
     return player
+
+def process_final_match(tournament, completed_matches_queryset):
+    """Procesa la lógica para un torneo con la última partida completada y determinar al ganador"""
+    last_match = completed_matches_queryset.first()
+    if last_match and last_match.winner:
+        winner = last_match.winner
+        print(f"   ✅ El ganador de la última partida es: {winner.name}")
+        with transaction.atomic():
+            tournament.winner = winner
+            tournament.status = 'completed'
+            tournament.save()
+
+            players = winner.player_set.all()
+            if players.exists() and tournament.prize_pool:
+                reward_per_player = tournament.prize_pool / players.count()
+                for player in players:
+                    player.coins += reward_per_player
+                    player.save()
+            print(f"   🏅 Torneo finalizado. Ganador: {winner.name}")
+    else:
+        print("   ⚠️ No se pudo determinar el ganador del partido completado.")
+
+
+def process_round(tournament, completed_matches_queryset, round_number):
+    """Genera los partidos para la siguiente ronda"""
+    winning_teams = []
+    for match in completed_matches_queryset:
+        if match.winner:
+            winning_teams.append(match.winner)
+
+    if len(winning_teams) == (round_number * 2):  # Se espera el doble de equipos según la ronda
+        generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_teams)
+        print(f"   ✅ Generados partidos para la ronda {round_number}.")
+    else:
+        print(f"   ⚠️ No se pudo determinar el ganador de todas las partidas completadas para la ronda {round_number}.")

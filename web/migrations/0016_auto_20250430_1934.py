@@ -23,6 +23,10 @@ def eliminar_datos(apps, schema_editor):
     Reward = apps.get_model('web', 'Reward')
     Redemption = apps.get_model('web', 'Redemption')
 
+    # Eliminar tareas periódicas
+    PeriodicTask.objects.all().delete()
+    # Eliminar intervalos
+    IntervalSchedule.objects.all().delete()
     # Eliminar registros de log de partidos
     MatchLog.objects.all().delete()
     # Eliminar los resultados de los partidos
@@ -197,31 +201,39 @@ def poblar_datos(apps, schema_editor):
     # Nombre de la tarea (coincide con la función @shared_task)
     task_name = 'update_tournament_status'
 
-    if not PeriodicTask.objects.filter(task=task_name).exists():
-        PeriodicTask.objects.create(
-            interval=schedule,
-            name='Actualizar estado de torneos cada 10 segundos',
-            task=task_name,
-            args=json.dumps([]),  # Argumentos si tu tarea los necesita
-        )
-        print(f"Tarea periódica '{task_name}' creada correctamente.")
-    else:
-        print(f"Tarea periódica '{task_name}' ya existe.")
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name='Actualizar estado de torneos cada 10 segundos',
+        task=task_name,
+        args=json.dumps([]),  # Argumentos si tu tarea los necesita
+    )
+    print(f"Tarea periódica '{task_name}' creada correctamente.")
+
 
     # Nombre de la tarea (coincide con la función @shared_task)
     task_name = 'check_teams_ready_for_match'
 
     # Crear la tarea periódica si no existe
-    if not PeriodicTask.objects.filter(task=task_name).exists():
-        PeriodicTask.objects.create(
-            interval=schedule,
-            name='Comprobar si equipos están listos cada 10 segundos',
-            task=task_name,
-            args=json.dumps([]),
-        )
-        print(f"Tarea periódica '{task_name}' creada correctamente.")
-    else:
-        print(f"Tarea periódica '{task_name}' ya existe.")
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name='Comprobar si equipos están listos cada 10 segundos',
+        task=task_name,
+        args=json.dumps([]),
+    )
+    print(f"Tarea periódica '{task_name}' creada correctamente.")
+
+
+    # Nombre de la tarea (coincide con la función @shared_task)
+    task_name = 'check_tournament_match_progress'
+
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name='Verificar progreso de torneos cada 10 segundos',
+        task=task_name,
+        args=json.dumps([]),
+    )
+    print(f"Tarea periódica '{task_name}' creada correctamente.")
+
 
 class Migration(migrations.Migration):
 

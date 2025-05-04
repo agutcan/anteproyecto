@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block title %}Logs del Torneo - {{ tournament.name }} / ArenaGG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="display-5 text-warning fw-bold">
+            Logs del Torneo: {{ tournament.name }}
+        </h1>
+    </div>
+
+    {% if match_logs %}
+        {% for match in match_logs|dictsort:"match" %}
+            <div class="card bg-dark border-secondary shadow-lg mb-4">
+                <div class="card-header bg-black text-warning">
+                    <h5 class="mb-0">
+                        Partida: {{ match.match.team1.name }} vs {{ match.match.team2.name }} (Ronda {{ match.match.round_number }})
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for log in match_logs %}
+                            {% if log.match == match.match %}
+                            <li class="list-group-item bg-dark text-white border-secondary">
+                                <span class="text-info fw-bold">
+                                    {{ log.created_at|localtime|date:"d M Y H:i:s" }}
+                                </span>
+                                — {{ log.event }}
+                                {% if log.player %}
+                                    <span class="badge bg-primary ms-2">{{ log.player.user.username }}</span>
+                                {% endif %}
+                                {% if log.team %}
+                                    <span class="badge bg-secondary ms-1">{{ log.team.name }}</span>
+                                {% endif %}
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center bg-dark border-info">
+            <i class="bi bi-info-circle"></i> No hay registros disponibles para este torneo.
+        </div>
+        <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-outline-light mt-3">
+            <i class="bi bi-arrow-left"></i> Volver al torneo
+        </a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -38,6 +38,7 @@ class Tournament(models.Model):
     max_player_per_team = models.PositiveIntegerField(default=1)
     max_teams = models.PositiveIntegerField(default=2)
     matches_generated = models.BooleanField(default=False)
+    winner = models.ForeignKey("Team", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
@@ -64,14 +65,13 @@ class Tournament(models.Model):
         super().clean()
 
         # Validación de número par
-        if self.max_teams == 2 or self.max_teams == 4 or self.max_teams == 8:
+        if self.max_teams != 2 and self.max_teams != 4 and self.max_teams != 8:
             raise ValidationError(
                 {'max_teams': 'El número de equipos debe ser (2, 4 o 8) para el formato de eliminatorias.'}
             )
 
         # Otras validaciones del modelo
         if self.start_date:
-
             if self.start_date < timezone.now():
                 raise ValidationError("La fecha de inicio no puede ser en el pasado")
 
