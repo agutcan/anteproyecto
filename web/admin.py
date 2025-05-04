@@ -81,7 +81,7 @@ class TournamentTeamAdmin(admin.ModelAdmin):
 # Configuración del administrador para el modelo Match
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ('tournament', 'round', 'team1', 'team2', 'scheduled_at', 'status')
+    list_display = ('tournament', 'round', 'team1', 'team2', 'scheduled_at', 'status', 'team1_ready', 'team2_ready', 'team1_confirmed', 'team2_confirmed')
     search_fields = ('tournament__name', 'team1__name', 'team2__name')
     list_filter = ('status', 'tournament')
 

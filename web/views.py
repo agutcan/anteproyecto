@@ -381,12 +381,21 @@ class MatchDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         match = self.get_object()
 
-        # Verificar si el usuario es jugador en este partido
-        user_is_player = match.team1.player_set.filter(user=self.request.user).exists() or \
-                         match.team2.player_set.filter(user=self.request.user).exists()
+        # Verificar si el usuario pertenece a alguno de los equipos
+        is_team1_player = match.team1.player_set.filter(user=self.request.user).exists()
+        is_team2_player = match.team2.player_set.filter(user=self.request.user).exists()
 
-        # Si el usuario es un jugador, agregar el botón para confirmar el resultado
-        context['user_is_player'] = user_is_player
+        context['user_is_player'] = is_team1_player or is_team2_player
+
+        if is_team1_player:
+            context['team_ready'] = match.team1_ready
+            context['team_confirmed'] = match.team1_confirmed
+        elif is_team2_player:
+            context['team_ready'] = match.team2_ready
+            context['team_confirmed'] = match.team2_confirmed
+        else:
+            context['team_ready'] = False
+            context['team_confirmed'] = False
 
         return context
 
@@ -445,13 +454,13 @@ class MatchReadyView(LoginRequiredMixin, View):
         match = get_object_or_404(Match, pk=self.kwargs['pk'])
 
         # Verificar que el usuario pertenece a uno de los equipos
-        if request.user.team != match.team1 and request.user.team != match.team2:
+        if request.user.player.team != match.team1 and request.user.player.team != match.team2:
             return HttpResponse('No estás en ninguno de los equipos de este partido', status=403)
 
         # Marcar el equipo como listo
-        if request.user.team == match.team1:
+        if request.user.player.team == match.team1:
             match.team1_ready = True
-        elif request.user.team == match.team2:
+        elif request.user.player.team == match.team2:
             match.team2_ready = True
 
         match.save()

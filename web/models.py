@@ -64,9 +64,9 @@ class Tournament(models.Model):
         super().clean()
 
         # Validación de número par
-        if self.max_teams % 2 != 0:
+        if self.max_teams == 2 or self.max_teams == 4 or self.max_teams == 8:
             raise ValidationError(
-                {'max_teams': 'El número de equipos debe ser par (2, 4, 8, etc.) para el formato de eliminatorias.'}
+                {'max_teams': 'El número de equipos debe ser (2, 4 o 8) para el formato de eliminatorias.'}
             )
 
         # Otras validaciones del modelo

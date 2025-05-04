@@ -44,7 +44,7 @@
                                 <div class="mb-3">
                                     <label for="{{ form.max_teams.id_for_label }}" class="form-label text-light">Número de Equipos</label>
                                     {{ form.max_teams }}
-                                    <small class="text-muted">Debe ser un número par (2, 4, 8, etc.)</small>
+                                    <small class="text-muted">Debe ser un número entre (2, 4 o 8)</small>
                                     {% if form.max_teams.errors %}
                                         <div class="invalid-feedback d-block text-warning">
                                             {{ form.max_teams.errors.0 }}

@@ -6,7 +6,8 @@ from django.db import migrations
 from django.db import migrations
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-
+from django_celery_beat.models import PeriodicTask, IntervalSchedule
+import json
 
 def eliminar_datos(apps, schema_editor):
     # Obtener los modelos de la aplicación 'web'
@@ -186,6 +187,41 @@ def poblar_datos(apps, schema_editor):
         Player(user=get_object_or_404(User, username="admin")),
     ]
     Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
+
+    # Crear o recuperar el intervalo de 10 segundos
+    schedule, created = IntervalSchedule.objects.get_or_create(
+        every=10,
+        period=IntervalSchedule.SECONDS,
+    )
+
+    # Nombre de la tarea (coincide con la función @shared_task)
+    task_name = 'update_tournament_status'
+
+    if not PeriodicTask.objects.filter(task=task_name).exists():
+        PeriodicTask.objects.create(
+            interval=schedule,
+            name='Actualizar estado de torneos cada 10 segundos',
+            task=task_name,
+            args=json.dumps([]),  # Argumentos si tu tarea los necesita
+        )
+        print(f"Tarea periódica '{task_name}' creada correctamente.")
+    else:
+        print(f"Tarea periódica '{task_name}' ya existe.")
+
+    # Nombre de la tarea (coincide con la función @shared_task)
+    task_name = 'check_teams_ready_for_match'
+
+    # Crear la tarea periódica si no existe
+    if not PeriodicTask.objects.filter(task=task_name).exists():
+        PeriodicTask.objects.create(
+            interval=schedule,
+            name='Comprobar si equipos están listos cada 10 segundos',
+            task=task_name,
+            args=json.dumps([]),
+        )
+        print(f"Tarea periódica '{task_name}' creada correctamente.")
+    else:
+        print(f"Tarea periódica '{task_name}' ya existe.")
 
 class Migration(migrations.Migration):
 

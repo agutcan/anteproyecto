@@ -55,7 +55,7 @@ def check_teams_ready_for_match():
             print("  ✅ Partido marcado como 'ongoing'.")
             continue
 
-        if now >= match.scheduled_at and not hasattr(match, 'result'):
+        if now >= match.scheduled_at and match.status != "completed":
             if match.team1_ready and not match.team2_ready:
                 winner = match.team1
                 team1_score, team2_score = 1, 0
@@ -72,10 +72,10 @@ def check_teams_ready_for_match():
                 winner = random.choice([match.team1, match.team2])
                 team1_score, team2_score = (1, 0) if winner == match.team1 else (0, 1)
                 reason = "ningún equipo estaba listo, ganador aleatorio"
-                for player in match.team2.players.all():
+                for player in match.team2.player_set.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
 
-                for player in match.team1.players.all():
+                for player in match.team1.player_set.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
 
             record_match_result(match, winner, team1_score, team2_score)
