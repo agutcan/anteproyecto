@@ -15,8 +15,8 @@ Aarón Gutiérrez Caña
 3. [Objetivos](#-objetivos)
 4. [Tecnologías](#-medios-hardware-y-software-a-utilizar)
 5. [Planificación](#-planificación)
-6. [Progreso](#-actualicaciones)
-7. [Documentación](#-documentación)
+6. [Progreso](#actualicaciones)
+7. [Documentación](#documentación)
    
 ## 📖 Introducción del proyecto
 
@@ -113,7 +113,7 @@ Esta plataforma permitirá a los usuarios:
 
 ## Actualicaciones
 
-## Hecho
+### Hecho
 
 - 📋 Definir requisitos funcionales y no funcionales.
 - 📐 Crear diagramas de flujo y esquemas de base de datos.
@@ -134,7 +134,7 @@ Esta plataforma permitirá a los usuarios:
 
 
 
-## En proceso
+### En proceso
 
 - 🖥️ Apis para ver o crear algunos modelos.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
@@ -143,7 +143,7 @@ Esta plataforma permitirá a los usuarios:
 - 📊 Validar el correcto funcionamiento de la plataforma.
 - 📚 Redactar la documentación del sistema y el manual de usuario.
 
-## Por hacer
+### Por hacer
 
 - 🖥️ Apis para ver o crear algunos modelos.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
@@ -152,11 +152,11 @@ Esta plataforma permitirá a los usuarios:
 - 📊 Validar el correcto funcionamiento de la plataforma.
 - 📚 Redactar la documentación del sistema y el manual de usuario.
 
-## Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
+### Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
 - He cambiado la gestión de torneos, es decir, solo gestiono torneos de 2, 4 y 8 equipos, necesitaria de más tiempo para implementar un sistema para gestionar equipos impares y automatizar el sistema de gestión de torneos con más equipos
 
-## Posibles mejoras al proyecto (“Posibles mejoras futuras”)
+### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
 - Sistema para comprobar que el resultado de las partidas proporcionado por cada equipo sea correcto y no tenga que internevir un administrador.
@@ -171,7 +171,6 @@ Esta plataforma permitirá a los usuarios:
 - [Django – Documentación oficial](https://docs.djangoproject.com/en/stable/)
 - [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
 - [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
-
 
 # Documentación
 
