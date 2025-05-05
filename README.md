@@ -136,5 +136,15 @@ Una vez puesta en marcha, la plataforma permitirá:
 
 ## Bibliografía (“Si es posible con enlace a la fuente”)
 
+- [Python – Documentación oficial](https://docs.python.org/3/)
+- [Bootstrap 5.3 – Introducción](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [CSS – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [Redis – Documentación oficial](https://redis.io/docs/)
+- [Celery – Documentación oficial](https://docs.celeryq.dev/en/stable/)
+- [Django – Documentación oficial](https://docs.djangoproject.com/en/stable/)
+- [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
+- [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
+
+
 # Documentación
 
