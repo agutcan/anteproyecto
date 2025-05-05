@@ -12,3 +12,6 @@ class TournamentForm(forms.ModelForm):
         if max_teams not in [2, 4, 8]:
             raise ValidationError("Solo 2, 4 u 8 equipos")
 ```
+
+## 🔄 Navegación
+[⬅️ Volver al README principal](../README.md)
