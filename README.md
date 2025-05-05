@@ -33,8 +33,6 @@ Esta plataforma permitirá a los usuarios:
 - Consultar resultados
 
 ## 🎯 Finalidad
-
-## 🎯 Finalidad
 **ArenaGG** facilitará:
 - Creación y administración de torneos
 - Automatización de procesos (inscripción, emparejamiento)
@@ -61,16 +59,18 @@ Esta plataforma permitirá a los usuarios:
 
 ### 💻 Hardware
 
-- 🖥️ Ordenador con procesador Intel i5 o superior, 8GB de RAM, 256GB de almacenamiento SSD.
+- 🖥️ Intel i5+, 8GB RAM, SSD 256GB
 
 ### 📦 Software
 
-- 🐍 **Lenguaje de programación:** Python (con Django para el backend)
-- 🗄️ **Base de datos:** PostgreSQL
-- 🌐 **Frontend:** HTML5, CSS3 (con Bootstrap 5), JavaScript
-- 📦 **Contenerización:** Docker para empaquetar y **AWS** para desplegar la aplicación. 
-- 🔄 **Control de versiones:** Git (con GitHub para la gestión del código)
-- 🛠️ **Entorno de desarrollo:** PyCharm
+| Área | Tecnologías |
+|------|-------------|
+| Backend | Python + Django + Celery + Mailpit |
+| Database | PostgreSQL + Redis |
+| Frontend | HTML5, CSS3, Bootstrap 5, JS |
+| Infra | Docker + AWS |
+| Control | Git + GitHub |
+| IDE | PyCharm |
 
 ## 📊 Planificación
 
@@ -82,17 +82,15 @@ Esta plataforma permitirá a los usuarios:
 ### 🧑‍💻 2. Desarrollo del backend (3 semanas)
 
 - 🔑 Implementar la autenticación de usuarios.
-- 🏆 Crear el sistema de gestión de torneos.
-- 🔢 Automatizar los emparejamientos y resultados.
 - 🔐 Registrar usuarios y crear perfiles personalizados.
 - 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
 - 📅 Mostrar calendarios y resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
-- 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
-- Sistema de puntos y recompensas.
-- Ofrecer la posibilidad de ser VIP (Para ganar más puntos y poder crear torneos).
-- Sistema de soporte.
+- 🔔 Sistema de notificaciones.
+- 🏆 Sistema de puntos/recompensas.
+- 👑 Membresía VIP.
+- 🛟 Sistema de soporte.
 
 ### 🎨 3. Desarrollo del frontend (2 semanas)
 
@@ -113,7 +111,7 @@ Esta plataforma permitirá a los usuarios:
 **⏳ Duración total estimada:** 10 semanas.
 ---
 
-# Actualicaciones
+## Actualicaciones
 
 ## Hecho
 
@@ -121,18 +119,16 @@ Esta plataforma permitirá a los usuarios:
 - 📐 Crear diagramas de flujo y esquemas de base de datos.
 - 🔑 Implementar la autenticación de usuarios.
 - 🐳 Dockerizar la aplicación para facilitar el despliegue
-- 📅 Mostrar calendarios y estadísticas con apis.
 - 🔐 Registrar usuarios y crear perfiles personalizados.
 - 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados. (Creado localmente es decir con mailpit, para despliegue tendría que cambiarlo)
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
-- 🏆 Crear el sistema de gestión de torneos.
 - 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
 - 📅 Mostrar resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
-- Sistema de puntos y recompensas.
-- Ofrecer la posibilidad de ser VIP (Para ganar más puntos y poder crear torneos).
-- Sistema de soporte.
+- 🏆 Sistema de puntos/recompensas.
+- 👑 Membresía VIP.
+- 🛟 Sistema de soporte.
 - 🛠️ Creación de tareas automatizadas.
 - 🔗 Integrar las vistas con el backend.
 
