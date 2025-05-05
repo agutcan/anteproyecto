@@ -10,29 +10,52 @@ Aarón Gutiérrez Caña
 
 ## 📌 Tabla de Contenidos
 
+1. [Introducción](#-introducción-del-proyecto)
+2. [Finalidad](#-finalidad)
+3. [Objetivos](#-objetivos)
+4. [Tecnologías](#-medios-hardware-y-software-a-utilizar)
+5. [Planificación](#-planificación)
+6. [Progreso](#-actualicaciones)
+7. [Documentación](#-documentación)
+   
 ## 📖 Introducción del proyecto
 
-El objetivo principal del proyecto es desarrollar una plataforma web llamada **ArenaGG**, destinada a la organización y gestión de torneos de videojuegos como **Valorant**, **League of Legends**, **Counter-Strike 2**, etc... Esta plataforma permitirá a los usuarios inscribirse, gestionar sus equipos, seguir el progreso de los torneos y consultar resultados en tiempo real. 
+El objetivo principal del proyecto es desarrollar una plataforma web llamada **ArenaGG**, destinada a la organización y gestión de torneos de videojuegos como:
+
+- 🎯 Valorant
+- ⚔️ League of Legends
+- 🔫 Counter-Strike 2
+
+Esta plataforma permitirá a los usuarios:
+- Inscribirse
+- Gestionar equipos
+- Seguir torneos en tiempo real
+- Consultar resultados
 
 ## 🎯 Finalidad
 
-La plataforma **ArenaGG** servirá para facilitar la creación, administración y seguimiento de torneos de videojuegos, ofreciendo una experiencia fluida tanto para organizadores como para participantes. Permitirá automatizar procesos como la inscripción, el emparejamiento de equipos y la publicación de resultados.
-
-Además, los torneos podrán ofrecer puntos de la página que se podrán intercambiar por premios en efectivo, merchandising, suscripciones u otros beneficios, lo que fomentará la participación y la competitividad.
+## 🎯 Finalidad
+**ArenaGG** facilitará:
+- Creación y administración de torneos
+- Automatización de procesos (inscripción, emparejamiento)
+- Sistema de puntos canjeables por:
+  - 💰 Premios en efectivo
+  - 🎚 Merchandising
+  - 📱 Suscripciones
 
 ## ✅ Objetivos
 
-Una vez puesta en marcha, la plataforma permitirá:
-
-- 🔐 Registrar usuarios y crear perfiles personalizados.
-- 📝 Inscribir equipos y jugadores en torneos específicos.
-- 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
-- 📅 Mostrar calendarios y resultados en tiempo real.
-- 🗂️ Gestionar múltiples torneos de forma simultánea.
-- 🔔 Ofrecer un sistema de notificaciones para informar a los usuarios sobre partidas y resultados.
-- Ganar puntos y reclamar recompensas.
-- Ofrecer la posibilidad de ser VIP.
-- Sistema de soporte.
+| Funcionalidad | Estado |
+|--------------------------|--------|
+| 🔐 Registro de usuarios | ✅ |
+| 📝 Inscripción de equipos | ✅ |
+| 🔄 Emparejamiento automático | ✅ |
+| 📅 Calendarios y resultados | ✅ |
+| 🗂️ Gestión múltiple de torneos | ✅ |
+| 🔔 Sistema de notificaciones | ✅ |
+| 🏆 Sistema de puntos/recompensas | ✅ |
+| 👑 Membresía VIP | ✅ |
+| 🛟 Sistema de soporte | ✅ |
 
 ## 🛠️ Medios hardware y software a utilizar
 
