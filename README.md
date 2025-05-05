@@ -137,6 +137,7 @@ Una vez puesta en marcha, la plataforma permitirá:
 ## Bibliografía (“Si es posible con enlace a la fuente”)
 
 - [Python – Documentación oficial](https://docs.python.org/3/)
+- [JavaScript – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [Bootstrap 5.3 – Introducción](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 - [CSS – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [Celery – Documentación oficial](https://docs.celeryq.dev/en/stable/)
