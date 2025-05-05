@@ -11,7 +11,7 @@ Este archivo describe el propósito y funcionamiento de los formularios definido
 Formulario personalizado para el registro de usuarios. Extiende de `UserCreationForm` e incluye:
 
 * Campo `email` requerido.
-* Campo de aceptación de las políticas de privacidad.
+* Campo de `aceptación de las políticas de privacidad y terminos de uso` requerido.
 * Validaciones personalizadas para contraseña y campos obligatorios.
 
 ```python
@@ -20,10 +20,10 @@ class CustomUserCreationForm(UserCreationForm):
     error_messages = {
         "password_mismatch": ("Las contraseñas no coinciden"),
     }
-    accept_privacy_policy = forms.BooleanField(
+    accept_privacy_policy_and_terms_of_use = forms.BooleanField(
         required=True,
-        label="Acepto las Políticas de Privacidad",
-        error_messages={"required": "Debes aceptar las políticas de privacidad para registrarte."}
+        label="Acepto las Políticas de Privacidad y terminos de uso",
+        error_messages={"required": "Debes aceptar las políticas de privacidad y los terminos de uso para registrarte."}
     )
 
     class Meta:
@@ -82,6 +82,9 @@ class TournamentForm(forms.ModelForm):
 
 Formulario simple para crear equipos.
 
+* Campo `name` para introducir el nombre del equipo, obligatorio.
+
+
 ```python
 class TeamForm(forms.ModelForm):
     class Meta:
@@ -96,7 +99,15 @@ class TeamForm(forms.ModelForm):
 
 ### 🧑‍💼 `PlayerForm`
 
-Formulario para registrar jugadores.
+Formulario para modificar el perfil de los jugadores.
+
+* Campo `first_name` para introducir el nombre, no es obligatorio.
+* Campo `last_name` para introducir el/los apellido/s, no es obligatorio.
+* Campo `birth_date` para introducir la fecha de nacimiento, no es obligatorio.
+* Campo `country` para introducir la ciudad, no es obligatorio.
+* Campo `bio` para introducir una descripción, no es obligatorio.
+* Campo `avatar` para introducir un avatar, no es obligatorio.
+
 
 ```python
 class PlayerForm(forms.ModelForm):
@@ -130,6 +141,10 @@ class PlayerForm(forms.ModelForm):
 
 Formulario para filtrar torneos.
 
+* Campo `game` para filtrar por juego, no es obligatorio.
+* Campo `status` para filtrar por estado, no es obligatorio.
+* Campo `search` para filtrar por nombre, no es obligatorio.
+
 ```python
 class TournamentFilterForm(forms.Form):
     game = forms.ModelChoiceField(
@@ -155,6 +170,12 @@ class TournamentFilterForm(forms.Form):
 ### 📩 `SupportForm`
 
 Formulario de contacto o soporte.
+
+* Campo `email` para introducir un email, obligatorio.
+* Campo `subject` para introducir el titulo del problema/mensaje, obligatorio.
+* Campo `message` para introducir el problema/mensaje, obligatorio.
+* Campo `attach_file` para introducir una imagen, no es obligatorio.
+
 
 ```python
 class SupportForm(forms.Form):
@@ -202,6 +223,10 @@ class SupportForm(forms.Form):
 
 Formulario para registrar el resultado de un partido.
 
+* Campo `winner` para introducir el equipo ganador, obligatorio.
+* Campo `team1_score` para introducir la puntuación del primer equipo, obligatorio.
+* Campo `team2_score` para introducir la puntuación del segundo equipo, obligatorio.
+
 ```python
 class MatchResultForm(forms.Form):
     winner = forms.ChoiceField(
@@ -211,11 +236,6 @@ class MatchResultForm(forms.Form):
     team1_score = forms.IntegerField(min_value=0)
     team2_score = forms.IntegerField(min_value=0)
 ```
-
----
-
-Estos formularios permiten construir interfaces limpias, seguras y fáciles de usar para crear y administrar torneos, usuarios y equipos dentro de la aplicación.
-
 
 ---
 
