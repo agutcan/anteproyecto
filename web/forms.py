@@ -12,10 +12,9 @@ class CustomUserCreationForm(UserCreationForm):
     error_messages = {
         "password_mismatch": ("Las contraseñas no coinciden"),
     }
-    accept_privacy_policy = forms.BooleanField(
+    accept_privacy_policy_and_terms_of_use = forms.BooleanField(
         required=True,
-        label="Acepto las Políticas de Privacidad",
-        error_messages={"required": "Debes aceptar las políticas de privacidad para registrarte."}
+        error_messages={"required": "Debes aceptar las políticas de privacidad y términos de uso para registrarte."}
     )
 
     class Meta:
@@ -99,7 +98,7 @@ class TournamentFilterForm(forms.Form):
         widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
     )
     status = forms.ChoiceField(
-        choices=[('', 'Todos los estados'), ('open', 'Inscripciones abiertas'), ('ongoing', 'En progreso'), ('finished', 'Finalizados')],
+        choices=[('', 'Todos los estados'), ('upcoming', 'Inscripciones abiertas'), ('ongoing', 'En progreso'), ('finished', 'Finalizados')],
         required=False,
         widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
     )
