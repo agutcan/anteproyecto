@@ -15,8 +15,9 @@ Aarón Gutiérrez Caña
 3. [Objetivos](#-objetivos)
 4. [Tecnologías](#-medios-hardware-y-software-a-utilizar)
 5. [Planificación](#-planificación)
-6. [Progreso](#actualicaciones)
-7. [Documentación](#documentación)
+6. [Progreso](#-actualizaciones)
+7. [Bibliografía](#-bibliografía)
+8. [Documentación](#-documentación)
    
 ## 📖 Introducción del proyecto
 
@@ -111,7 +112,7 @@ Esta plataforma permitirá a los usuarios:
 **⏳ Duración total estimada:** 10 semanas.
 ---
 
-## Actualicaciones
+## 🔄 Actualizaciones
 
 ### Hecho
 
@@ -161,7 +162,7 @@ Esta plataforma permitirá a los usuarios:
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
 - Sistema para comprobar que el resultado de las partidas proporcionado por cada equipo sea correcto y no tenga que internevir un administrador.
 
-## Bibliografía (“Si es posible con enlace a la fuente”)
+## 📚 Bibliografía (“Si es posible con enlace a la fuente”)
 
 - [Python – Documentación oficial](https://docs.python.org/3/)
 - [JavaScript – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -172,5 +173,5 @@ Esta plataforma permitirá a los usuarios:
 - [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
 - [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
 
-# Documentación
+## 📄 Documentación
 
