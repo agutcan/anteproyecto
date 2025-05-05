@@ -16,7 +16,7 @@
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark text-white">
-                    <strong>Nombre:</strong> {{ player.user }}
+                    <strong>Nombre:</strong> {{ player.first_name }} {{ player.last_name }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>Biografía:</strong><br> {{ player.bio|default:"No hay biografía" }}
@@ -26,6 +26,9 @@
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>País:</strong> {{ player.get_country_display }}
+                </li>
+                <li class="list-group-item bg-dark text-white">
+                    <strong>Equipo:</strong> {{ player.team }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>Partidas jugadas:</strong> {{ player.games_played }}<br>

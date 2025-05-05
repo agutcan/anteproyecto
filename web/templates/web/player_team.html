@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Equipo de {{ player.user.username }} / ArenaGG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-warning mb-4">Equipo de {{ player.user.username }}</h1>
+
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if player.team %}
+        <div class="card bg-dark border-secondary text-white">
+            <div class="card-header bg-black d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">{{ player.team.name }}</h3>
+                {% if player == player.team.leader %}
+                    <form method="post" action="{% url 'web:toggleSearchingTeammatesView' player.team.id %}">
+                        {% csrf_token %}
+                        {% if player.team.searching_teammates %}
+                            <button type="submit" class="btn btn-outline-warning btn-sm mt-2">
+                                <i class="bi bi-x-circle"></i> Dejar de buscar jugadores
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn btn-outline-success btn-sm mt-2">
+                                <i class="bi bi-search"></i> Activar búsqueda de jugadores
+                            </button>
+                        {% endif %}
+                    </form>
+                    <form method="post" action="{% url 'web:teamDeleteView' player.team.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Eliminar equipo
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <p><strong>Torneos:</strong></p>
+                <ul>
+                    {% for tournament in player.team.tournament_set.all %}
+                        <li>{{ tournament.name }}</li>
+                    {% empty %}
+                        <li>No está registrado en ningún torneo.</li>
+                    {% endfor %}
+                </ul>
+                <p>
+                    <strong>Buscando jugadores:</strong>
+                    {% if player.team.searching_teammates %}
+                        <span class="text-success">Sí</span>
+                    {% else %}
+                        <span class="text-danger">No</span>
+                    {% endif %}
+                </p>
+                <p><strong>Líder:</strong> {{ player.team.leader.user|default:"No hay líder" }}</p>
+                <p><strong>Miembros del equipo:</strong></p>
+                <ul>
+                    {% for teammate in player.team.player_set.all %}
+                        <li>{{ teammate.user.username }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info bg-dark border-info text-white">
+            Este jugador no pertenece a ningún equipo actualmente.
+        </div>
+        <a href="{% url 'web:teamCreateView' %}" class="btn btn-warning mt-3">
+            <i class="bi bi-plus-circle"></i> Crear un equipo
+        </a>
+        <a href="{% url 'web:teamJoinView' %}" class="btn btn-success mt-3">
+            <i class="bi bi-person-check"></i> Unirse a un equipo
+        </a>
+    {% endif %}
+</div>
+{% endblock %}

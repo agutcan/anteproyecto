@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Unirse a un equipo / ArenaGG{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-warning mb-4">Unirse a un equipo</h1>
+
+    {% if teams %}
+        <ul class="list-group">
+            {% for entry in teams %}
+                <div class="card mb-3 bg-dark text-white border-secondary">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ entry.name }}</h5>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="team_id" value="{{ entry.id }}">
+                            <button type="submit" class="btn btn-success">Unirse al equipo</button>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-white">No hay equipos disponibles en torneos próximos.</p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info bg-dark border-info text-white">
+            No hay equipos disponibles para unirse en este momento.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

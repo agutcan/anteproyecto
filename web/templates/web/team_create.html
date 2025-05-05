@@ -2,34 +2,47 @@
 {% block title %}Crear Equipo / ArenaGG{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2 class="text-warning mb-4 text-center">Crear un nuevo equipo</h2>
-
-            <div class="card bg-dark text-white border-secondary">
-                <div class="card-body">
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form.non_field_errors }}
-
-                        <div class="mb-3">
-                            <label for="id_name" class="form-label">Nombre del equipo</label>
-                            {{ form.name }}
-                            {{ form.name.errors }}
+<div class="container py-5">
+        {% if messages %}
+            <div class="alert alert-danger">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger">
+                            {{ message }}
                         </div>
-
-                        <button type="submit" class="btn btn-warning w-100 fw-bold">
-                            <i class="bi bi-plus-circle"></i> Crear equipo
-                        </button>
-                    </form>
-                </div>
+                    {% endif %}
+                {% endfor %}
             </div>
+        {% endif %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="text-warning mb-4 text-center">Crear un nuevo equipo</h2>
 
-            <div class="text-center mt-3">
-                <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left"></i> Volver al torneo
-                </a>
+                <div class="card bg-dark text-white border-secondary">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+
+                            <div class="mb-3">
+                                <label for="id_name" class="form-label">Nombre del equipo</label>
+                                {{ form.name }}
+                                {{ form.name.errors }}
+                            </div>
+
+                            <button type="submit" class="btn btn-warning w-100 fw-bold">
+                                <i class="bi bi-plus-circle"></i> Crear equipo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="{% url 'web:indexView' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver al inicio
+                    </a>
+                </div>
             </div>
         </div>
     </div>

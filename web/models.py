@@ -79,6 +79,9 @@ class Team(models.Model):
     """Modelo de equipo."""
     name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    leader = models.OneToOneField("Player", on_delete=models.SET_NULL, null=True, blank=True,
+                                  related_name='led_team')
+    searching_teammates = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
