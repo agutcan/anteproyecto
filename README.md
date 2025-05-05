@@ -28,15 +28,17 @@ El objetivo principal del proyecto es desarrollar una plataforma web llamada **A
 - 🔫 Counter-Strike 2
 
 Esta plataforma permitirá a los usuarios:
-- Inscribirse
-- Gestionar equipos
+- Gestionar torneos y equipos
 - Seguir torneos en tiempo real
+- Personalizar su perfil
 - Consultar resultados
+- Reclamar recompensas
+- Consultar a soporte
 
 ## 🎯 Finalidad
 **ArenaGG** facilitará:
 - Creación y administración de torneos
-- Automatización de procesos (inscripción, emparejamiento)
+- Automatización de procesos (emparejamiento, generación de brackets 2/4/8)
 - Sistema de puntos canjeables por:
   - 💰 Premios en efectivo
   - 🎚 Merchandising
@@ -161,6 +163,7 @@ Esta plataforma permitirá a los usuarios:
 
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
 - Sistema para comprobar que el resultado de las partidas proporcionado por cada equipo sea correcto y no tenga que internevir un administrador.
+- AI para contestar a los mensajes de soporte automáticamente.
 
 ## 📚 Bibliografía
 
