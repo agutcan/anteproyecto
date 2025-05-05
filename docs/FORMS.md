@@ -154,7 +154,7 @@ class TournamentFilterForm(forms.Form):
         widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
     )
     status = forms.ChoiceField(
-        choices=[('', 'Todos los estados'), ('open', 'Inscripciones abiertas'), ('ongoing', 'En progreso'), ('finished', 'Finalizados')],
+        choices=[('', 'Todos los estados'), ('upcoming', 'Inscripciones abiertas'), ('ongoing', 'En progreso'), ('finished', 'Finalizados')],
         required=False,
         widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
     )
