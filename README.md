@@ -186,3 +186,4 @@ Esta plataforma permitirá a los usuarios:
 - [Modelos](docs/MODELS.md)
 - [Formularios](docs/FORMS.md)
 - [Flujos](docs/WORKFLOWS.md)
+- [Test](docs/TESTS.md)
