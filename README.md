@@ -175,3 +175,8 @@ Esta plataforma permitirá a los usuarios:
 
 ## 📄 Documentación
 
+- [Estructura del Proyecto](docs/PROJECT_STRUCTURE.md)
+- [Vistas](docs/VIEWS.md)
+- [Modelos](docs/MODELS.md)
+- [Formularios](docs/FORMS.md)
+- [Flujos](docs/WORKFLOWS.md)
