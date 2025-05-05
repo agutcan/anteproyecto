@@ -13,7 +13,7 @@ Aarón Gutiérrez Caña
 1. [Introducción](#-introducción-del-proyecto)
 2. [Finalidad](#-finalidad)
 3. [Objetivos](#-objetivos)
-4. [Tecnologías](%EF%B8%8F-medios-hw-y-sf)
+4. [Tecnologías](#-%EF%B8%8F-medios-hw-y-sf)
 5. [Planificación](#-planificación)
 6. [Progreso](#-actualizaciones)
 7. [Bibliografía](#-bibliografía)
