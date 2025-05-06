@@ -158,6 +158,7 @@ Esta plataforma permitirá a los usuarios:
 ### Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
 - He cambiado la gestión de torneos, es decir, solo gestiono torneos de 2, 4 y 8 equipos, necesitaria de más tiempo para implementar un sistema para gestionar equipos impares y automatizar el sistema de gestión de torneos con más equipos
+- He cambiado la gestión de equipos al ver que tengo un gran problema, los jugadores solo pueden unirse a un equipo y el lider de este es el único que puede modificarlo, es decir, un jugador tiene que tener muy claro a que equipo va a unirse porque no va a poder abandonarlo o unirse a otro si se llega a participar en algún torneo con ese equipo.
 
 ### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
