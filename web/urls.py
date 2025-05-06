@@ -12,7 +12,6 @@ urlpatterns = [
     path("api/tournaments/", views.TournamentListAPI.as_view(), name="tournamentListApi"),  # Api para el calendario con los torneos
     path('api/player-stats/', views.PlayerStatsListAPI.as_view(), name='playerStatsListApi'),  # Api para el gráfico con las estadísticas de cada jugador
 
-    # Ruta para la vista principal del índice
     path('', views.PublicIndexView.as_view(), name='publicIndex'),  # Vista principal publica (Sin estar logueado)
     path('start/', views.IndexView.as_view(), name='indexView'),  # Vista principal (Estando logueado)
     path('start/premium/', views.PremiumView.as_view(), name='premiumView'),  # Vista para la página de Premium/VIP
@@ -34,7 +33,6 @@ urlpatterns = [
     path('start/tournament/create/', views.TournamentCreateView.as_view(), name='tournamentCreateView'),  # Vista para crear un torneo
     path('start/join_team/', views.TeamJoinView.as_view(), name='teamJoinView'),   # Vista para listar los torneos a los que te puedes unir dentro de un torneo
     path('start/team/<int:pk>/search_players/', views.ToggleSearchingTeammatesView.as_view(), name='toggleSearchingTeammatesView'),  # Vista para cambiar el estado del campo search_players
-
     path('start/profile/<int:pk>', views.PlayerProfileDetailView.as_view(), name='playerProfileDetailView'),  # Vista para los detalles del perfil de un usuario
     path('start/profile/update/<int:pk>/', views.PlayerUpdateView.as_view(), name='playerUpdateView'),  # Vista para actualizar los detalles del perfil de un usuario
     path('start/ranking/', views.RankingView.as_view(), name='rankingView'),  # Vista para mostrar un ranking de jugadores
