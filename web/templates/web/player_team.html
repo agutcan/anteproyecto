@@ -64,7 +64,17 @@
                 <p><strong>Miembros del equipo:</strong></p>
                 <ul>
                     {% for teammate in player.team.player_set.all %}
-                        <li>{{ teammate.user.username }}</li>
+
+                        <li>{{ teammate.user.username }}
+                            {% if player == player.team.leader and teammate != player %}
+                                <form method="post" action="{% url 'web:teamKickView' player.team.id teammate.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link btn-sm text-danger p-0" title="Expulsar jugador" style="text-decoration: none;">
+                                        ❌
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>

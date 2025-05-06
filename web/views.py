@@ -418,21 +418,33 @@ class TeamJoinView(LoginRequiredMixin, View):
 
         return redirect('web:playerTeamDetailView', pk=player.pk)
 
-class TeamLeaveView(LoginRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        team = get_object_or_404(Team, pk=pk)
-        player = Player.objects.get(user=request.user)
+class TeamKickView(LoginRequiredMixin, View):
+    def post(self, request, team_id, player_id, *args, **kwargs):
+        team = Team.objects.get(pk=team_id)
+        player = Player.objects.get(pk=player_id)
 
         if player.team == team:
             # Desvincular al jugador del equipo
             player.team = None
             player.save()
-
-            messages.success(request, "Has abandonado el equipo correctamente.")
+            # Enviar correo de confirmación
+            send_mail(
+                subject='Has sido expulsado!!',
+                message=(
+                    f'Hola {player.user},\n\n'
+                    'Se te ha expulsado de tu equipo.\n\n'
+                    '¡Esperemos que este no sea un adios para siempre!\n\n'
+                    '- El equipo de ArenaGG'
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[player.user.email],
+                fail_silently=False,
+            )
+            messages.success(request, "Has expulsado al jugador del equipo correctamente.")
         else:
-            messages.error(request, "No estás en este equipo.")
+            messages.error(request, "El jugador que intentas expulsar no está en el equipo.")
 
-        return redirect('web:playerTeamDetailView', pk=player.pk)
+        return redirect('web:playerTeamDetailView', pk=team.leader.pk)
 
 class RegisterView(FormView):
     template_name = 'registration/register.html'
@@ -757,6 +769,16 @@ class RewardRedemptionView(LoginRequiredMixin, View):
             # Restar las monedas y guardar
             player.coins -= reward.coins_cost
             player.save()
+            reward.stock -= 1
+            reward.save()
+            if reward.stock == 0:
+                send_mail(
+                    subject='Recompensa acabada',
+                    message=f'Se ha acabado el stock de la recompensa: {reward.name}',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                    fail_silently=True,
+                )
 
             # Crear la redención
             Redemption.objects.create(user=request.user, reward=reward)

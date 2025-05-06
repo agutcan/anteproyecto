@@ -47,6 +47,7 @@ urlpatterns = [
     path('start/match/confirm_result/<int:pk>/', views.MatchConfirmView.as_view(), name='matchConfirmView'),  # Vista para confirmar el resultado de una partida
     path('start/match/ready/<int:pk>/', views.MatchReadyView.as_view(), name='matchReadyView'),  # Vista para marcar el equipo como preparado
     path('start/tournament/<int:pk>/logs/', views.TournamentLogsView.as_view(), name='tournamentLogsView'),  # Vista para listar los logs de las partidas de un torneo
+    path('start/team/<int:team_id>/<int:player_id>/', views.TeamKickView.as_view(), name='teamKickView'),
 
 ]
 

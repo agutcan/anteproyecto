@@ -55,6 +55,33 @@ def check_teams_ready_for_match():
             match.save()
             create_match_log(match, "Ambos equipos listos. El partido ha comenzado.")
             print("  ✅ Partido marcado como 'ongoing'.")
+            for player in match.team1.player_set.all():
+                # Enviar correo de confirmación
+                send_mail(
+                    subject='✅ ¡Partida Comenzada!',
+                    message=(
+                        f'Hola {player.user},\n\n'
+                        'La partida ha comenzado correctamente.\n\n'
+                        '- El equipo de ArenaGG'
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[player.user.email],
+                    fail_silently=False,
+                )
+
+            for player in match.team2.player_set.all():
+                # Enviar correo de confirmación
+                send_mail(
+                    subject='✅ ¡Partida finalizada!',
+                    message=(
+                        f'Hola {player.user},\n\n'
+                        'La partida ha comenzado correctamente.\n\n'
+                        '- El equipo de ArenaGG'
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[player.user.email],
+                    fail_silently=False,
+                )
             continue
 
         if now >= match.scheduled_at and match.status != "completed":

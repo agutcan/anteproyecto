@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from .models import *
@@ -92,6 +93,37 @@ def record_match_result(match, winner, team1_score, team2_score):
     # Actualizar el estado del partido a 'completed'
     match.status = 'completed'
     match.save()
+    for player in match.team1.player_set.all():
+        # Enviar correo de confirmación
+        send_mail(
+            subject='✅ ¡Partida finalizada!',
+            message=(
+                f'Hola {player.user},\n\n'
+                'La partida ha finalizado correctamente.\n\n'
+                f'Resultado del partido {match}: {team1_score}-{team2_score}\n\n'
+                '- El equipo de ArenaGG'
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[player.user.email],
+            fail_silently=False,
+        )
+
+    for player in match.team2.player_set.all():
+        # Enviar correo de confirmación
+        send_mail(
+            subject='✅ ¡Partida finalizada!',
+            message=(
+                f'Hola {player.user},\n\n'
+                'La partida ha finalizado correctamente.\n\n'
+                f'Resultado del partido {match}: {team1_score}-{team2_score}\n\n'
+                '- El equipo de ArenaGG'
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[player.user.email],
+            fail_silently=False,
+        )
+
+
 
     print(f"Resultado registrado para el partido {match}: {team1_score}-{team2_score}")
 
@@ -199,6 +231,20 @@ def process_final_match(tournament, completed_matches_queryset):
                     else:
                         player.coins += reward_per_player
                     player.save()
+
+            for player in players:
+                send_mail(
+                    subject='✅ ¡Torneo finalizado!',
+                    message=(
+                        f'Hola {player.user},\n\n'
+                        'El torneo ha finalizado correctamente.\n\n'
+                        f'Enhorabuena por ganar el torneo!!\n\n'
+                        '- El equipo de ArenaGG'
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[player.user.email],
+                    fail_silently=False,
+                )
             print(f"   🏅 Torneo finalizado. Ganador: {winner.name}")
     else:
         print("   ⚠️ No se pudo determinar el ganador del partido completado.")

@@ -31,13 +31,14 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-warning">{{ reward.name }}</h5>
                         <p class="card-text">{{ reward.description }}</p>
+                        <p>Stock: {{ reward.stock }}</p>
                         <p class="mt-auto">
                             <span class="badge bg-warning text-dark fw-bold">
                                 {{ reward.coins_cost }} <i class="bi bi-trophy-fill"></i>
                             </span>
                         </p>
 
-                        {% if request.user.player.coins >= reward.coins_cost %}
+                        {% if request.user.player.coins >= reward.coins_cost and reward.stock > 0 and reward.is_active %}
                             <form method="post" action="{% url 'web:redeemRewardView' reward.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-success w-100 mt-2">
