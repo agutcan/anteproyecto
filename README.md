@@ -30,10 +30,10 @@ El objetivo principal del proyecto es desarrollar una plataforma web llamada **A
 Esta plataforma permitirá a los usuarios:
 - Gestionar torneos y equipos
 - Seguir torneos en tiempo real
-- Personalizar su perfil
+- Registrar su perfil y personalizarlo
 - Consultar resultados
 - Reclamar recompensas
-- Consultar a soporte
+- Enviar mensajes a soporte
 
 ## 🎯 Finalidad
 **ArenaGG** facilitará:
@@ -53,7 +53,7 @@ Esta plataforma permitirá a los usuarios:
 | 🔄 Emparejamiento automático | ✅ |
 | 📅 Calendarios y resultados | ✅ |
 | 🗂️ Gestión múltiple de torneos | ✅ |
-| 🔔 Sistema de notificaciones | ✅ |
+| 🔔 Sistema de notificaciones por correo | ✅ |
 | 🏆 Sistema de puntos/recompensas | ✅ |
 | 👑 Membresía VIP | ✅ |
 | 🛟 Sistema de soporte | ✅ |
