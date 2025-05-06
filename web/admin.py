@@ -70,7 +70,7 @@ class TournamentAdmin(admin.ModelAdmin):
         'name',              # Nombre del torneo
         'game',              # Juego asociado
         'status',            # Estado actual
-        'truncated_description',  # Descripción abreviada
+        'description',       # Descripción 
         'start_date',        # Fecha de inicio
         'created_by',        # Creador del torneo
         'matches_generated', # Partidos generados
