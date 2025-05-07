@@ -45,7 +45,7 @@
                             <span class="text-warning fw-bold">{{ tournament.prize_pool }}</span>
                         </li>
                         <li class="mb-3">
-                            <strong class="d-block text-light">Máximo de jugadores por equipo:</strong>
+                            <strong class="d-block text-light">Jugadores por equipo:</strong>
                             <span class="text-warning fw-bold">{{ tournament.max_player_per_team }}</span>
                         </li>
                         <li class="mb-3">
@@ -163,12 +163,18 @@
                                 <div class="modal-body text-center">
                                     <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
                                     <div class="d-grid gap-3">
-                                        <a href="{% url 'web:joinTeamListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
-                                            <i class="bi bi-person-add"></i> Unirse a un equipo
-                                        </a>
-                                        <a href="{% url 'web:teamCreateInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">
-                                            <i class="bi bi-plus-circle"></i> Crear un equipo
-                                        </a>
+                                        {% if not request.user.player.team %}
+                                            <a href="{% url 'web:joinTeamListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
+                                                <i class="bi bi-person-add"></i> Unirse a un equipo
+                                            </a>
+                                            <a href="{% url 'web:teamCreateInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">
+                                                <i class="bi bi-plus-circle"></i> Crear un equipo
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'web:teamInscribeInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">
+                                                <i class="bi bi-plus-circle"></i> Inscribir tu equipo
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

@@ -66,8 +66,8 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Número total de equipos en el torneo
     num_teams = tournament_teams.count()
 
-    # Si el número de equipos es impar o 0, cancelamos el torneo
-    if num_teams == 0 or num_teams % 2 != 0:
+    # Si el número de equipos es 0 o diferente a 2, 4 u 8, cancelamos el torneo
+    if num_teams == 0 or num_teams != 2 or num_teams != 4 or num_teams != 8:
         # Enviar correo a todos los jugadores del torneo notificando la cancelación
         players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('tournament')
         for player in players:

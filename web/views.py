@@ -197,7 +197,10 @@ class JoinTeamListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
 
-        tournament_teams = TournamentTeam.objects.filter(tournament=tournament)
+        tournament_teams = TournamentTeam.objects.filter(tournament_teams = TournamentTeam.objects.filter(
+            tournament=tournament,
+            team__searching_teammates=True
+        ))
 
         context['tournament'] = tournament
         context['team_list'] = tournament_teams
@@ -302,6 +305,8 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
         if player:
             player.team = team
             team.leader = player
+            if self.tournament.max_player_per_team > 1:
+                team.searching_teammates = True
             player.save()
             team.save()
 
@@ -423,7 +428,7 @@ class TeamKickView(LoginRequiredMixin, View):
         team = Team.objects.get(pk=team_id)
         player = Player.objects.get(pk=player_id)
 
-        if player.team == team:
+        if player.team == team or TournamentTeam.objects.filter(team=team).exists():
             # Desvincular al jugador del equipo
             player.team = None
             player.save()
@@ -442,7 +447,7 @@ class TeamKickView(LoginRequiredMixin, View):
             )
             messages.success(request, "Has expulsado al jugador del equipo correctamente.")
         else:
-            messages.error(request, "El jugador que intentas expulsar no está en el equipo.")
+            messages.error(request, "El jugador que intentas expulsar no está en el equipo o el equipo ya está inscrito en algún torneo.")
 
         return redirect('web:playerTeamDetailView', pk=team.leader.pk)
 
@@ -490,6 +495,10 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
         tt = TournamentTeam.objects.filter(tournament=tournament, team=team).first()
         if not tt:
             messages.warning(request, "Tu equipo no pertenece a este torneo.")
+            return redirect('web:tournamentDetailView', tournament.id)
+
+        if player != team.leader:
+            messages.warning(request, "Tu eres el lider de tu equipo, no puedes realizar esta acción.")
             return redirect('web:tournamentDetailView', tournament.id)
 
         # Quitar al jugador del equipo

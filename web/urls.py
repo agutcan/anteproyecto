@@ -23,6 +23,7 @@ urlpatterns = [
     path('start/tournament/', views.TournamentListView.as_view(), name='tournamentListView'),  # Vista para listar todos los torneos
     path('start/tournament/<int:pk>/join/', views.JoinTeamListView.as_view(), name='joinTeamListView'),   # Vista para ver los torneos a los que te puedes unir
     path('start/tournament/<int:pk>/create_team/', views.TeamCreateInTournamentView.as_view(), name='teamCreateInTournamentView'),   # Vista para crear un equipo dentro de un torneo
+    path('start/tournament/<int:pk>/inscribe_team/', views.TeamInscribeInTournamentView.as_view(), name='teamInscribeInTournamentView'),   # Vista para crear un equipo dentro de un torneo
     path('start/tournament/create_team/', views.TeamCreateView.as_view(), name='teamCreateView'),   # Vista para crear un equipo
     path('start/tournament/create/', views.TournamentCreateView.as_view(), name='tournamentCreateView'),   # Vista para crear un torneo
     path('start/tournament/leave/<int:pk>', views.LeaveTournamentView.as_view(), name='leaveTournamentView'),   # Vista para abandonar un torneo
