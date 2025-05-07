@@ -30,7 +30,6 @@ Transforma la estructura de datos del modelo Tournament para:
 
 2. **title**  
    - Tipo: CharField  
-   - Origen: Campo `name` del modelo  
    - Uso: Nombre legible para mostrar en UI
 
 3. **game**  
@@ -86,11 +85,20 @@ Proporciona una vista estructurada de:
 
 ### Campos Incluidos
 
-| Campo | Tipo | Descripción |
-|-------|------|-------------|
-| username | CharField | Nombre público del jugador |
-| games_won | IntegerField | Partidas ganadas (acumulativo) |
-| winrate | FloatField | Porcentaje de victorias (0-100) |
+1. **username**  
+   - Tipo: CharField  
+   - Descripción: Nombre público del jugador  
+   - Acceso: Solo lectura  
+
+2. **games_won**  
+   - Tipo: IntegerField  
+   - Descripción: Número total de partidas ganadas  
+   - Validación: Valor positivo o cero  
+
+3. **winrate**  
+   - Tipo: FloatField  
+   - Descripción: Porcentaje de victorias (rango 0-100)  
+   - Formato: Decimal con 1 dígito (ej: 72.5)  
 
 ```python
 class PlayerStatsSerializer(serializers.ModelSerializer):
