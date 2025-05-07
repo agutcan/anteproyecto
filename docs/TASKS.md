@@ -211,7 +211,6 @@ def check_teams_ready_for_match():
                 match,
                 f"Partido finalizado automáticamente. Ganador: {winner.name} ({reason})."
             )
-            print(f"  🏁 Resultado automático registrado. {winner.name} gana {team1_score}-{team2_score}.")
 
 ```
 
