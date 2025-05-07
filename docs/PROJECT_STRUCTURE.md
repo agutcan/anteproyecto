@@ -51,5 +51,9 @@
 
 ```
 
+# Estructura de la base de datos
+
+
+
 ## 🔄 Navegación
 [⬅️ Volver al README principal](../README.md)
