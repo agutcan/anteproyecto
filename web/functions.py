@@ -337,8 +337,8 @@ def process_round(tournament, completed_matches_queryset, round_number):
         if match.winner:  # Verificar si el partido tiene un ganador
             winning_teams.append(match.winner)  # Agregar el equipo ganador a la lista
 
-    # Verificar si el número de equipos ganadores coincide con el número esperado para la ronda
-    if len(winning_teams) == (round_number * 2):  # Se espera el doble de equipos en cada ronda
+    # Validar que haya suficientes equipos (en número par) para emparejar
+    if len(winning_teams) >= 2 and len(winning_teams) % 2 == 0:        
         # Generar los partidos para la siguiente ronda usando los equipos ganadores
         generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_teams)
         print(f"   ✅ Generados partidos para la ronda {round_number}.")  # Confirmación en consola
