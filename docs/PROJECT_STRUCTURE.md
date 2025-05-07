@@ -13,37 +13,13 @@ anteproyecto/
 │   ├── celery.py                      # Configuración de Celery para tareas asíncronas
 │   └── wsgi.py                        # Punto de entrada WSGI para servidores web (ej. Gunicorn, uWSGI)
 │
-├── data/                              # Carpeta opcional para guardar datos locales (seeds, backups, fixtures)
-│   ├── ...                            # Puede contener archivos como `initial_data.json`, `seeds.py`, etc.
-│
-├── docs/                              # Documentación del proyecto (guías, especificaciones, diagramas)
-│   ├── ...                            # Archivos Markdown, PDF o imágenes relacionadas con la documentación
-│
-├── templates/                         # Plantillas globales para el registro y login de usuarios (HTML base, etc.)
-│   ├── ...                            # Archivos HTML y otros templates reutilizables
-│
-├── web/                               # Aplicación Django principal que contiene la lógica del dominio
-│   ├── migrations/                    # Migraciones de base de datos de esta app
-│   ├── static/                        # Archivos estáticos propios de la app (CSS, JS, imágenes)
-│   ├── templates/                     # Plantillas HTML específicas de la app
-│   ├── tests/                         # Tests unitarios y de integración para la app
-anteproyecto/
-│
-├── ArenaGG/                           # Carpeta del proyecto Django principal
-│   ├── __init__.py                    # Marca el directorio como un paquete Python
-│   ├── settings.py                    # Configuración global del proyecto (BD, apps, middleware, etc.)
-│   ├── urls.py                        # Enrutamiento de URLs a nivel global del proyecto
-│   ├── asgi.py                        # Punto de entrada ASGI para servidores asincrónicos (ej. Daphne, Uvicorn)
-│   ├── celery.py                      # Configuración de Celery para tareas asíncronas
-│   └── wsgi.py                        # Punto de entrada WSGI para servidores web (ej. Gunicorn, uWSGI)
-│
 ├── data/                              # Carpeta opcional para guardar datos locales en mi caso usado para guardar los datos de mailpit.
 │   ├── ...                            # Puede contener archivos como `initial_data.json`, `seeds.py`, etc.
 │
 ├── docs/                              # Documentación del proyecto (guías, especificaciones, diagramas)
 │   ├── ...                            # Archivos Markdown, PDF o imágenes relacionadas con la documentación
 │
-├── templates/                         # Plantillas globales compartidas por varias apps (HTML base, correos, etc.)
+├── templates/                         # Plantillas globales compartidas por varias apps en mi caso para el registro/login (HTML base, etc.)
 │   ├── ...                            # Archivos HTML y otros templates reutilizables
 │
 ├── web/                               # Aplicación Django principal que contiene la lógica del dominio
