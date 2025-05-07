@@ -43,16 +43,12 @@ def update_tournament_status():
     Esta tarea está pensada para ejecutarse de forma periódica mediante Celery Beat.
     """
     now = timezone.now()  # Obtiene la hora y fecha actual del servidor (con zona horaria).
-    print(f"[DEBUG] Ejecutando task a las: {now}")
 
     # Filtra los torneos cuyo estado actual contiene la palabra 'upcoming' (es decir, que aún no han comenzado).
     tournaments = Tournament.objects.filter(status__icontains="upcoming")
     
     # Itera sobre cada torneo encontrado
     for tournament in tournaments:
-        print(f"[DEBUG] Torneo: {tournament.name}")
-        print(f"  Start: {tournament.start_date}")
-        print(f"  Status actual: {tournament.status}")
 
         # Determina si el torneo debe cambiar a 'ongoing' según la fecha actual y su estado actual
         if tournament.start_date <= now and tournament.status != "completed":
@@ -60,22 +56,15 @@ def update_tournament_status():
         else:
             new_status = 'upcoming'
         
-        print(f"  Nuevo status: {new_status}")
 
         # Solo actualiza si el estado ha cambiado
         if tournament.status != new_status:
             tournament.status = new_status  # Actualiza el campo status
             tournament.save()  # Guarda los cambios en la base de datos
-            print(f"  ✅ Estado actualizado a: {new_status}")
 
             # Si el torneo pasa a estado 'ongoing' y aún no se han generado las partidas
             if new_status == 'ongoing' and not tournament.matches_generated:
-                print(f"  Generando partidas para el torneo {tournament.name}...")
                 generate_matches_by_mmr(tournament.id)  # Llama a la función que genera las partidas
-                print(f"  ✅ Partidas generadas.")
-        else:
-            # Si el estado ya es el correcto, no hace nada
-            print(f"  ⏩ Estado ya era correcto. No se guarda.")
 ```
 
 ## Tarea: `check_teams_ready_for_match`
@@ -123,16 +112,12 @@ def check_teams_ready_for_match():
     """
     # Obtiene la fecha y hora actual con zona horaria
     now = timezone.now()
-    print(f"[DEBUG] Ejecutando task a las: {now}")
 
     # Filtra todos los partidos pendientes en la base de datos
     matches = Match.objects.filter(status='pending')
 
     # Procesa uno por uno
     for match in matches:
-        print(f"[DEBUG] Partido: {match.team1.name} vs {match.team2.name}")
-        print(f"  Fecha y hora programada: {match.scheduled_at}")
-        print(f"  Estado actual: {match.status}")
 
         # Caso 1: Ambos equipos están listos antes de la hora de inicio
         if match.team1_ready and match.team2_ready:
@@ -140,7 +125,6 @@ def check_teams_ready_for_match():
             match.status = "ongoing"
             match.save()
             create_match_log(match, "Ambos equipos listos. El partido ha comenzado.")
-            print("  ✅ Partido marcado como 'ongoing'.")
 
             # Notifica a cada jugador del equipo 1 por correo electrónico
             for player in match.team1.player_set.all():
@@ -229,11 +213,6 @@ def check_teams_ready_for_match():
             )
             print(f"  🏁 Resultado automático registrado. {winner.name} gana {team1_score}-{team2_score}.")
 
-        else:
-            # Si aún no es hora del partido o ya fue procesado, no se hace nada
-            print("  ⌛ Aún no es la hora o ya se registró resultado.")
-
-    print("[DEBUG] Tarea 'check_teams_ready_for_match' finalizada.")
 ```
 
 ## Tarea: `check_tournament_match_progress`
@@ -282,12 +261,10 @@ def check_tournament_match_progress():
 
     # Obtener la hora actual con zona horaria
     now = timezone.now()
-    print(f"[DEBUG] Ejecutando tarea de verificación de torneos a las: {now}")
 
     # Buscar torneos que estén en curso
     ongoing_tournaments = Tournament.objects.filter(status='ongoing')
     if not ongoing_tournaments.exists():
-        print("[INFO] No hay torneos en curso.")
         return
 
     # Procesar cada torneo en curso
@@ -297,13 +274,6 @@ def check_tournament_match_progress():
         completed_matches = Match.objects.filter(tournament=tournament, status='completed').count()
         total_matches = Match.objects.filter(tournament=tournament).count()
         team_count = tournament.tournamentteam_set.count()
-
-        # Mostrar datos del torneo
-        print(f"🏆 Torneo: {tournament.name}")
-        print(f"   🔄 Partidas en curso: {ongoing_matches}")
-        print(f"   ✅ Partidas completadas: {completed_matches}")
-        print(f"   📊 Total de partidas: {total_matches}")
-        print(f"   📊 Total de equipos: {team_count}")
 
         # Obtener queryset reutilizable de partidas finalizadas
         completed_matches_queryset = Match.objects.filter(tournament=tournament, status='completed')
@@ -333,7 +303,6 @@ def check_tournament_match_progress():
             elif completed_matches == 7:
                 process_final_match(tournament, completed_matches_queryset)
 
-    print("[DEBUG] Tarea 'check_tournament_match_progress' finalizada.")
 ```
 
 ## 🔄 Navegación
