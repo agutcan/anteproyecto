@@ -73,5 +73,47 @@ class TournamentSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "game", "start"]
 ```
 
+## PlayerStatsSerializer
+
+### Descripción
+Serializador para estadísticas públicas de jugadores que expone métricas clave de rendimiento.
+
+### Propósito
+Proporciona una vista estructurada de:
+1. Identificación básica del jugador
+2. Estadísticas competitivas
+3. Datos calculados de rendimiento
+
+### Campos Incluidos
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| username | CharField | Nombre público del jugador |
+| games_won | IntegerField | Partidas ganadas (acumulativo) |
+| winrate | FloatField | Porcentaje de victorias (0-100) |
+
+```python
+class PlayerStatsSerializer(serializers.ModelSerializer):
+    """Serializador para estadísticas públicas de jugadores
+    
+    Atributos expuestos:
+        username (str): Nombre de usuario obtenido del modelo User relacionado
+        games_won (int): Número total de partidas ganadas
+        winrate (float): Porcentaje de victorias (0-100)
+    
+    Uso típico:
+        - Tablas de clasificación
+        - Perfiles públicos de jugadores
+        - Componentes de estadísticas
+    """
+    username = serializers.CharField(
+        source='user.username',
+    )
+
+    class Meta:
+        model = Player
+        fields = ['username', 'games_won', 'winrate']
+```
+
 ## 🔄 Navegación
 [⬅️ Volver al README principal](../README.md)
