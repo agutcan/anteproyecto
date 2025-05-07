@@ -24,9 +24,13 @@ anteproyecto/
 │
 ├── 🧩 web/                           # App principal: lógica de negocio, vistas, modelos, etc.
 │   ├── 🗃 migrations/               # Migraciones de base de datos de esta app
+│   │   └── 📄 ...
 │   ├── 🌈 static/                   # Archivos estáticos (CSS, JS, imágenes)
+│   │   └── 📄 ...
 │   ├── 🖼 templates/                # Plantillas específicas de la app
+│   │   └── 📄 ...
 │   ├── 🧪 tests/                    # Pruebas unitarias y de integración
+│   │   └── 📄 ...
 │   ├── 🛠 admin.py                  # Registro de modelos en el panel admin de Django
 │   ├── 🧰 apps.py                   # Configuración de la app
 │   ├── 📝 forms.py                  # Formularios de Django
