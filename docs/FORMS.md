@@ -1,36 +1,64 @@
-# Formularios Clave
+# 🧾 Formularios Clave
 
-## Explicación de formularios en Django (`forms.py`)
+## ✍️ Explicación de formularios en Django (`forms.py`)
 
 Este archivo describe el propósito y funcionamiento de los formularios definidos para la aplicación web, utilizando Django Forms y ModelForms.
 
 ---
 
-### 🧾 `CustomUserCreationForm`
+### 👤 `CustomUserCreationForm` — Registro de Usuario
 
 Formulario personalizado para el registro de usuarios. Extiende de `UserCreationForm` e incluye:
 
-* Campo `email` requerido.
-* Campo de `aceptación de las políticas de privacidad y terminos de uso` requerido.
-* Validaciones personalizadas para contraseña y campos obligatorios.
+- ✅ Campo `email` requerido.
+- ✅ Aceptación obligatoria de políticas y términos. 
+- ✅ Validaciones personalizadas para contraseñas y campos obligatorios.
 
 ```python
 class CustomUserCreationForm(UserCreationForm):
+    """Formulario personalizado para la creación de usuarios.
+    
+    Extiende UserCreationForm para añadir campos adicionales y personalizar mensajes de error.
+    
+    Atributos:
+        email (EmailField): Campo requerido para el email del usuario
+        error_messages (dict): Mensajes de error personalizados
+        accept_privacy_policy_and_terms_of_use (BooleanField): 
+            Aceptación de términos requerida para el registro
+    """
+    
     email = forms.EmailField(required=True)
+    
     error_messages = {
         "password_mismatch": ("Las contraseñas no coinciden"),
     }
+    
     accept_privacy_policy_and_terms_of_use = forms.BooleanField(
         required=True,
-        label="Acepto las Políticas de Privacidad y terminos de uso",
-        error_messages={"required": "Debes aceptar las políticas de privacidad y los terminos de uso para registrarte."}
+        error_messages={
+            "required": "Debes aceptar las políticas de privacidad y términos de uso para registrarte."
+        }
     )
 
     class Meta:
+        """Configuración del formulario base.
+        
+        Atributos:
+            model: Modelo User al que está asociado el formulario
+            fields: Campos incluidos en el formulario
+        """
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
+        """Guarda el usuario asegurando que el email se almacene correctamente.
+        
+        Args:
+            commit (bool): Si se debe guardar el usuario en la base de datos
+            
+        Returns:
+            User: El objeto usuario creado
+        """
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
         if commit:
@@ -40,91 +68,147 @@ class CustomUserCreationForm(UserCreationForm):
 
 ---
 
-### 🏆 `TournamentForm`
+### 🏆 `TournamentForm` — Crear Torneos
 
-Formulario para crear torneos, basado en el modelo `Tournament`. Incluye:
+Formulario basado en el modelo `Tournament`. Incluye:
 
-* Campos: `name`, `description`, `max_player_per_team`, `game`, `max_teams`, `start_date`.
-* Widget personalizado para la fecha (`datetime-local`).
-* Asigna por defecto el juego "Valorant" si existe.
-* Valida que la fecha de inicio sea al menos un día posterior a la actual.
+- 🎮 Campos: `name`, `description`, `max_player_per_team`, `game`, `max_teams`, `start_date`.
+- 🗓️ Widget personalizado para fecha (`datetime-local`).  
+- 🛡️ Juego "Valorant" como valor por defecto (si existe).  
+- ⏳ Valida que la fecha de inicio sea al menos 1 día posterior a la actual.
 
 ```python
 class TournamentForm(forms.ModelForm):
+    """Formulario para la creación/edición de torneos.
+    
+    Atributos:
+        Meta.model: Modelo Tournament asociado al formulario
+        Meta.fields: Campos incluidos en el formulario
+        Meta.widgets: Widgets personalizados para los campos
+    """
     class Meta:
         model = Tournament
-        fields = ['name', 'description','max_player_per_team', 'game', 'max_teams', 'start_date']
+        fields = ['name', 'description', 'max_player_per_team', 'game', 'max_teams', 'start_date']
         widgets = {
             'start_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
     def __init__(self, *args, **kwargs):
+        """Inicializa el formulario estableciendo Valorant como juego predeterminado si existe."""
         super().__init__(*args, **kwargs)
         try:
             valorant = Game.objects.get(name__iexact="Valorant")
             self.fields['game'].initial = valorant.pk
         except Game.DoesNotExist:
-            pass
+            pass  # No pasa nada si no existe
 
     def clean(self):
+        """Validación personalizada para los datos del formulario.
+        
+        Realiza:
+        - Validación de fecha de inicio (no puede ser vacía)
+        - Validación de que la fecha sea al menos 1 día en el futuro
+        """
         cleaned_data = super().clean()
         start_date = cleaned_data.get('start_date')
+
+        # Comprobación para la fecha de inicio
         if not start_date:
             self.add_error('start_date', 'Debes introducir la fecha de inicio del torneo.')
         elif start_date < timezone.now() + timedelta(days=1):
             self.add_error('start_date', 'La fecha de inicio debe ser al menos 1 día después de la fecha actual.')
+
         return cleaned_data
 ```
 
 ---
 
-### 👥 `TeamForm`
+### 👥 `TeamForm` — Crear Equipos
 
 Formulario simple para crear equipos.
 
-* Campo `name` para introducir el nombre del equipo, obligatorio.
+- 📝 Campo `name` obligatorio, con estilos personalizados.
 
 
 ```python
 class TeamForm(forms.ModelForm):
+    """Formulario para la creación/edición de equipos.
+    
+    Atributos:
+        Meta.model: Modelo Team asociado al formulario
+        Meta.fields: Campos incluidos en el formulario (solo nombre)
+        Meta.widgets: Personalización del widget para el campo name
+    """
+    
     class Meta:
         model = Team
-        fields = ['name']
+        fields = ['name']  # Solo incluye el campo 'name' del modelo Team
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control bg-dark text-white border-secondary'}),
+            'name': forms.TextInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary'  # Clases BOOSTRAP para estilizado
+            }),
         }
 ```
 
 ---
 
-### 🧑‍💼 `PlayerForm`
+### 🧑‍💼 `PlayerForm` — Perfil de Jugador
 
 Formulario para modificar el perfil de los jugadores.
 
-* Campo `first_name` para introducir el nombre, no es obligatorio.
-* Campo `last_name` para introducir el/los apellido/s, no es obligatorio.
-* Campo `birth_date` para introducir la fecha de nacimiento, no es obligatorio.
-* Campo `country` para introducir la ciudad, no es obligatorio.
-* Campo `bio` para introducir una descripción, no es obligatorio.
-* Campo `avatar` para introducir un avatar, no es obligatorio.
+- 🧍 Campos:  `first_name`, `last_name`, `birth_date`, `country`, `bio`, `avatar`.  
+- 🖼️ Todos los campos son opcionales.  
+- 🧩 Widgets personalizados para mejorar la experiencia de usuario.
 
 
 ```python
 class PlayerForm(forms.ModelForm):
+    """Formulario para la edición del perfil de jugador.
+    
+    Permite actualizar:
+    - Información personal (nombre, apellido, fecha nacimiento)
+    - Datos de perfil (país, biografía, avatar)
+    
+    Atributos:
+        Meta.model: Modelo Player asociado
+        Meta.fields: Campos editables del perfil
+        Meta.widgets: Configuración de los inputs del formulario
+        Meta.labels: Etiquetas personalizadas para los campos
+    """
+    
     class Meta:
         model = Player
         fields = [
-            'first_name', 'last_name', 'birth_date', 'country',
-            'bio', 'avatar'
+            'first_name', 'last_name', 'birth_date', 
+            'country', 'bio', 'avatar'
         ]
+        
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
-            'birth_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'country': forms.Select(attrs={'class': 'form-select'}),
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Cuéntanos algo sobre ti...'}),
-            'avatar': forms.FileInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nombre'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Apellido'
+            }),
+            'birth_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'country': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Cuéntanos algo sobre ti...'
+            }),
+            'avatar': forms.FileInput(attrs={
+                'class': 'form-control'
+            }),
         }
+        
         labels = {
             'first_name': 'Nombre',
             'last_name': 'Apellido',
@@ -137,48 +221,80 @@ class PlayerForm(forms.ModelForm):
 
 ---
 
-### 🔍 `TournamentFilterForm`
+### 🔍 `TournamentFilterForm` — Filtros de Torneos
 
 Formulario para filtrar torneos.
 
-* Campo `game` para filtrar por juego, no es obligatorio.
-* Campo `status` para filtrar por estado, no es obligatorio.
-* Campo `search` para filtrar por nombre, no es obligatorio.
+- 🎮 Campos:  `game`, `status`, `search`
+
+Todos los campos son opcionales.
 
 ```python
 class TournamentFilterForm(forms.Form):
+    """Formulario de filtrado para torneos con opciones de:
+    - Filtrado por juego
+    - Filtrado por estado
+    - Búsqueda por texto
+    
+    Atributos:
+        game (ModelChoiceField): Selector de juegos disponibles
+        status (ChoiceField): Selector de estados del torneo
+        search (CharField): Campo de búsqueda textual
+    """
+    
     game = forms.ModelChoiceField(
         queryset=Game.objects.all(),
         required=False,
         empty_label="Todos los juegos",
-        widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
+        widget=forms.Select(attrs={
+            'class': 'form-select bg-darker border-secondary text-light'
+        })
     )
+    
     status = forms.ChoiceField(
-        choices=[('', 'Todos los estados'), ('upcoming', 'Inscripciones abiertas'), ('ongoing', 'En progreso'), ('finished', 'Finalizados')],
+        choices=[
+            ('', 'Todos los estados'), 
+            ('upcoming', 'Inscripciones abiertas'), 
+            ('ongoing', 'En progreso'), 
+            ('finished', 'Finalizados')
+        ],
         required=False,
-        widget=forms.Select(attrs={'class': 'form-select bg-darker border-secondary text-light'})
+        widget=forms.Select(attrs={
+            'class': 'form-select bg-darker border-secondary text-light'
+        })
     )
+    
     search = forms.CharField(
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control bg-darker border-secondary text-light', 'placeholder': 'Buscar torneos...'})
+        widget=forms.TextInput(attrs={
+            'class': 'form-control bg-darker border-secondary text-light', 
+            'placeholder': 'Buscar torneos...'
+        })
     )
+
 ```
 
 ---
 
-### 📩 `SupportForm`
+### 📩 `SupportForm` — Contacto/Soporte
 
-Formulario de contacto o soporte.
+Formulario de contacto.
 
-* Campo `email` para introducir un email, obligatorio.
-* Campo `subject` para introducir el titulo del problema/mensaje, obligatorio.
-* Campo `message` para introducir el problema/mensaje, obligatorio.
-* Campo `attach_file` para introducir una imagen, no es obligatorio.
+- 📧 Campos: `email`, `subject`, `message`, `attach_file`.
 
 
 ```python
 class SupportForm(forms.Form):
+    """Formulario de contacto para soporte técnico o consultas.
+    
+    Campos:
+        email (EmailField): Correo del usuario para respuesta
+        subject (CharField): Asunto del mensaje
+        message (CharField): Contenido detallado de la consulta
+        attach_file (FileField): Archivo adjunto opcional
+    """
+    
     email = forms.EmailField(
         label="Tu correo electrónico",
         widget=forms.EmailInput(attrs={
@@ -215,31 +331,43 @@ class SupportForm(forms.Form):
             'class': 'form-control'
         })
     )
+
 ```
 
 ---
 
-### 🏋️ `MatchResultForm`
+### 🏋️ `MatchResultForm` — Resultado de Partidos
 
 Formulario para registrar el resultado de un partido.
 
-* Campo `winner` para introducir el equipo ganador, obligatorio.
-* Campo `team1_score` para introducir la puntuación del primer equipo, obligatorio.
-* Campo `team2_score` para introducir la puntuación del segundo equipo, obligatorio.
+- 🏆 Campos:  `winner`, `team1_score`, `team2_score`.
 
 ```python
 class MatchResultForm(forms.Form):
+    """Formulario para registrar los resultados de un partido.
+    
+    Campos:
+        winner (ChoiceField): Selección del equipo ganador
+        team1_score (IntegerField): Puntuación del equipo 1
+        team2_score (IntegerField): Puntuación del equipo 2
+    """
+    
     winner = forms.ChoiceField(
         choices=[('team1', 'Equipo 1'), ('team2', 'Equipo 2')],
-        widget=forms.RadioSelect
+        widget=forms.RadioSelect,
+        label="Equipo ganador"
     )
-    team1_score = forms.IntegerField(min_value=0)
-    team2_score = forms.IntegerField(min_value=0)
+    
+    team1_score = forms.IntegerField(
+        min_value=0,
+        label="Puntuación Equipo 1"
+    )
+    
+    team2_score = forms.IntegerField(
+        min_value=0,
+        label="Puntuación Equipo 2"
+    )
 ```
-
----
-
-Estos formularios permiten construir interfaces limpias, seguras y fáciles de usar para crear y administrar torneos, usuarios y equipos dentro de la aplicación.
 
 ## 🔄 Navegación
 [⬅️ Volver al README principal](../README.md)
