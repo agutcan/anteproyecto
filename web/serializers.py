@@ -49,8 +49,4 @@ class PlayerStatsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = [
-            'username',    # Nombre de usuario
-            'games_won',   # Contador de victorias
-            'winrate'      # Eficiencia calculada
-        ]
+        fields = ['username', 'games_won', 'winrate']
