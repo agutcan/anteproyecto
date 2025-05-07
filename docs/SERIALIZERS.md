@@ -1,45 +1,46 @@
-# Explicación de Serializers en Django (`serializers.py`)
+# 🏆 Explicación de Serializers en Django (`serializers.py`)
 
 Este archivo define los serializadores utilizados en la aplicación web. Los serializadores representan la forma en que los datos del backend, se transforman en formatos que pueden ser enviados o recibidos a través de una API, como JSON o XML. A continuación, se describen cada uno de los serializadores:
 
 ---
 
-## TournamentSerializer
+## 🏅 TournamentSerializer
 
-### Descripción
+
+### 📝 Descripción
 Serializador para el modelo `Tournament` que adapta los nombres de campos para su uso en interfaces frontend, en mi caso un calendario.
 
-### Propósito
+### 🎯 Propósito
 Transforma la estructura de datos del modelo Tournament para:
-1. Adaptar nombres de campos a convenciones frontend
-2. Formatear fechas para compatibilidad con librerías JavaScript
-3. Seleccionar campos específicos para la API pública
+1. 🔄 Adaptar nombres de campos a convenciones frontend
+2. ⏱️ Formatear fechas para compatibilidad con librerías JavaScript
+3. 🎯 Seleccionar campos específicos para la API pública
 
-### Transformaciones de Campos
+### 🔧 Transformaciones de Campos 
 
 | Campo Modelo | Campo Serializado | Tipo | Formato | Descripción |
 |-------------|------------------|------|---------|-------------|
 | name | title | CharField | - | Nombre público del torneo |
 | start_date | start | DateTimeField | %Y-%m-%dT%H:%M:%S | Fecha de inicio en formato ISO 8601 |
 
-### Campos Incluidos
+### 📌 Campos Incluidos 
 
 1. **id**  
-   - Tipo: Integer (automático)  
-   - Descripción: Identificador único del torneo
+   - 🏷️ Tipo: Integer (automático)  
+   - 📄 Descripción: Identificador único del torneo
 
 2. **title**  
-   - Tipo: CharField  
-   - Uso: Nombre legible para mostrar en UI
+   - 🏷️ Tipo: CharField  
+   - 📄 Uso: Nombre legible para mostrar en UI
 
 3. **game**  
-   - Tipo: Relación (ForeignKey)  
-   - Descripción: Juego asociado al torneo
+   - 🏷️ Tipo: Relación (ForeignKey)  
+   - 📄 Descripción: Juego asociado al torneo
 
 4. **start**  
-   - Tipo: DateTimeField  
-   - Formato: `YYYY-MM-DDTHH:MM:SS` (ISO 8601)  
-   - Ejemplo: `2023-05-15T14:30:00`
+   - 🏷️ Tipo: DateTimeField  
+   - 📅 Formato: `YYYY-MM-DDTHH:MM:SS` (ISO 8601)  
+   - 📝 Ejemplo: `2023-05-15T14:30:00`
 
 ```python
 class TournamentSerializer(serializers.ModelSerializer):
@@ -72,33 +73,33 @@ class TournamentSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "game", "start"]
 ```
 
-## PlayerStatsSerializer
+## 🎮 PlayerStatsSerializer
 
-### Descripción
+### 📝 Descripción
 Serializador para estadísticas públicas de jugadores que expone métricas clave de rendimiento.
 
-### Propósito
+### 🎯 Propósito
 Proporciona una vista estructurada de:
-1. Identificación básica del jugador
-2. Estadísticas competitivas
-3. Datos calculados de rendimiento
+1. 👤 Identificación básica del jugador
+2. 🏆 Estadísticas competitivas
+3. 📊 Datos calculados de rendimiento
 
-### Campos Incluidos
+### 📌 Campos Incluidos
 
 1. **username**  
-   - Tipo: CharField  
-   - Descripción: Nombre público del jugador  
-   - Acceso: Solo lectura  
+   - 🏷️ Tipo: CharField  
+   - 📄 Descripción: Nombre público del jugador  
+   - 🔒 Acceso: Solo lectura  
 
 2. **games_won**  
-   - Tipo: IntegerField  
-   - Descripción: Número total de partidas ganadas  
-   - Validación: Valor positivo o cero  
+   - 🏷️ Tipo: IntegerField  
+   - 📄 Descripción: Número total de partidas ganadas  
+   - ✅ Validación: Valor positivo o cero  
 
 3. **winrate**  
-   - Tipo: FloatField  
-   - Descripción: Porcentaje de victorias (rango 0-100)  
-   - Formato: Decimal con 1 dígito (ej: 72.5)  
+   - 🏷️ Tipo: FloatField  
+   - 📄 Descripción: Porcentaje de victorias (rango 0-100)  
+   - 🔢 Formato: Decimal con 1 dígito (ej: 72.5)  
 
 ```python
 class PlayerStatsSerializer(serializers.ModelSerializer):
