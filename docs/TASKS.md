@@ -1,10 +1,10 @@
-# Explicación de tareas programadas en Django (`tasks.py`)
+# ⏰ Explicación de tareas programadas en Django (`tasks.py`)
 
 Este archivo define las tareas programadas utilizadas en la aplicación web. Las tareas programadas representan tareas que se ejecutan constantemente con celery y redis. A continuación, se describen cada una de las tareas:
 
 ---
 
-## Tarea: `update_tournament_status`
+## 🏆 Tarea: `update_tournament_status`
 
 Esta tarea se ejecuta periódicamente para **actualizar el estado de los torneos** según la fecha de inicio. A continuación, se explica el funcionamiento y los detalles de la tarea.
 
