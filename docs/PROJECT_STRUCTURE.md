@@ -3,7 +3,7 @@
 ---
 
 ```bash
-anteproyecto/
+📦 anteproyecto/
 │
 ├── 🧠 ArenaGG/                        # Carpeta del proyecto Django principal
 │   ├── 📄 __init__.py                # Marca el directorio como un paquete Python
