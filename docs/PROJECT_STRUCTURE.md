@@ -31,6 +31,7 @@
 │   │   └── 📄 ...
 │   ├── 🧪 tests/                    # Pruebas unitarias y de integración
 │   │   └── 📄 ...
+│   ├── 📄 __init__.py                # Marca el directorio como un paquete Python
 │   ├── 🛠 admin.py                  # Registro de modelos en el panel admin de Django
 │   ├── 🧰 apps.py                   # Configuración de la app
 │   ├── 📝 forms.py                  # Formularios de Django
