@@ -196,4 +196,5 @@ Esta plataforma permitirá a los usuarios:
 - [Formularios](docs/FORMS.md)
 - [Flujos](docs/WORKFLOWS.md)
 - [Test](docs/TESTS.md)
-- [Serializers](docs/TESTS.md)
+- [Serializadores](docs/TESTS.md)
+- [Funciones](docs/FUNCTIONS.md)
