@@ -29,6 +29,20 @@ from django.http import HttpResponseForbidden
 
 
 class TournamentListAPI(generics.ListAPIView):
+    """
+    API endpoint que permite listar todos los torneos disponibles en el sistema.
+    
+    Proporciona una interfaz de solo lectura (GET) para acceder a la información
+    básica de los torneos. Utiliza el serializer TournamentSerializer para definir
+    la estructura de los datos devueltos.
+
+    Atributos:
+        queryset (QuerySet): Todos los objetos Tournament existentes
+        serializer_class (Serializer): Clase que controla la serialización a JSON
+
+    Métodos heredados:
+        get: Maneja las solicitudes GET y devuelve la lista de jugadores serializados.
+    """
     queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
 
@@ -105,29 +119,101 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return context
 
 class PrivacyPolicyView(TemplateView):
+    """
+    Vista que muestra la política de privacidad del sitio web.
+    
+    Hereda de TemplateView para renderizar una plantilla HTML estática
+    que contiene los términos y condiciones de privacidad de la plataforma.
+
+    Atributos:
+        template_name (str): Ruta a la plantilla que contiene el contenido HTML de la política de privacidad.
+    """
     template_name = 'web/privacy_policy.html'
 
 class TermsOfUseView(TemplateView):
+    """
+    Vista para mostrar los Términos y Condiciones de Uso de la plataforma.
+    
+    Renderiza una plantilla estática con el contenido legal de los términos de servicio.
+    Ideal para cumplir con requisitos legales y de transparencia con los usuarios.
+
+    Atributos:
+        template_name (str): Ruta al template HTML que contiene los términos de uso.
+    """
     template_name = 'web/terms_of_use.html'
 
 class FaqView(TemplateView):
+    """
+    Vista para la página de Preguntas Frecuentes (FAQ) de la plataforma.
+    
+    Muestra contenido estático organizado por categorías de preguntas y respuestas.
+    Permite agregar lógica dinámica para FAQs personalizadas según el perfil del usuario.
+
+    Atributos:
+        template_name (str): Ruta al template HTML ('web/templates/web/faq.html')
+     """
+
     template_name = 'web/faq.html'
 
 class RankingView(LoginRequiredMixin, TemplateView):
+    """
+    Vista que muestra el ranking de jugadores ordenado por MMR (Match Making Rating).
+    
+    Requiere autenticación (LoginRequiredMixin) y muestra una lista paginada de jugadores
+    ordenados por su puntuación MMR de mayor a menor.
+
+    Atributos:
+        template_name (str): Ruta al template que muestra el ranking (web/ranking.html)
+        
+    Métodos:
+        get_context_data: Añade al contexto la lista de jugadores ordenada y paginada
+    """
     template_name = 'web/ranking.html'
 
     def get_context_data(self, **kwargs):
+        """
+        Prepara el contexto para el template incluyendo:
+        - Lista de jugadores ordenada por MMR
+        - Datos adicionales del usuario
+
+        Returns:
+            dict: Contexto con los jugadores y datos de paginación
+        """
         context = super().get_context_data(**kwargs)
         context['ranking_list'] = Player.objects.order_by('-mmr').select_related('user')
         return context
 
 
 class TournamentListView(LoginRequiredMixin, ListView):
+    """
+    Vista que muestra una lista paginada de torneos con capacidades de filtrado.
+    
+    Requiere autenticación (LoginRequiredMixin) y proporciona funcionalidad para filtrar
+    torneos por nombre, juego asociado y estado del torneo.
+
+    Atributos:
+        model (Model): Modelo Tournament que representa los torneos
+        template_name (str): Ruta al template que renderiza la lista (web/tournament_list.html)
+        context_object_name (str): Nombre de la variable de contexto para la lista de torneos
+
+    Métodos:
+        get_queryset: Personaliza el QuerySet base añadiendo filtros según parámetros GET
+        get_context_data: Añade al contexto la lista de juegos disponibles
+    """
     model = Tournament
     template_name = 'web/tournament_list.html'
     context_object_name = 'tournament_list'
 
     def get_queryset(self):
+        """
+        Construye el QuerySet de torneos aplicando filtros opcionales basados en:
+        - Búsqueda por nombre (parámetro GET 'search')
+        - Filtro por juego (parámetro GET 'game')
+        - Filtro por estado (parámetro GET 'status')
+
+        Returns:
+            QuerySet: Torneos filtrados según los parámetros recibidos
+        """
         queryset = Tournament.objects.all()
 
         # Filtrar por nombre de torneo
@@ -138,7 +224,7 @@ class TournamentListView(LoginRequiredMixin, ListView):
         # Filtrar por juego
         game_filter = self.request.GET.get('game', '')
         if game_filter:
-            queryset = queryset.filter(game__id=game_filter)  # Filtrar por ID del juego
+            queryset = queryset.filter(game__id=game_filter)
 
         # Filtrar por estado
         status_filter = self.request.GET.get('status', '')
@@ -148,6 +234,16 @@ class TournamentListView(LoginRequiredMixin, ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Extiende el contexto base añadiendo:
+        - games: Lista de todos los juegos disponibles
+
+        Args:
+            **kwargs: Argumentos variables adicionales
+
+        Returns:
+            dict: Contexto enriquecido para el template
+        """
         context = super().get_context_data(**kwargs)
         games = Game.objects.all()
 
@@ -155,13 +251,35 @@ class TournamentListView(LoginRequiredMixin, ListView):
         return context
 
 
-
 class MyTournamentListView(LoginRequiredMixin, ListView):
+    """
+    Vista que muestra la lista de torneos en los que participa el equipo del jugador actual.
+    
+    Requiere autenticación y muestra solo los torneos donde el equipo del jugador
+    está registrado. Si el jugador no tiene equipo asociado, devuelve una lista vacía.
+
+    Atributos:
+        model (Model): Modelo Tournament utilizado para la consulta
+        template_name (str): Ruta al template que renderiza la vista
+        context_object_name (str): Nombre de la variable de contexto para la lista
+
+    Métodos:
+        get_queryset: Filtra los torneos donde participa el equipo del jugador
+    """
     model = Tournament
     template_name = 'web/my_tournament_list.html'
     context_object_name = 'tournament_list'
 
     def get_queryset(self):
+        """
+        Obtiene los torneos asociados al equipo del jugador actual.
+        
+        Returns:
+            QuerySet: Torneos donde participa el equipo del jugador o queryset vacío si:
+                     - El usuario no existe
+                     - No tiene jugador asociado
+                     - El jugador no tiene equipo
+        """
         user = get_object_or_404(User, pk=self.kwargs['pk'])
         player = Player.objects.filter(user=user).first()
 
@@ -173,24 +291,66 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
 
 
 class GameListView(LoginRequiredMixin, ListView):
+    """
+    Vista que muestra una lista paginada de todos los juegos disponibles en la plataforma.
+    
+    Requiere que el usuario esté autenticado (LoginRequiredMixin) y muestra un listado
+    completo de juegos registrados en el sistema.
+
+    Atributos:
+        model (Model): Modelo Game utilizado para obtener los datos
+        template_name (str): Ruta al template que renderiza la lista (web/game_list.html)
+        context_object_name (str): Nombre de la variable de contexto para la lista de juegos
+
+    Métodos:
+        get_queryset: Retorna todos los juegos sin filtros adicionales
+    """
     model = Game
     template_name = 'web/game_list.html'
     context_object_name = 'game_list'
 
     def get_queryset(self):
+        """
+        Obtiene el QuerySet base de todos los juegos registrados en el sistema.
+        
+        Returns:
+            QuerySet: Todos los objetos Game existentes en la base de datos
+        """
         return Game.objects.all()
 
 class TournamentDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vista que muestra los detalles de un torneo específico.
+
+    Requiere autenticación (LoginRequiredMixin) y muestra información detallada
+    de un torneo individual, incluyendo el estado de registro del usuario actual.
+
+    Atributos:
+        model (Model): Modelo Tournament que contiene los datos del torneo
+        template_name (str): Ruta al template que renderiza la vista (web/tournament_detail.html)
+        context_object_name (str): Nombre de la variable que contendrá el objeto Tournament en el contexto del template
+
+    Métodos heredados de DetailView:
+        get_object: Obtiene el objeto Tournament basado en los parámetros de la URL
+        get_context_data: Proporciona el contexto para renderizar el template
+    """
     model = Tournament
     template_name = 'web/tournament_detail.html'
     context_object_name = 'tournament'
 
     def get_context_data(self, **kwargs):
+        """
+        Extiende el contexto base con información sobre si el usuario actual
+        está registrado en el torneo.
+
+        Returns:
+            dict: Contexto que incluye:
+                - is_registered: Booleano indicando si el usuario está registrado en el torneo
+        """
         context = super().get_context_data(**kwargs)
         tournament = self.get_object()
         user = self.request.user
 
-        # Por defecto asumimos que no está registrado
         is_registered = False
 
         if user.is_authenticated:
@@ -207,6 +367,24 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
         return context
 
 class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vista que muestra el perfil detallado de un jugador específico.
+    
+    Requiere que el usuario esté autenticado (LoginRequiredMixin) para acceder
+    a la información del perfil. Muestra los datos del jugador obtenidos a través
+    del modelo Player.
+
+    Atributos:
+        model (Model): Modelo Player que contiene los datos del jugador
+        template_name (str): Ruta al template que renderiza la vista
+                           (web/player_profile_detail.html)
+        context_object_name (str): Nombre de la variable que contendrá el objeto
+                                 Player en el contexto del template
+
+    Métodos heredados de DetailView:
+        get_object: Obtiene el objeto Player basado en los parámetros de la URL
+        get_context_data: Proporciona el contexto para renderizar el template
+    """
     model = Player
     template_name = 'web/player_profile_detail.html'
     context_object_name = 'player'
@@ -229,12 +407,34 @@ class PlayerUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class RewardListView(LoginRequiredMixin, ListView):
+    """
+    Vista que muestra un listado de todas las recompensas disponibles.
+
+    Requiere autenticación (LoginRequiredMixin) y muestra una lista paginada
+    de objetos Reward. Utiliza el template 'web/reward.html' para renderizar
+    la vista.
+
+    Atributos:
+        model (Model): Modelo Reward utilizado para obtener los datos
+        template_name (str): Ruta al template que renderiza la vista
+        context_object_name (str): Nombre de la variable de contexto para la lista
+
+    Métodos heredados de ListView:
+        get_queryset: Retorna todos los objetos Reward sin filtros
+    """
     model = Reward
     template_name = 'web/reward.html'
     context_object_name = 'reward_list'
 
     def get_queryset(self):
+        """
+        Obtiene el queryset base de todas las recompensas disponibles.
+
+        Returns:
+            QuerySet: Todos los objetos Reward existentes en la base de datos
+        """
         return Reward.objects.all()
+
 
 class JoinTeamListView(LoginRequiredMixin, ListView):
     model = TournamentTeam
@@ -259,30 +459,85 @@ class JoinTeamListView(LoginRequiredMixin, ListView):
         return context
 
 class PremiumView(LoginRequiredMixin, TemplateView):
+    """
+    Vista que muestra la página de membresía Premium del jugador.
+
+    Requiere autenticación (LoginRequiredMixin) y muestra información
+    relacionada con la suscripción Premium del jugador actual.
+
+    Atributos:
+        template_name (str): Ruta al template que renderiza la vista (web/premium.html)
+
+    Métodos:
+        get_context_data: Añade al contexto el objeto Player del usuario actual
+    """
     template_name = 'web/premium.html'
 
     def get_context_data(self, **kwargs):
+        """
+        Obtiene y añade al contexto el perfil del jugador actual.
+
+        Returns:
+            dict: Contexto con el objeto Player del usuario autenticado
+        """
         context = super().get_context_data(**kwargs)
-        player = Player.objects.get(user=self.request.user)
-        context['player'] = player
+        context['player'] = Player.objects.get(user=self.request.user)
         return context
 
 class UpgradeToPremiumView(LoginRequiredMixin, View):
-    """Convierte al usuario en Premium (gratis por tiempo limitado)."""
+    """
+    Vista que actualiza el rol del jugador a Premium de forma gratuita.
+    
+    Requiere autenticación (LoginRequiredMixin) y realiza la conversión
+    del rol del jugador a Premium cuando se accede a la vista mediante GET.
+    Redirige a la página de Premium después de la actualización.
+
+    Métodos:
+        get: Realiza la actualización del rol y redirecciona
+    """
     def get(self, request, *args, **kwargs):
+        """
+        Actualiza el rol del jugador a Premium y redirige.
+        
+        Returns:
+            HttpResponseRedirect: Redirección a la vista premiumView
+        """
         player = Player.objects.get(user=request.user)
         player.role = Player.PREMIUM
         player.save()
         return redirect(reverse_lazy('web:premiumView'))
 
 class HowItWorkView(LoginRequiredMixin, TemplateView):
+    """
+    Vista que muestra la página de "Cómo funciona" de la plataforma.
+    
+    Requiere autenticación (LoginRequiredMixin) y renderiza una plantilla estática
+    con información sobre el funcionamiento de la plataforma.
+
+    Atributos:
+        template_name (str): Ruta al template que contiene la explicación
+    """
     template_name = 'web/how_it_work.html'
 
 class GameDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vista que muestra los detalles de un juego específico.
+
+    Requiere autenticación (LoginRequiredMixin) y muestra información detallada
+    de un juego individual, incluyendo sus características y torneos asociados.
+
+    Atributos:
+        model (Model): Modelo Game que representa los juegos
+        template_name (str): Ruta al template de detalle (web/game_detail.html)
+        context_object_name (str): Nombre de la variable de contexto para el objeto Game
+
+    Métodos heredados de DetailView:
+        get_object: Obtiene el objeto Game basado en los parámetros de la URL
+        get_context_data: Proporciona el contexto para renderizar el template
+    """
     model = Game
     template_name = 'web/game_detail.html'
     context_object_name = 'game'
-
 
 
 class TournamentCreateView(LoginRequiredMixin, CreateView):
@@ -504,23 +759,48 @@ class TeamKickView(LoginRequiredMixin, View):
         return redirect('web:playerTeamDetailView', pk=team.leader.pk)
 
 class RegisterView(FormView):
+    """
+    Vista de registro de nuevos usuarios en la plataforma.
+
+    Maneja el proceso de creación de cuentas mediante un formulario personalizado,
+    creando automáticamente un perfil de jugador asociado y enviando un correo
+    de confirmación al nuevo usuario registrado.
+
+    Atributos:
+        template_name (str): Ruta al template del formulario de registro
+        form_class (Form): Clase del formulario personalizado para registro
+        success_url (str): URL a la que redirigir tras registro exitoso
+
+    Métodos:
+        form_valid: Procesa el formulario válido, crea usuario y perfil asociado
+    """
     template_name = 'registration/register.html'
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
+        """
+        Procesa un formulario de registro válido realizando:
+        1. Creación del usuario
+        2. Creación del perfil de jugador asociado
+        3. Autenticación automática
+        4. Envío de email de bienvenida
+
+        Args:
+            form (Form): Formulario de registro validado
+
+        Returns:
+            HttpResponseRedirect: Redirección a success_url
+        """
         user = form.save()
-        # Crear automáticamente un Gamer asociado al usuario
         Player.objects.create(user=user)
         login(self.request, user)
-
-        # Enviar correo de confirmación
+        
         send_mail(
             subject='✅ ¡Bienvenido a ArenaGG!',
             message=(
                 f'Hola {user.username},\n\n'
-                'Tu cuenta ha sido creada exitosamente. Ya puedes participar en torneos, crear equipos y mucho más.\n\n'
-                '¡Nos alegra tenerte a bordo!\n\n'
+                'Tu cuenta ha sido creada exitosamente.\n\n'
                 '- El equipo de ArenaGG'
             ),
             from_email=settings.DEFAULT_FROM_EMAIL,
@@ -569,31 +849,52 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
 
 
 class MatchDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vista que muestra los detalles de un partido específico, incluyendo información
+    relevante para los jugadores participantes.
+
+    Requiere autenticación (LoginRequiredMixin) y muestra los datos de un partido
+    individual, con funcionalidad especial para los jugadores de los equipos
+    involucrados.
+
+    Atributos:
+        model (Model): Modelo Match que contiene los datos del partido
+        template_name (str): Ruta al template que renderiza la vista (web/match_detail.html)
+        context_object_name (str): Nombre de la variable que contendrá el objeto Match
+                                en el contexto del template
+
+    Métodos heredados de DetailView:
+        get_object: Obtiene el objeto Match basado en los parámetros de la URL
+        get_context_data: Proporciona el contexto para renderizar el template
+    """
     model = Match
     template_name = 'web/match_detail.html'
     context_object_name = 'match'
 
     def get_context_data(self, **kwargs):
+        """
+        Extiende el contexto base con información adicional sobre la participación
+        del usuario actual en el partido.
+
+        Returns:
+            dict: Contexto que incluye:
+                - user_is_player: Booleano indicando si el usuario es jugador de alguno de los equipos
+                - form: Formulario para reportar resultados (solo para jugadores participantes)
+                - team_ready: Estado de preparación del equipo del usuario
+                - team_confirmed: Estado de confirmación del equipo del usuario
+        """
         context = super().get_context_data(**kwargs)
         match = self.get_object()
 
-        # Verificar si el usuario pertenece a alguno de los equipos
         is_team1_player = match.team1.player_set.filter(user=self.request.user).exists()
         is_team2_player = match.team2.player_set.filter(user=self.request.user).exists()
 
-        print(f"Is user in team 1: {is_team1_player}")  # Depuración
-        print(f"Is user in team 2: {is_team2_player}")  # Depuración
-
         context['user_is_player'] = is_team1_player or is_team2_player
 
-        # Instanciar el formulario si el usuario pertenece a un equipo
         if is_team1_player or is_team2_player:
             form = MatchResultForm()
-
-            # Actualizar los labels dinámicamente
             form.fields['team1_score'].label = f"Puntaje de {match.team1.name}"
             form.fields['team2_score'].label = f"Puntaje de {match.team2.name}"
-
             context['form'] = form
 
         if is_team1_player:
