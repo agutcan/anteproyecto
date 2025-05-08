@@ -18,6 +18,13 @@ La vista `ListAPIView` es una vista basada en clases de Django Rest Framework (D
   
 - **`serializer_class`**: Aquí especificamos qué serializador se debe usar para convertir los objetos de tipo `Tournament` en datos JSON. El serializador es responsable de transformar los datos del modelo en un formato adecuado para la respuesta de la API. Este serializador se utiliza para definir qué campos de los torneos se deben devolver y cómo deben representarse.
 
+### 🧠 Optimización del QuerySet
+
+Incluye una versión personalizada del conjunto de datos (queryset) con las siguientes optimizaciones:
+
+- 🔗 **`select_related('created_by')`**: Precarga la información del usuario que creó el torneo, reduciendo consultas adicionales a la base de datos.
+- 📦 **`prefetch_related('teams', 'matches')`**: Precarga las relaciones con equipos participantes y partidos del torneo, mejorando el rendimiento al evitar consultas repetidas.
+
 ### 🔄 ¿Cómo funciona esta vista?
 
 1. **Solicitud GET**: Cuando se realiza una solicitud HTTP GET a la URL asociada con esta vista, Django Rest Framework ejecuta la lógica definida en `TournamentListAPI`.
@@ -55,6 +62,13 @@ La vista `ListAPIView` es una vista genérica proporcionada por Django Rest Fram
 - **`queryset`**: Este es el conjunto de objetos que la vista va a devolver. En este caso, estamos consultando todos los objetos del modelo `Player`, lo que significa que la vista devolverá todos los jugadores de la base de datos.
   
 - **`serializer_class`**: Aquí definimos el serializador que se usará para convertir los objetos del modelo `Player` en formato JSON. El serializador convierte las instancias del modelo `Player` en un formato adecuado para ser enviado como respuesta en la API.
+
+### 🧠 Optimización del QuerySet
+
+Incluye una versión personalizada del conjunto de datos (queryset) con las siguientes optimizaciones:
+
+- 🔗 **`select_related('created_by')`**: Precarga la información del usuario que creó el torneo, reduciendo consultas adicionales a la base de datos.
+- 📦 **`prefetch_related('teams', 'matches')`**: Precarga las relaciones con equipos participantes y partidos del torneo, mejorando el rendimiento al evitar consultas repetidas.
 
 ### 🔄 ¿Cómo funciona esta vista?
 
