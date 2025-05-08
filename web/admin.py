@@ -219,6 +219,11 @@ class TournamentTeamAdmin(admin.ModelAdmin):
         'tournament',  # Filtro por torneo
     )
 
+    def save_model(self, request, obj, form, change):
+            if TournamentTeam.objects.filter(tournament=obj.tournament, team=obj.team).exists():
+                raise ValidationError("Este equipo ya está inscrito en este torneo.")
+            super().save_model(request, obj, form, change)
+
 # Configuración del administrador para el modelo Match
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
