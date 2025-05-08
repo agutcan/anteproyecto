@@ -591,23 +591,58 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
 
 
 class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
+    """
+    Vista para crear un nuevo equipo dentro de un torneo específico.
+
+    Requiere autenticación (LoginRequiredMixin) y permite a un usuario crear
+    un equipo que será automáticamente asociado al torneo especificado.
+
+    Atributos:
+        model (Model): Modelo Team utilizado para la creación
+        template_name (str): Ruta al template del formulario de creación
+        form_class (Form): Clase del formulario para crear equipos
+
+    Métodos:
+        dispatch: Obtiene el torneo asociado antes de procesar la solicitud
+        form_valid: Procesa el formulario válido creando las relaciones necesarias
+        get_context_data: Añade el torneo al contexto del template
+    """
     model = Team
     template_name = 'web/team_create_in_tournament.html'
     form_class = TeamForm
 
     def dispatch(self, request, *args, **kwargs):
-        # Obtener el torneo al que se le va a asociar el equipo
+        """
+        Prepara la vista obteniendo el torneo asociado antes de procesar la solicitud.
+
+        Args:
+            request: Objeto HttpRequest
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponse: Respuesta del método dispatch de la superclase
+        """
         self.tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        # Crear el equipo
+        """
+        Procesa un formulario válido realizando:
+        1. Creación del equipo
+        2. Asociación con el torneo
+        3. Asignación del jugador como miembro y líder
+        4. Redirección a la vista de equipos del torneo
+
+        Args:
+            form (Form): Formulario de creación de equipo validado
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de equipos del torneo
+        """
         team = form.save()
-
-        # Asociar el equipo con el torneo
         TournamentTeam.objects.create(tournament=self.tournament, team=team)
-
-        # Asignar el jugador logueado al equipo recién creado
+        
         player = Player.objects.filter(user=self.request.user).first()
         if player:
             player.team = team
@@ -617,24 +652,55 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
             player.save()
             team.save()
 
-        # Redirigir al usuario a la vista de los equipos en el torneo
         return redirect('web:joinTeamListView', pk=self.tournament.pk)
 
     def get_context_data(self, **kwargs):
+        """
+        Añade el torneo al contexto del template.
+
+        Args:
+            **kwargs: Argumentos clave adicionales
+
+        Returns:
+            dict: Contexto enriquecido con el objeto Tournament
+        """
         context = super().get_context_data(**kwargs)
         context['tournament'] = self.tournament
         return context
 
 class TeamCreateView(LoginRequiredMixin, CreateView):
+    """
+    Vista para la creación de un nuevo equipo.
+
+    Requiere autenticación (LoginRequiredMixin) y permite a un usuario crear
+    un nuevo equipo, asignándose automáticamente como miembro y líder del mismo.
+
+    Atributos:
+        model (Model): Modelo Team utilizado para la creación
+        template_name (str): Ruta al template del formulario de creación
+        form_class (Form): Clase del formulario para crear equipos
+
+    Métodos:
+        form_valid: Procesa el formulario válido creando el equipo y asignando al usuario
+    """
     model = Team
     template_name = 'web/team_create.html'
     form_class = TeamForm
 
     def form_valid(self, form):
-        # Crear el equipo
-        team = form.save()
+        """
+        Procesa un formulario válido realizando:
+        1. Creación del equipo
+        2. Asignación del jugador como miembro y líder
+        3. Redirección a la vista de detalle del equipo
 
-        # Asignar el jugador logueado al equipo recién creado
+        Args:
+            form (Form): Formulario de creación de equipo validado
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de detalle del equipo del jugador
+        """
+        team = form.save()
         player = Player.objects.filter(user=self.request.user).first()
         if player:
             player.team = team
@@ -642,35 +708,79 @@ class TeamCreateView(LoginRequiredMixin, CreateView):
             player.save()
             team.save()
 
-        # Redirigir al usuario a la vista de los equipos en el torneo
         return redirect('web:playerTeamDetailView', pk=player.id)
 
 
 class TeamDeleteView(LoginRequiredMixin, View):
+    """
+    Vista para eliminar un equipo existente.
+
+    Requiere autenticación (LoginRequiredMixin) y verifica que el usuario sea el líder
+    del equipo y que el equipo no esté registrado en ningún torneo antes de permitir
+    su eliminación.
+
+    Métodos:
+        post: Maneja la solicitud de eliminación con las validaciones correspondientes
+    """
     def post(self, request, *args, **kwargs):
-        # Obtener el equipo a eliminar
+        """
+        Procesa la solicitud de eliminación de equipo realizando:
+        1. Verificación de permisos (solo el líder puede eliminar)
+        2. Verificación de participación en torneos
+        3. Eliminación del equipo si se cumplen las condiciones
+        4. Redirección con mensajes de retroalimentación
+
+        Args:
+            request: Objeto HttpRequest
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables (incluye 'pk' del equipo)
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de detalle del jugador
+        """
         team = get_object_or_404(Team, pk=kwargs['pk'])
 
-        # Verificar si el jugador es el líder del equipo
         if team.leader.user != request.user:
             messages.error(request, "No tienes permiso para eliminar este equipo.")
             return redirect('web:playerTeamDetailView', pk=request.user.player.pk)
 
-        # Verificar si el equipo está inscrito en algún torneo
         if TournamentTeam.objects.filter(team=team).exists():
-            # Si está inscrito en algún torneo, no se puede eliminar
             messages.error(request, "No se puede eliminar el equipo porque está inscrito en un torneo.")
             return redirect('web:playerTeamDetailView', pk=request.user.player.pk)
 
-        # Eliminar el equipo
         team.delete()
-
-        # Redirigir a la vista del jugador después de la eliminación
         messages.success(request, "El equipo ha sido eliminado exitosamente.")
         return redirect('web:playerTeamDetailView', pk=request.user.player.pk)
 
 class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
+    """
+    Vista para activar/desactivar la búsqueda de compañeros de equipo.
+
+    Requiere autenticación y permisos de líder del equipo para modificar
+    el estado de búsqueda de jugadores. Incluye validaciones para evitar
+    cambios no permitidos durante torneos activos o cuando el equipo está lleno.
+
+    Métodos:
+        post: Maneja la solicitud de cambio de estado con todas las validaciones
+    """
     def post(self, request, pk, *args, **kwargs):
+        """
+        Procesa la solicitud de cambio de estado de búsqueda realizando:
+        1. Verificación de permisos (solo el líder puede modificar)
+        2. Validación de participación en torneos en curso
+        3. Verificación de capacidad en torneos próximos
+        4. Cambio de estado si se cumplen las condiciones
+        5. Redirección con mensajes de retroalimentación
+
+        Args:
+            request: Objeto HttpRequest
+            pk: ID del equipo a modificar
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de detalle del equipo
+        """
         team = get_object_or_404(Team, pk=pk)
         player = Player.objects.get(user=request.user)
 
@@ -678,9 +788,7 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
             messages.error(request, "No tienes permiso para modificar este equipo.")
             return redirect('web:playerTeamDetailView', pk=player.pk)
 
-        # Solo aplicar restricciones si se está intentando ACTIVAR la búsqueda
         if not team.searching_teammates:
-            # Verificar si participa en torneos en curso
             ongoing_tournaments = team.tournament_set.filter(status='Ongoing')
             if ongoing_tournaments.exists():
                 messages.error(
@@ -689,7 +797,6 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
                 )
                 return redirect('web:playerTeamDetailView', pk=player.pk)
 
-            # Verificar si está lleno en torneos próximos
             upcoming_tournaments = team.tournament_set.filter(status='Upcoming')
             for tournament in upcoming_tournaments:
                 if team.player_set.count() >= tournament.max_players_per_team:
@@ -699,7 +806,6 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
                     )
                     return redirect('web:playerTeamDetailView', pk=player.pk)
 
-        # Alternar el estado
         team.searching_teammates = not team.searching_teammates
         team.save()
 
@@ -910,13 +1016,50 @@ class MatchDetailView(LoginRequiredMixin, DetailView):
         return context
 
 class MatchConfirmView(LoginRequiredMixin, View):
-    """Vista para confirmar el resultado de un partido."""
+    """
+    Vista para confirmar el resultado de un partido.
 
+    Maneja tanto la visualización del formulario de confirmación (GET)
+    como el procesamiento de los resultados confirmados (POST). Incluye
+    validaciones para asegurar la integridad de los resultados reportados.
+
+    Métodos:
+        dispatch: Obtiene el partido antes de procesar cualquier solicitud
+        get: Muestra el formulario de confirmación de resultados
+        post: Procesa la confirmación del resultado con todas las validaciones
+    """
     def dispatch(self, request, *args, **kwargs):
+        """
+        Prepara la vista obteniendo el partido asociado.
+
+        Args:
+            request: Objeto HttpRequest
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponse: Respuesta del método dispatch de la superclase
+        """
         self.match = get_object_or_404(Match, pk=self.kwargs['pk'])
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        """
+        Procesa la confirmación del resultado del partido realizando:
+        1. Validación del formulario
+        2. Verificación de pertenencia al equipo
+        3. Registro de confirmación por equipo
+        4. Validación de consistencia entre confirmaciones
+        5. Actualización de estadísticas y registro final
+
+        Args:
+            request: Objeto HttpRequest con los datos del formulario
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de detalle del partido
+        """
         match = self.match
         form = MatchResultForm(request.POST)
 
@@ -1027,6 +1170,17 @@ class MatchConfirmView(LoginRequiredMixin, View):
         return redirect('web:matchDetailView', pk=match.id)
 
     def get(self, request, *args, **kwargs):
+        """
+        Muestra el formulario de confirmación de resultados.
+
+        Args:
+            request: Objeto HttpRequest
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponse: Renderizado del template con el formulario
+        """
         match = self.match
         form = MatchResultForm(initial={
             'team1_score': 1,  # Valor predeterminado para el puntaje de team1
