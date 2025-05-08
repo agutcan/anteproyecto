@@ -16,7 +16,7 @@
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark text-white">
-                    <strong>Nombre:</strong> {{ player.first_name }} {{ player.last_name }}
+                    <strong>Nombre:</strong> {{ player.first_name|default:"No hay nombre" }} {{ player.last_name|default:"" }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>Biografía:</strong><br> {{ player.bio|default:"No hay biografía" }}
@@ -28,12 +28,12 @@
                     <strong>País:</strong> {{ player.get_country_display }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
-                    <strong>Equipo:</strong> {{ player.team }}
+                    <strong>Equipo:</strong> {{ player.team|default:"No hay equipo" }}
                 </li>
                 <li class="list-group-item bg-dark text-white">
-                    <strong>Partidas jugadas:</strong> {{ player.games_played }}<br>
-                    <strong>Partidas ganadas:</strong> {{ player.games_won }}<br>
-                    <strong>Winrate:</strong> {{ player.winrate|floatformat:2 }}%
+                    <strong>Partidas jugadas:</strong> {{ player.games_played|default:0 }}<br>
+                    <strong>Partidas ganadas:</strong> {{ player.games_won|default:0 }}<br>
+                    <strong>Winrate:</strong> {{ player.winrate|floatformat:2|default:0 }}%
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <strong>Renombre:</strong> {{ player.renombre }}<br>
@@ -63,7 +63,7 @@
     </div>
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     // Datos para el gráfico

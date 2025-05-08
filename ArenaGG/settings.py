@@ -203,7 +203,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'web/static/media')  # Los archivos subidos 
 LOGIN_URL = '/accounts/login/'
 
 # Definir la URL a la que el usuario será redirigido después de iniciar sesión con éxito
-LOGIN_REDIRECT_URL = '/start/'
+LOGIN_REDIRECT_URL = '/'
 
 # Definir la URL a la que el usuario será redirigido después de cerrar sesión
 LOGOUT_REDIRECT_URL = '/accounts/logout/'
