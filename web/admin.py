@@ -220,9 +220,24 @@ class TournamentTeamAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-            if TournamentTeam.objects.filter(tournament=obj.tournament, team=obj.team).exists():
-                raise ValidationError("Este equipo ya está inscrito en este torneo.")
-            super().save_model(request, obj, form, change)
+    """
+    Guarda una instancia del modelo TournamentTeam desde el panel de administración.
+
+    Validación:
+    - Antes de guardar, verifica si ya existe una relación entre el mismo torneo (`tournament`)
+      y equipo (`team`) en la base de datos.
+    - Si ya existe, lanza una ValidationError para evitar duplicados y notificar al usuario.
+
+    Parámetros:
+    - request: Objeto HttpRequest que representa la solicitud actual.
+    - obj: La instancia del modelo que se está guardando.
+    - form: El formulario de Django que contiene los datos del modelo.
+    - change: Booleano que indica si se está cambiando una instancia existente (True) o creando una nueva (False).
+    """
+    if TournamentTeam.objects.filter(tournament=obj.tournament, team=obj.team).exists():
+        raise ValidationError("Este equipo ya está inscrito en este torneo.")
+    super().save_model(request, obj, form, change)
+
 
 # Configuración del administrador para el modelo Match
 @admin.register(Match)
