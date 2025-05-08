@@ -650,7 +650,7 @@ Gestiona la transición entre rondas en un torneo, procesando los resultados de 
 - Genera logs detallados de la operación  
 - Proporciona feedback visual en consola  
 
-## ⚠️ Casos Especiales  
+### ⚠️ Casos Especiales  
 
 | Escenario | Sistema Responde |  
 |-----------|------------------|  
