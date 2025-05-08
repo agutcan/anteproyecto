@@ -305,7 +305,7 @@ La función de **avatar_preview** genera una miniatura del avatar del jugador pa
 ##### Descripción de la columna:
 El nombre de la columna en el panel de administración es **"Avatar"**.
 
-## 🌐 8. **Método de URL del Avatar**
+#### 🌐 8. **Método de URL del Avatar**
 
 La función de **avatar_url** muestra la URL completa del avatar del jugador. Si el jugador tiene un avatar asociado, se muestra la URL. Si no tiene avatar, se muestra el mensaje **"No image"**.
 
@@ -449,12 +449,6 @@ El método `save_model` es una función personalizada que se ejecuta cuando se g
 - Si no se encuentra un equipo inscrito previamente en el torneo, se guarda correctamente.
 - Si el equipo ya está inscrito en el torneo, se genera una excepción para evitar el duplicado.
 
-#### 📝 6. **Resumen**
-
-- El panel de administración para `TournamentTeam` facilita la gestión de la relación entre los torneos y los equipos.
-- Permite la búsqueda y filtrado tanto por el nombre del torneo como por el nombre del equipo.
-- La validación personalizada evita que un mismo equipo se inscriba más de una vez en el mismo torneo.
-
 ```python
 # Configuración del administrador para el modelo TournamentTeam
 @admin.register(TournamentTeam)
@@ -539,12 +533,6 @@ La opción `list_filter` agrega filtros en la barra lateral de la vista de lista
 - **Estado del partido**: Permite filtrar los partidos según su estado (pendiente, en progreso, finalizado, etc.).
 - **Torneo**: Permite filtrar por el torneo al que pertenece el partido.
 
-#### 📝 5. **Resumen**
-
-- El panel de administración para `Match` facilita la gestión de partidos dentro de un torneo.
-- Se puede buscar por nombre del torneo, nombre de los equipos participantes y filtrar por estado del partido.
-- Además, la configuración permite una visualización detallada del estado y la preparación de los equipos.
-
 ```python
 # Configuración del administrador para el modelo Match
 @admin.register(Match)
@@ -612,12 +600,6 @@ La opción `list_filter` agrega filtros en la barra lateral de la vista de lista
 
 - **Fecha de finalización**: Permite filtrar los resultados de los partidos por la fecha en que se completaron.
 
-#### 📝 5. **Resumen**
-
-- El panel de administración para `MatchResult` facilita la gestión de los resultados de los partidos.
-- Se puede buscar por el nombre de los equipos involucrados en el partido y filtrar los resultados por fecha de finalización.
-- Esta configuración ayuda a mostrar de manera clara los resultados de cada partido, incluyendo el equipo ganador y las puntuaciones.
-
 ```python
 # Configuración del administrador para el modelo MatchResult
 @admin.register(MatchResult)
@@ -675,12 +657,6 @@ La opción `search_fields` permite definir qué campos serán utilizados para re
 La opción `list_filter` agrega filtros en la barra lateral de la vista de lista. En este caso, se incluye el siguiente filtro:
 
 - **Fecha de creación**: Permite filtrar los registros de los eventos por la fecha en que se crearon.
-
-#### 📝 5. **Resumen**
-
-- El panel de administración para `MatchLog` facilita la gestión de los registros de eventos de los partidos.
-- Se puede buscar por los equipos o jugadores involucrados, y filtrar los registros por fecha.
-- Esta configuración permite visualizar de forma clara y ordenada todos los eventos registrados durante un partido.
 
 ```python
 # Configuración del administrador para el modelo MatchLog
@@ -751,12 +727,6 @@ La función **vista previa de imagen** genera una miniatura de la imagen de la r
 
 ##### Descripción de la columna:
 El nombre de la columna en el panel de administración es **"Image Preview"**.
-
-#### 🌐 6. **Resumen**
-
-- El panel de administración para `Reward` facilita la gestión de las recompensas.
-- Se pueden buscar recompensas por nombre y filtrarlas por su estado (activo o inactivo).
-- La configuración incluye la visualización de una miniatura de la imagen de cada recompensa, con un comportamiento claro en caso de que no haya imagen asociada.
 
 ```python
 # Configuración del administrador para el modelo Reward
@@ -832,12 +802,6 @@ La opción `search_fields` permite definir qué campos serán utilizados para re
 La opción `list_filter` agrega filtros en la barra lateral de la vista de lista. En este caso, se incluye el siguiente filtro:
 
 - **Fecha del canje**: Permite filtrar los canjes por la fecha en que fueron realizados.
-
-#### 🌐 5. **Resumen**
-
-- El panel de administración para `Redemption` facilita la gestión de los canjes de recompensas.
-- Se pueden buscar los canjes por nombre de usuario o por nombre de recompensa.
-- Los canjes se pueden filtrar por fecha para facilitar la visualización de eventos específicos.
 
 ```python
 # Configuración del administrador para el modelo Redemption
