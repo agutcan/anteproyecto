@@ -139,7 +139,6 @@ Esta plataforma permitirá a los usuarios:
 
 ### En proceso
 
-- 🖥️ Apis para ver o crear algunos modelos.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - ✅ Realizar pruebas unitarias con **Django TestCase**.
@@ -148,7 +147,6 @@ Esta plataforma permitirá a los usuarios:
 
 ### Por hacer
 
-- 🖥️ Apis para ver o crear algunos modelos.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - ✅ Realizar pruebas unitarias con **Django TestCase**.
@@ -166,6 +164,7 @@ Esta plataforma permitirá a los usuarios:
 - Sistema para comprobar que el resultado de las partidas proporcionado por cada equipo sea correcto y no tenga que internevir un administrador.
 - AI para contestar a los mensajes de soporte automáticamente.
 - Mixin personalizado para páginas en las que solo puedan acceder jugadores premium/vip.
+- Sistema de paginación.
 
 ### Mejoras implementadas al proyecto
 
@@ -192,7 +191,9 @@ Esta plataforma permitirá a los usuarios:
 ## 📄 Documentación
 
 - [Estructura del Proyecto](docs/PROJECT_STRUCTURE.md)
+- [Admin](docs/ADMIN.md)
 - [Vistas](docs/VIEWS.md)
+- [Tareas programadas](docs/TASKS.md)
 - [Modelos](docs/MODELS.md)
 - [Formularios](docs/FORMS.md)
 - [Flujos](docs/WORKFLOWS.md)
