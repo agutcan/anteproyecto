@@ -1,4 +1,4 @@
-# Explicación de Modelos en Django (`models.py`)
+# 📄 Explicación de Modelos en Django (`models.py`)
 
 Este archivo define los modelos utilizados en la aplicación web. Los modelos representan las tablas de la base de datos y sus relaciones. A continuación, se describen cada uno de los modelos:
 
@@ -7,7 +7,7 @@ Este archivo define los modelos utilizados en la aplicación web. Los modelos re
 ## 🕹️ **Game**
 Modelo que representa un videojuego dentro de la plataforma.
 
-### Campos:
+### 🧩 Campos:
 - `name`: El nombre del juego (único).
 - `genre`: Género del juego (opcional).
 - `created_at`: Fecha de creación del juego (autogenerada).
@@ -37,7 +37,7 @@ class Game(models.Model):
 ## 🏆 **Tournament**
 Modelo que representa un torneo dentro de la plataforma.
 
-### Campos:
+### 🧩 Campos:
 - `name`: Nombre del torneo.
 - `game`: Relación con el modelo `Game` (juego que se juega en el torneo).
 - `description`: Descripción del torneo.
@@ -50,13 +50,13 @@ Modelo que representa un torneo dentro de la plataforma.
 - `matches_generated`: Indica si los partidos han sido generados.
 - `winner`: El equipo ganador del torneo (relación con el modelo `Team`).
 
-### Métodos importantes:
+### 🧠 Métodos importantes:
 - `count_registered_players()`: Devuelve el número total de jugadores registrados en el torneo.
 - `get_max_total_players()`: Devuelve el número máximo teórico de jugadores que pueden participar en el torneo.
 - `get_available_slots()`: Calcula los espacios disponibles para la inscripción de jugadores en el torneo.
 - `get_registered_teams()`: Devuelve los equipos registrados en el torneo.
 
-### Validaciones:
+### ✅ Validaciones:
 - **Número de equipos**: El número máximo de equipos debe ser 2, 4 u 8.
 - **Fecha de inicio**: La fecha de inicio no puede ser en el pasado.
 
@@ -158,11 +158,11 @@ class Tournament(models.Model):
 ## 👥 **Team**
 Modelo que representa un equipo dentro de la plataforma.
 
-### Campos:
+### 🧩 Campos:
 - `name`: Nombre del equipo (único).
 - `created_at`: Fecha de creación del equipo.
 
-### Métodos importantes:
+### 🧠 Métodos importantes:
 - `get_avg_mmr()`: Calcula el promedio de MMR (Matchmaking Rating) de los jugadores que pertenecen a este equipo. Si el equipo no tiene jugadores, devuelve 0.
 
 ```python
@@ -205,7 +205,7 @@ class Team(models.Model):
 ## 🎮 **Player**
 Modelo que representa a un jugador en la plataforma.
 
-### Campos:
+### 🧩 Campos:
 - `user`: Relación con el modelo `User`. Representa el usuario relacionado con el jugador.
 - `team`: Relación con el modelo `Team`. Representa el equipo al que pertenece el jugador (puede ser `null` si no pertenece a un equipo).
 - `role`: Define el rol del jugador. Puede ser "Premium" o "Normal".
@@ -303,14 +303,14 @@ class Player(models.Model):
 ## 🏆 **TournamentTeam**
 Este modelo representa la relación entre un torneo y un equipo que está inscrito en él.
 
-### Campos:
+### 🧩 Campos:
 - `tournament`: Relación con el modelo `Tournament`, que representa el torneo en el que el equipo está participando.
 - `team`: Relación con el modelo `Team`, que representa el equipo que se ha inscrito en el torneo.
 
-### Restricciones:
+### 🚫 Restricciones:
 - **`unique_together`**: La combinación de `tournament` y `team` debe ser única. Esto significa que un equipo no puede inscribirse más de una vez en el mismo torneo.
 
-### Descripción:
+### 📘 Descripción:
 Este modelo se utiliza para asociar un equipo a un torneo específico. La relación es una asociación de muchos a muchos, ya que un equipo puede participar en varios torneos y un torneo puede tener múltiples equipos.
 
 ```python
@@ -336,7 +336,7 @@ class TournamentTeam(models.Model):
 ## ⚔️ **Match**
 Este modelo representa una partida entre dos equipos dentro de un torneo. Cada partida se juega entre dos equipos y tiene un estado asociado (pendiente, en curso o completado).
 
-### Campos:
+### 🧩 Campos:
 - `tournament`: Relación con el modelo `Tournament`, que representa el torneo al que pertenece la partida.
 - `round`: Un número entero que indica la ronda de la partida dentro del torneo (por ejemplo, ronda 1, semifinal, final, etc.).
 - `team1`: Relación con el modelo `Team`, que representa el primer equipo que juega en la partida.
@@ -354,7 +354,7 @@ Este modelo representa una partida entre dos equipos dentro de un torneo. Cada p
 - `team1_winner`: Un campo booleano que indica si el equipo 1 ha ganado la partida (se marca después de la finalización).
 - `team2_winner`: Un campo booleano que indica si el equipo 2 ha ganado la partida (se marca después de la finalización).
 
-### Descripción:
+### 📘 Descripción:
 Este modelo se utiliza para representar una partida entre dos equipos dentro de un torneo. El campo `status` ayuda a seguir el progreso de la partida. Los campos `team1_ready` y `team2_ready` permiten saber si ambos equipos están listos para jugar. Además, el sistema permite a ambos equipos confirmar el resultado de la partida y marcar al ganador a través de los campos `team1_confirmed`, `team2_confirmed`, `team1_winner` y `team2_winner`.
 
 ```python
@@ -403,14 +403,14 @@ class Match(models.Model):
 ## 📜 **MatchLog**
 El modelo `MatchLog` se utiliza para registrar eventos o acciones que ocurren durante una partida, como los movimientos de jugadores, goles, cambios de estado, etc. Cada entrada en el `MatchLog` se asocia con una partida específica, y puede registrar eventos tanto a nivel de equipo como de jugador.
 
-### Campos:
+### 🧩 Campos:
 - `match`: Relación con el modelo `Match`, que representa la partida en la que ocurrió el evento.
 - `team`: Relación con el modelo `Team`, que indica el equipo involucrado en el evento. Este campo puede ser `null` si el evento no está asociado a un equipo específico.
 - `player`: Relación con el modelo `Player`, que indica el jugador involucrado en el evento. Este campo puede ser `null` si el evento no está asociado a un jugador específico.
 - `event`: Un campo de texto que describe el evento que ocurrió durante la partida (por ejemplo, "Jugador X marcó un gol", "Cambio de equipo").
 - `created_at`: Fecha y hora en que el evento fue registrado en el sistema.
 
-### Descripción:
+### 📘 Descripción:
 El modelo `MatchLog` sirve para crear un registro detallado de todo lo que sucede durante una partida. Los eventos pueden ser variados, como la anotación de un gol, la expulsión de un jugador o incluso el comienzo o final de una partida. Este modelo ayuda a tener un seguimiento detallado de la dinámica del partido y también puede ser útil para generar informes o estadísticas.
 
 Los campos `team` y `player` son opcionales, ya que algunos eventos pueden no estar directamente relacionados con un equipo o jugador (por ejemplo, un evento que simplemente indica que el partido ha comenzado). Sin embargo, cuando hay una acción específica de un equipo o jugador, se almacena esa relación para mayor claridad.
@@ -440,14 +440,14 @@ class MatchLog(models.Model):
 ## 🏆 **MatchResult**
 El modelo `MatchResult` representa los resultados de una partida dentro de un torneo. Este modelo se asocia de manera directa con el modelo `Match`, lo que significa que cada resultado está vinculado a una partida específica. Registra el puntaje de los dos equipos participantes, el ganador de la partida y la fecha en la que se completó el partido.
 
-### Campos:
+### 🧩 Campos:
 - `match`: Relación de tipo `OneToOneField` con el modelo `Match`. Cada entrada en `MatchResult` corresponde a una única partida.
 - `winner`: Relación con el modelo `Team`, que representa al equipo ganador de la partida. Este campo puede ser `null` si no se ha determinado el ganador.
 - `team1_score`: Puntaje del equipo 1 en la partida.
 - `team2_score`: Puntaje del equipo 2 en la partida.
 - `completed_at`: Fecha y hora en la que el partido fue completado. Se establece automáticamente con la fecha y hora actuales cuando el resultado se guarda.
 
-### Descripción:
+### 📘 Descripción:
 El modelo `MatchResult` es utilizado para almacenar los resultados finales de las partidas en los torneos. Cada vez que una partida se termina, se crea un objeto `MatchResult` que almacena los puntajes de los equipos y el equipo ganador.
 
 - El campo `winner` es opcional, ya que puede ser `null` en caso de que no se haya determinado un ganador aún (por ejemplo, en caso de empate o si el resultado no se ha registrado).
@@ -480,7 +480,7 @@ class MatchResult(models.Model):
 ## 🎁 **Reward**
 El modelo `Reward` representa recompensas que los usuarios pueden canjear utilizando monedas virtuales (`coins`). Este sistema está pensado para incentivar la participación, el rendimiento o la interacción dentro de la plataforma (por ejemplo, al ganar partidas o torneos).
 
-### Campos:
+### 🧩 Campos:
 - `name`: Nombre de la recompensa. Campo obligatorio y de hasta 255 caracteres.
 - `description`: Descripción detallada u opcional de la recompensa. Es un campo de texto libre y puede estar vacío.
 - `coins_cost`: Cantidad de monedas necesarias para canjear esta recompensa. Por defecto es 100.
@@ -490,7 +490,7 @@ El modelo `Reward` representa recompensas que los usuarios pueden canjear utiliz
 - `updated_at`: Fecha en la que fue actualizada por última vez. Se actualiza automáticamente en cada cambio.
 - `image`: Imagen representativa de la recompensa. Por defecto se asigna una imagen predeterminada (`default_reward.webp`).
 
-### Descripción:
+### 📘 Descripción:
 Este modelo permite definir recompensas intercambiables dentro de la plataforma. Los usuarios que hayan acumulado suficientes monedas (`coins`) pueden "comprarlas" mediante el modelo `Redemption`.
 
 El campo `stock` permite gestionar la disponibilidad, asegurando que una recompensa no se canjee si no hay unidades restantes. Además, el campo `is_active` puede usarse para desactivar temporalmente una recompensa sin eliminarla.
@@ -531,12 +531,12 @@ class Reward(models.Model):
 ## 🎟️ **Redemption**
 El modelo `Redemption` representa el canje de una recompensa (`Reward`) por parte de un usuario (`User`). Este registro permite llevar un historial de transacciones en las que los usuarios gastan monedas virtuales para obtener recompensas.
 
-### Campos:
+### 🧩 Campos:
 - `user`: Referencia al usuario que ha canjeado una recompensa. Relación many-to-one con `User`.
 - `reward`: Referencia a la recompensa que fue canjeada. Relación many-to-one con `Reward`.
 - `redeemed_at`: Fecha y hora en la que se realizó el canje. Se establece automáticamente al crear la redención.
 
-### Descripción:
+### 📘 Descripción:
 Cada vez que un usuario realiza un canje, se crea una instancia de `Redemption`. Esto permite:
 - Llevar control del historial de canjes.
 - Evitar duplicidad si se desea restringir canjes múltiples por usuario.
