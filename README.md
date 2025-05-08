@@ -165,6 +165,7 @@ Esta plataforma permitirá a los usuarios:
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
 - Sistema para comprobar que el resultado de las partidas proporcionado por cada equipo sea correcto y no tenga que internevir un administrador.
 - AI para contestar a los mensajes de soporte automáticamente.
+- Mixin personalizado para páginas en las que solo puedan acceder jugadores premium/vip.
 
 ### Mejoras implementadas al proyecto
 
