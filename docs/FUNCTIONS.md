@@ -4,7 +4,7 @@ Este archivo define las funciones utilizadas en la aplicación web. Las funcione
 
 ---
 
-## Función `update_players_stats`
+## 🏅 Función `update_players_stats`
 
 ### 📌 Descripción  
 Actualiza las estadísticas de los jugadores de un equipo después de un partido, modificando:  
@@ -78,7 +78,7 @@ def update_players_stats(team, is_winner=False):
 
 ```
 
-## Función `generate_matches_by_mmr`
+## 🏅 Función `generate_matches_by_mmr`
 
 ### 📌 Descripción  
 Genera los partidos de un torneo basándose en el MMR promedio de los equipos participantes.  
@@ -196,7 +196,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
 
 ---
 
-## Función `record_match_result`
+## 🏅 Función `record_match_result`
 
 ### 📌 Descripción  
 Registra el resultado de un partido en la base de datos, actualiza su estado a "completado" y notifica vía email a todos los jugadores involucrados.  
@@ -302,7 +302,7 @@ def record_match_result(match, winner, team1_score, team2_score):
 
 ---
 
-## Función `create_match_log`
+## 🏅 Función `create_match_log`
 
 ### 📌 Descripción  
 Crea un registro de eventos (log) asociado a un partido, opcionalmente vinculado a un equipo o jugador específico. Retorna el registro creado.
@@ -364,7 +364,7 @@ def create_match_log(match, event, team=None, player=None):
 ```
 ---
 
-## Función `decrease_player_renombre`
+## 🏅 Función `decrease_player_renombre`
 
 ### 📌 Descripción  
 Reduce el renombre de un jugador con un límite mínimo de 1, registra el evento en un log si existe una razón válida y devuelve el jugador actualizado.
@@ -436,7 +436,7 @@ def decrease_player_renombre(player, amount, reason=None):
 ```
 ---
 
-## Función `increase_player_renombre`
+## 🏅 Función `increase_player_renombre`
 
 ### 📌 Descripción  
 Incrementa el renombre de un jugador con un límite máximo de 100, registra el evento en un log si se proporciona una razón válida y devuelve el jugador actualizado.
@@ -515,7 +515,7 @@ def increase_player_renombre(player, amount, reason=None):
 ```
 ---
 
-## Función `process_final_match`
+## 🏅 Función `process_final_match`
 
 ### 📌 Descripción  
 Procesa la finalización de un torneo cuando se completa el último partido, determinando al ganador, actualizando el estado del torneo y distribuyendo recompensas a los jugadores del equipo ganador.
@@ -606,7 +606,7 @@ def process_final_match(tournament, completed_matches_queryset):
 
 ```
 ---
-## Función `process_round`
+## 🏅 Función `process_round`
 
 ### 📌 Descripción  
 Gestiona la transición entre rondas en un torneo, procesando los resultados de la ronda anterior y generando los nuevos enfrentamientos para la siguiente fase competitiva. La función actúa como puente lógico entre etapas del torneo.
