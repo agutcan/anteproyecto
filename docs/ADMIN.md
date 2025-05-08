@@ -831,6 +831,3 @@ class RedemptionAdmin(admin.ModelAdmin):
 
 ## 🔄 Navegación
 [⬅️ Volver al README principal](../README.md)
-
-## 🔄 Navegación
-[⬅️ Volver al README principal](../README.md)
