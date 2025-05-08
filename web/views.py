@@ -32,9 +32,40 @@ class TournamentListAPI(generics.ListAPIView):
     queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
 
+    def get_queryset(self):
+            """
+            Versión optimizada del queryset que incluye prefetch de relaciones comunes.
+            
+            Returns:
+                QuerySet: Torneos con sus relaciones precargadas para mejor performance
+            """
+            return super().get_queryset().select_related('created_by').prefetch_related('teams', 'matches')
+        
 class PlayerStatsListAPI(generics.ListAPIView):
+    """
+    API endpoint que permite ver las estadísticas de todos los jugadores en formato JSON.
+    
+    Hereda de ListAPIView para proporcionar un endpoint de solo lectura (GET).
+    Utiliza PlayerStatsSerializer para convertir los objetos Player a formato JSON.
+
+    Atributos:
+        queryset (QuerySet): Todos los objetos Player existentes en la base de datos.
+        serializer_class (Serializer): Clase serializadora que define la representación JSON.
+
+    Métodos heredados de ListAPIView:
+        get: Maneja las solicitudes GET y devuelve la lista de jugadores serializados.
+    """
     queryset = Player.objects.all()
     serializer_class = PlayerStatsSerializer
+
+    def get_queryset(self):
+        """
+        Opcional: Sobrescribe el queryset base para agregar filtros o optimizaciones.
+        
+        Returns:
+            QuerySet: Conjunto de jugadores potencialmente filtrado/optimizado.
+        """
+        return super().get_queryset().select_related('team')
 
 class PublicIndexView(TemplateView):
     template_name = 'web/public_index.html'
@@ -45,9 +76,30 @@ class PublicIndexView(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
 class IndexView(LoginRequiredMixin, TemplateView):
+    """
+    Vista principal que muestra la página de inicio de la aplicación.
+    
+    Requiere que el usuario esté autenticado (heredando de LoginRequiredMixin)
+    y muestra una lista de todos los juegos disponibles en el sistema.
+
+    Atributos:
+        template_name (str): Ruta al template HTML que renderiza la vista.
+
+    Métodos:
+        get_context_data(**kwargs): Añade la lista de juegos al contexto de renderizado.
+    """
     template_name = 'web/index.html'
 
     def get_context_data(self, **kwargs):
+        """
+        Añade datos adicionales al contexto de la vista.
+
+        Args:
+            **kwargs: Argumentos clave adicionales.
+
+        Returns:
+            dict: Contexto enriquecido con la lista de todos los juegos.
+        """
         context = super().get_context_data(**kwargs)
         context['game_list'] = Game.objects.all()
         return context
