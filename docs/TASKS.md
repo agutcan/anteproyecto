@@ -8,18 +8,18 @@ Este archivo define las tareas programadas utilizadas en la aplicación web. Las
 
 Esta tarea se ejecuta periódicamente para **actualizar el estado de los torneos** según la fecha de inicio. A continuación, se explica el funcionamiento y los detalles de la tarea.
 
-### Descripción
+### 📘 Descripción
 
 La tarea `update_tournament_status` realiza las siguientes acciones:
 
-1. **Busca torneos en estado 'upcoming' (próximos)**:  
+1. 🔍 **Busca torneos en estado 'upcoming' (próximos)**:  
    La tarea filtra los torneos cuyo estado es **'upcoming'**, es decir, aquellos que están programados para empezar en el futuro.
 
-2. **Actualiza el estado de los torneos**:  
+2. 🔄 **Actualiza el estado de los torneos**:  
    - Si la fecha de inicio de un torneo ha pasado y su estado actual no es 'completed', el estado del torneo se cambia a **'ongoing'** (en curso).
    - Si el estado del torneo cambia a 'ongoing' y aún no se han generado las partidas, la tarea invoca la función `generate_matches_by_mmr` para generarlas.
 
-3. **Optimización en la actualización del estado**:  
+3. ⚙️ **Optimización en la actualización del estado**:  
    La tarea solo actualiza el estado del torneo si ha cambiado, lo que ayuda a **evitar escrituras innecesarias en la base de datos**.
 
 ```python
@@ -67,7 +67,7 @@ def update_tournament_status():
                 generate_matches_by_mmr(tournament.id)  # Llama a la función que genera las partidas
 ```
 
-## Tarea: `check_teams_ready_for_match`
+## 🧪 Tarea: `check_teams_ready_for_match`
 
 Esta tarea se ejecuta periódicamente para **verificar el estado de los partidos pendientes** y actuar en consecuencia. A continuación se explica su funcionamiento y detalle.
 
@@ -75,7 +75,7 @@ Esta tarea se ejecuta periódicamente para **verificar el estado de los partidos
 
 La tarea `check_teams_ready_for_match` realiza las siguientes acciones:
 
-1. **Verificación de la preparación de los equipos**:  
+1. ✅ **Verificación de la preparación de los equipos**:  
    La tarea verifica si ambos equipos están listos antes de la hora programada del partido:
    - Si ambos equipos están listos, se marca el partido como **'ongoing'** y se notifica a los jugadores por correo electrónico.
    - Si no se alcanzó la hora programada y uno o ambos equipos no están listos:
@@ -84,13 +84,12 @@ La tarea `check_teams_ready_for_match` realiza las siguientes acciones:
    - Las estadísticas de los jugadores y equipos se actualizan según el resultado.
    - Se penaliza a los jugadores ausentes con pérdida de renombre.
    
-2. **Registro automático de resultados**:  
+2. 📝 **Registro automático de resultados**:  
    Después de determinar el ganador, se guarda el resultado automáticamente mediante la función `record_match_result` y se genera un log del partido.
 
-3. **Optimización**:  
+3. ⚙️ **Optimización**:  
    Solo se procesan partidos cuyo estado es **'pending'** y la tarea solo realiza acciones si es necesario, evitando ejecuciones innecesarias.
 
-### Código:
 
 ```python
 @shared_task
@@ -214,36 +213,34 @@ def check_teams_ready_for_match():
 
 ```
 
-## Tarea: `check_tournament_match_progress`
+## 📈 Tarea: `check_tournament_match_progress`
 
 Esta tarea se ejecuta periódicamente para **revisar el progreso de los torneos en curso**. A continuación, se detallan las funciones y el flujo de la tarea.
 
-### Descripción
+### 📘 Descripción
 
 La tarea `check_tournament_match_progress` realiza las siguientes acciones:
 
-1. **Verificación de los torneos en curso**:  
+1. 🔍 **Verificación de los torneos en curso**:  
    La tarea filtra los torneos cuyo estado es **'ongoing'** (en curso).
 
-2. **Cálculo del progreso del torneo**:  
+2. 📊 **Cálculo del progreso del torneo**:  
    Para cada torneo en curso:
    - Se cuenta el número de partidos **en curso** y **completados**.
    - Se obtiene el **número total de partidos** y el **número de equipos**.
 
-3. **Determinación de la siguiente fase**:  
+3. 🧠 **Determinación de la siguiente fase**:  
    Según el número de equipos y el progreso de los partidos, la tarea decide:
    - Si debe procesarse una **ronda intermedia** (semifinales, cuartos de final, etc.).
    - Si debe procesarse la **final** y finalizar el torneo.
 
-4. **Flujo de procesamiento según el número de equipos**:  
+4. 🔢 **Flujo de procesamiento según el número de equipos**:  
    - Para **torneos de 2 equipos**, después de 1 partido completado, se procesa la final.
    - Para **torneos de 4 equipos**, después de 2 partidos completados, se procesa la segunda ronda (semifinales), y si se han jugado 3 partidos, se procesa la final.
    - Para **torneos de 8 equipos**, después de 4 partidos completados, se procesan las semifinales, y tras 6 partidos completados, se procesa la final.
 
-5. **Optimización**:  
+5. ⚙️ **Optimización**:  
    Solo se procesan los torneos cuyo estado es **'ongoing'** y la tarea realiza acciones solo si es necesario, evitando ejecuciones innecesarias.
-
-### Código:
 
 ```python
 @shared_task
