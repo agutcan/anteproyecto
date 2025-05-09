@@ -104,7 +104,10 @@ Genera los partidos de un torneo basándose en el MMR promedio de los equipos pa
        ```plaintext
        Asunto: Torneo Cancelado  
        Mensaje: "Hola {username}, el torneo {torneo} ha sido cancelado por número impar de equipos."  
-       ```  
+       ```
+   - Si no hay suficientes jugadores en un equipo:
+      - Envía un correo a todos los jugadores notificando la cancelación.
+      - Elimina el torneo de la base de datos.  
 
 2. **Generación de partidos**  
    - Calcula el MMR promedio de cada equipo (usando `team.get_avg_mmr()`).  
@@ -119,7 +122,7 @@ Genera los partidos de un torneo basándose en el MMR promedio de los equipos pa
 
 
 ## ⚠️ Restricciones  
-- **Solo funciona** con 2, 4 u 8 equipos (otros valores cancelan el torneo).  
+- **Solo funciona** con 2, 4 u 8 equipos y con equipos completos (otros valores cancelan el torneo).  
 - **Requiere**:  
   - Método `get_avg_mmr()` en el modelo `Team`.  
   - Configuración correcta de `send_mail` (servidor SMTP).  
@@ -152,15 +155,38 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
         players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('tournament')
         for player in players:
             send_mail(
-                'Torneo Cancelado',  # Asunto del correo
-                f'Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.',
-                'administracion@arenagg.com',  # Remitente (asegúrate de configurar un remitente válido)
-                [player.user.email],  # Correo del jugador
+                subject='Torneo Cancelado',  # Asunto del correo
+                message=f'Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.',
+                from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente (asegúrate de configurar un remitente válido)
+                recipient_list=[player.user.email],  # Correo del jugador
                 fail_silently=False,  # Si ocurre un error, lanzar una excepción
             )
 
         # Eliminar el torneo cancelado
         tournament.delete()
+        print(f"⚠️ El torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.")
+        return
+
+    # Verificar que todos los equipos tengan la cantidad exacta de jugadores
+    invalid_teams = []
+    for team in Team.objects.filter(tournamentteam__tournament=tournament):
+        if team.players.count() != tournament.max_players_per_team:
+            invalid_teams.append(team)
+
+    if invalid_teams:
+        players = Player.objects.filter(team__in=invalid_teams)
+        for player in players:
+            send_mail(
+                subject='Torneo Cancelado',
+                message=f'Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado porque algunos equipos no tienen el número correcto de jugadores.',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[player.user.email],
+                fail_silently=False,
+            )
+
+        tournament.delete()
+        print(
+            f"⚠️ El torneo {tournament.name} ha sido cancelado porque algunos equipos no tenían el número correcto de jugadores.")
         return
 
     # Si el número de equipos es par, procedemos a generar los partidos
