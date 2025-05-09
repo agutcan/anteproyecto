@@ -936,7 +936,7 @@ class TeamJoinView(LoginRequiredMixin, View):
             if team.player_set.count() >= tournament.max_players_per_team:
                 messages.error(
                     request,
-                    f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'."
+                    f"No puedes unirte porque el equipo ya está completo en el torneo '{tournament.name}'."
                 )
                 return redirect('web:playerTeamDetailView', pk=player.pk)
 
