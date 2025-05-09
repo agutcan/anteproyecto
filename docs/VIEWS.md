@@ -753,7 +753,7 @@ Solo usuarios autenticados pueden acceder a esta vista gracias al uso de `LoginR
 4. ✅ Añade al contexto dos banderas clave:
    - `team_ready`: Indica si el equipo del jugador está marcado como "listo".
    - `team_confirmed`: Indica si el equipo ha confirmado el partido.
-   - 
+     
 ### 🧩 Contexto Personalizado
 
 El contexto enviado al template incluye:
