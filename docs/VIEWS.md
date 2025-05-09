@@ -265,13 +265,9 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
 
 Muestra toda la información relevante sobre un **torneo específico**, incluyendo si el usuario actual está registrado a través de su equipo. Ideal para acceder desde un listado o tarjeta de torneos.
 
----
-
 ### 🔐 Requiere Autenticación
 
 Utiliza `LoginRequiredMixin` para asegurar que **solo usuarios autenticados** puedan acceder a los detalles. Si no estás logueado, se redirige al formulario de inicio de sesión.
-
----
 
 ### 🔎 ¿Qué muestra?
 
@@ -279,8 +275,6 @@ Utiliza `LoginRequiredMixin` para asegurar que **solo usuarios autenticados** pu
   - Nombre, juego, fechas, estado, descripción, etc.
 - ✅ Estado de registro del usuario actual (si participa a través de su equipo).
 - 👥 Listado de equipos inscritos con sus respectivos jugadores y usuarios.
-
----
 
 ### 🧠 Lógica del Contexto
 
@@ -299,8 +293,6 @@ Esto permite en el template:
 - Ocultar o mostrar botones como "Unirse al torneo" ❌
 - Renderizar la lista de equipos participantes 👥
 
----
-
 ### ⚙️ Optimización
 
 La vista usa `select_related` y `prefetch_related` para evitar **consultas innecesarias** en la base de datos:
@@ -308,15 +300,11 @@ La vista usa `select_related` y `prefetch_related` para evitar **consultas innec
 - `Player` se trae junto a `User` y su `Team`
 - Los equipos del torneo traen sus jugadores y los usuarios asociados
 
----
-
 ### 🧾 Detalles Técnicos
 
 - 🧱 Modelo base: `Tournament`
 - 📄 Template: `web/tournament_detail.html`
 - 🔁 Vista: `DetailView` con contexto extendido
-
----
 
 ```python
 class TournamentDetailView(LoginRequiredMixin, DetailView):
