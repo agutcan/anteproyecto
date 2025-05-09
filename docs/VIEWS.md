@@ -1042,9 +1042,9 @@ Gracias a `LoginRequiredMixin`, **solo los usuarios logueados** pueden intentar 
 
 Para que el usuario pueda abandonar el torneo, deben cumplirse todas estas condiciones:
 
-1. El jugador **debe pertenecer a un equipo** 🧑‍🤝‍🧑
-2. Su equipo **debe estar registrado en el torneo** 🏆
-3. El jugador **debe ser el líder** del equipo 👑
+1. 🧑‍🤝‍🧑 El jugador **debe pertenecer a un equipo** 
+2. 🏆 Su equipo **debe estar registrado en el torneo** 
+3. 👑 El jugador **debe ser el líder** del equipo 
 
 Si alguna condición falla, se muestra un mensaje de advertencia y se redirige al detalle del torneo.
 
