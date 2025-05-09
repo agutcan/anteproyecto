@@ -198,8 +198,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 Esta vista basada en clase (`ListView`) muestra una lista personalizada de torneos en los que participa el equipo del **jugador actualmente autenticado**.
 
----
-
 ### 🔐 Requiere Autenticación
 
 Gracias al uso de `LoginRequiredMixin`, solo los usuarios autenticados pueden acceder a esta vista. Si un visitante no ha iniciado sesión, será redirigido a la página de login.
