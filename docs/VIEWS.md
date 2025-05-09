@@ -412,7 +412,7 @@ Basada en `CreateView`, está diseñada para gestionar formularios de creación 
 - 🧱 Modelo: `Team`
 - 📄 Template: `web/team_create_in_tournament.html`
 - 📝 Formulario: `TeamForm`
-- 🔄 Redirección: `joinTeamListView` con el ID del torneo
+- 🔄 Redirección: `tournamentDetailView` con el pk del torneo
 
 
 ```python
@@ -478,7 +478,7 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
             player.save()
             team.save()
 
-        return redirect('web:joinTeamListView', pk=self.tournament.pk)
+        return redirect('web:tournamentDetailView', pk=self.tournament.pk)
 
     def get_context_data(self, **kwargs):
         """
