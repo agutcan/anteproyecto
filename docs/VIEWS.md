@@ -261,36 +261,62 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
         return Tournament.objects.none()
 ```
 ---
-## 📋 Vista `TournamentDetailView` – Detalles del Torneo
+## 🏆 Vista `TournamentDetailView` – Detalles del Torneo
 
-Esta vista basada en clase (`DetailView`) muestra la información completa de un **torneo específico** al que accede el usuario. Se utiliza comúnmente cuando se hace clic en un torneo para ver más detalles.
+Muestra toda la información relevante sobre un **torneo específico**, incluyendo si el usuario actual está registrado a través de su equipo. Ideal para acceder desde un listado o tarjeta de torneos.
+
+---
 
 ### 🔐 Requiere Autenticación
 
-Gracias a `LoginRequiredMixin`, solo los usuarios autenticados pueden ver los detalles del torneo. Si no has iniciado sesión, serás redirigido al login.
+Utiliza `LoginRequiredMixin` para asegurar que **solo usuarios autenticados** puedan acceder a los detalles. Si no estás logueado, se redirige al formulario de inicio de sesión.
+
+---
 
 ### 🔎 ¿Qué muestra?
 
-- Datos completos del torneo seleccionado, como nombre, juego, fechas, estado, descripción, etc.
-- Además, incluye un indicador personalizado llamado `is_registered` para saber si el usuario actual está registrado en ese torneo a través de su equipo.
+- 📌 Información detallada del torneo:
+  - Nombre, juego, fechas, estado, descripción, etc.
+- ✅ Estado de registro del usuario actual (si participa a través de su equipo).
+- 👥 Listado de equipos inscritos con sus respectivos jugadores y usuarios.
 
-### 🧠 Lógica del contexto
+---
 
-Se añade al contexto de la plantilla una **bandera booleana**:
+### 🧠 Lógica del Contexto
 
-- `is_registered`: `True` si el jugador del usuario autenticado pertenece a un equipo inscrito en ese torneo.
+El método `get_context_data()` extiende el contexto con:
 
-Esto permite, por ejemplo:
-- Mostrar mensajes como "Estás inscrito en este torneo" ✅
-- O botones de inscripción si no lo está ❌
+| Variable             | Tipo     | Descripción                                                                 |
+|----------------------|----------|-----------------------------------------------------------------------------|
+| `tournament`         | `object` | Objeto principal del torneo                                                 |
+| `is_registered`      | `bool`   | `True` si el jugador del usuario está en un equipo inscrito en este torneo |
+| `player`             | `Player` | Instancia del jugador autenticado (si existe)                              |
+| `tournament_teams`   | `QuerySet` | Lista optimizada de equipos inscritos, con sus jugadores y usuarios        |
 
-### 🧾 Detalles técnicos
+Esto permite en el template:
 
-- 🧱 Modelo: `Tournament`
+- Mostrar un mensaje como **"Ya estás registrado en este torneo"** ✅
+- Ocultar o mostrar botones como "Unirse al torneo" ❌
+- Renderizar la lista de equipos participantes 👥
+
+---
+
+### ⚙️ Optimización
+
+La vista usa `select_related` y `prefetch_related` para evitar **consultas innecesarias** en la base de datos:
+
+- `Player` se trae junto a `User` y su `Team`
+- Los equipos del torneo traen sus jugadores y los usuarios asociados
+
+---
+
+### 🧾 Detalles Técnicos
+
+- 🧱 Modelo base: `Tournament`
 - 📄 Template: `web/tournament_detail.html`
-- 🗃️ Contexto:
-  - `tournament`: Objeto principal con los datos del torneo.
-  - `is_registered`: Booleano para mostrar estado de inscripción.
+- 🔁 Vista: `DetailView` con contexto extendido
+
+---
 
 ```python
 class TournamentDetailView(LoginRequiredMixin, DetailView):
@@ -321,16 +347,19 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
         Returns:
             dict: Contexto que incluye:
                 - is_registered: Booleano indicando si el usuario está registrado en el torneo
+                - player: Objeto player con los datos del jugador
+                - tournament_teams: Lista de objetos tournamentTeams con los datos de los equipos que participan en el torneo
         """
         context = super().get_context_data(**kwargs)
-        tournament = self.get_object()
+        tournament = context['tournament']
         user = self.request.user
 
         is_registered = False
+        player = None
 
         if user.is_authenticated:
             try:
-                player = Player.objects.get(user=user)
+                player = Player.objects.select_related('team').get(user=user)
                 is_registered = TournamentTeam.objects.filter(
                     tournament=tournament,
                     team__player=player
@@ -338,7 +367,17 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
             except Player.DoesNotExist:
                 is_registered = False
 
+        # Pre-cargar equipos del torneo con sus jugadores y usuarios
+        tournament_teams = TournamentTeam.objects.filter(tournament=tournament).select_related(
+            'team'
+        ).prefetch_related(
+        Prefetch('team__player_set', queryset=Player.objects.select_related('user'))
+    )
+
         context['is_registered'] = is_registered
+        context['player'] = player
+        context['tournament_teams'] = tournament_teams
+
         return context
 ```
 ## 🛠️ Vista `TeamCreateInTournamentView` – Crear Equipo en un Torneo
@@ -1004,7 +1043,71 @@ class MatchConfirmView(LoginRequiredMixin, View):
             'match': match
         })
 ```
+---
+## 🚪 Vista `LeaveTournamentView` – Abandonar Torneo
 
+Permite que el **líder de un equipo** abandone un torneo en nombre de su equipo. Utiliza un formulario POST para confirmar la acción y está protegida por autenticación.
+
+---
+
+### 🔐 Requiere Autenticación
+
+Gracias a `LoginRequiredMixin`, **solo los usuarios logueados** pueden intentar salir de un torneo. Si no has iniciado sesión, se te redirige al login.
+
+---
+
+### ✅ Requisitos para salir del torneo
+
+Para que el usuario pueda abandonar el torneo, deben cumplirse todas estas condiciones:
+
+1. El jugador **debe pertenecer a un equipo** 🧑‍🤝‍🧑
+2. Su equipo **debe estar registrado en el torneo** 🏆
+3. El jugador **debe ser el líder** del equipo 👑
+
+Si alguna condición falla, se muestra un mensaje de advertencia y se redirige al detalle del torneo.
+
+### 📤 ¿Qué hace?
+
+- Elimina la instancia de `TournamentTeam`, desvinculando al equipo del torneo.
+- Muestra un mensaje de éxito: _"Has abandonado el torneo"_
+- Redirige a la vista de detalle del torneo.
+
+### 🧾 Detalles Técnicos
+
+- 🧱 Modelo afectado: `TournamentTeam`
+- 🔄 Método usado: `POST`
+- 📄 Template opcional para confirmación: `leave_tournament_confirm.html`
+- 🔁 Redirección final: `web:tournamentDetailView` del torneo correspondiente
+
+```python
+class LeaveTournamentView(LoginRequiredMixin, TemplateView):
+    template_name = 'web/leave_tournament_confirm.html'  # si quieres una página de confirmación
+
+    def post(self, request, *args, **kwargs):
+        tournament_id = self.kwargs['pk']
+        tournament = get_object_or_404(Tournament, pk=tournament_id)
+        player = get_object_or_404(Player, user=request.user)
+
+        team = player.team
+        if not team:
+            messages.warning(request, "No estás en ningún equipo.")
+            return redirect('web:tournamentDetailView', tournament.id)
+
+        tt = TournamentTeam.objects.filter(tournament=tournament, team=team).first()
+        if not tt:
+            messages.warning(request, "Tu equipo no pertenece a este torneo.")
+            return redirect('web:tournamentDetailView', tournament.id)
+
+        if player != team.leader:
+            messages.warning(request, "No eres el líder de tu equipo, no puedes realizar esta acción.")
+            return redirect('web:tournamentDetailView', tournament.id)
+
+        # Quitar al jugador del equipo
+        tt.delete()
+        messages.success(request, "Has abandonado el torneo.")
+
+        return redirect('web:tournamentDetailView', tournament.id)
+```
 ---
 
 ## 🔄 Navegación
