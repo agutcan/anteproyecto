@@ -470,15 +470,47 @@ class RewardListView(LoginRequiredMixin, ListView):
 
 
 class JoinTeamListView(LoginRequiredMixin, ListView):
+    """
+    Vista que muestra la lista de equipos disponibles para unirse en un torneo específico.
+
+    Requiere autenticación y muestra los equipos inscritos en un torneo
+    que están buscando compañeros de equipo.
+
+    Atributos:
+        model (Model): Modelo TournamentTeam que contiene las relaciones torneo-equipo
+        template_name (str): Ruta al template que muestra la lista
+        context_object_name (str): Nombre de la variable de contexto para la lista
+
+    Métodos:
+        get_queryset: Obtiene los equipos inscritos en el torneo
+        get_context_data: Añade información adicional al contexto
+    """
     model = TournamentTeam
     template_name = 'web/join_team.html'
     context_object_name = 'team_list'
 
     def get_queryset(self):
+        """
+        Obtiene el queryset base de equipos inscritos en el torneo.
+
+        Returns:
+            QuerySet: Equipos inscritos en el torneo especificado
+        """
         tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
         return TournamentTeam.objects.filter(tournament=tournament)
 
     def get_context_data(self, **kwargs):
+        """
+        Extiende el contexto con:
+        - El objeto torneo actual
+        - Lista filtrada de equipos buscando compañeros
+
+        Args:
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            dict: Contexto enriquecido para el template
+        """
         context = super().get_context_data(**kwargs)
         tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
 
@@ -850,7 +882,29 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
         return redirect('web:playerTeamDetailView', pk=player.pk)
 
 class TeamJoinView(LoginRequiredMixin, View):
+    """
+    Vista para que los jugadores se unan a equipos disponibles.
+
+    Requiere autenticación y permite:
+    - Ver lista de equipos buscando jugadores (GET)
+    - Unirse a un equipo específico (POST)
+
+    Métodos:
+        get: Muestra lista de equipos disponibles
+        post: Procesa la solicitud de unión a equipo
+    """
     def get(self, request, *args, **kwargs):
+        """
+        Muestra la lista de equipos que están buscando jugadores.
+
+        Args:
+            request: Objeto HttpRequest
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponse: Renderiza template con lista de equipos
+        """
         # Filtrar equipos que están buscando jugadores
         team_list = Team.objects.filter(searching_teammates=True)
 
@@ -859,6 +913,20 @@ class TeamJoinView(LoginRequiredMixin, View):
         })
 
     def post(self, request, *args, **kwargs):
+        """
+        Procesa la solicitud para unirse a un equipo:
+        1. Verifica disponibilidad en torneos próximos
+        2. Une al jugador al equipo seleccionado
+        3. Redirige a la vista de detalle del equipo
+
+        Args:
+            request: Objeto HttpRequest con team_id en POST
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponseRedirect: Redirección a vista de detalle
+        """
         team_id = request.POST.get('team_id')
         team = get_object_or_404(Team, id=team_id)
         player = Player.objects.get(user=request.user)
@@ -879,7 +947,34 @@ class TeamJoinView(LoginRequiredMixin, View):
         return redirect('web:playerTeamDetailView', pk=player.pk)
 
 class TeamKickView(LoginRequiredMixin, View):
+    """
+    Vista para expulsar a un jugador de un equipo.
+
+    Requiere autenticación y permite al líder del equipo expulsar miembros,
+    con validaciones para evitar expulsiones en equipos registrados en torneos.
+
+    Métodos:
+        post: Procesa la solicitud de expulsión con las validaciones correspondientes
+    """
     def post(self, request, team_id, player_id, *args, **kwargs):
+        """
+        Procesa la solicitud POST para expulsar un jugador de un equipo:
+        1. Verifica que el jugador pertenezca al equipo
+        2. Comprueba que el equipo no esté en torneos activos
+        3. Desvincula al jugador del equipo
+        4. Notifica al jugador expulsado por correo
+        5. Muestra mensajes de éxito/error
+
+        Args:
+            request: Objeto HttpRequest
+            team_id: ID del equipo afectado
+            player_id: ID del jugador a expulsar
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de detalle del equipo
+        """
         team = Team.objects.get(pk=team_id)
         player = Player.objects.get(pk=player_id)
 
