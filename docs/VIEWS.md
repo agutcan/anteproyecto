@@ -1081,9 +1081,37 @@ Si alguna condición falla, se muestra un mensaje de advertencia y se redirige a
 
 ```python
 class LeaveTournamentView(LoginRequiredMixin, TemplateView):
+    """
+    Vista para que un jugador abandone un torneo.
+
+    Requiere autenticación y muestra una página de confirmación antes
+    de procesar la solicitud de abandono del torneo.
+
+    Atributos:
+        template_name (str): Ruta al template de confirmación
+
+    Métodos:
+        post: Procesa la solicitud de abandono del torneo
+    """
+    template_name = 'web/leave_tournament_confirm.html'
     template_name = 'web/leave_tournament_confirm.html'  # si quieres una página de confirmación
 
     def post(self, request, *args, **kwargs):
+        """
+        Procesa la solicitud POST para abandonar un torneo:
+        1. Verifica que el jugador pertenezca a un equipo
+        2. Verifica que el equipo esté registrado en el torneo
+        3. Verifica que el jugador sea el líder del equipo
+        4. Elimina al equipo del torneo si se cumplen las condiciones
+
+        Args:
+            request: Objeto HttpRequest
+            *args: Argumentos variables
+            **kwargs: Argumentos clave variables (contiene 'pk' del torneo)
+
+        Returns:
+            HttpResponseRedirect: Redirección a la vista de detalle del torneo
+        """
         tournament_id = self.kwargs['pk']
         tournament = get_object_or_404(Tournament, pk=tournament_id)
         player = get_object_or_404(Player, user=request.user)
