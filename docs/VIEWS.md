@@ -1036,13 +1036,9 @@ class MatchConfirmView(LoginRequiredMixin, View):
 
 Permite que el **líder de un equipo** abandone un torneo en nombre de su equipo. Utiliza un formulario POST para confirmar la acción y está protegida por autenticación.
 
----
-
 ### 🔐 Requiere Autenticación
 
 Gracias a `LoginRequiredMixin`, **solo los usuarios logueados** pueden intentar salir de un torneo. Si no has iniciado sesión, se te redirige al login.
-
----
 
 ### ✅ Requisitos para salir del torneo
 
