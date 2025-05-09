@@ -339,6 +339,8 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
         Returns:
             dict: Contexto que incluye:
                 - is_registered: Booleano indicando si el usuario está registrado en el torneo
+                - player: Objeto player con los datos del jugador
+                - tournament_teams: Lista de objetos tournamentTeams con los datos de los equipos que participan en el torneo
         """
         context = super().get_context_data(**kwargs)
         tournament = context['tournament']
@@ -954,7 +956,6 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
         messages.success(request, "Has abandonado el torneo.")
 
         return redirect('web:tournamentDetailView', tournament.id)
-
 
 class MatchDetailView(LoginRequiredMixin, DetailView):
     """
