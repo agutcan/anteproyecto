@@ -45,7 +45,7 @@ Modelo que representa un torneo dentro de la plataforma.
 - `prize_pool`: Valor del premio en el torneo (opcional).
 - `start_date`: Fecha y hora en que comienza el torneo.
 - `created_by`: Usuario que creó el torneo (relación con el modelo `User`).
-- `max_player_per_team`: Número máximo de jugadores permitidos por equipo.
+- `max_player_per_team`: Número máximo, tambien usado como mínimo, de jugadores permitidos por equipo.
 - `max_teams`: Número máximo de equipos que pueden registrarse.
 - `matches_generated`: Indica si los partidos han sido generados.
 - `winner`: El equipo ganador del torneo (relación con el modelo `Team`).
@@ -73,7 +73,7 @@ class Tournament(models.Model):
         prize_pool: Premio total en dinero (opcional)
         start_date: Fecha y hora de inicio (requerido)
         created_by: Usuario que creó el torneo
-        max_player_per_team: Jugadores máximos por equipo
+        max_player_per_team: Jugadores por equipo
         max_teams: Número máximo de equipos permitidos
         matches_generated: Indica si los partidos están generados
         winner: Equipo ganador (se establece al finalizar)
