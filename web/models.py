@@ -43,7 +43,7 @@ class Tournament(models.Model):
         prize_pool: Premio total en dinero (opcional)
         start_date: Fecha y hora de inicio (requerido)
         created_by: Usuario que creó el torneo
-        max_player_per_team: Jugadores máximos por equipo
+        max_player_per_team: Jugadores por equipo
         max_teams: Número máximo de equipos permitidos
         matches_generated: Indica si los partidos están generados
         winner: Equipo ganador (se establece al finalizar)
