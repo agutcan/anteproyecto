@@ -1626,7 +1626,7 @@ class RedemptionListView(LoginRequiredMixin, ListView):
 
 
 class TournamentLogsView(LoginRequiredMixin, DetailView):
-     """
+    """
     Vista que muestra los registros de actividad (logs) de un torneo específico.
 
     Requiere autenticación y muestra los registros de partidas asociadas
@@ -1686,7 +1686,7 @@ class PlayerTeamDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'player'
 
     def get_queryset(self):
-         """
+        """
         Obtiene el queryset del jugador incluyendo la relación con su equipo.
 
         Returns:
