@@ -65,11 +65,10 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     
     # Número total de equipos en el torneo
     num_teams = tournament_teams.count()
-
     # Si el número de equipos es 0 o diferente a 2, 4 u 8, cancelamos el torneo
-    if num_teams == 0 or num_teams != 2 or num_teams != 4 or num_teams != 8:
+    if num_teams == 0 or (num_teams != 2 and num_teams != 4 and num_teams != 8):
         # Enviar correo a todos los jugadores del torneo notificando la cancelación
-        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('tournament')
+        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('team')
         for player in players:
             send_mail(
                 subject='Torneo Cancelado',  # Asunto del correo
@@ -87,7 +86,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Verificar que todos los equipos tengan la cantidad exacta de jugadores
     invalid_teams = []
     for team in Team.objects.filter(tournamentteam__tournament=tournament):
-        if team.players.count() != tournament.max_players_per_team:
+        if team.player_set.count() != tournament.max_player_per_team:
             invalid_teams.append(team)
 
     if invalid_teams:
@@ -351,18 +350,20 @@ def process_round(tournament, completed_matches_queryset, round_number):
     completed_matches_queryset (QuerySet): Un conjunto de partidos completados en la ronda anterior.
     round_number (int): El número de la ronda actual del torneo (por ejemplo, ronda 2, ronda 3, etc.)
     """
-    # Crear una lista para almacenar los equipos ganadores
-    winning_teams = []
+    # Obtener los IDs de los equipos ganadores
+    winner_team_ids = [match.winner.id for match in completed_matches_queryset if match.winner]
 
-    # Iterar sobre los partidos completados de la ronda anterior
-    for match in completed_matches_queryset:
-        if match.winner:  # Verificar si el partido tiene un ganador
-            winning_teams.append(match.winner)  # Agregar el equipo ganador a la lista
+    # Obtener los TournamentTeam correspondientes a los equipos ganadores
+    winning_tournament_teams = TournamentTeam.objects.filter(
+        tournament=tournament,
+        team__id__in=winner_team_ids
+    )
 
     # Validar que haya suficientes equipos (en número par) para emparejar
-    if len(winning_teams) >= 2 and len(winning_teams) % 2 == 0:        
-        # Generar los partidos para la siguiente ronda usando los equipos ganadores
-        generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_teams)
+    if winning_tournament_teams.count() >= 2 and winning_tournament_teams.count() % 2 == 0:
+        # Generar los partidos para la siguiente ronda usando los TournamentTeam ganadores
+        generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_tournament_teams)
+
         print(f"   ✅ Generados partidos para la ronda {round_number}.")  # Confirmación en consola
     else:
         # Si no se pudieron determinar los ganadores de todos los partidos, mostrar un mensaje de advertencia

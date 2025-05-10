@@ -437,7 +437,7 @@ class RewardListView(LoginRequiredMixin, ListView):
         return Reward.objects.all()
 
 
-class JoinTeamListView(LoginRequiredMixin, ListView):
+class JoinTeamInTournamentListView(LoginRequiredMixin, ListView):
     model = TournamentTeam
     template_name = 'web/join_team.html'
     context_object_name = 'team_list'
@@ -458,6 +458,27 @@ class JoinTeamListView(LoginRequiredMixin, ListView):
         context['tournament'] = tournament
         context['team_list'] = tournament_teams
         return context
+
+class JoinTeamView(LoginRequiredMixin, View):
+    """
+    Vista que permite a un jugador unirse a un equipo especificado por su ID.
+    Requiere que el usuario esté autenticado.
+    """
+
+    def post(self, request, *args, **kwargs):
+        team_id = kwargs.get('pk')
+        team = get_object_or_404(Team, pk=team_id)
+        player = get_object_or_404(Player, user=request.user)
+
+        if player.team:
+            messages.error(request, "Ya perteneces a un equipo.")
+            return redirect('web:playerTeamDetailView', pk=player.pk)
+
+        player.team = team
+        player.save()
+
+        messages.success(request, f"Te has unido al equipo '{team.name}' correctamente.")
+        return redirect('web:playerTeamDetailView', pk=player.pk)
 
 class PremiumView(LoginRequiredMixin, TemplateView):
     """
@@ -784,13 +805,25 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
         """
         team = get_object_or_404(Team, pk=pk)
         player = Player.objects.get(user=request.user)
+        player_count = team.player_set.count()
+
+        # Obtener torneos donde participa el equipo y que están en estado 'upcoming'
+        upcoming_tournaments = Tournament.objects.filter(
+            tournamentteam__team=team,
+            status='upcoming'
+        )
 
         if team.leader != player:
             messages.error(request, "No tienes permiso para modificar este equipo.")
             return redirect('web:playerTeamDetailView', pk=player.pk)
 
+
         if not team.searching_teammates:
-            ongoing_tournaments = team.tournament_set.filter(status='Ongoing')
+            ongoing_tournaments = Tournament.objects.filter(
+                tournamentteam__team=team,
+                status='ongoing'
+            )
+
             if ongoing_tournaments.exists():
                 messages.error(
                     request,
@@ -798,12 +831,19 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
                 )
                 return redirect('web:playerTeamDetailView', pk=player.pk)
 
-            upcoming_tournaments = team.tournament_set.filter(status='Upcoming')
             for tournament in upcoming_tournaments:
-                if team.player_set.count() >= tournament.max_players_per_team:
+                if player_count >= tournament.max_player_per_team:
                     messages.error(
                         request,
                         f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'."
+                    )
+                    return redirect('web:playerTeamDetailView', pk=player.pk)
+        else:
+            for tournament in upcoming_tournaments:
+                if player_count < tournament.max_player_per_team:
+                    messages.error(
+                        request,
+                        f"No puedes desactivar la búsqueda de jugadores porque el equipo está incompleto en el torneo '{tournament.name}'."
                     )
                     return redirect('web:playerTeamDetailView', pk=player.pk)
 
@@ -811,32 +851,59 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
         team.save()
 
         if team.searching_teammates:
-            messages.success(request, "La búsqueda de jugadores ha sido activada.")
+            messages.success(request, f"La búsqueda de jugadores ha sido activada.")
         else:
             messages.success(request, "La búsqueda de jugadores ha sido desactivada.")
 
         return redirect('web:playerTeamDetailView', pk=player.pk)
 
-class TeamJoinView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        # Filtrar equipos que están buscando jugadores
-        team_list = Team.objects.filter(searching_teammates=True)
+class LeaveTeamView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        player_id = kwargs.get('pk')
+        player = get_object_or_404(Player, pk=player_id)
 
-        return render(request, 'web/team_join.html', {
-            'teams': team_list
-        })
+        recipient_email = player.team.leader.user.email  # También podrías usar: player.user.email
+        if not recipient_email:
+            messages.error(request, "No se proporcionó una dirección de correo.")
+            return redirect('web:playerTeamDetailView', pk=player_id)
+
+        subject = "Quiero abandonar el equipo."
+        message = f"Deseo abandonar el equipo. ¿Podrías expulsarme?"
+        from_email = player.user.email
+
+        try:
+            send_mail(subject, message, from_email, [recipient_email])
+            messages.success(request, "Petición enviada correctamente.")
+        except Exception as e:
+            messages.error(request, f"No se pudo enviar la petición: {e}")
+
+        return redirect('web:playerTeamDetailView', pk=player_id)
+
+class TeamJoinListView(LoginRequiredMixin, ListView):
+    model = Team
+    template_name = 'web/team_join.html'
+    context_object_name = 'teams'
+
+    def get_queryset(self):
+        # Solo equipos que están buscando jugadores
+        return Team.objects.filter(searching_teammates=True)
 
     def post(self, request, *args, **kwargs):
         team_id = request.POST.get('team_id')
         team = get_object_or_404(Team, id=team_id)
         player = Player.objects.get(user=request.user)
 
-        upcoming_tournaments = team.tournament_set.filter(status='Upcoming')
+        # Validar límite de jugadores por torneo
+        upcoming_tournaments = Tournament.objects.filter(
+            tournamentteam__team=team,
+            status='Upcoming'
+        ).distinct()
+
         for tournament in upcoming_tournaments:
             if team.player_set.count() >= tournament.max_players_per_team:
                 messages.error(
                     request,
-                    f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'."
+                    f"No puedes unirte porque el equipo ya está completo en el torneo '{tournament.name}'."
                 )
                 return redirect('web:playerTeamDetailView', pk=player.pk)
 

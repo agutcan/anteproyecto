@@ -1,8 +1,9 @@
 <!-- Navbar -->
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{% url 'web:indexView' %}">
-            <span class="text-warning">Arena</span>GG
+            <img src="{% static 'images/favicon.png' %}" alt="Logo" class="img-fluid rounded" style="height: 40px;"> <span class="text-warning">Arena</span>GG
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>

@@ -26,7 +26,7 @@
                 </ul>
 
                 {% if tt.team.player_set.count < tournament.max_player_per_team %}
-                    <form method="POST" action="{% url 'web:joinTeamListView' tt.team.id %}">
+                    <form method="POST" action="{% url 'web:joinTeamView' tt.team.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success w-100 fw-bold">Unirse a este equipo</button>
                     </form>

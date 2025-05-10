@@ -176,7 +176,7 @@
                                     <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
                                     <div class="d-grid gap-3">
                                         {% if not player.team %}
-                                            <a href="{% url 'web:joinTeamListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
+                                            <a href="{% url 'web:joinTeamInTournamentListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
                                                 <i class="bi bi-person-add"></i> Unirse a un equipo
                                             </a>
                                             <a href="{% url 'web:teamCreateInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">
@@ -219,7 +219,7 @@
             <div class="modal-body text-center">
                 <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
                 <div class="d-grid gap-3">
-                    <a href="{% url 'web:joinTeamListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
+                    <a href="{% url 'web:joinTeamInTournamentListView' tournament.id %}" class="btn btn-outline-info btn-lg fw-bold">
                         <i class="bi bi-person-add"></i> Unirse a un equipo
                     </a>
                     <a href="{% url 'web:teamCreateInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg fw-bold">

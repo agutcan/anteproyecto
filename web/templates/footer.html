@@ -1,9 +1,17 @@
 <!-- Footer -->
+{% load static %}
+
+<style>
+    .placeholder-white::placeholder {
+    color: darkgray !important;
+}
+
+</style>
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <h3 class="text-warning mb-4">ArenaGG</h3>
+                    <h3 class="text-warning mb-4"><img src="{% static 'images/favicon.png' %}" alt="Logo" class="img-fluid rounded" style="height: 40px;">ArenaGG</h3>
                     <p>La plataforma líder para torneos de esports. Conectamos jugadores, organizadores y patrocinadores en un ecosistema competitivo.</p>
                     <div class="social-icons mt-4">
                         <a href="#"><i class="bi bi-twitter"></i></a>
@@ -37,8 +45,8 @@
                     <h5 class="footer-links">Suscríbete</h5>
                     <p>Recibe las últimas noticias sobre torneos y promociones.</p>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control bg-dark border-secondary text-light" placeholder="Tu email">
-                        <button class="btn btn-warning" type="button">Enviar</button>
+                        <input type="email" id="emailInput" class="form-control bg-dark border-secondary text-light placeholder-white" placeholder="Tu email">
+                        <button class="btn btn-warning" type="button" onclick="clearInput()">Enviar</button>
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-shield-check me-2"></i>
@@ -57,3 +65,9 @@
             </div>
         </div>
     </footer>
+
+<script>
+    function clearInput() {
+        document.getElementById("emailInput").value = "";
+    }
+</script>

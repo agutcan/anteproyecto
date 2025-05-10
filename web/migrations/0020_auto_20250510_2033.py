@@ -6,7 +6,9 @@ from django.db import migrations
 from django.db import migrations
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from datetime import timedelta
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
+
 import json
 
 def eliminar_datos(apps, schema_editor):
@@ -78,14 +80,39 @@ def poblar_datos(apps, schema_editor):
 
     # Crear usuarios
     users = [
-        User(username="player1", password="Usuario1", first_name="John", last_name="Doe", email="john@example.com"),
-        User(username="player2", password="Usuario1", first_name="Jane", last_name="Doe", email="jane@example.com"),
-        User(username="player3", password="Usuario1", first_name="Alice", last_name="Smith", email="alice@example.com"),
-        User(username="player4", password="Usuario1", first_name="Bob", last_name="Johnson", email="bob@example.com"),
-        User(username="player5", password="Usuario1", first_name="Esther", last_name="Smith", email="esther@example.com"),
-        User(username="player6", password="Usuario1", first_name="Martin", last_name="Johnson", email="Martin@example.com"),
-        User(username="player7", password="Usuario1", first_name="Rex", last_name="Doe", email="Rex@example.com"),
         User(username="player8", password="Usuario1", first_name="Leo", last_name="Doe", email="Leo@example.com"),
+        User(username="player9", password="Usuario1", first_name="Clara", last_name="Lee", email="clara@example.com"),
+        User(username="player10", password="Usuario1", first_name="Liam", last_name="Kim", email="liam@example.com"),
+        User(username="player11", password="Usuario1", first_name="Olivia", last_name="Chen",
+             email="olivia@example.com"),
+        User(username="player12", password="Usuario1", first_name="Noah", last_name="Wang", email="noah@example.com"),
+        User(username="player13", password="Usuario1", first_name="Emma", last_name="Park", email="emma@example.com"),
+        User(username="player14", password="Usuario1", first_name="Mason", last_name="Nguyen",
+             email="mason@example.com"),
+        User(username="player15", password="Usuario1", first_name="Sophia", last_name="Tran",
+             email="sophia@example.com"),
+        User(username="player16", password="Usuario1", first_name="James", last_name="Lopez",
+             email="james@example.com"),
+        User(username="player17", password="Usuario1", first_name="Ava", last_name="Garcia", email="ava@example.com"),
+        User(username="player18", password="Usuario1", first_name="Lucas", last_name="Martinez",
+             email="lucas@example.com"),
+        User(username="player19", password="Usuario1", first_name="Mia", last_name="Hernandez",
+             email="mia@example.com"),
+        User(username="player20", password="Usuario1", first_name="Benjamin", last_name="Ramirez",
+             email="benjamin@example.com"),
+        User(username="player21", password="Usuario1", first_name="Amelia", last_name="Torres",
+             email="amelia@example.com"),
+        User(username="player22", password="Usuario1", first_name="Logan", last_name="Rivera",
+             email="logan@example.com"),
+        User(username="player23", password="Usuario1", first_name="Evelyn", last_name="Gomez",
+             email="evelyn@example.com"),
+        User(username="player24", password="Usuario1", first_name="Elijah", last_name="Sanchez",
+             email="elijah@example.com"),
+        User(username="player25", password="Usuario1", first_name="Harper", last_name="Reyes",
+             email="harper@example.com"),
+        User(username="player26", password="Usuario1", first_name="Daniel", last_name="Flores",
+             email="daniel@example.com"),
+
     ]
     User.objects.bulk_create(users)  # Crear todos los usuarios de una vez
 
@@ -97,32 +124,70 @@ def poblar_datos(apps, schema_editor):
     ]
     Game.objects.bulk_create(games)  # Guardar todos los juegos de una vez
 
-    # Crear equipos
-    teams = [
-        Team(name="Los Guerreros del Sol"),
-        Team(name="La Legión Oscura"),
-        Team(name="Los Centinelas del Reino"),
-        Team(name="Héroes de la Alianza")
-    ]
-    Team.objects.bulk_create(teams)  # Guardar todos los equipos de una vez
-
     # Crear jugadores
     players = [
-        Player(user=users[0], team=teams[0], role='Premium', games_played=100, games_won=70, coins=4550),
-        Player(user=users[1], team=teams[1], games_played=80, games_won=50, mmr=90, renombre=40, coins=3000),
-        Player(user=users[2], team=teams[2], country='AR', role='Premium', games_played=120, games_won=90, coins=2000),
-        Player(user=users[3], team=teams[3], country='BR', games_played=90, games_won=65, renombre=100, coins=1000),
-        Player(user=users[4], team=teams[0], games_played=50, games_won=25, coins=500),
-        Player(user=users[5], team=teams[1], games_played=90, games_won=65, mmr=80),
-        Player(user=users[6], team=teams[2], country='AR', games_played=30, games_won=25, renombre=90),
-        Player(user=users[7], team=teams[3], country='BR', games_played=90, games_won=50),
+        Player(user=users[0], games_played=40, games_won=20, mmr=75, renombre=30, coins=800),
+        Player(user=users[1], country='CL', games_played=60, games_won=35, role='Premium', coins=1500),
+        Player(user=users[2], games_played=70, games_won=50, mmr=85),
+        Player(user=users[3], country='UY', games_played=55, games_won=25, renombre=60),
+        Player(user=users[4], games_played=30, games_won=15),
+        Player(user=users[5], games_played=100, games_won=80, coins=2500),
+        Player(user=users[6], country='AR', games_played=85, games_won=55, mmr=95, role='Premium'),
+        Player(user=users[7], country='BR', games_played=75, games_won=40, coins=1200),
+        Player(user=users[8], games_played=20, games_won=10, renombre=15),
+        Player(user=users[9], games_played=45, games_won=30, mmr=60, coins=700),
+        Player(user=users[10], country='PE', games_played=90, games_won=60, role='Premium'),
+        Player(user=users[11], games_played=80, games_won=50, coins=1800),
+        Player(user=users[12], games_played=35, games_won=20),
+        Player(user=users[13], games_played=55, games_won=35, renombre=45, coins=950),
+        Player(user=users[14], country='AR', games_played=65, games_won=45),
+        Player(user=users[15], country='BR', games_played=75, games_won=60, mmr=88, role='Premium'),
+        Player(user=users[16], games_played=25, games_won=10, renombre=20),
+        Player(user=users[17], games_played=95, games_won=70, coins=2300),
     ]
     Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
 
+    # Crear equipos
+    teams = [
+        Team(name="Dragones de Fuego"),
+        Team(name="Guardianes del Abismo"),
+        Team(name="Titanes del Coloso"),
+        Team(name="Espadas de Acero"),
+        Team(name="Vikings del Trueno"),
+        Team(name="Los Inmortales"),
+        Team(name="Cuervos de la Noche"),
+        Team(name="Reyes de la Tormenta"),
+        Team(name="Ángeles del Juicio"),
+        Team(name="Berserkers del Caos"),
+        Team(name="Lobos de la Luna"),
+        Team(name="Ejército del Fénix"),
+        Team(name="Escorpiones Venenosos"),
+        Team(name="Revolucionarios del Desierto"),
+        Team(name="Fuerzas de la Luz"),
+        Team(name="Luchadores del Viento"),
+        Team(name="Furiosos Guerreros"),
+        Team(name="Cazadores del Vacío"),
+        Team(name="Legión de Hierro"),
+    ]
+    Team.objects.bulk_create(teams)  # Guardar todos los equipos de una vez
+
+    contador = 0
+    for player in players:
+        player.team = teams[contador]
+        contador+=1
+        player.save()
+
+    contador = 0
+    for team in teams:
+        team.leader = team.player_set.first()
+        team.save()
+
     # Crear torneos
     tournaments = [
-        Tournament(name="Torneo Internacional de Valorant", game=games[0], max_player_per_team=2, max_teams=2, start_date="2025-04-21T22:10:00", prize_pool=5000.00, created_by=users[0]),
-        Tournament(name="Campeonato Mundial de League of Legends", game=games[1],  max_player_per_team=2, max_teams=4, start_date="2025-05-01", prize_pool=10000.00, created_by=users[1])
+        Tournament(name="4 teams 2 teams", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="4 teams 4 teams", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="8 teams 4 teams", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="8 teams 8 teams", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
     ]
     Tournament.objects.bulk_create(tournaments)  # Guardar todos los torneos de una vez
 
@@ -131,31 +196,23 @@ def poblar_datos(apps, schema_editor):
         TournamentTeam(tournament=tournaments[0], team=teams[0]),
         TournamentTeam(tournament=tournaments[0], team=teams[1]),
         TournamentTeam(tournament=tournaments[1], team=teams[2]),
-        TournamentTeam(tournament=tournaments[1], team=teams[3])
+        TournamentTeam(tournament=tournaments[1], team=teams[3]),
+        TournamentTeam(tournament=tournaments[1], team=teams[4]),
+        TournamentTeam(tournament=tournaments[1], team=teams[5]),
+        TournamentTeam(tournament=tournaments[2], team=teams[6]),
+        TournamentTeam(tournament=tournaments[2], team=teams[7]),
+        TournamentTeam(tournament=tournaments[2], team=teams[8]),
+        TournamentTeam(tournament=tournaments[2], team=teams[9]),
+        TournamentTeam(tournament=tournaments[3], team=teams[10]),
+        TournamentTeam(tournament=tournaments[3], team=teams[11]),
+        TournamentTeam(tournament=tournaments[3], team=teams[12]),
+        TournamentTeam(tournament=tournaments[3], team=teams[13]),
+        TournamentTeam(tournament=tournaments[3], team=teams[14]),
+        TournamentTeam(tournament=tournaments[3], team=teams[15]),
+        TournamentTeam(tournament=tournaments[3], team=teams[16]),
+        TournamentTeam(tournament=tournaments[3], team=teams[17]),
     ]
     TournamentTeam.objects.bulk_create(tournament_teams)  # Guardar todos los equipos en los torneos
-
-    # Crear partidos entre equipos
-    matches = [
-        Match(tournament=tournaments[1], round=1, team1=teams[2], team2=teams[3], scheduled_at="2025-05-02T10:00:00", status="pending")
-    ]
-    Match.objects.bulk_create(matches)  # Guardar todos los partidos de una vez
-
-    # Actualizar el winrate de cada jugador creado y registrar el log
-    for player in players:
-        player.winrate = (player.games_won / player.games_played) * 100 if player.games_played > 0 else 0
-        player.save()
-        log_event(matches[0], player.team, player,
-                  f"Winrate actualizado: {player.winrate:.2f}%")  # Registrar evento de actualización
-
-    # Crear resultados de partidos (ejemplo)
-    match_results = [
-        MatchResult(match=matches[0], winner=teams[0], team1_score=2, team2_score=1),
-    ]
-    MatchResult.objects.bulk_create(match_results)  # Guardar todos los resultados de los partidos
-
-    # Crear logs para los partidos
-    log_event(matches[0], teams[0], None, "Partido programado: 2-1 vs Los Guerreros del Sol vs La Legión Oscura")
 
     # Crear recompensas
     rewards = [
@@ -238,7 +295,7 @@ def poblar_datos(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0015_remove_tournament_end_date'),
+        ('web', '0019_team_searching_teammates_alter_team_leader'),
     ]
 
     # Operaciones que se ejecutan: poblar los datos y definir cómo eliminarlos
