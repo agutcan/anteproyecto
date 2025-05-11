@@ -5,6 +5,16 @@ from .models import *
 from django.db import transaction
 from itertools import zip_longest
 
+def update_winrate(player):
+    """
+    Actualiza el porcentaje de victorias de un jugador basado en games_played y games_won.
+    """
+    if player.games_played > 0:
+        player.winrate = (player.games_won / player.games_played) * 100
+    else:
+        player.winrate = 0.0
+    player.save()
+
 def update_players_stats(team, is_winner=False):
     """
     Actualiza las estadísticas de los jugadores de un equipo después de un partido.
@@ -27,7 +37,7 @@ def update_players_stats(team, is_winner=False):
             player.games_won += 1
         
         # Actualiza el winrate del jugador
-        player.update_winrate()
+        update_winrate(player)
 
         # Actualiza el MMR del jugador. Si el jugador ganó, aumenta su MMR en 10, 
         # de lo contrario lo disminuye en 5, pero no puede bajar de 10
@@ -340,24 +350,32 @@ def process_final_match(tournament, completed_matches_queryset):
 
 
 
-def process_round(tournament, completed_matches_queryset, round_number):
+def process_round(tournament, round_number):
     """
     Procesa la lógica para generar los partidos de la siguiente ronda
     del torneo, usando los equipos ganadores de la ronda anterior.
 
     Argumentos:
     tournament (Tournament): El torneo en el que se generarán los partidos.
-    completed_matches_queryset (QuerySet): Un conjunto de partidos completados en la ronda anterior.
     round_number (int): El número de la ronda actual del torneo (por ejemplo, ronda 2, ronda 3, etc.)
     """
+    # Obtener los partidos completados de la ronda anterior
+    previous_round = round_number - 1
+    completed_matches_queryset = Match.objects.filter(
+        tournament=tournament,
+        round=previous_round,
+        winner__isnull=False
+    )
+
     # Obtener los IDs de los equipos ganadores
-    winner_team_ids = [match.winner.id for match in completed_matches_queryset if match.winner]
+    winner_team_ids = [match.winner.id for match in completed_matches_queryset]
 
     # Obtener los TournamentTeam correspondientes a los equipos ganadores
     winning_tournament_teams = TournamentTeam.objects.filter(
         tournament=tournament,
         team__id__in=winner_team_ids
     )
+    print(winning_tournament_teams)
 
     # Validar que haya suficientes equipos (en número par) para emparejar
     if winning_tournament_teams.count() >= 2 and winning_tournament_teams.count() % 2 == 0:

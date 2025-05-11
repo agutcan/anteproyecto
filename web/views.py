@@ -50,11 +50,11 @@ class TournamentListAPI(generics.ListAPIView):
     def get_queryset(self):
             """
             Versión optimizada del queryset que incluye prefetch de relaciones comunes.
-            
+
             Returns:
                 QuerySet: Torneos con sus relaciones precargadas para mejor performance
             """
-            return super().get_queryset().select_related('created_by').prefetch_related('teams', 'matches')
+            return super().get_queryset().select_related('created_by')
         
 class PlayerStatsListAPI(generics.ListAPIView):
     """
@@ -269,12 +269,10 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
         
         Returns:
             QuerySet: Torneos donde participa el equipo del jugador o queryset vacío si:
-                     - El usuario no existe
-                     - No tiene jugador asociado
+                     - No existe jugador
                      - El jugador no tiene equipo
         """
-        user = get_object_or_404(User, pk=self.kwargs['pk'])
-        player = Player.objects.filter(user=user).first()
+        player = get_object_or_404(Player, pk=self.kwargs['pk'])
 
         if player and player.team:
             return Tournament.objects.filter(
@@ -875,7 +873,10 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
             return redirect('web:playerTeamDetailView', pk=player.pk)
 
         if not team.searching_teammates:
-            ongoing_tournaments = team.tournament_set.filter(status='Ongoing')
+            ongoing_tournaments = Tournament.objects.filter(
+                tournamentteam__team=team,
+                status='ongoing'
+            )
             if ongoing_tournaments.exists():
                 messages.error(
                     request,
@@ -883,7 +884,10 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
                 )
                 return redirect('web:playerTeamDetailView', pk=player.pk)
 
-            upcoming_tournaments = team.tournament_set.filter(status='Upcoming')
+            upcoming_tournaments = Tournament.objects.filter(
+                tournamentteam__team=team,
+                status='upcoming'
+            )
             for tournament in upcoming_tournaments:
                 if team.player_set.count() >= tournament.max_players_per_team:
                     messages.error(
@@ -1270,21 +1274,54 @@ class MatchConfirmView(LoginRequiredMixin, View):
         team1_score = form.cleaned_data['team1_score']
         team2_score = form.cleaned_data['team2_score']
 
+        # Verificar que el puntaje sea coherente con el ganador
+        if winner == 'team1' and team1_score <= team2_score:
+            send_mail(
+                'Inconsistencia en el puntaje del partido',
+                f'El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. Partido ID: {match.id}\n\n'
+                f'Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}',
+                settings.DEFAULT_FROM_EMAIL,  # Remitente
+                [settings.SUPPORT_EMAIL],  # Correo de soporte
+                fail_silently=False
+            )
+            messages.error(request,
+                           'El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. El administrador ha sido notificado.')
+            return render(request, 'web/match_detail.html', {
+                'form': form,
+                'match': match
+            })
+
+        elif winner == 'team2' and team2_score <= team1_score:
+            send_mail(
+                'Inconsistencia en el puntaje del partido',
+                f'El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. Partido ID: {match.id}\n\n'
+                f'Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}',
+                settings.DEFAULT_FROM_EMAIL,  # Remitente
+                [settings.SUPPORT_EMAIL],  # Correo de soporte
+                fail_silently=False
+            )
+            messages.error(request,
+                           'El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. El administrador ha sido notificado.')
+            return render(request, 'web/match_detail.html', {
+                'form': form,
+                'match': match
+            })
+
         # Marcar la confirmación del equipo
         if user_team == match.team1:
             match.team1_confirmed = True
             match.team1_winner = (winner == 'team1')
-            create_match_log(match, f"Equipo 1 ({match.team1.name}) ha confirmado el resultado.", team=match.team1)
+            create_match_log(match, f"Equipo 1 ({match.team1.name}) ha confirmado el resultado. ({team1_score} - {team2_score})", team=match.team1)
 
         elif user_team == match.team2:
             match.team2_confirmed = True
             match.team2_winner = (winner == 'team2')
-            create_match_log(match, f"Equipo 2 ({match.team2.name}) ha confirmado el resultado.", team=match.team2)
+            create_match_log(match, f"Equipo 2 ({match.team2.name}) ha confirmado el resultado. ({team1_score} - {team2_score})", team=match.team2)
 
         # Verificar si ambos equipos han confirmado el resultado
         if match.team1_confirmed and match.team2_confirmed:
             # Comparar si ambos equipos están de acuerdo con el ganador
-            if match.team1_winner != match.team2_winner:
+            if match.team1_winner == match.team2_winner:
                 # Enviar un correo de notificación al soporte si los equipos no están de acuerdo
                 send_mail(
                     'Inconsistencia en el resultado del partido',
@@ -1297,37 +1334,6 @@ class MatchConfirmView(LoginRequiredMixin, View):
                 )
                 # Agregar el mensaje de error al formulario
                 messages.error(request, 'Los dos equipos no están de acuerdo sobre el ganador. El administrador ha sido notificado.')
-                return render(request, 'web/match_detail.html', {
-                    'form': form,
-                    'match': match
-                })
-
-            # Verificar que el puntaje sea coherente con el ganador
-            if winner == 'team1' and team1_score <= team2_score:
-                send_mail(
-                    'Inconsistencia en el puntaje del partido',
-                    f'El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. Partido ID: {match.id}\n\n'
-                    f'Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}',
-                    settings.DEFAULT_FROM_EMAIL,  # Remitente
-                    [settings.SUPPORT_EMAIL],  # Correo de soporte
-                    fail_silently=False
-                )
-                messages.error(request, 'El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. El administrador ha sido notificado.')
-                return render(request, 'web/match_detail.html', {
-                    'form': form,
-                    'match': match
-                })
-
-            elif winner == 'team2' and team2_score <= team1_score:
-                send_mail(
-                    'Inconsistencia en el puntaje del partido',
-                    f'El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. Partido ID: {match.id}\n\n'
-                    f'Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}',
-                    settings.DEFAULT_FROM_EMAIL,  # Remitente
-                    [settings.SUPPORT_EMAIL],  # Correo de soporte
-                    fail_silently=False
-                )
-                messages.error(request, 'El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. El administrador ha sido notificado.')
                 return render(request, 'web/match_detail.html', {
                     'form': form,
                     'match': match
@@ -1354,7 +1360,7 @@ class MatchConfirmView(LoginRequiredMixin, View):
 
             # Llamar a la función `record_match_result` para guardar el resultado
             record_match_result(match, match.winner, team1_score, team2_score)
-            create_match_log(match, "El partido ha sido completado. Ganador: " + match.winner.name)
+            create_match_log(match, f"El partido ha sido completado. Ganador: {match.winner.name}. ({team1_score} - {team2_score}")
 
         match.save()
 

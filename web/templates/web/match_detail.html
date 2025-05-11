@@ -5,15 +5,29 @@
 {% block content %}
 <h2 class="text-warning mb-4">Detalles del Partido</h2>
 
+    {% if messages %}
+        <div class="container mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-white bg-dark border-{{ message.tags }} shadow" role="alert">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i> {{ message }}
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
 <div class="card bg-dark text-white border-secondary mb-4">
     <div class="card-header bg-black">
         <strong>{{ match.team1.name }} vs {{ match.team2.name }}</strong>
     </div>
+
     <div class="card-body">
         <p><strong>Fecha y hora programada:</strong> {{ match.scheduled_at }}</p>
 
-        {% if match.status != 'completed' %}
+        {% if match.status == 'pending' %}
             <p><strong>Tiempo restante:</strong> <span id="countdown"></span></p>
+        {% elif match.status == 'ongoing' %}
+            <p><strong>Tiempo restante:</strong> <span>¡El partido ha comenzado!</span></p>
         {% endif %}
 
         <p><strong>Estado:</strong>

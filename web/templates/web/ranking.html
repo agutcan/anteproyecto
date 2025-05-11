@@ -4,16 +4,18 @@
 
 {% block content %}
 <div class="container py-4">
-    <!-- Encabezado -->
-    <div class="d-flex align-items-center mb-4">
-        <div class="me-3">
-            <i class="bi bi-trophy-fill text-warning" style="font-size: 2.5rem;"></i>
-        </div>
-        <div>
-            <h1 class="text-warning mb-1">Ranking de Jugadores</h1>
-            <p class="text-white-50 mb-0">
-                Los mejores jugadores de ArenaGG ordenados por MMR
-            </p>
+    <!-- Encabezado con línea amarilla -->
+    <div class="section-header mb-4">
+        <div class="d-flex align-items-center flex-wrap">
+            <div class="me-3">
+                <i class="bi bi-trophy-fill text-warning" style="font-size: 2.5rem;"></i>
+            </div>
+            <div class="position-relative">
+                <h1 class="section-title text-warning mb-1">Ranking de Jugadores</h1>
+                <p class="text-white-50 mb-0">
+                    Los mejores jugadores de ArenaGG ordenados por MMR
+                </p>
+            </div>
         </div>
     </div>
 
@@ -73,6 +75,30 @@
 </div>
 
 <style>
+    /* Estilos para la línea amarilla bajo el título */
+    .section-title {
+        color: #ffc107;
+        position: relative;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+
+    .section-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #ffc107;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    /* Estilos existentes */
     .list-group-item {
         transition: transform 0.2s ease;
     }

@@ -196,17 +196,17 @@
 
 <div class="team-container">
     <h1 class="page-title">
-        <i class="fas fa-users"></i>
+        <i class="bi bi-people"></i>
         <span style="margin-left: 0.5rem;">Equipo de {{ player.user.username }}</span>
     </h1>
 
     {% if messages %}
         {% for message in messages %}
             <div class="alert-message alert-{{ message.tags }}">
-                <i class="fas fa-exclamation-circle"></i>
+                <i class="bi bi-exclamation-circle"></i>
                 <span>{{ message }}</span>
                 <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">
-                    <i class="fas fa-times"></i>
+                    <i class="bi bi-x"></i>
                 </button>
             </div>
         {% endfor %}
@@ -222,25 +222,25 @@
                             {% csrf_token %}
                             {% if player.team.searching_teammates %}
                                 <button type="submit" class="btn-action btn-warning btn-sm">
-                                    <i class="fas fa-times"></i> Dejar de buscar
+                                    <i class="bi bi-x"></i> Dejar de buscar
                                 </button>
                             {% else %}
                                 <button type="submit" class="btn-action btn-success btn-sm">
-                                    <i class="fas fa-search"></i> Buscar jugadores
+                                    <i class="bi bi-search"></i> Buscar jugadores
                                 </button>
                             {% endif %}
                         </form>
                         <form method="post" action="{% url 'web:teamDeleteView' player.team.id %}" class="d-inline">
                             {% csrf_token %}
                             <button type="submit" class="btn-action btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> Eliminar equipo
+                                <i class="bi bi-trash"></i> Eliminar equipo
                             </button>
                         </form>
                     {% else %}
                         <form method="post" action="{% url 'web:leaveTeamView' player.id %}" class="d-inline">
                             {% csrf_token %}
                             <button type="submit" class="btn-action btn-danger">
-                                <i class="fas fa-sign-out-alt"></i> Abandonar equipo
+                                <i class="bi bi-box-arrow-right"></i> Abandonar equipo
                             </button>
                         </form>
                     {% endif %}
@@ -248,7 +248,7 @@
             </div>
             <div class="team-body">
                 <div class="team-section">
-                    <h4><i class="fas fa-trophy"></i> Torneos</h4>
+                    <h4><i class="bi bi-trophy"></i> Torneos</h4>
                     <ul class="team-list">
                         {% for tt in player.team.tournamentteam_set.all %}
                             <li>
@@ -261,7 +261,7 @@
                 </div>
 
                 <div class="team-section">
-                    <h4><i class="fas fa-info-circle"></i> Estado</h4>
+                    <h4><i class="bi bi-info-circle-fill"></i> Estado</h4>
                     <ul class="team-list">
                         <li>
                             <span>Buscando jugadores:</span>
@@ -277,7 +277,7 @@
                 </div>
 
                 <div class="team-section">
-                    <h4><i class="fas fa-users"></i> Miembros</h4>
+                    <h4><i class="bi bi-people"></i> Miembros</h4>
                     <ul class="team-list">
                         {% for teammate in player.team.player_set.all %}
                             <li>
@@ -286,7 +286,7 @@
                                     <form method="post" action="{% url 'web:teamKickView' player.team.id teammate.id %}" class="d-inline">
                                         {% csrf_token %}
                                         <button type="submit" class="btn-action btn-danger btn-sm" title="Expulsar jugador">
-                                            <i class="fas fa-user-times"></i> Expulsar
+                                            <i class="bi bi-person-slash"></i> Expulsar
                                         </button>
                                     </form>
                                 {% endif %}
@@ -298,16 +298,16 @@
         </div>
     {% else %}
         <div class="no-team">
-            <i class="fas fa-users-slash" style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;"></i>
+            <i class="bi bi-person-slash" style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;"></i>
             <h3>Sin equipo actualmente</h3>
             <p class="text-muted">Crea o únete a un equipo para participar en torneos</p>
 
             <div class="action-buttons">
                 <a href="{% url 'web:teamCreateView' %}" class="btn-action btn-warning">
-                    <i class="fas fa-plus"></i> Crear equipo
+                    <i class="bi bi-plus"></i> Crear equipo
                 </a>
                 <a href="{% url 'web:teamJoinListView' %}" class="btn-action btn-success">
-                    <i class="fas fa-user-plus"></i> Unirse a equipo
+                    <i class="bi bi-person-plus"></i> Unirse a equipo
                 </a>
             </div>
         </div>

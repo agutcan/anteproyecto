@@ -2,84 +2,173 @@
 {% block title %}Contactar Soporte | ArenaGG{% endblock %}
 
 {% block content %}
+<style>
+    /* Estilo para el título con línea amarilla */
+    .support-title {
+        position: relative;
+        padding-bottom: 15px;
+        display: inline-block;
+    }
+    ::placeholder {
+        color: white !important;
+        opacity: 1; /* Opcional, para evitar transparencia */
+    }
+    .support-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 10%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: #ffc107;
+        border-radius: 2px;
+    }
+
+    /* Mejoras de estilo */
+    .support-card {
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .support-card:hover {
+        border-color: #ffc107;
+        box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
+    }
+
+    .support-header {
+        border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+    }
+
+    .form-control, .form-select {
+        background-color: #1a1a1a;
+        border: 1px solid #444;
+        color: white;
+    }
+
+    .form-control:focus, .form-select:focus {
+        background-color: #1a1a1a;
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+        color: white;
+    }
+
+    .alert-success {
+        background-color: #1a1a1a;
+        border-color: rgba(0, 255, 137, 0.3);
+    }
+
+    .alert-danger {
+        background-color: #1a1a1a;
+        border-color: rgb(255, 0, 24);
+    }
+</style>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <!-- Introducción -->
-            <div class="mb-4 text-center text-white">
-                <h1 class="display-5 fw-bold text-warning"><i class="bi bi-life-preserver me-2"></i>¿Necesitas ayuda?</h1>
-                <p class="lead">Nuestro equipo de soporte está aquí para ayudarte. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.</p>
-                <p class="text-secondary small">
-                    ¿Tienes problemas con un torneo, errores en la plataforma o dudas generales? Escríbenos. Intentaremos responderte dentro de las próximas 24 horas hábiles.
+            <!-- Encabezado con línea amarilla -->
+            <div class="mb-5 text-center">
+                <h1 class="support-title text-warning fw-bold mb-3">
+                    <i class="bi bi-life-preserver me-2"></i>¿Necesitas ayuda?
+                </h1>
+                <p class="lead text-white">Nuestro equipo de soporte está aquí para ayudarte.</p>
+                <p class="text-white-50">
+                    ¿Problemas con torneos, errores en la plataforma o dudas generales?<br>
+                    Escríbenos y te responderemos en menos de 24 horas hábiles.
                 </p>
             </div>
 
-            <div class="card bg-dark border-warning shadow-lg">
-                <div class="card-header bg-black text-warning border-warning">
-                    <h2 class="h4 mb-0"><i class="bi bi-headset me-2"></i> Contactar Soporte</h2>
+            <!-- Tarjeta de formulario -->
+            <div class="card bg-dark support-card">
+                <div class="card-header bg-black text-warning support-header">
+                    <h2 class="h4 mb-0"><i class="bi bi-headset me-2"></i> Formulario de Contacto</h2>
                 </div>
 
-                <div class="card-body">
-
+                <div class="card-body p-4">
+                    <!-- Mensajes de alerta -->
                     {% if messages %}
                         {% for message in messages %}
-                          <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="bi bi-check-circle-fill me-2"></i> {{ message }}
+                        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill me-2 text-white"></i>
+                                <div class="text-white">{{ message }}</div>
+                            </div>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                          </div>
+                        </div>
                         {% endfor %}
                     {% endif %}
 
                     {% if form.errors %}
-                        <div class="alert alert-danger">
-                            <strong>Error:</strong> Por favor corrige los errores debajo.
+                        <div class="alert alert-danger mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle-fill me-2 text-white"></i>
+                                <div class="text-white">
+                                    <strong>Error:</strong> Por favor corrige los errores en el formulario.
+                                </div>
+                            </div>
                         </div>
                     {% endif %}
 
-                    <form method="post" enctype="multipart/form-data">
+                    <!-- Formulario -->
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <div class="mb-3">
-                            <label for="{{ form.email.id_for_label }}" class="form-label text-white">
-                                {{ form.email.label }}
+                        <!-- Campo Email -->
+                        <div class="mb-4">
+                            <label for="{{ form.email.id_for_label }}" class="form-label text-white mb-2">
+                                <i class="bi bi-envelope me-1"></i> {{ form.email.label }}
                             </label>
                             {{ form.email }}
                             {% if form.email.errors %}
-                                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                                <div class="invalid-feedback d-block">
+                                    {{ form.email.errors }}
+                                </div>
                             {% endif %}
                         </div>
 
-                        <div class="mb-3">
-                            <label for="{{ form.subject.id_for_label }}" class="form-label text-white">
-                                {{ form.subject.label }}
+                        <!-- Campo Asunto -->
+                        <div class="mb-4">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label text-white mb-2">
+                                <i class="bi bi-card-heading me-1"></i> {{ form.subject.label }}
                             </label>
                             {{ form.subject }}
                             {% if form.subject.errors %}
-                                <div class="text-danger small mt-1">{{ form.subject.errors }}</div>
+                                <div class="invalid-feedback d-block">
+                                    {{ form.subject.errors }}
+                                </div>
                             {% endif %}
                         </div>
 
-                        <div class="mb-3">
-                            <label for="{{ form.message.id_for_label }}" class="form-label text-white">
-                                {{ form.message.label }}
+                        <!-- Campo Mensaje -->
+                        <div class="mb-4">
+                            <label for="{{ form.message.id_for_label }}" class="form-label text-white mb-2">
+                                <i class="bi bi-chat-square-text me-1"></i> {{ form.message.label }}
                             </label>
                             {{ form.message }}
                             {% if form.message.errors %}
-                                <div class="text-danger small mt-1">{{ form.message.errors }}</div>
+                                <div class="invalid-feedback d-block">
+                                    {{ form.message.errors }}
+                                </div>
                             {% endif %}
                         </div>
 
+                        <!-- Campo Archivo Adjunto -->
                         <div class="mb-4">
-                            <label for="{{ form.attach_file.id_for_label }}" class="form-label text-white">
-                                {{ form.attach_file.label }}
+                            <label for="{{ form.attach_file.id_for_label }}" class="form-label text-white mb-2">
+                                <i class="bi bi-paperclip me-1"></i> {{ form.attach_file.label }}
                             </label>
                             {{ form.attach_file }}
+                            <div class="form-text text-white-50">Adjunta capturas de pantalla si es necesario (máx. 5MB)</div>
                         </div>
 
-                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold">
-                            <i class="bi bi-send-fill me-2"></i> Enviar Mensaje
-                        </button>
+                        <!-- Botón de envío -->
+                        <div class="d-grid mt-4 pt-2">
+                            <button type="submit" class="btn btn-warning py-2 fw-bold">
+                                <i class="bi bi-send-fill me-2"></i> Enviar Mensaje
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

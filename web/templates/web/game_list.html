@@ -2,32 +2,190 @@
 {% block title %}Juegos / ArenaGG{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold text-warning">Explora Juegos Disponibles</h2>
-        <p class="text-secondary">Selecciona un juego para ver torneos activos y comenzar a competir.</p>
+<style>
+    :root {
+        --gold: #ffc107;
+        --dark-bg: #1a1a2e;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --text-light: #e6e6e6;
+    }
+
+    .games-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1rem;
+    }
+
+    /* Encabezado */
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .page-title {
+        color: var(--gold);
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+        font-size: 2.2rem;
+    }
+
+    .page-title:after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 3px;
+        background: var(--gold);
+        bottom: -10px;
+        left: 40px;
+        transform: translateX(-50%);
+    }
+
+    .page-subtitle {
+        color: var(--text-light);
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Tarjetas de juegos */
+    .game-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        border: 1px solid var(--gold);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(255, 180, 0, 0.1);
+    }
+
+    .game-image-container {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .game-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .game-card:hover .game-image {
+        transform: scale(1.05);
+    }
+
+    .game-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 200px);
+    }
+
+    .game-title {
+        color: var(--gold);
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .game-description {
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+        font-size: 0.95rem;
+    }
+
+    .game-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.7rem;
+        background: rgba(255, 193, 7, 0.1);
+        color: var(--gold);
+        border: 1px solid var(--gold);
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-top: auto;
+    }
+
+    .game-button:hover {
+        background: rgba(255, 193, 7, 0.2);
+    }
+
+    /* Estado vacío */
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: var(--card-bg);
+        border: 1px dashed var(--gold);
+        border-radius: 8px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--gold);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="games-container">
+    <!-- Encabezado -->
+    <div class="page-header">
+
+        <h1 class="page-title"><i class="bi bi-controller"></i> Explora Juegos Disponibles</h1>
+        <p class="page-subtitle">
+            Selecciona un juego para descubrir torneos activos y comenzar a competir
+        </p>
     </div>
 
+    <!-- Grid de juegos -->
     {% if game_list %}
-        <div class="row g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for game in game_list %}
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100 border-0 bg-dark text-light">
-                    <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.name }}">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ game.name }}</h5>
-                        <p class="card-text text-muted flex-grow-1">{{ game.description|truncatechars:100 }}</p>
-                        <a href="{% url 'web:gameDetailView' game.id %}" class="btn btn-outline-warning mt-3">
-                            Ver Torneos
-                        </a>
+                <div class="col">
+                    <div class="game-card">
+                        <div class="game-image-container">
+                            {% if game.image %}
+                                <img src="{{ game.image.url }}" class="game-image" alt="{{ game.name }}">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                    <i class="bi bi-controller text-warning" style="font-size: 2rem;"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="game-body">
+                            <h3 class="game-title">{{ game.name }}</h3>
+                            <p class="game-description">
+                                {{ game.description|truncatechars:120 }}
+                            </p>
+                            <a href="{% url 'web:gameDetailView' game.id %}" class="game-button">
+                                <i class="bi bi-trophy me-2"></i> Ver Torneos
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     {% else %}
-        <div class="alert alert-warning text-center">
-            No hay juegos disponibles en este momento. ¡Vuelve pronto!
+        <div class="empty-state">
+            <i class="bi bi-controller"></i>
+            <h3>No hay juegos disponibles</h3>
+            <p>Estamos preparando nuevos juegos para ti. ¡Vuelve pronto!</p>
         </div>
     {% endif %}
 </div>

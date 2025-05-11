@@ -239,7 +239,7 @@
     <!-- Encabezado con nueva línea decorativa -->
     <div class="section-header">
         <h1 class="section-title">
-            <i class="fas fa-gift"></i>
+            <i class="bi bi-gift"></i>
             <span style="margin-left: 0.5rem;">Recompensas</span>
         </h1>
         <p class="section-description">
@@ -249,7 +249,7 @@
         {% if messages %}
             {% for message in messages %}
                 <div class="alert-message alert-{{ message.tags }}">
-                    <i class="fas fa-exclamation-circle"></i>
+                    <i class="bi bi-exclamation-circle"></i>
                     <span>{{ message }}</span>
                 </div>
             {% endfor %}
@@ -271,7 +271,7 @@
                     {% if reward.image %}
                         <img src="{{ reward.image.url }}" class="reward-image" alt="{{ reward.name }}">
                     {% else %}
-                        <i class="fas fa-gift text-warning" style="font-size: 2rem;"></i>
+                        <i class="bi bi-gift text-warning" style="font-size: 2rem;"></i>
                     {% endif %}
                 </div>
                 <div class="card-body">
@@ -290,19 +290,19 @@
                         <form method="post" action="{% url 'web:redeemRewardView' reward.id %}">
                             {% csrf_token %}
                             <button type="submit" class="redeem-btn btn-available">
-                                <i class="fas fa-shopping-cart"></i> Canjear
+                                <i class="bi bi-cart"></i> Canjear
                             </button>
                         </form>
                     {% else %}
                         <button class="redeem-btn btn-unavailable" disabled>
-                            <i class="fas fa-lock"></i> No disponible
+                            <i class="bi bi-lock"></i> No disponible
                         </button>
                     {% endif %}
                 </div>
             </div>
         {% empty %}
             <div class="empty-state">
-                <i class="fas fa-box-open"></i>
+                <i class="bi bi-box"></i>
                 <h3>No hay recompensas</h3>
                 <p>Vuelve más tarde</p>
             </div>

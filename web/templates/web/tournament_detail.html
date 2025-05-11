@@ -25,8 +25,14 @@
             <h1 class="display-4 fw-bold text-warning">{{ tournament.name }}</h1>
             <div class="d-flex flex-wrap gap-3">
                 <span class="badge bg-primary mt-1">{{ tournament.game }}</span>
-                <span class="badge bg-{% if tournament.status == 'open' %}success{% elif tournament.status == 'ongoing' %}warning text-dark{% else %}secondary{% endif %} mt-1">
-                    {{ tournament.get_status_display }}
+                <span class="badge bg-{% if tournament.status == 'upcoming' %}success{% elif tournament.status == 'ongoing' %}warning text-dark{% else %}secondary{% endif %} mt-1">
+                    {% if tournament.status == "ongoing" %}
+                        En curso
+                    {% elif tournament.status == "upcoming" %}
+                        Próximamente
+                    {% else %}
+                        Finalizado
+                    {% endif %}
                 </span>
                 <span class="badge bg-dark mt-1"><i class="bi bi-trophy-fill text-warning"></i>{{ tournament.prize_pool }}</span>
             </div>
@@ -88,7 +94,7 @@
                             <h2 class="accordion-header" id="heading{{ forloop.counter }}">
                                 <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false">
                                     <span class="badge bg-primary me-2">{{ forloop.counter }}</span>
-                                    {{ tournamentTeam.team.name }}
+                                    {{ tournamentTeam.team.name }} - {{ tournamentTeam.team.get_avg_mmr }}
                                 </button>
                             </h2>
                             <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#teamsAccordion">
@@ -200,11 +206,10 @@
             <div class="alert alert-warning d-inline-block fw-bold fs-5 mb-0">
                 <i class="bi bi-hourglass-split me-2"></i> El torneo está en curso
             </div>
-        {% elif tournament.status == 'completed' %}
+        {% endif %}
         <a href="{% url 'web:tournamentLogsView' tournament.id %}" class="btn btn-outline-info btn-lg px-5 fw-bold">
             <i class="bi bi-journal-code"></i> Ver registros del torneo
         </a>
-        {% endif %}
     </div>
 </div>
 

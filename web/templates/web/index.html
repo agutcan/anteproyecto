@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li style="margin-bottom: 10px;">
                         <strong>${t.title}</strong><br>
                         <small><i class="bi bi-clock"></i> ${new Date(t.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small><br>
-                        <a href="/start/tournament/${t.id}" class="btn btn-sm btn-warning mt-1">Ver torneo</a>
+                        <a href="/tournament/${t.id}" class="btn btn-sm btn-warning mt-1">Ver torneo</a>
                     </li>
                     ${tournaments.indexOf(t) < tournaments.length - 1 ? '<hr style="margin: 10px 0;">' : ''}
                 `).join("");

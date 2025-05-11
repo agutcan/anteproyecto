@@ -3,39 +3,50 @@
 {% block title %}Torneos / ArenaGG{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <!-- Header de torneos -->
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <h1 class="text-warning">Torneos Disponibles</h1>
-        {% if user.is_authenticated %}
-            {% if user.player.role == 'Premium' %}
-                <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning">
-                    <i class="bi bi-plus-circle"></i> Crear Torneo
-                </a>
+<div class="container py-4">
+    <!-- Header de torneos con línea amarilla -->
+    <div class="section-header mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="position-relative mb-3 mb-md-0">
+                <h1 class="section-title m-0">
+                    <i class="bi bi-trophy me-2"></i>Torneos Disponibles
+                </h1>
+            </div>
+            {% if user.is_authenticated %}
+                {% if user.player.role == 'Premium' %}
+                    <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning btn-hover">
+                        <i class="bi bi-plus-circle me-1"></i> Crear Torneo
+                    </a>
+                {% else %}
+                    <button class="btn btn-warning btn-hover" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
+                        <i class="bi bi-plus-circle me-1"></i> Crear Torneo
+                    </button>
+                {% endif %}
             {% else %}
-                <!-- Botón que activa el modal para no premium -->
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
-                    <i class="bi bi-plus-circle"></i> Crear Torneo
-                </button>
+                <a href="{% url 'login' %}?next={% url 'web:tournamentCreateView' %}" class="btn btn-warning btn-hover">
+                    <i class="bi bi-plus-circle me-1"></i> Crear Torneo
+                </a>
             {% endif %}
-        {% else %}
-            <a href="{% url 'login' %}?next={% url 'web:tournamentCreateView' %}" class="btn btn-warning">
-                <i class="bi bi-plus-circle"></i> Crear Torneo
-            </a>
-        {% endif %}
+        </div>
     </div>
 
     <!-- Filtros y búsqueda -->
-    <form method="get" action="{% url 'web:tournamentListView' %}">
-        <div class="card bg-dark border-secondary mb-4">
-            <div class="card-body">
+    <form method="get" action="{% url 'web:tournamentListView' %}" class="mb-5">
+        <div class="card bg-dark border-warning border-opacity-25 shadow">
+            <div class="card-body p-4">
+                <h5 class="text-white mb-3"><i class="bi bi-funnel me-2 text-warning"></i>Filtrar torneos</h5>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <input type="text" class="form-control bg-darker border-secondary "
-                               placeholder="Buscar torneos..." name="search">
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-white">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control bg-dark border-secondary text-white"
+                                   placeholder="Buscar torneos..." name="search">
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-select bg-darker border-secondary" name="game">
+                        <select class="form-select bg-dark border-secondary text-white" name="game">
                             <option value="">Todos los juegos</option>
                             {% for game in games %}
                                 <option value="{{ game.id }}" {% if request.GET.game == game.id|stringformat:"s" %}selected{% endif %}>
@@ -45,15 +56,19 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-select bg-darker border-secondary " name="status">
+                        <select class="form-select bg-dark border-secondary text-white" name="status">
                             <option value="">Todos los estados</option>
                             <option value="upcoming">Inscripciones abiertas</option>
                             <option value="ongoing">En progreso</option>
                             <option value="completed">Finalizados</option>
                         </select>
                     </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-funnel me-1"></i> Filtrar
+                        </button>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-warning mt-3">Filtrar</button>
             </div>
         </div>
     </form>
@@ -62,55 +77,59 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for tournament in tournament_list %}
         <div class="col">
-            <div class="card h-100 bg-darker border-0 tournament-card"
-                 data-game="{{ tournament.game.id }}"
-                 data-status="{{ tournament.status }}">
-                <div class="position-relative">
+            <div class="card h-100 bg-darker border-secondary border-opacity-25 tournament-card-hover">
+                <div class="position-relative overflow-hidden" style="height: 180px;">
                     {% if tournament.banner %}
-                    <img src="{{ tournament.banner.url }}" class="card-img-top" alt="{{ tournament.name }}"
-                         style="height: 180px; object-fit: cover;">
+                    <img src="{{ tournament.banner.url }}" class="card-img-top h-100 w-100" alt="{{ tournament.name }}"
+                         style="object-fit: cover;">
                     {% else %}
-                    <div class="card-img-top bg-black d-flex align-items-center justify-content-center"
-                         style="height: 180px;">
-                        <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem;"></i>
+                    <div class="card-img-top bg-black d-flex align-items-center justify-content-center h-100"
+                         style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
+                        <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem; opacity: 0.5;"></i>
                     </div>
                     {% endif %}
                     <span class="position-absolute top-0 end-0 m-2 badge
-                                {% if tournament.status == 'open' %}bg-success{% elif tournament.status == 'ongoing' %}bg-primary{% else %}bg-secondary{% endif %}">
-                        {{ tournament.get_status_display }}
+                                {% if tournament.status == 'upcoming' %}bg-success{% elif tournament.status == 'ongoing' %}bg-primary{% else %}bg-secondary{% endif %}">
+                        {% if tournament.status == "ongoing" %}
+                            <i class="bi bi-activity me-1"></i> En curso
+                        {% elif tournament.status == "upcoming" %}
+                            <i class="bi bi-calendar-check me-1"></i> Próximamente
+                        {% else %}
+                            <i class="bi bi-flag-fill me-1"></i> Finalizado
+                        {% endif %}
                     </span>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h5 class="card-title text-truncate">{{ tournament.name }}</h5>
-                        <small class="text-warning">{{ tournament.prize_pool|default:"Sin premio" }}</small>
+                        <small class="text-warning fw-bold">{{ tournament.prize_pool|default:"Sin premio" }}</small>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ tournament.game.image.url }}" alt="{{ tournament.game.name }}"
-                             class="rounded-circle me-2" width="24" height="24">
+                             class="rounded-circle me-2 border border-warning" width="24" height="24">
                         <small class="text-muted">{{ tournament.game.name }}</small>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
-                        <div>
-                            <i class="bi bi-people-fill me-1"></i>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-people-fill text-muted me-1"></i>
                             <small>
                                 {% with total_players=tournament.count_registered_players %}
                                     {{ total_players }}/{{ tournament.get_max_total_players }}
                                 {% endwith %}
                             </small>
                         </div>
-                        <div>
-                            <i class="bi bi-calendar-event me-1"></i>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar-event text-muted me-1"></i>
                             <small>{{ tournament.start_date|date:"d M Y H:i" }}</small>
                         </div>
                     </div>
-                    <p class="card-text text-white-50 small">{{ tournament.description|truncatechars:100 }}</p>
+                    <p class="card-text text-white-50 small mb-3">{{ tournament.description|truncatechars:100 }}</p>
                 </div>
                 <div class="card-footer bg-transparent border-top border-secondary">
-                    <div class="d-grid gap-2">
+                    <div class="d-grid">
                         <a href="{% url 'web:tournamentDetailView' tournament.id %}"
                            class="btn btn-sm btn-outline-warning">
-                            Ver detalles
+                            <i class="bi bi-eye me-1"></i> Ver detalles
                         </a>
                     </div>
                 </div>
@@ -119,16 +138,16 @@
         {% empty %}
         <div class="col-12">
             <div class="text-center py-5">
-                <i class="bi bi-trophy-fill display-4 text-warning"></i>
-                <h3 class="mt-3">No hay torneos disponibles</h3>
-                <p class="text-muted">Crea el primer torneo o vuelve más tarde</p>
+                <i class="bi bi-trophy-fill display-4 text-warning mb-3"></i>
+                <h3 class="text-white mb-2">No hay torneos disponibles</h3>
+                <p class="text-muted mb-4">Crea el primer torneo o vuelve más tarde</p>
                 {% if user.is_authenticated and user.player.role == 'Premium' %}
-                    <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning mt-3">
-                        Crear Torneo
+                    <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning">
+                        <i class="bi bi-plus-circle me-1"></i> Crear Torneo
                     </a>
                 {% else %}
-                    <button class="btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
-                        Crear Torneo
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
+                        <i class="bi bi-plus-circle me-1"></i> Crear Torneo
                     </button>
                 {% endif %}
             </div>
@@ -140,7 +159,7 @@
 <!-- Modal Premium Required -->
 <div class="modal fade" id="premiumRequiredModal" tabindex="-1" aria-labelledby="premiumRequiredModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-darker border-warning">
+        <div class="modal-content bg-dark border-warning">
             <div class="modal-header border-warning">
                 <h5 class="modal-title text-warning" id="premiumRequiredModalLabel">
                     <i class="bi bi-stars me-2"></i>Cuenta Premium Requerida
@@ -151,14 +170,14 @@
                 <div class="text-center mb-4">
                     <i class="bi bi-gem display-4 text-warning"></i>
                 </div>
-                <h6 class="text-light mb-3">Beneficios de ser Premium:</h6>
+                <h6 class="text-white mb-3">Beneficios de ser Premium:</h6>
                 <ul class="list-unstyled text-white-50">
                     <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Crear torneos ilimitados</li>
                     <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Premios exclusivos</li>
                     <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Estadísticas avanzadas</li>
                     <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Soporte prioritario</li>
                 </ul>
-                <div class="alert alert-warning mt-4">
+                <div class="alert bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 mt-4">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     Necesitas una cuenta Premium para crear torneos.
                 </div>
@@ -171,4 +190,50 @@
     </div>
 </div>
 
+<style>
+    /* Estilos para la línea amarilla bajo el título */
+    .section-title {
+        color: #ffc107;
+        position: relative;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+    ::placeholder {
+        color: white !important;
+        opacity: 1; /* Opcional, para evitar transparencia */
+    }
+    .section-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #ffc107;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    /* Estilos existentes */
+    .btn-hover:hover {
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+    }
+
+    .tournament-card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .border-opacity-25 {
+        border-color: rgba(255, 193, 7, 0.25) !important;
+    }
+
+
+
+</style>
 {% endblock %}

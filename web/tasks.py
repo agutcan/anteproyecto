@@ -249,8 +249,8 @@ def check_tournament_match_progress():
         # - 2 partidos completados → procesar ronda 2 (final)
         # - 3 partidos completados → ya se jugó la final → finalizar
         elif team_count == 4:
-            if completed_matches == 2:
-                process_round(tournament, completed_matches_queryset, round_number=2)
+            if completed_matches == 2 and total_matches != 3:
+                process_round(tournament, round_number=2)
             elif completed_matches == 3:
                 process_final_match(tournament, completed_matches_queryset)
 
@@ -259,10 +259,10 @@ def check_tournament_match_progress():
         # - 6 partidos completados → procesar ronda 3 (final)
         # - 7 partidos completados → finalizar torneo
         elif team_count == 8:
-            if completed_matches == 4:
-                process_round(tournament, completed_matches_queryset, round_number=2)
-            elif completed_matches == 6:
-                process_round(tournament, completed_matches_queryset, round_number=3)
+            if completed_matches == 4 and total_matches != 6:
+                process_round(tournament, round_number=2)
+            elif completed_matches == 6 and total_matches != 7:
+                process_round(tournament, round_number=3)
             elif completed_matches == 7:
                 process_final_match(tournament, completed_matches_queryset)
 

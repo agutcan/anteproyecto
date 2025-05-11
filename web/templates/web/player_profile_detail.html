@@ -3,92 +3,279 @@
 {% block title %}Perfil de {{ player.user.username }} / ArenaGG{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-warning mb-4 text-center">Perfil de {{ player.user.username }}</h2>
-
-    <div class="card mx-auto bg-dark text-white border-secondary shadow-lg" style="max-width: 600px;">
-        <div class="card-header bg-black text-center">
-            <img src="{{ player.avatar.url }}" alt="Avatar de {{ player.user.username }}" class="rounded-circle shadow-sm" width="96" height="96">
-            <h4 class="mt-3 mb-0">{{ player.user.username }}</h4>
-            <small class="text-secondary">{{ player.role }}</small>
-        </div>
-
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Nombre:</strong> {{ player.first_name|default:"No hay nombre" }} {{ player.last_name|default:"" }}
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Biografía:</strong><br> {{ player.bio|default:"No hay biografía" }}
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Fecha de nacimiento:</strong> {{ player.user.birth_date|date:"d/m/Y"|default:"No hay fecha de nacimiento" }}
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>País:</strong> {{ player.get_country_display }}
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Equipo:</strong> {{ player.team|default:"No hay equipo" }}
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Partidas jugadas:</strong> {{ player.games_played|default:0 }}<br>
-                    <strong>Partidas ganadas:</strong> {{ player.games_won|default:0 }}<br>
-                    <strong>Winrate:</strong> {{ player.winrate|floatformat:2|default:0 }}%
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <strong>Renombre:</strong> {{ player.renombre }}<br>
-                    <strong>Coins:</strong> {{ player.coins }}
-                </li>
-            </ul>
-        </div>
-
-        <div class="card-footer d-flex justify-content-between bg-black">
-            <a href="{% url 'web:playerUpdateView' player.id %}" class="btn btn-outline-warning w-100 me-2">
-                <i class="bi bi-pencil-square"></i> Editar perfil
-            </a>
-            <a href="{% url 'web:indexView' %}" class="btn btn-outline-secondary w-100">
-                <i class="bi bi-house"></i> Volver al inicio
-            </a>
+<div class="container py-4">
+    <!-- Header del perfil -->
+    <div class="text-center mb-5">
+        <h1 class="text-warning mb-2">
+            <i class="bi bi-person-badge me-2"></i>{{ player.user.username }}
+        </h1>
+        <div class="d-flex justify-content-center align-items-center">
+            <span class="badge
+                {% if player.role == 'Premium' %}bg-warning text-dark
+                {% else %}bg-secondary
+                {% endif %} me-2">
+                {{ player.role }}
+            </span>
+            <span class="badge bg-dark text-warning border border-warning">
+                <i class="bi bi-geo-alt me-1"></i>{{ player.get_country_display }}
+            </span>
         </div>
     </div>
 
-    <!-- Gráfico de Partidas Jugadas vs Ganadas -->
-    <div class="card mt-4 bg-dark text-white border-secondary shadow-lg">
-        <div class="card-header bg-black text-center">
-            <h5>Estadísticas del Jugador</h5>
+    <!-- Tarjeta principal del perfil -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card bg-dark border border-warning mb-4 overflow-hidden">
+                <!-- Header con avatar -->
+                <div class="profile-header position-relative">
+                    <div class="profile-avatar-container">
+                        <div class="profile-avatar-wrapper">
+                            <img src="{{ player.avatar.url }}" alt="Avatar de {{ player.user.username }}"
+                                 class="profile-avatar">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cuerpo del perfil -->
+                <div class="card-body pt-5 mt-3">
+                    <!-- Información básica -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-person-circle text-warning me-3 fs-4"></i>
+                                <div>
+                                    <h5 class="mb-0 text-white">{{ player.first_name|default:"Sin nombre" }} {{ player.last_name|default:"" }}</h5>
+                                    <small class="text-secondary">Nombre completo</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-calendar-event text-warning me-3 fs-4"></i>
+                                <div>
+                                    <h5 class="mb-0 text-white">{{ player.user.birth_date|date:"d/m/Y"|default:"No especificada" }}</h5>
+                                    <small class="text-secondary">Fecha de nacimiento</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Equipo -->
+                    {% if player.team %}
+                    <div class="d-flex align-items-center mb-4 p-3 bg-darker rounded">
+                        <i class="bi bi-people-fill text-warning me-3 fs-3"></i>
+                        <div>
+                            <h5 class="mb-0 text-white">{{ player.team }}</h5>
+                            <small class="text-secondary">Equipo actual</small>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Biografía -->
+                    <div class="mb-4">
+                        <h5 class="text-warning mb-3"><i class="bi bi-journal-text me-2"></i>Biografía</h5>
+                        <div class="card bg-darker border-secondary p-3">
+                            <p class="mb-0 text-white-50">
+                                {{ player.bio|default:"Este jugador no ha escrito una biografía todavía." }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-darker h-100" style="border: 1px solid rgba(255, 193, 7, 0.25);">
+                                <div class="card-body text-center">
+                                    <h2 class="text-warning">{{ player.games_played|default:0 }}</h2>
+                                    <small class="text-secondary">Partidas jugadas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-darker h-100" style="border: 1px solid rgba(255, 193, 7, 0.25);">
+                                <div class="card-body text-center">
+                                    <h2 class="text-warning">{{ player.games_won|default:0 }}</h2>
+                                    <small class="text-secondary">Partidas ganadas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-darker h-100" style="border: 1px solid rgba(255, 193, 7, 0.25);">
+                                <div class="card-body text-center">
+                                    <h2 class="text-warning">{{ player.winrate|floatformat:2|default:0 }}%</h2>
+                                    <small class="text-secondary">Winrate</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Economía -->
+                    <div class="row mt-2">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-darker h-100" style="border: 1px solid rgba(255, 193, 7, 0.25);">
+                                <div class="card-body text-center">
+                                    <h3 class="text-warning">
+                                        <i class="bi bi-star-fill me-2"></i>{{ player.renombre }}
+                                    </h3>
+                                    <small class="text-secondary">Renombre</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-darker h-100" style="border: 1px solid rgba(255, 193, 7, 0.25);">
+                                <div class="card-body text-center">
+                                    <h3 class="text-warning">
+                                        <i class="bi bi-coin me-2"></i>{{ player.coins }}
+                                    </h3>
+                                    <small class="text-secondary">Monedas</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie de tarjeta con botones -->
+                <div class="card-footer bg-black border-top border-secondary">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'web:playerUpdateView' player.id %}" class="btn btn-warning flex-grow-1 me-2">
+                            <i class="bi bi-pencil-square me-2"></i>Editar perfil
+                        </a>
+                        <a href="{% url 'web:indexView' %}" class="btn btn-outline-secondary flex-grow-1">
+                            <i class="bi bi-house me-2"></i>Volver al inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <canvas id="statsChart"></canvas>
+    </div>
+
+    <!-- Gráfico de estadísticas -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="card bg-dark border border-warning">
+                <div class="card-header bg-black border-bottom border-secondary">
+                    <h5 class="mb-0 text-warning">
+                        <i class="bi bi-bar-chart-line me-2"></i>Estadísticas de juego
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="statsChart" height="300"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    // Datos para el gráfico
-    var ctx = document.getElementById('statsChart').getContext('2d');
-    var statsChart = new Chart(ctx, {
-        type: 'bar', // Tipo de gráfico: Barras
-        data: {
-            labels: ['Partidas Jugadas', 'Partidas Ganadas'], // Etiquetas
-            datasets: [{
-                label: 'Estadísticas de Juego',
-                data: [{{ player.games_played }}, {{ player.games_won }}], // Datos de las partidas
-                backgroundColor: ['#ff5733', '#28a745'], // Colores
-                borderColor: ['#ff5733', '#28a745'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    // Configuración mejorada del gráfico
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('statsChart').getContext('2d');
+        var statsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Partidas Jugadas', 'Partidas Ganadas'],
+                datasets: [{
+                    label: 'Estadísticas',
+                    data: [{{ player.games_played }}, {{ player.games_won }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(75, 192, 192, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
             },
-            responsive: true
-        }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a1a1a',
+                        titleColor: '#ffc107',
+                        bodyColor: '#ffffff',
+                        borderColor: '#ffc107',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#ffffff'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#ffffff'
+                        }
+                    }
+                }
+            }
+        });
     });
 </script>
+
+<style>
+    .profile-header {
+        height: 120px; /* más alto para dar espacio al avatar */
+        background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+        position: relative; /* necesario si se va a posicionar absolutamente el avatar */
+        z-index: 1;
+    }
+
+    .profile-avatar-container {
+        position: absolute; /* cambia de relative a absolute */
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        z-index: 2;
+    }
+
+    .profile-avatar-wrapper {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: transparent;
+    }
+
+    .profile-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: none;
+    }
+
+    .bg-darker {
+        background-color: #1a1a1a;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+</style>
+
 
 {% endblock %}

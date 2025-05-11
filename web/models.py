@@ -230,14 +230,6 @@ class Player(models.Model):
     games_won = models.IntegerField(default=0)
     winrate = models.FloatField(default=0.0)
 
-    def update_winrate(self):
-        """Actualiza el porcentaje de victorias basado en games_played y games_won."""
-        if self.games_played > 0:
-            self.winrate = (self.games_won / self.games_played) * 100
-        else:
-            self.winrate = 0.0
-        self.save()
-
     def __str__(self):
         """Representación en string del jugador (username + equipo + winrate)."""
         return f"{self.user.username} - {self.team.name if self.team else 'Sin equipo'} (Winrate: {self.winrate:.2f}%)"

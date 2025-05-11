@@ -112,6 +112,12 @@ def poblar_datos(apps, schema_editor):
              email="harper@example.com"),
         User(username="player26", password="Usuario1", first_name="Daniel", last_name="Flores",
              email="daniel@example.com"),
+        User(username="player27", password="Usuario1", first_name="Daniel", last_name="Flores",
+             email="daniel4@example.com"),
+        User(username="player28", password="Usuario1", first_name="Daniel", last_name="Flores",
+             email="daniel2@example.com"),
+        User(username="player29", password="Usuario1", first_name="Daniel", last_name="Flores",
+             email="daniel23@example.com"),
 
     ]
     User.objects.bulk_create(users)  # Crear todos los usuarios de una vez
@@ -144,6 +150,10 @@ def poblar_datos(apps, schema_editor):
         Player(user=users[15], country='BR', games_played=75, games_won=60, mmr=88, role='Premium'),
         Player(user=users[16], games_played=25, games_won=10, renombre=20),
         Player(user=users[17], games_played=95, games_won=70, coins=2300),
+        Player(user=users[18], games_played=95, games_won=70, coins=2300),
+        Player(user=users[19], games_played=95, mmr=85, games_won=70, coins=2300),
+        Player(user=users[20], games_played=95, games_won=70, coins=2300),
+        Player(user=users[21], games_played=95, mmr=85,games_won=70, coins=2300),
     ]
     Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
 
@@ -168,6 +178,10 @@ def poblar_datos(apps, schema_editor):
         Team(name="Furiosos Guerreros"),
         Team(name="Cazadores del Vacío"),
         Team(name="Legión de Hierro"),
+        Team(name="Legión de Madera"),
+        Team(name="Legión de Plata"),
+        Team(name="Legión de Bronce"),
+        Team(name="Legión de Plastico"),
     ]
     Team.objects.bulk_create(teams)  # Guardar todos los equipos de una vez
 
@@ -184,10 +198,11 @@ def poblar_datos(apps, schema_editor):
 
     # Crear torneos
     tournaments = [
-        Tournament(name="4 teams 2 teams", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="4 teams 2 teams inactive", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="4 teams 4 teams inactive", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="8 teams 4 teams inactive", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="8 teams 8 teams inactive", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
         Tournament(name="4 teams 4 teams", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
-        Tournament(name="8 teams 4 teams", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
-        Tournament(name="8 teams 8 teams", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=1), prize_pool=1000.00, created_by=users[0]),
     ]
     Tournament.objects.bulk_create(tournaments)  # Guardar todos los torneos de una vez
 
@@ -211,6 +226,10 @@ def poblar_datos(apps, schema_editor):
         TournamentTeam(tournament=tournaments[3], team=teams[15]),
         TournamentTeam(tournament=tournaments[3], team=teams[16]),
         TournamentTeam(tournament=tournaments[3], team=teams[17]),
+        TournamentTeam(tournament=tournaments[4], team=teams[18]),
+        TournamentTeam(tournament=tournaments[4], team=teams[19]),
+        TournamentTeam(tournament=tournaments[4], team=teams[20]),
+        TournamentTeam(tournament=tournaments[4], team=teams[21]),
     ]
     TournamentTeam.objects.bulk_create(tournament_teams)  # Guardar todos los equipos en los torneos
 
