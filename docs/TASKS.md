@@ -66,7 +66,7 @@ def update_tournament_status():
             if new_status == 'ongoing' and not tournament.matches_generated:
                 generate_matches_by_mmr(tournament.id)  # Llama a la función que genera las partidas
 ```
-
+---
 ## 🧪 Tarea: `check_teams_ready_for_match`
 
 Esta tarea se ejecuta periódicamente para **verificar el estado de los partidos pendientes** y actuar en consecuencia. A continuación se explica su funcionamiento y detalle.
@@ -212,47 +212,72 @@ def check_teams_ready_for_match():
             )
 
 ```
-
+---
 ## 📈 Tarea: `check_tournament_match_progress`
 
-Esta tarea se ejecuta periódicamente para **revisar el progreso de los torneos en curso**. A continuación, se detallan las funciones y el flujo de la tarea.
+Esta tarea se ejecuta periódicamente para **verificar el progreso de los torneos en curso** y tomar decisiones sobre el avance de rondas o la finalización del torneo.
 
 ### 📘 Descripción
 
 La tarea `check_tournament_match_progress` realiza las siguientes acciones:
 
-1. 🔍 **Verificación de los torneos en curso**:  
-   La tarea filtra los torneos cuyo estado es **'ongoing'** (en curso).
+1. 🔍 **Verificación de torneos activos**  
+   Filtra los torneos cuyo estado es **`'ongoing'`** (en curso).
 
-2. 📊 **Cálculo del progreso del torneo**:  
-   Para cada torneo en curso:
-   - Se cuenta el número de partidos **en curso** y **completados**.
-   - Se obtiene el **número total de partidos** y el **número de equipos**.
+2. 📊 **Evaluación del progreso**  
+   Para cada torneo activo:
+   - Cuenta los partidos **en curso**, **completados** y el **total**.
+   - Obtiene el número de **equipos inscritos**.
 
-3. 🧠 **Determinación de la siguiente fase**:  
-   Según el número de equipos y el progreso de los partidos, la tarea decide:
-   - Si debe procesarse una **ronda intermedia** (semifinales, cuartos de final, etc.).
-   - Si debe procesarse la **final** y finalizar el torneo.
+3. 🧠 **Decisión de avance de fase**  
+   En función de la cantidad de equipos y partidos completados, la tarea determina si:
+   - Debe procesarse una **ronda intermedia** (cuartos, semifinales, etc.).
+   - Debe procesarse la **final** y finalizar el torneo.
 
-4. 🔢 **Flujo de procesamiento según el número de equipos**:  
-   - Para **torneos de 2 equipos**, después de 1 partido completado, se procesa la final.
-   - Para **torneos de 4 equipos**, después de 2 partidos completados, se procesa la segunda ronda (semifinales), y si se han jugado 3 partidos, se procesa la final.
-   - Para **torneos de 8 equipos**, después de 4 partidos completados, se procesan las semifinales, y tras 6 partidos completados, se procesa la final.
+4. 🔁 **Lógica según cantidad de equipos**  
+   - **2 equipos**  
+     - 1 partido completado → se procesa la final.
 
-5. ⚙️ **Optimización**:  
-   Solo se procesan los torneos cuyo estado es **'ongoing'** y la tarea realiza acciones solo si es necesario, evitando ejecuciones innecesarias.
+   - **4 equipos**  
+     - 2 partidos completados → se genera la ronda 2 (final).  
+     - 3 partidos completados → se asume que la final fue jugada → se finaliza el torneo.
 
+   - **8 equipos**  
+     - 4 partidos completados → se generan las semifinales (ronda 2).  
+     - 6 partidos completados → se genera la final (ronda 3).  
+     - 7 partidos completados → se finaliza el torneo.
+
+5. ⚙️ **Optimización del proceso**  
+   La tarea solo actúa sobre torneos activos y **evita ejecutar lógica innecesaria** si el progreso no ha cambiado.
+
+---
 ```python
 @shared_task
 def check_tournament_match_progress():
     """
-    Tarea periódica que revisa el progreso de los torneos en curso.
+    Tarea periódica que revisa el estado de los torneos en curso y toma decisiones
+    sobre el avance de rondas o la finalización del torneo.
 
-    Funciones principales:
-    - Comprobar cuántos partidos se han jugado en cada torneo 'ongoing'.
-    - Según el número de equipos y partidos completados, determina si:
-        - Debe procesarse una ronda intermedia (semifinales, cuartos, etc.).
-        - Debe procesarse la final y finalizar el torneo.
+    Funcionalidades:
+    - Itera sobre todos los torneos con estado 'ongoing'.
+    - Cuenta partidos en curso, completados y totales.
+    - Según el número de equipos y partidos completados, decide si:
+        - Debe generarse una nueva ronda (cuartos, semifinales, final).
+        - Debe finalizarse el torneo.
+
+    Lógica aplicada por cantidad de equipos:
+    - 2 equipos:
+        - 1 partido completado → se procesa la final directamente.
+    - 4 equipos:
+        - 2 partidos completados → se genera la ronda 2 (final).
+        - 3 partidos completados → se da por jugada la final y se finaliza el torneo.
+    - 8 equipos:
+        - 4 partidos completados → se genera la ronda 2 (semifinales).
+        - 6 partidos completados → se genera la ronda 3 (final).
+        - 7 partidos completados → se finaliza el torneo.
+
+    Esta función no recibe parámetros y no retorna ningún valor,
+    pero modifica el estado de los torneos y genera partidos o los cierra según sea necesario.
     """
 
     # Obtener la hora actual con zona horaria
@@ -282,8 +307,8 @@ def check_tournament_match_progress():
         # - 2 partidos completados → procesar ronda 2 (final)
         # - 3 partidos completados → ya se jugó la final → finalizar
         elif team_count == 4:
-            if completed_matches == 2:
-                process_round(tournament, completed_matches_queryset, round_number=2)
+            if completed_matches == 2 and total_matches != 3:
+                process_round(tournament, round_number=2)
             elif completed_matches == 3:
                 process_final_match(tournament, completed_matches_queryset)
 
@@ -292,13 +317,12 @@ def check_tournament_match_progress():
         # - 6 partidos completados → procesar ronda 3 (final)
         # - 7 partidos completados → finalizar torneo
         elif team_count == 8:
-            if completed_matches == 4:
-                process_round(tournament, completed_matches_queryset, round_number=2)
-            elif completed_matches == 6:
-                process_round(tournament, completed_matches_queryset, round_number=3)
+            if completed_matches == 4 and total_matches != 6:
+                process_round(tournament, round_number=2)
+            elif completed_matches == 6 and total_matches != 7:
+                process_round(tournament, round_number=3)
             elif completed_matches == 7:
                 process_final_match(tournament, completed_matches_queryset)
-
 ```
 
 ## 🔄 Navegación
