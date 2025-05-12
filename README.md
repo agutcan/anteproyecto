@@ -1,8 +1,9 @@
-# Readme Inicial
----
-# 🎮 Título del proyecto
 
-** ![Logo](web/static/images/favicon_peque.png) ArenaGG - Plataforma de gestión de torneos de videojuegos**
+# 🎮 Título del proyecto 
+
+** ArenaGG - Plataforma de gestión de torneos de videojuegos**  
+
+![Logo](web/static/images/favicon_peque.png)
 
 ## 👤 Autor del proyecto
 
@@ -68,7 +69,7 @@ Esta plataforma permitirá a los usuarios:
 
 | Área | Tecnologías |
 |------|-------------|
-| Backend | Python + Django + Celery + Mailpit |
+| Backend | Python + Django + Celery/Celery-beat + Mailpit |
 | Database | PostgreSQL + Redis |
 | Frontend | HTML5, CSS3, Bootstrap 5, JS |
 | Infra | Docker + AWS |
