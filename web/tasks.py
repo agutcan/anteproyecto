@@ -19,11 +19,6 @@ def update_tournament_status():
       `generate_matches_by_mmr` para generarlas.
     - Guarda el nuevo estado solo si ha cambiado, para evitar escrituras innecesarias en la base de datos.
 
-    Salida por consola (para depuración):
-    - Imprime la hora de ejecución de la tarea.
-    - Detalla el estado actual y el nuevo estado de cada torneo procesado.
-    - Indica si se han generado partidas nuevas.
-
     Esta tarea está pensada para ejecutarse de forma periódica mediante Celery Beat.
     """
     now = timezone.now()  # Obtiene la hora y fecha actual del servidor (con zona horaria).
@@ -204,13 +199,29 @@ def check_teams_ready_for_match():
 @shared_task
 def check_tournament_match_progress():
     """
-    Tarea periódica que revisa el progreso de los torneos en curso.
+    Tarea periódica que revisa el estado de los torneos en curso y toma decisiones
+    sobre el avance de rondas o la finalización del torneo.
 
-    Funciones principales:
-    - Comprobar cuántos partidos se han jugado en cada torneo 'ongoing'.
-    - Según el número de equipos y partidos completados, determina si:
-        - Debe procesarse una ronda intermedia (semifinales, cuartos, etc.).
-        - Debe procesarse la final y finalizar el torneo.
+    Funcionalidades:
+    - Itera sobre todos los torneos con estado 'ongoing'.
+    - Cuenta partidos en curso, completados y totales.
+    - Según el número de equipos y partidos completados, decide si:
+        - Debe generarse una nueva ronda (cuartos, semifinales, final).
+        - Debe finalizarse el torneo.
+
+    Lógica aplicada por cantidad de equipos:
+    - 2 equipos:
+        - 1 partido completado → se procesa la final directamente.
+    - 4 equipos:
+        - 2 partidos completados → se genera la ronda 2 (final).
+        - 3 partidos completados → se da por jugada la final y se finaliza el torneo.
+    - 8 equipos:
+        - 4 partidos completados → se genera la ronda 2 (semifinales).
+        - 6 partidos completados → se genera la ronda 3 (final).
+        - 7 partidos completados → se finaliza el torneo.
+
+    Esta función no recibe parámetros y no retorna ningún valor,
+    pero modifica el estado de los torneos y genera partidos o los cierra según sea necesario.
     """
 
     # Obtener la hora actual con zona horaria
