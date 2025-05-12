@@ -35,11 +35,6 @@ def update_tournament_status():
       `generate_matches_by_mmr` para generarlas.
     - Guarda el nuevo estado solo si ha cambiado, para evitar escrituras innecesarias en la base de datos.
 
-    Salida por consola (para depuración):
-    - Imprime la hora de ejecución de la tarea.
-    - Detalla el estado actual y el nuevo estado de cada torneo procesado.
-    - Indica si se han generado partidas nuevas.
-
     Esta tarea está pensada para ejecutarse de forma periódica mediante Celery Beat.
     """
     now = timezone.now()  # Obtiene la hora y fecha actual del servidor (con zona horaria).
