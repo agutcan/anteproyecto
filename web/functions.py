@@ -7,8 +7,22 @@ from itertools import zip_longest
 
 def update_winrate(player):
     """
-    Actualiza el porcentaje de victorias de un jugador basado en games_played y games_won.
+    Actualiza el porcentaje de victorias (winrate) de un jugador basado en sus estadísticas.
+    
+    Calcula el winrate como (games_won / games_played) * 100 y guarda el resultado.
+    Si no hay partidas jugadas, establece el winrate a 0.0.
+
+    Args:
+        player: Instancia del modelo Player que debe contener:
+            - games_played (int): Número total de partidas jugadas
+            - games_won (int): Número de partidas ganadas
+            - winrate (float): Atributo que será actualizado
+            - save(): Método para guardar los cambios en la base de datos
+
+    Returns:
+        None: La función no retorna nada, pero modifica y guarda el objeto player
     """
+    
     if player.games_played > 0:
         player.winrate = (player.games_won / player.games_played) * 100
     else:
@@ -17,15 +31,22 @@ def update_winrate(player):
 
 def update_players_stats(team, is_winner=False):
     """
-    Actualiza las estadísticas de los jugadores de un equipo después de un partido.
+    Actualiza las estadísticas de todos los jugadores de un equipo tras un partido.
+    
+    Esta función modifica múltiples métricas de los jugadores incluyendo:
+    - Contadores de partidas jugadas y ganadas
+    - Winrate (porcentaje de victorias)
+    - MMR (Match Making Rating)
+    - Renombre (reputación del jugador)
 
-    Modifica los campos `games_played`, `games_won`, `winrate`, `mmr` y `renombre` según
-    si el equipo ganó o no el partido.
+    Args:
+        team (Team): Instancia del modelo Team que contiene los jugadores a actualizar.
+                     Debe tener un método player_set.all() para acceder a sus jugadores.
+        is_winner (bool, optional): Indica si el equipo ganó el partido. Por defecto False.
 
-    Argumentos:
-    team (Team): El equipo cuyos jugadores serán actualizados.
-    is_winner (bool): Indica si el equipo ganó el partido. Es opcional
-    """    
+    Returns:
+        None: La función no retorna nada pero modifica y guarda todos los jugadores del equipo.
+    """
     # Recorre todos los jugadores del equipo
     for player in team.player_set.all():
         
@@ -57,12 +78,27 @@ def update_players_stats(team, is_winner=False):
 
 def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     """
-    Genera los partidos del torneo basados en el MMR de los equipos.
+    Genera los partidos de un torneo basándose en el MMR promedio de los equipos participantes.
     
-    Argumentos:
-    tournament_id (int): El ID del torneo para el cual se generarán los partidos.
-    round (int): El número de la ronda actual del torneo.
-    tournament_teams (QuerySet): Lista de equipos que participan en el torneo (opcional).
+    Esta función realiza las siguientes operaciones:
+    1. Verifica que el número de equipos sea válido (2, 4 u 8)
+    2. Valida que todos los equipos tengan el número correcto de jugadores
+    3. Cancela el torneo con notificaciones si no se cumplen las condiciones
+    4. Ordena los equipos por MMR promedio y los empareja
+    5. Crea los partidos correspondientes en la base de datos
+
+    Args:
+        tournament_id (int): ID del torneo en la base de datos. Debe existir un objeto Tournament con este ID.
+        round (int, optional): Número de ronda del torneo. Por defecto es 1.
+        tournament_teams (QuerySet, optional): Conjunto de equipos del torneo. Si es None, se obtienen de la base de datos.
+
+    Returns:
+        None: La función no retorna nada pero puede:
+              - Crear partidos en la base de datos
+              - Cancelar el torneo (eliminándolo) si hay condiciones inválidas
+
+    Raises:
+        Tournament.DoesNotExist: Si no existe un torneo con el ID proporcionado
     """
     
     # Obtener el torneo utilizando el ID proporcionado
@@ -149,14 +185,24 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
 
 def record_match_result(match, winner, team1_score, team2_score):
     """
-    Registra el resultado de un partido, actualiza el estado del partido a 'completed' 
-    y envía correos electrónicos de confirmación a los jugadores de ambos equipos.
+    Registra el resultado de un partido y notifica a los jugadores involucrados.
     
-    Argumentos:
-    match (Match): El partido cuyo resultado se está registrando.
-    winner (Team): El equipo que ganó el partido.
-    team1_score (int): El marcador del primer equipo.
-    team2_score (int): El marcador del segundo equipo.
+    Esta función realiza las siguientes operaciones:
+    1. Crea un registro de resultado en la base de datos (MatchResult)
+    2. Actualiza el estado del partido a 'completed'
+    3. Envía notificaciones por correo electrónico a todos los jugadores de ambos equipos
+    4. Muestra el resultado en la consola para propósitos de depuración
+
+    Args:
+        match (Match): Instancia del modelo Match que representa el partido a registrar.
+                      Debe tener los campos team1, team2 y status, así como el método save().
+        winner (Team): Instancia del modelo Team que representa al equipo ganador.
+                      Debe ser team1 o team2 del partido.
+        team1_score (int): Puntuación numérica obtenida por el equipo 1.
+        team2_score (int): Puntuación numérica obtenida por el equipo 2.
+
+    Returns:
+        None: La función no retorna ningún valor, pero tiene varios efectos secundarios.
     """
     
     # Registrar el resultado del partido en la base de datos
@@ -352,12 +398,15 @@ def process_final_match(tournament, completed_matches_queryset):
 
 def process_round(tournament, round_number):
     """
-    Procesa la lógica para generar los partidos de la siguiente ronda
-    del torneo, usando los equipos ganadores de la ronda anterior.
+    Procesa la generación de partidos para la siguiente ronda de un torneo,
+    utilizando los equipos ganadores de la ronda anterior.
 
-    Argumentos:
-    tournament (Tournament): El torneo en el que se generarán los partidos.
-    round_number (int): El número de la ronda actual del torneo (por ejemplo, ronda 2, ronda 3, etc.)
+    Args:
+        tournament (Tournament): Instancia del torneo en curso.
+        round_number (int): Número de la ronda a procesar (por ejemplo, 2 para la segunda ronda).
+
+    Return:
+        None
     """
     # Obtener los partidos completados de la ronda anterior
     previous_round = round_number - 1
