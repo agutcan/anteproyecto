@@ -4,6 +4,51 @@ Este archivo define las funciones utilizadas en la aplicación web. Las funcione
 
 ---
 
+## 📊 Función `update_winrate`
+
+### 📌 Descripción  
+Actualiza el porcentaje de victorias (`winrate`) de un jugador, basado en la relación entre partidas ganadas y jugadas.
+
+### 📋 Parámetros  
+| Parámetro  | Tipo   | Descripción                                           | Opcional |
+|------------|--------|-------------------------------------------------------|----------|
+| `player`   | Player | Instancia del jugador cuyos datos serán actualizados | ❌ No    |
+
+### 🔄 Comportamiento  
+1. Si el jugador ha disputado al menos una partida (`games_played > 0`):  
+   - Calcula el `winrate` como:  
+     \(`games_won` / `games_played`) × 100  
+2. Si no ha jugado partidas, establece el `winrate` en **0.0**.  
+3. Guarda el objeto `player` con los cambios aplicados (`player.save()`).
+
+```python
+def update_winrate(player):
+    """
+    Actualiza el porcentaje de victorias (winrate) de un jugador basado en sus estadísticas.
+    
+    Calcula el winrate como (games_won / games_played) * 100 y guarda el resultado.
+    Si no hay partidas jugadas, establece el winrate a 0.0.
+
+    Args:
+        player: Instancia del modelo Player que debe contener:
+            - games_played (int): Número total de partidas jugadas
+            - games_won (int): Número de partidas ganadas
+            - winrate (float): Atributo que será actualizado
+            - save(): Método para guardar los cambios en la base de datos
+
+    Returns:
+        None: La función no retorna nada, pero modifica y guarda el objeto player
+    """
+    
+    if player.games_played > 0:
+        player.winrate = (player.games_won / player.games_played) * 100
+    else:
+        player.winrate = 0.0
+    player.save()
+```
+
+---
+
 ## 🏅 Función `update_players_stats`
 
 ### 📌 Descripción  
@@ -164,7 +209,6 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
 
         # Eliminar el torneo cancelado
         tournament.delete()
-        print(f"⚠️ El torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.")
         return
 
     # Verificar que todos los equipos tengan la cantidad exacta de jugadores
@@ -185,8 +229,6 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
             )
 
         tournament.delete()
-        print(
-            f"⚠️ El torneo {tournament.name} ha sido cancelado porque algunos equipos no tenían el número correcto de jugadores.")
         return
 
     # Si el número de equipos es par, procedemos a generar los partidos
@@ -642,7 +684,6 @@ Gestiona la transición entre rondas en un torneo, procesando los resultados de 
 | Parámetro | Tipo | Descripción | Requisitos |
 |-----------|------|-------------|------------|
 | `tournament` | `Tournament` | Torneo activo | Debe existir en BD |
-| `completed_matches_queryset` | `QuerySet` | Partidos finalizados | Filtrados por ronda anterior |
 | `round_number` | `int` | Número de ronda actual | > 1 |
 
 ### 🔄 Flujo de Ejecución  
@@ -682,31 +723,41 @@ Gestiona la transición entre rondas en un torneo, procesando los resultados de 
 |-----------|------------------|  
 | Sin ganadores definidos | Cancela generación + Notifica |  
 | Número impar de equipos | Congela torneo + Alerta |  
-| Solo 1 equipo ganador | Considera torneo finalizado |
 
 ```python
-def process_round(tournament, completed_matches_queryset, round_number):
+def process_round(tournament, round_number):
     """
-    Procesa la lógica para generar los partidos de la siguiente ronda
-    del torneo, usando los equipos ganadores de la ronda anterior.
+    Procesa la generación de partidos para la siguiente ronda de un torneo,
+    utilizando los equipos ganadores de la ronda anterior.
 
-    Argumentos:
-    tournament (Tournament): El torneo en el que se generarán los partidos.
-    completed_matches_queryset (QuerySet): Un conjunto de partidos completados en la ronda anterior.
-    round_number (int): El número de la ronda actual del torneo (por ejemplo, ronda 2, ronda 3, etc.)
+    Args:
+        tournament (Tournament): Instancia del torneo en curso.
+        round_number (int): Número de la ronda a procesar (por ejemplo, 2 para la segunda ronda).
+
+    Return:
+        None
     """
-    # Crear una lista para almacenar los equipos ganadores
-    winning_teams = []
+    # Obtener los partidos completados de la ronda anterior
+    previous_round = round_number - 1
+    completed_matches_queryset = Match.objects.filter(
+        tournament=tournament,
+        round=previous_round,
+        winner__isnull=False
+    )
 
-    # Iterar sobre los partidos completados de la ronda anterior
-    for match in completed_matches_queryset:
-        if match.winner:  # Verificar si el partido tiene un ganador
-            winning_teams.append(match.winner)  # Agregar el equipo ganador a la lista
+    # Obtener los IDs de los equipos ganadores
+    winner_team_ids = [match.winner.id for match in completed_matches_queryset]
+
+    # Obtener los TournamentTeam correspondientes a los equipos ganadores
+    winning_tournament_teams = TournamentTeam.objects.filter(
+        tournament=tournament,
+        team__id__in=winner_team_ids
+    )
 
     # Validar que haya suficientes equipos (en número par) para emparejar
-    if len(winning_teams) >= 2 and len(winning_teams) % 2 == 0:        
-        # Generar los partidos para la siguiente ronda usando los equipos ganadores
-        generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_teams)
+    if winning_tournament_teams.count() >= 2 and winning_tournament_teams.count() % 2 == 0:
+        # Generar los partidos para la siguiente ronda usando los TournamentTeam ganadores
+        generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_tournament_teams)
 ```
 ---
 
