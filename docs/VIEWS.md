@@ -23,7 +23,6 @@ La vista `ListAPIView` es una vista basada en clases de Django Rest Framework (D
 Incluye una versión personalizada del conjunto de datos (queryset) con las siguientes optimizaciones:
 
 - 🔗 **`select_related('created_by')`**: Precarga la información del usuario que creó el torneo, reduciendo consultas adicionales a la base de datos.
-- 📦 **`prefetch_related('teams', 'matches')`**: Precarga las relaciones con equipos participantes y partidos del torneo, mejorando el rendimiento al evitar consultas repetidas.
 
 ### 🔄 ¿Cómo funciona esta vista?
 
@@ -68,7 +67,7 @@ class TournamentListAPI(generics.ListAPIView):
             Returns:
                 QuerySet: Torneos con sus relaciones precargadas para mejor performance
             """
-            return super().get_queryset().select_related('created_by').prefetch_related('teams', 'matches')
+            return super().get_queryset().select_related('created_by')
 ```
 ---
 
