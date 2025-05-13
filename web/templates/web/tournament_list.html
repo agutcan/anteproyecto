@@ -12,20 +12,14 @@
                     <i class="bi bi-trophy me-2"></i>Torneos Disponibles
                 </h1>
             </div>
-            {% if user.is_authenticated %}
-                {% if user.player.role == 'Premium' %}
-                    <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning btn-hover">
-                        <i class="bi bi-plus-circle me-1"></i> Crear Torneo
-                    </a>
-                {% else %}
-                    <button class="btn btn-warning btn-hover" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
-                        <i class="bi bi-plus-circle me-1"></i> Crear Torneo
-                    </button>
-                {% endif %}
-            {% else %}
-                <a href="{% url 'login' %}?next={% url 'web:tournamentCreateView' %}" class="btn btn-warning btn-hover">
+            {% if user.player.role == 'Premium' %}
+                <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning btn-hover">
                     <i class="bi bi-plus-circle me-1"></i> Crear Torneo
                 </a>
+            {% else %}
+                <button class="btn btn-warning btn-hover" data-bs-toggle="modal" data-bs-target="#premiumRequiredModal">
+                    <i class="bi bi-plus-circle me-1"></i> Crear Torneo
+                </button>
             {% endif %}
         </div>
     </div>
@@ -49,7 +43,7 @@
                         <select class="form-select bg-dark border-secondary text-white" name="game">
                             <option value="">Todos los juegos</option>
                             {% for game in games %}
-                                <option value="{{ game.id }}" {% if request.GET.game == game.id|stringformat:"s" %}selected{% endif %}>
+                                <option value="{{ game.id }}">
                                     {{ game.name }}
                                 </option>
                             {% endfor %}
@@ -77,17 +71,12 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for tournament in tournament_list %}
         <div class="col">
-            <div class="card h-100 bg-darker border-secondary border-opacity-25 tournament-card-hover">
+            <div class="card h-100 bg-dark border-secondary border-opacity-25 tournament-card-hover text-white">
                 <div class="position-relative overflow-hidden" style="height: 180px;">
-                    {% if tournament.banner %}
-                    <img src="{{ tournament.banner.url }}" class="card-img-top h-100 w-100" alt="{{ tournament.name }}"
-                         style="object-fit: cover;">
-                    {% else %}
                     <div class="card-img-top bg-black d-flex align-items-center justify-content-center h-100"
                          style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
                         <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem; opacity: 0.5;"></i>
                     </div>
-                    {% endif %}
                     <span class="position-absolute top-0 end-0 m-2 badge
                                 {% if tournament.status == 'upcoming' %}bg-success{% elif tournament.status == 'ongoing' %}bg-primary{% else %}bg-secondary{% endif %}">
                         {% if tournament.status == "ongoing" %}
@@ -102,16 +91,16 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h5 class="card-title text-truncate">{{ tournament.name }}</h5>
-                        <small class="text-warning fw-bold">{{ tournament.prize_pool|default:"Sin premio" }}</small>
+                        <small class="text-warning fw-bold"><i class="bi bi-trophy-fill text-warning"></i> {{ tournament.prize_pool|default:"Sin premio" }}</small>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ tournament.game.image.url }}" alt="{{ tournament.game.name }}"
                              class="rounded-circle me-2 border border-warning" width="24" height="24">
-                        <small class="text-muted">{{ tournament.game.name }}</small>
+                        <small class="text-white">{{ tournament.game.name }}</small>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-people-fill text-muted me-1"></i>
+                            <i class="bi bi-people-fill text-white me-1"></i>
                             <small>
                                 {% with total_players=tournament.count_registered_players %}
                                     {{ total_players }}/{{ tournament.get_max_total_players }}

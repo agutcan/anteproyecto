@@ -113,8 +113,15 @@ class TeamForm(forms.ModelForm):
         fields = ['name']  # Solo incluye el campo 'name' del modelo Team
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary'  # Clases BOOSTRAP para estilizado
+                'class': 'form-control bg-dark text-white border-secondary',  # Clases BOOSTRAP para estilizado
+                'placeholder': 'Nombre del equipo...'
             }),
+        }
+        error_messages = {
+            'name': {
+                'unique': "Ya existe un equipo con ese nombre.",
+                'required': "Este campo es obligatorio.",
+            },
         }
 
 class PlayerForm(forms.ModelForm):
@@ -144,7 +151,7 @@ class PlayerForm(forms.ModelForm):
                 'placeholder': 'Nombre'
             }),
             'last_name': forms.TextInput(attrs={
-                'class': 'form-control', 
+                'class': 'form-control',
                 'placeholder': 'Apellido'
             }),
             'birth_date': forms.DateInput(attrs={

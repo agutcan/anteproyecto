@@ -3,149 +3,332 @@
 {% block title %}Detalles del Partido - {{ match.team1.name }} vs {{ match.team2.name }}{% endblock %}
 
 {% block content %}
-<h2 class="text-warning mb-4">Detalles del Partido</h2>
+<style>
+    /* Estilos generales */
+    .match-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
+    /* Título con línea decorativa */
+    .match-title {
+        position: relative;
+        padding-bottom: 15px;
+        color: #ffc107;
+        font-weight: bold;
+    }
+
+    .match-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background: #ffc107;
+        border-radius: 2px;
+    }
+
+    /* Tarjeta de partido */
+    .match-card {
+        background-color: #1a1a1a;
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .match-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+        border-color: #ffc107;
+    }
+
+    .match-card-header {
+        background-color: #111 !important;
+        border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+    }
+
+    /* Estado del partido */
+    .match-status {
+        display: inline-block;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background-color: rgba(255, 193, 7, 0.2);
+        color: #ffc107;
+    }
+
+    .status-ongoing {
+        background-color: rgba(13, 110, 253, 0.2);
+        color: #0d6efd;
+    }
+
+    .status-completed {
+        background-color: rgba(25, 135, 84, 0.2);
+        color: #198754;
+    }
+
+    /* Equipos */
+    .team-ready {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Formulario de resultados */
+    .result-form label {
+        color: #ffc107;
+        font-weight: 500;
+    }
+
+    .result-form input {
+        background-color: #111 !important;
+        color: white !important;
+        border: 1px solid #444 !important;
+    }
+
+    .result-form input:focus {
+        border-color: #ffc107 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+    }
+
+    /* Botones */
+    .btn-confirm {
+        background-color: #198754;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-confirm:hover {
+        background-color: #157347;
+        transform: translateY(-2px);
+    }
+
+    /* Contador */
+    #countdown {
+        font-weight: bold;
+        color: #ffc107;
+    }
+</style>
+
+<div class="container py-4 match-container">
+    <!-- Título -->
+    <h1 class="match-title mb-4">
+        <i class="bi bi-controller me-2"></i>Detalles del Partido
+    </h1>
+
+    <!-- Mensajes -->
     {% if messages %}
-        <div class="container mb-4">
+        <div class="mb-4">
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-white bg-dark border-{{ message.tags }} shadow" role="alert">
-                    <i class="bi bi-exclamation-circle-fill me-2"></i> {{ message }}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-white bg-dark border-{{ message.tags }}" role="alert">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    {{ message }}
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
 
-<div class="card bg-dark text-white border-secondary mb-4">
-    <div class="card-header bg-black">
-        <strong>{{ match.team1.name }} vs {{ match.team2.name }}</strong>
-    </div>
+    <!-- Tarjeta de partido -->
+    <div class="card match-card mb-4">
+        <div class="card-header match-card-header text-warning">
+            <h2 class="h4 mb-0">
+                <i class="bi bi-trophy me-2"></i>
+                {{ match.team1.name }} vs {{ match.team2.name }}
+            </h2>
+        </div>
 
-    <div class="card-body">
-        <p><strong>Fecha y hora programada:</strong> {{ match.scheduled_at }}</p>
+        <div class="card-body">
+            <!-- Información básica -->
+            <div class="mb-4 text-warning">
+                <p>
+                    <strong><i class="bi bi-calendar-event me-1"></i>Fecha y hora:</strong>
+                    {{ match.scheduled_at }}
+                </p>
 
-        {% if match.status == 'pending' %}
-            <p><strong>Tiempo restante:</strong> <span id="countdown"></span></p>
-        {% elif match.status == 'ongoing' %}
-            <p><strong>Tiempo restante:</strong> <span>¡El partido ha comenzado!</span></p>
-        {% endif %}
-
-        <p><strong>Estado:</strong>
-        {% if match.status == 'pending' %}
-            Pendiente
-        {% elif match.status == 'ongoing' %}
-            En curso
-        {% elif match.status == 'completed' %}
-            Completado
-        {% endif %}
-        </p>
-
-        {% if match.status == 'pending'%}
-        <p><strong>Equipo 1 listo: {% if match.team1_ready %} <i class="bi bi-check-circle-fill text-success"></i>{% else %} <i class="bi bi-x-circle-fill text-danger"></i>{% endif %}</strong></p>
-        <p><strong>Equipo 2 listo: {% if match.team2_ready %} <i class="bi bi-check-circle-fill text-success"></i>{% else %} <i class="bi bi-x-circle-fill text-danger"></i>{% endif %}</strong></p>
-        {% endif %}
-
-        {% if match.status == 'completed' %}
-            <div class="alert alert-success text-center">
-                <h5>Resultado Confirmado</h5>
-                <p>El ganador es {{ match.winner.name }} con un puntaje de {{ match.matchresult.team1_score }} - {{ match.matchresult.team2_score }}.</p>
-            </div>
-        {% else %}
-            {% if user_is_player %}
                 {% if match.status == 'pending' %}
-                    {% if not match.team1_ready or not match.team2_ready and not team_ready %}
-                        <form method="post" action="{% url 'web:matchReadyView' match.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success w-100 fw-bold mt-3">
-                                Confirmar que el equipo está listo
-                            </button>
-                        </form>
-                    {% endif %}
+                    <p>
+                        <strong><i class="bi bi-clock me-1"></i>Tiempo restante:</strong>
+                        <span id="countdown"></span>
+                    </p>
+                {% elif match.status == 'ongoing' %}
+                    <p>
+                        <strong><i class="bi bi-play-circle me-1"></i>Estado:</strong>
+                        ¡El partido ha comenzado!
+                    </p>
                 {% endif %}
-                {% if match.status == 'ongoing' and not team_confirmed %}
-                    <p>Elige el ganador de este partido.</p>
 
-                    {% if match.team1_confirmed %}
-                    <div class="alert alert-success mb-3">
-                        <strong>{{ match.team1.name }}</strong> ya ha confirmado el resultado.
-                    </div>
-                    {% endif %}
-
-                    {% if match.team2_confirmed %}
-                    <div class="alert alert-success mb-3">
-                        <strong>{{ match.team2.name }}</strong> ya ha confirmado el resultado.
-                    </div>
-                    {% endif %}
-
-                    <form method="post" action="{% url 'web:matchConfirmView' match.id %}" class="mb-3">
-                        {% csrf_token %}
-                        {{ form.non_field_errors }}
-
-                        <!-- Radio buttons para el ganador -->
-                        <div class="form-group">
-                            {% for radio in form.winner %}
-                                <label for="{{ radio.id_for_label }}" class="text-white">
-
-                                    {{ radio.tag }}
-                                    {% if radio.choice_label == "Equipo 1" %}
-                                        {{ match.team1.name }} es el ganador
-                                    {% else %}
-                                        {{ match.team2.name }} es el ganador
-                                    {% endif %}
-                                </label><br>
-                            {% endfor %}
-                        </div>
-
-                        <!-- Puntajes -->
-                        <div class="mt-3">
-                            <label class="text-white" for="{{ form.team1_score.id_for_label }}">{{ form.team1_score.label }}</label>
-                            {{ form.team1_score }}
-                        </div>
-                        <div class="mt-2">
-                            <label class="text-white" for="{{ form.team2_score.id_for_label }}">{{ form.team2_score.label }}</label>
-                            {{ form.team2_score }}
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100 fw-bold mt-3">Confirmar resultado</button>
-                    </form>
-
-                    {% if match.team1_confirmed and match.team2_confirmed %}
-                    <div class="alert alert-info text-center">
-                        Ambos equipos han confirmado el resultado. El partido está <strong>completado</strong>.
-                    </div>
-                    {% endif %}
-                {% endif %}
-                {% if match.team1_ready and match.team2_ready %}
-                    <div class="alert alert-info text-center mt-3">
+                <p>
+                    <strong><i class="bi bi-info-circle me-1"></i>Estado:</strong>
+                    <span class="match-status status-{{ match.status }}">
                         {% if match.status == 'pending' %}
-                            <i class="bi bi-check-circle"></i> Ambos equipos están listos. El partido comenzará pronto.
-                        {% else %}
-                            <i class="bi bi-check-circle"></i> El partido está en curso.
+                            Pendiente
+                        {% elif match.status == 'ongoing' %}
+                            En curso
+                        {% elif match.status == 'completed' %}
+                            Completado
                         {% endif %}
-                    </div>
-                {% else %}
-                    <div class="alert alert-warning text-center mt-3">
-                        <i class="bi bi-exclamation-triangle"></i> Aún falta que ambos equipos confirmen que están listos.
-                    </div>
-                {% endif %}
-            {% else %}
-                <div class="alert alert-warning text-center mt-3">
-                    <i class="bi bi-exclamation-triangle"></i> Este partido aún no ha sido confirmado como finalizado.
+                    </span>
+                </p>
+            </div>
+
+            <!-- Estado de preparación -->
+            {% if match.status == 'pending' %}
+                <div class="mb-4 text-secondary">
+                    <p>
+                        <strong><i class="bi bi-check-circle me-1"></i>Equipo 1 listo:</strong>
+                        <span class="team-ready">
+                            {% if match.team1_ready %}
+                                <i class="bi bi-check-circle-fill text-success"></i> Sí
+                            {% else %}
+                                <i class="bi bi-x-circle-fill text-danger"></i> No
+                            {% endif %}
+                        </span>
+                    </p>
+                    <p>
+                        <strong><i class="bi bi-check-circle me-1"></i>Equipo 2 listo:</strong>
+                        <span class="team-ready">
+                            {% if match.team2_ready %}
+                                <i class="bi bi-check-circle-fill text-success"></i> Sí
+                            {% else %}
+                                <i class="bi bi-x-circle-fill text-danger"></i> No
+                            {% endif %}
+                        </span>
+                    </p>
                 </div>
             {% endif %}
-        {% endif %}
-    </div>
-</div>
 
-<div class="d-flex justify-content-center gap-3">
-    <a href="{% url 'web:tournamentDetailView' match.tournament.id %}" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Volver al Torneo
-    </a>
+            <!-- Resultados -->
+            {% if match.status == 'completed' %}
+                <div class="alert alert-success text-center">
+                    <h5><i class="bi bi-trophy-fill me-2"></i>Resultado Confirmado</h5>
+                    <p class="mb-0">
+                        El ganador es <strong>{{ match.winner.name }}</strong> con un puntaje de
+                        <strong>{{ match.matchresult.team1_score }} - {{ match.matchresult.team2_score }}</strong>.
+                    </p>
+                </div>
+            {% else %}
+                <!-- Acciones para jugadores -->
+                {% if user_is_player %}
+                    {% if match.status == 'pending' %}
+                        {% if not match.team1_ready or not match.team2_ready and not team_ready %}
+                            <form method="post" action="{% url 'web:matchReadyView' match.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-confirm w-100 py-2">
+                                    <i class="bi bi-check-circle me-2"></i>Confirmar que el equipo está listo
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if match.status == 'ongoing' and not team_confirmed %}
+                        <h5 class="text-warning mb-3"><i class="bi bi-flag-fill me-2"></i>Reportar Resultado</h5>
+
+                        {% if match.team1_confirmed %}
+                            <div class="alert alert-success mb-3">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <strong>{{ match.team1.name }}</strong> ya ha confirmado el resultado.
+                            </div>
+                        {% endif %}
+
+                        {% if match.team2_confirmed %}
+                            <div class="alert alert-success mb-3">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <strong>{{ match.team2.name }}</strong> ya ha confirmado el resultado.
+                            </div>
+                        {% endif %}
+
+                        <form method="post" action="{% url 'web:matchConfirmView' match.id %}" class="result-form">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+
+                            <!-- Selección de ganador -->
+                            <div class="form-group mb-4">
+                                <label class="mb-2"><i class="bi bi-trophy me-1"></i>Selecciona el ganador:</label>
+                                <div class="d-flex gap-4">
+                                    {% for radio in form.winner %}
+                                        <div class="form-check">
+                                            {{ radio.tag }}
+                                            <label for="{{ radio.id_for_label }}" class="form-check-label text-white">
+                                                {% if radio.choice_label == "Equipo 1" %}
+                                                    {{ match.team1.name }}
+                                                {% else %}
+                                                    {{ match.team2.name }}
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Puntajes -->
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label for="{{ form.team1_score.id_for_label }}">
+                                        <i class="bi bi-123 me-1"></i>{{ form.team1_score.label }} ({{ match.team1.name }})
+                                    </label>
+                                    {{ form.team1_score }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="{{ form.team2_score.id_for_label }}">
+                                        <i class="bi bi-123 me-1"></i>{{ form.team2_score.label }} ({{ match.team2.name }})
+                                    </label>
+                                    {{ form.team2_score }}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-confirm w-100 py-2">
+                                <i class="bi bi-check-circle-fill me-2"></i>Confirmar resultado
+                            </button>
+                        </form>
+
+                        {% if match.team1_confirmed and match.team2_confirmed %}
+                            <div class="alert alert-info text-center mt-3">
+                                <i class="bi bi-check2-all me-2"></i>
+                                Ambos equipos han confirmado el resultado. El partido está <strong>completado</strong>.
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <!-- Estado de preparación -->
+                    {% if match.team1_ready and match.team2_ready %}
+                        <div class="alert alert-info text-center mt-3">
+                            {% if match.status == 'pending' %}
+                                <i class="bi bi-check-circle-fill me-2"></i> Ambos equipos están listos. El partido comenzará pronto.
+                            {% else %}
+                                <i class="bi bi-play-circle-fill me-2"></i> El partido está en curso.
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning text-center mt-3">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Aún falta que ambos equipos confirmen que están listos.
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning text-center mt-3">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Este partido aún no ha sido confirmado como finalizado.
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Botón de volver -->
+    <div class="text-center">
+        <a href="{% url 'web:tournamentDetailView' match.tournament.id %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Volver al Torneo
+        </a>
+    </div>
 </div>
 
 <script>
-    // Usa la hora del servidor en formato ISO (UTC)
-    const scheduledAt = new Date("{{ match.scheduled_at|date:'c' }}");  // ISO 8601
+    // Contador regresivo
+    const scheduledAt = new Date("{{ match.scheduled_at|date:'c' }}");
     const countdownElement = document.getElementById("countdown");
 
     function updateCountdown() {
@@ -165,8 +348,8 @@
         countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
     }
 
-    updateCountdown();  // Ejecutar al cargar
-    const timer = setInterval(updateCountdown, 1000);  // Actualizar cada segundo
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
 </script>
 
 {% endblock %}

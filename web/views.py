@@ -1102,13 +1102,10 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
     Requiere autenticación y muestra una página de confirmación antes
     de procesar la solicitud de abandono del torneo.
 
-    Atributos:
-        template_name (str): Ruta al template de confirmación
 
     Métodos:
         post: Procesa la solicitud de abandono del torneo
     """
-    template_name = 'web/leave_tournament_confirm.html'
 
     def post(self, request, *args, **kwargs):
         """

@@ -67,17 +67,6 @@ def poblar_datos(apps, schema_editor):
     Reward = apps.get_model('web', 'Reward')
     Redemption = apps.get_model('web', 'Redemption')
 
-    # Función para crear registros de eventos en el log
-    def log_event(match, team, player, event):
-        """Función para crear un log de eventos en la partida."""
-        log = MatchLog(
-            match=match,
-            team=team,
-            player=player,
-            event=event
-        )
-        log.save()  # Guarda el log en la base de datos
-
     # Crear usuarios
     users = [
         User(username="player8", password="Usuario1", first_name="Leo", last_name="Doe", email="Leo@example.com"),

@@ -1,46 +1,217 @@
-{% extends 'base_auth.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Registrar / ArenaGG{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center">
-    <div class="card p-3 shadow-sm text-light mt-4" style="background-color: rgba(35,35,35,0.71); max-width: 500px">
-        <h2 class="text-center mb-3 fw-bold text pb-3">Regístrate y se uno más</h2>
-        <form method="post" class="row g-2">
-            {% csrf_token %}
-            {% for field in form %}
-                {% if field.field.widget.input_type == "checkbox" %}
-            <!-- Renderizado especial para checkboxes -->
-            <div class="mb-2 form-check">
-                <input type="checkbox" class="form-check-input border-danger" id="{{ field.id_for_label }}" name="{{ field.name }}" {% if field.value %}checked{% endif %} {% if field.field.required %}required{% endif %}>
-                <label for="{{ field.id_for_label }}" class="form-check-label text-light fs-5 fw-semibold">
-                    Acepto las <a href="{% url 'web:privacyPolicyView' %}" class="text-danger" target="_blank">Políticas de Privacidad</a> y los <a href="{% url 'web:termsOfUseView' %}" class="text-danger" target="_blank">Términos de uso</a>
-                </label>
+<style>
+    .register-container {
+        min-height: calc(100vh - 150px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-position: center;
+    }
 
-                {% if field.errors %}
-                    <div class="text-danger mt-1 fs-6">{{ field.errors }}</div>
-                {% endif %}
-            </div>
-        {% else %}
-            <!-- Renderizado normal para otros campos -->
-            <div class="mb-2">
-                <label for="{{ field.id_for_label }}" class="form-label fs-5 text fw-semibold">{{ field.label }}</label>
-                <input type="{{ field.field.widget.input_type }}" class="form-control bg-dark text-light border-danger" id="{{ field.id_for_label }}" name="{{ field.name }}" value="{{ field.value|default:'' }}" {% if field.field.required %}required{% endif %} style="border-width: 2px; border-radius: 4px;">
+    .register-card {
+        background: rgba(21, 21, 21, 0.85);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        width: 100%;
+        max-width: 500px;
+        padding: 2.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-                {% if field.errors %}
-                    <div class="text-danger mt-1 fs-6">{{ field.errors }}</div>
-                {% endif %}
+    .register-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(255, 140, 0, 0.3);
+        border-color: rgba(255, 193, 7, 0.5);
+    }
+
+    .register-title {
+        color: #ffc107;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+        position: relative;
+    }
+
+    .register-title:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 14%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: #ffc107;
+        border-radius: 3px;
+    }
+
+    .form-label {
+        color: #e9ecef;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        background-color: rgba(30, 30, 30, 0.8) !important;
+        border: 1px solid #444 !important;
+        color: white !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 8px !important;
+    }
+
+    .form-control:focus {
+        border-color: #ffc107 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+    }
+
+    .btn-register {
+        background: linear-gradient(45deg, #ffc107, #ff8c00);
+        border: none;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+        color: #212529;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        color: #212529;
+    }
+
+    .divider {
+        border-top: 1px solid rgba(255, 193, 7, 0.3);
+        position: relative;
+        margin: 1.5rem 0;
+    }
+
+    .divider-text {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        white-space: nowrap; /* Previene que el texto se divida en dos líneas */
+        transform: translateX(-50%);
+        background: rgba(21, 21, 21, 0.85);
+        padding: 0 1rem;
+        color: #adb5bd;
+        font-size: 0.9rem;
+    }
+
+    .btn-login {
+        background-color: transparent;
+        border: 1px solid #ffc107;
+        color: #ffc107;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffca2c;
+    }
+
+    .error-message {
+        background-color: rgba(220, 53, 69, 0.2);
+        border: 1px solid #dc3545;
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        color: #dc3545;
+    }
+
+    .form-check-input:checked {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .form-check-label a {
+        color: #ffc107;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .form-check-label a:hover {
+        text-decoration: underline;
+        color: #ffd700;
+    }
+
+    /* Iconos específicos para cada campo */
+    .icon-username { color: #ffc107; }
+    .icon-email { color: #ffc107; }
+    .icon-password { color: #ffc107; }
+    .icon-confirm { color: #ffc107; }
+</style>
+
+<div class="register-container py-5">
+    <div class="register-card">
+        <h2 class="register-title mb-4">
+            <i class="bi bi-controller me-2"></i>Regístrate en ArenaGG
+        </h2>
+
+        {% if form.errors %}
+            <div class="error-message text-center mb-4">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Por favor corrige los errores en el formulario.
             </div>
         {% endif %}
-    {% endfor %}
-            <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-danger w-100 py-2 fs-5 fw-bold rounded-3">Registrarse</button>
+
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% if field.field.widget.input_type == "checkbox" %}
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="{{ field.id_for_label }}" name="{{ field.name }}" {% if field.value %}checked{% endif %}>
+                        <label for="{{ field.id_for_label }}" class="form-check-label">
+                            <i class="bi bi-check-circle-fill icon-confirm me-2"></i>
+                            Acepto las <a href="{% url 'web:privacyPolicyView' %}" target="_blank">Políticas de Privacidad</a> y los <a href="{% url 'web:termsOfUseView' %}" target="_blank">Términos de uso</a>
+                        </label>
+                        {% if field.errors %}
+                            <div class="text-danger mt-1">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {% if field.name == "username" %}
+                                <i class="bi bi-person-fill icon-username me-2"></i>
+                            {% elif field.name == "email" %}
+                                <i class="bi bi-envelope-fill icon-email me-2"></i>
+                            {% elif "password" in field.name %}
+                                <i class="bi bi-lock-fill icon-password me-2"></i>
+                            {% else %}
+                                <i class="bi bi-person-badge-fill me-2"></i>
+                            {% endif %}
+                            {{ field.label }}
+                        </label>
+                        <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}" value="{{ field.value|default:'' }}" {% if field.field.required %}required{% endif %}>
+                        {% if field.errors %}
+                            <div class="text-danger mt-1">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <button type="submit" class="btn btn-register btn-lg w-100 mb-3">
+                <i class="bi bi-person-plus-fill me-2"></i>Crear Cuenta
+            </button>
+
+            <div class="divider">
+                <span class="divider-text">¿Ya tienes una cuenta?</span>
             </div>
-            <p class="text-center mt-2 text-light small">¿Ya tienes cuenta? <a href="{% url 'login' %}" class="text-danger">Inicia sesión</a></p>
+
+            <a href="{% url 'login' %}" class="btn btn-login btn-lg w-100">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+            </a>
         </form>
     </div>
 </div>
-
-
 {% endblock %}
