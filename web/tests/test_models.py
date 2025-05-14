@@ -1,19 +1,10 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-from django.utils import timezone
-from datetime import timedelta
-
-from tournament.models import *
-
+from django.db import transaction, IntegrityError
 
 from django.test import TestCase
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.models import User
-from .models import (
-    Game, Team, Player, Tournament, TournamentTeam,
-    Match, MatchResult, MatchLog, Reward, Redemption
-)
+from ..models import *
 
 class ModelTests(TestCase):
     """
@@ -65,8 +56,9 @@ class ModelTests(TestCase):
         Espera una excepción por la restricción de unicidad.
         """
         TournamentTeam.objects.create(tournament=self.tournament, team=self.team1)
-        with self.assertRaises(Exception):
-            TournamentTeam.objects.create(tournament=self.tournament, team=self.team1)
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                TournamentTeam.objects.create(tournament=self.tournament, team=self.team1)
 
     def test_match_creation(self):
         """Crea un partido y verifica que su representación textual contiene la palabra 'Partido'."""

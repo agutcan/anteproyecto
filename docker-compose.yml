@@ -52,8 +52,8 @@ services:
     depends_on:
       - web
       - redis
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
+    env_file:
+      - .env
 
   celery-beat:
     build: .
@@ -63,8 +63,8 @@ services:
     depends_on:
       - web
       - redis
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
