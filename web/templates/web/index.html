@@ -4,8 +4,8 @@
 {% block content %}
 <style>
     :root {
-        --primary: #ffc107;  /* Cambiado de naranja a amarillo */
-        --primary-dark: #ffab00;  /* Tonos amarillos más oscuros */
+        --primary: #ffc107;  /* Amarillo */
+        --primary-dark: #ffab00;  /* Amarillo oscuro */
         --dark: #121212;
         --darker: #0a0a0a;
         --light: #f8f9fa;
@@ -34,7 +34,7 @@
         opacity: 0.9;
     }
 
-    /* 🎮 Estilos para la lista de juegos (mejorados) */
+    /* Lista de juegos */
     .game-list {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -55,9 +55,9 @@
 
     .game-card:hover {
         transform: translateY(-8px);
-        background: rgba(255, 193, 7, 0.1);  /* Amarillo con transparencia */
+        background: rgba(255, 193, 7, 0.1);
         border-color: var(--primary);
-        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
     }
 
     .game-card img {
@@ -104,7 +104,7 @@
         border-radius: 2px;
     }
 
-    /* Features (mejorados) */
+    /* Features */
     .feature-card {
         background: rgba(30,30,30,0.7);
         border-radius: 12px;
@@ -117,9 +117,9 @@
 
     .feature-card:hover {
         transform: translateY(-8px);
-        background: rgba(255, 193, 7, 0.08);  /* Amarillo con transparencia */
+        background: rgba(255, 193, 7, 0.08);
         border-color: var(--primary);
-        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
     }
 
     .feature-icon {
@@ -143,7 +143,7 @@
         color: var(--primary);
     }
 
-    /* Testimonials (mejorados) */
+    /* Testimonials */
     .testimonial-card {
         background: rgba(30,30,30,0.7);
         border-radius: 12px;
@@ -157,7 +157,7 @@
     .testimonial-card:hover {
         transform: translateY(-5px);
         border-color: var(--primary);
-        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
     }
 
     .testimonial-card .quote {
@@ -193,7 +193,7 @@
         border: 2px solid var(--primary);
     }
 
-    /* Stats (mejorados) */
+    /* Stats */
     .stat-card {
         background: rgba(30,30,30,0.7);
         border-radius: 12px;
@@ -207,7 +207,7 @@
 
     .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
     }
 
     .stat-number {
@@ -220,7 +220,7 @@
 
     /* CTA Section */
     .cta-section {
-        background: linear-gradient(135deg, var(--primary), #ffd54f);  /* Degradado amarillo */
+        background: linear-gradient(135deg, var(--primary), #ffd54f);
         padding: 80px 0;
         position: relative;
         overflow: hidden;
@@ -250,7 +250,7 @@
         opacity: 0.9;
     }
 
-    /* Botones mejorados */
+    /* Botones */
     .btn-warning {
         background: linear-gradient(45deg, var(--primary), var(--primary-dark));
         border: none;
@@ -262,7 +262,7 @@
 
     .btn-warning:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);  /* Sombra amarilla */
+        box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);
     }
 
     .btn-outline-light {
@@ -324,32 +324,27 @@
         letter-spacing: 0.5px;
     }
 
-    /* Estilos para el calendario flotante */
-    .calendar-section {
-        position: relative;
-        margin-top: 80px;
-        margin-bottom: 80px;
-    }
-
+    /* Estilos para el calendario flotante derecho */
     #calendar-container {
         position: fixed;
         bottom: 20px;
-        left: 20px;
+        right: 20px;
         z-index: 1000;
-        width: 300px;
-        transition: transform 0.3s ease;
+        width: 280px;
+
+        transition: transform 0.2s ease;
     }
 
     #calendar {
-        background: rgba(30, 30, 30, 0.9);
+        background: rgba(30, 30, 30, 0.95);
         border-radius: 12px;
-        padding: 15px;
+        padding: 12px;
         box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
         border: 1px solid var(--primary);
     }
 
     .fc .fc-toolbar-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: var(--primary);
     }
 
@@ -358,6 +353,8 @@
         border-color: var(--primary);
         color: #121212;
         font-weight: bold;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
     }
 
     .fc .fc-button:hover {
@@ -369,6 +366,24 @@
         background-color: var(--primary);
         border-color: var(--primary);
         opacity: 0.5;
+    }
+
+    .fc .fc-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .fc .fc-header-toolbar {
+        margin-bottom: 10px;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 30px;
+    }
+
+    .fc .fc-daygrid-day-number {
+        font-size: 0.8rem;
     }
 
     .dot-indicator {
@@ -399,9 +414,17 @@
     /* Ajustes para móviles */
     @media (max-width: 768px) {
         #calendar-container {
-            width: 280px;
-            left: 10px;
+            width: 250px;
+            right: 10px;
             bottom: 10px;
+        }
+
+        #calendar {
+            padding: 8px;
+        }
+
+        .fc .fc-toolbar-title {
+            font-size: 1rem;
         }
 
         .hero-title {
@@ -568,7 +591,7 @@
     </section>
 </div>
 
-<!-- Contenedor del calendario flotante -->
+<!-- Contenedor del calendario flotante derecho -->
 <div id="calendar-container">
     <div id="calendar"></div>
 </div>
@@ -589,6 +612,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         height: "auto",
         contentHeight: "auto",
+        aspectRatio: 0.8,  // Hace el calendario más compacto verticalmente
 
         events: function(fetchInfo, successCallback, failureCallback) {
             fetch("/api/tournaments/")
@@ -661,32 +685,28 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 `;
 
-                // Posicionar la tarjeta cerca del calendario
+                // Posicionar la tarjeta cerca del calendario (a la izquierda)
                 const calendarRect = calendarContainer.getBoundingClientRect();
                 const scrollPosition = window.scrollY || window.pageYOffset;
 
-                // Calcular posición (arriba del calendario)
-                let cardTop = calendarRect.top + scrollPosition - 10;
-                let cardLeft = calendarRect.left;
+                // Calcular posición (a la izquierda del calendario)
+                let cardTop = calendarRect.top + scrollPosition;
+                let cardLeft = calendarRect.left - 300; // Mostrar a la izquierda
 
-                // Ajustar si se sale por la derecha
-                if (cardLeft + 300 > window.innerWidth) {
-                    cardLeft = window.innerWidth - 310;
-                }
-
-                // Ajustar si se sale por la izquierda
+                // Si no cabe a la izquierda, mostrar a la derecha
                 if (cardLeft < 10) {
-                    cardLeft = 10;
+                    cardLeft = calendarRect.right + 10;
                 }
 
-                // Ajustar si se sale por arriba (mostrar abajo)
-                if (cardTop < scrollPosition) {
-                    cardTop = calendarRect.bottom + scrollPosition + 10;
+                // Ajustar si se sale por abajo
+                if (cardTop + 300 > scrollPosition + window.innerHeight) {
+                    cardTop = scrollPosition + window.innerHeight - 320;
                 }
 
                 card.style.position = 'absolute';
                 card.style.left = `${cardLeft}px`;
                 card.style.top = `${cardTop}px`;
+                card.style.width = '280px';
 
                 document.body.appendChild(card);
 
@@ -710,45 +730,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     calendar.render();
 
-    // Hacer que el calendario se mueva con el scroll
-    let lastScrollPosition = window.scrollY;
-    const initialBottom = 20;
-    const initialLeft = 20;
-
-    function updateCalendarPosition() {
-        const currentScroll = window.scrollY;
-        const scrollDifference = currentScroll - lastScrollPosition;
-
-        // Ajustar posición vertical para que siga el scroll
-        const currentBottom = parseInt(calendarContainer.style.bottom) || initialBottom;
-        const newBottom = Math.max(10, currentBottom - scrollDifference);
-        calendarContainer.style.bottom = `${newBottom}px`;
-
-        lastScrollPosition = currentScroll;
-    }
-
-    // Inicializar posición
+    // Posición fija inicial (derecha abajo)
     calendarContainer.style.position = 'fixed';
-    calendarContainer.style.bottom = `${initialBottom}px`;
-    calendarContainer.style.left = `${initialLeft}px`;
-
-    window.addEventListener('scroll', function() {
-        requestAnimationFrame(updateCalendarPosition);
-
-        // Cerrar tarjeta de torneos si está abierta al hacer scroll
-        const card = document.querySelector('.tournament-card');
-        if (card) {
-            card.remove();
-        }
-    });
+    calendarContainer.style.bottom = '20px';
+    calendarContainer.style.right = '20px';
 
     // Ajustar en redimensionamiento
     window.addEventListener('resize', function() {
         const calendarRect = calendarContainer.getBoundingClientRect();
 
-        // Asegurarse de que no se salga por la derecha
-        if (calendarRect.right > window.innerWidth) {
-            calendarContainer.style.left = `${window.innerWidth - calendarRect.width - 10}px`;
+        // Asegurarse de que no se salga por la izquierda
+        if (calendarRect.left < 10) {
+            calendarContainer.style.right = `${window.innerWidth - calendarRect.width - 10}px`;
+        }
+    });
+
+    // Cerrar tarjeta de torneos al hacer scroll
+    window.addEventListener('scroll', function() {
+        const card = document.querySelector('.tournament-card');
+        if (card) {
+            card.remove();
         }
     });
 });
