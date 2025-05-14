@@ -171,7 +171,6 @@ Esta plataforma permitirá a los usuarios:
 
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
 
-
 ## 📚 Bibliografía
 
 - [Python – Documentación oficial](https://docs.python.org/3/)
@@ -187,7 +186,6 @@ Esta plataforma permitirá a los usuarios:
 - [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
 - [Docker – Documentación oficial](https://docs.docker.com/)
 - [AWS – Documentación oficial](https://docs.aws.amazon.com/)
-
 
 ## 📄 Documentación
 
