@@ -63,6 +63,11 @@ jobs:
             sleep 10
             docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             docker compose up -d 
+        #script: |
+        #      cd /home/ubuntu
+        #      docker compose pull
+        #      docker compose down
+        #      docker compose up -d --remove-orphans
 
   test:
     name: Run Django tests before deploy
