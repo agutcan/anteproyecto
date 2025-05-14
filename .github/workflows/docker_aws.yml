@@ -46,7 +46,7 @@ jobs:
       with:
         host: ${{ secrets.AWS_HOSTNAME }}
         username: ${{ secrets.AWS_USERNAME }}
-        port: 22 # ${{ secrets.PORT }}
+        port: ${{ secrets.PORT }}
         key: ${{ secrets.AWS_PRIVATEKEY }}
         source: ${{ env.COMPOSE }}
         target: /home/ubuntu
@@ -56,7 +56,7 @@ jobs:
         host: ${{ secrets.AWS_HOSTNAME }}
         username: ${{ secrets.AWS_USERNAME }}
         key: ${{ secrets.AWS_PRIVATEKEY }}
-        port: 22  # ${{ secrets.PORT }}
+        port: ${{ secrets.PORT }}
         script: |
             sleep 30
             docker compose down api
