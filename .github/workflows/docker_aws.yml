@@ -111,4 +111,4 @@ jobs:
         run: python manage.py migrate
   
       - name: Run tests
-        run: python manage.py tests/* # Comprobar
+        run: python manage.py test web.tests.test_models # Comprobar
