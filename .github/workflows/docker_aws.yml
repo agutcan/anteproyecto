@@ -58,11 +58,11 @@ jobs:
         key: ${{ secrets.AWS_PRIVATEKEY }}
         port: ${{ secrets.PORT }}
         script: |
-            sleep 30
-            docker compose down api
+            sleep 10
+            docker compose down
+            sleep 10
             docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            docker compose up -d traefik db whoami 
-            docker compose up -d api
+            docker compose up -d 
 
   test:
     name: Run Django tests before deploy
@@ -106,4 +106,4 @@ jobs:
         run: python manage.py migrate
   
       - name: Run tests
-        run: python manage.py test
+        run: python manage.py tests/* # Comprobar
