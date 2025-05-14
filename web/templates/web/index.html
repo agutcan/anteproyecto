@@ -4,8 +4,8 @@
 {% block content %}
 <style>
     :root {
-        --primary: #ff6b00;
-        --primary-dark: #e05d00;
+        --primary: #ffc107;  /* Cambiado de naranja a amarillo */
+        --primary-dark: #ffab00;  /* Tonos amarillos más oscuros */
         --dark: #121212;
         --darker: #0a0a0a;
         --light: #f8f9fa;
@@ -14,187 +14,265 @@
     /* Hero Section */
     .hero-section {
         background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
-        padding: 150px 0 100px;
+        padding: 180px 0 120px;
         position: relative;
         overflow: hidden;
-        margin-bottom: 60px;
+        margin-bottom: 80px;
     }
 
-    /* 🎨 Estilos para el calendario */
-    #calendar {
-        max-width: 400px;
-        height: 350px;
-        background-color: #1e1e1e;
-        border-radius: 8px;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-        margin: 0 auto 30px;
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    .tournament-card {
-        position: absolute;
-        width: 260px;
-        max-height: 300px;
-        overflow-y: auto;
-        background-color: #222;
-        color: #fff;
-        border-radius: 8px;
-        border: 1px solid #ffcc00;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-        padding: 15px;
-        z-index: 1050;
-        font-size: 13px;
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
     }
 
-    .dot-indicator {
-        width: 10px;
-        height: 10px;
-        background-color: #ffcc00;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-
-    .dot-indicator:hover {
-        transform: translate(-50%, -50%) scale(1.3);
-    }
-
-    .fc-toolbar-title {
-        font-size: 16px;
-        color: #fff;
-    }
-
-    .fc-col-header-cell {
-        color: #ffcc00;
-    }
-
-    .fc-daygrid-day {
-        font-size: 12px;
-        color: #fff;
-    }
-
-    .fc-daygrid-day:hover {
-        background-color: rgba(255, 204, 0, 0.1);
-    }
-
-    /* 🎮 Estilos para la lista de juegos */
+    /* 🎮 Estilos para la lista de juegos (mejorados) */
     .game-list {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 20px;
-        margin: 30px 0;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
     }
 
     .game-card {
-        background: rgba(255,255,255,0.05);
-        border-radius: 8px;
-        padding: 15px;
+        background: rgba(30,30,30,0.7);
+        border-radius: 12px;
+        padding: 20px;
         text-align: center;
         transition: all 0.3s ease;
         border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        height: 100%;
     }
 
     .game-card:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 204, 0, 0.1);
-        border-color: #ffcc00;
+        transform: translateY(-8px);
+        background: rgba(255, 193, 7, 0.1);  /* Amarillo con transparencia */
+        border-color: var(--primary);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
     }
 
     .game-card img {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         object-fit: contain;
-        margin-bottom: 10px;
-        filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.3));
+        margin-bottom: 15px;
+        filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.4));
+        transition: transform 0.3s ease;
+    }
+
+    .game-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .game-card h3 {
+        font-size: 1.1rem;
+        margin-top: 10px;
+        transition: color 0.3s ease;
+    }
+
+    .game-card:hover h3 {
+        color: var(--primary);
     }
 
     /* Sections */
     .section-title {
         position: relative;
         display: inline-block;
-        margin-bottom: 50px;
+        margin-bottom: 60px;
         color: var(--primary);
+        font-size: 2.2rem;
+        font-weight: 700;
     }
 
     .section-title:after {
         content: '';
         position: absolute;
-        width: 50%;
-        height: 3px;
-        background: var(--primary);
-        bottom: -10px;
-        left: 25%;
+        width: 60%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), transparent);
+        bottom: -15px;
+        left: 0;
+        border-radius: 2px;
     }
 
-    /* Features */
+    /* Features (mejorados) */
     .feature-card {
-        background: rgba(255,255,255,0.03);
-        border-radius: 10px;
-        padding: 30px 20px;
+        background: rgba(30,30,30,0.7);
+        border-radius: 12px;
+        padding: 35px 25px;
         height: 100%;
         transition: all 0.3s ease;
-        border: 1px solid rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
     .feature-card:hover {
-        transform: translateY(-5px);
-        background: rgba(255,107,0,0.05);
+        transform: translateY(-8px);
+        background: rgba(255, 193, 7, 0.08);  /* Amarillo con transparencia */
         border-color: var(--primary);
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
     }
 
     .feature-icon {
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: var(--primary);
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        transition: transform 0.3s ease;
     }
 
-    /* Testimonials */
+    .feature-card:hover .feature-icon {
+        transform: scale(1.1);
+    }
+
+    .feature-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        transition: color 0.3s ease;
+    }
+
+    .feature-card:hover h3 {
+        color: var(--primary);
+    }
+
+    /* Testimonials (mejorados) */
     .testimonial-card {
-        background: rgba(255,255,255,0.03);
-        border-radius: 10px;
-        padding: 25px;
-        border: 1px solid rgba(255,255,255,0.05);
+        background: rgba(30,30,30,0.7);
+        border-radius: 12px;
+        padding: 30px;
+        border: 1px solid rgba(255,255,255,0.1);
         height: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
     }
 
     .testimonial-card .quote {
         font-size: 1.1rem;
         font-style: italic;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .testimonial-card .quote:before {
+        content: '"';
+        font-size: 3rem;
+        color: var(--primary);
+        opacity: 0.3;
+        position: absolute;
+        top: -20px;
+        left: -10px;
     }
 
     .testimonial-author {
         display: flex;
         align-items: center;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 20px;
     }
 
     .testimonial-author img {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        margin-right: 15px;
+        margin-right: 20px;
         object-fit: cover;
+        border: 2px solid var(--primary);
     }
 
-    /* Stats */
+    /* Stats (mejorados) */
     .stat-card {
-        background: rgba(255,255,255,0.05);
-        border-radius: 8px;
-        padding: 20px;
+        background: rgba(30,30,30,0.7);
+        border-radius: 12px;
+        padding: 30px;
         text-align: center;
         height: 100%;
-        border-left: 3px solid var(--primary);
+        border-left: 4px solid var(--primary);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);  /* Sombra amarilla */
     }
 
     .stat-number {
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: bold;
         color: var(--primary);
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        line-height: 1;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary), #ffd54f);  /* Degradado amarillo */
+        padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') center/cover;
+        opacity: 0.1;
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .cta-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+    }
+
+    /* Botones mejorados */
+    .btn-warning {
+        background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+        border: none;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 0.75rem 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-warning:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);  /* Sombra amarilla */
+    }
+
+    .btn-outline-light {
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-light:hover {
+        background: rgba(255,255,255,0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255,255,255,0.1);
     }
 
     /* Animations */
@@ -208,12 +286,131 @@
         animation: pulse 2s infinite;
     }
 
-    /* Calendar Section */
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .float-animation {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Mini estadísticas */
+    .stats-container {
+        background: rgba(0,0,0,0.4);
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 50px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .stat-item .number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 5px;
+    }
+
+    .stat-item .label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        letter-spacing: 0.5px;
+    }
+
+    /* Estilos para el calendario flotante */
     .calendar-section {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 40px;
-        border-radius: 10px;
-        margin: 60px 0;
+        position: relative;
+        margin-top: 80px;
+        margin-bottom: 80px;
+    }
+
+    #calendar-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+        width: 300px;
+        transition: transform 0.3s ease;
+    }
+
+    #calendar {
+        background: rgba(30, 30, 30, 0.9);
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--primary);
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.2rem;
+        color: var(--primary);
+    }
+
+    .fc .fc-button {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: #121212;
+        font-weight: bold;
+    }
+
+    .fc .fc-button:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+    }
+
+    .fc .fc-button-primary:disabled {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        opacity: 0.5;
+    }
+
+    .dot-indicator {
+        display: block;
+        width: 8px;
+        height: 8px;
+        background-color: var(--primary);
+        border-radius: 50%;
+        margin: 2px auto;
+    }
+
+    .tournament-card {
+        position: absolute;
+        background: rgba(30, 30, 30, 0.95);
+        border-radius: 12px;
+        padding: 15px;
+        width: 280px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--primary);
+        z-index: 1001;
+        color: white;
+    }
+
+    .tournament-card hr {
+        border-color: rgba(255,255,255,0.1);
+    }
+
+    /* Ajustes para móviles */
+    @media (max-width: 768px) {
+        #calendar-container {
+            width: 280px;
+            left: 10px;
+            bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
     }
 </style>
 
@@ -221,26 +418,26 @@
     <!-- Hero Section -->
     <section class="hero-section text-center">
         <div class="container position-relative">
-            <h1 class="display-3 fw-bold mb-3">Domina los <span class="text-warning">Esports</span></h1>
-            <p class="lead mb-4 fs-4">Organiza, compite y gana en la plataforma líder para torneos gaming</p>
+            <h1 class="hero-title">Domina los <span class="text-warning">Esports</span></h1>
+            <p class="hero-subtitle">Organiza, compite y gana en la plataforma líder para torneos gaming</p>
             <div class="d-flex gap-3 justify-content-center">
                 <a href="{% url 'web:register' %}" class="btn btn-warning btn-lg px-4 fw-bold pulse-animation">Regístrate Gratis</a>
                 <a href="{% url 'web:tournamentListView' %}" class="btn btn-outline-light btn-lg px-4">Explora Torneos</a>
             </div>
 
-            <!-- Mini estadísticas -->
-            <div class="d-flex justify-content-center gap-5 mt-5 pt-3">
-                <div class="text-center">
-                    <div class="fs-1 fw-bold text-warning">250+</div>
-                    <div class="opacity-75">Torneos mensuales</div>
+            <!-- Mini estadísticas mejoradas -->
+            <div class="stats-container d-flex justify-content-center gap-5 mx-auto">
+                <div class="stat-item">
+                    <div class="number">250+</div>
+                    <div class="label">Torneos mensuales</div>
                 </div>
-                <div class="text-center">
-                    <div class="fs-1 fw-bold text-warning">50K+</div>
-                    <div class="opacity-75">Jugadores activos</div>
+                <div class="stat-item">
+                    <div class="number">50K+</div>
+                    <div class="label">Jugadores activos</div>
                 </div>
-                <div class="text-center">
-                    <div class="fs-1 fw-bold text-warning">$100K+</div>
-                    <div class="opacity-75">En premios repartidos</div>
+                <div class="stat-item">
+                    <div class="number">$100K+</div>
+                    <div class="label">En premios</div>
                 </div>
             </div>
         </div>
@@ -256,7 +453,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="feature-card text-center">
                             <div class="feature-icon">
-                                <i class="bi bi-trophy-fill"></i>
+                                <i class="bi bi-trophy-fill float-animation"></i>
                             </div>
                             <h3>Torneos profesionales</h3>
                             <p class="mb-0">Organiza y participa en torneos con reglas profesionales, brackets automáticos y seguimiento en tiempo real.</p>
@@ -265,7 +462,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="feature-card text-center">
                             <div class="feature-icon">
-                                <i class="bi bi-cash-stack"></i>
+                                <i class="bi bi-cash-stack float-animation"></i>
                             </div>
                             <h3>Sistema de premios</h3>
                             <p class="mb-0">Premios garantizados en efectivo, skins de juegos o puntos canjeables por recompensas exclusivas.</p>
@@ -274,7 +471,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="feature-card text-center">
                             <div class="feature-icon">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="bi bi-shield-check float-animation"></i>
                             </div>
                             <h3>Seguridad total</h3>
                             <p class="mb-0">Protegemos tus datos y pagos con cifrado de última generación y verificación de jugadores.</p>
@@ -292,30 +489,19 @@
                 <div class="game-list">
                     {% for game in game_list %}
                     <div class="game-card">
-                        <a href="{% url 'web:gameDetailView' game.id %}">
-                            <img src="{{ game.image.url }}" alt="{{ game.name }}">
+                        <a href="{% url 'web:gameDetailView' game.id %}" class="text-decoration-none text-white">
+                            <img src="{{ game.image.url }}" alt="{{ game.name }}" class="float-animation">
                             <h3>{{ game.name }}</h3>
                         </a>
                     </div>
                     {% endfor %}
                 </div>
                 <div class="text-center mt-5">
-                    <a href="{% url 'web:gameListView' %}" class="btn btn-outline-warning">Ver todos los juegos</a>
+                    <a href="{% url 'web:gameListView' %}" class="btn btn-outline-warning btn-lg">Ver todos los juegos</a>
                 </div>
             </div>
         </section>
         {% endif %}
-
-        <!-- Calendario de Torneos -->
-        <section class="calendar-section">
-            <div class="container">
-                <h2 class="text-center section-title">Próximos Torneos</h2>
-                <div id="calendar"></div>
-                <div class="text-center mt-3">
-                    <a href="{% url 'web:tournamentListView' %}" class="btn btn-outline-warning">Ver todos los torneos</a>
-                </div>
-            </div>
-        </section>
 
         <!-- Testimonios -->
         <section class="py-5">
@@ -370,10 +556,10 @@
     </div>
 
     <!-- CTA Final -->
-    <section class="py-5 bg-gradient" style="background: linear-gradient(135deg, var(--primary), #ff8c00);">
-        <div class="container text-center">
-            <h2 class="display-5 fw-bold mb-4">¿Listo para comenzar?</h2>
-            <p class="fs-4 mb-5">Regístrate ahora y accede a los mejores torneos de esports</p>
+    <section class="cta-section text-center">
+        <div class="container position-relative">
+            <h2 class="cta-title">¿Listo para comenzar?</h2>
+            <p class="cta-subtitle">Regístrate ahora y accede a los mejores torneos de esports</p>
             <div class="d-flex gap-3 justify-content-center">
                 <a href="{% url 'web:register' %}" class="btn btn-dark btn-lg px-4 fw-bold">Crear cuenta</a>
                 <a href="{% url 'web:howItWorkView' %}" class="btn btn-outline-dark btn-lg px-4">Saber más</a>
@@ -382,9 +568,16 @@
     </section>
 </div>
 
+<!-- Contenedor del calendario flotante -->
+<div id="calendar-container">
+    <div id="calendar"></div>
+</div>
+
+<!-- Script del calendario flotante -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const calendarEl = document.getElementById("calendar");
+    const calendarContainer = document.getElementById("calendar-container");
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
@@ -394,6 +587,8 @@ document.addEventListener("DOMContentLoaded", function () {
             center: "",
             end: "today prev,next"
         },
+        height: "auto",
+        contentHeight: "auto",
 
         events: function(fetchInfo, successCallback, failureCallback) {
             fetch("/api/tournaments/")
@@ -447,6 +642,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const card = document.createElement("div");
                 card.className = "tournament-card";
+                card.dataset.date = date;
 
                 const listItems = tournaments.map(t => `
                     <li style="margin-bottom: 10px;">
@@ -465,17 +661,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 `;
 
-                // Obtener posición absoluta del día en la página
-                const dayRect = info.el.getBoundingClientRect();
+                // Posicionar la tarjeta cerca del calendario
+                const calendarRect = calendarContainer.getBoundingClientRect();
                 const scrollPosition = window.scrollY || window.pageYOffset;
 
-                // Calcular posición inicial (debajo del día)
-                let cardTop = dayRect.bottom + scrollPosition + 5;
-                let cardLeft = dayRect.left + (dayRect.width / 2) - 130; // Centrar horizontalmente
+                // Calcular posición (arriba del calendario)
+                let cardTop = calendarRect.top + scrollPosition - 10;
+                let cardLeft = calendarRect.left;
 
                 // Ajustar si se sale por la derecha
-                if (cardLeft + 260 > window.innerWidth) {
-                    cardLeft = window.innerWidth - 270;
+                if (cardLeft + 300 > window.innerWidth) {
+                    cardLeft = window.innerWidth - 310;
                 }
 
                 // Ajustar si se sale por la izquierda
@@ -483,13 +679,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     cardLeft = 10;
                 }
 
-                // Ajustar si se sale por abajo (mostrar arriba)
-                if (cardTop + 300 > scrollPosition + window.innerHeight) {
-                    cardTop = dayRect.top + scrollPosition - 300 - 5;
+                // Ajustar si se sale por arriba (mostrar abajo)
+                if (cardTop < scrollPosition) {
+                    cardTop = calendarRect.bottom + scrollPosition + 10;
                 }
-
-                // Asegurar posición mínima
-                cardTop = Math.max(10, cardTop);
 
                 card.style.position = 'absolute';
                 card.style.left = `${cardLeft}px`;
@@ -499,7 +692,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Cerrar al hacer clic fuera
                 const closeCard = (ev) => {
-                    if (!card.contains(ev.target) && ev.target !== dot) {
+                    if (!card.contains(ev.target)) {
                         card.remove();
                         document.removeEventListener("click", closeCard);
                     }
@@ -517,14 +710,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     calendar.render();
 
-    // Reposicionar tarjetas al hacer scroll
+    // Hacer que el calendario se mueva con el scroll
+    let lastScrollPosition = window.scrollY;
+    const initialBottom = 20;
+    const initialLeft = 20;
+
+    function updateCalendarPosition() {
+        const currentScroll = window.scrollY;
+        const scrollDifference = currentScroll - lastScrollPosition;
+
+        // Ajustar posición vertical para que siga el scroll
+        const currentBottom = parseInt(calendarContainer.style.bottom) || initialBottom;
+        const newBottom = Math.max(10, currentBottom - scrollDifference);
+        calendarContainer.style.bottom = `${newBottom}px`;
+
+        lastScrollPosition = currentScroll;
+    }
+
+    // Inicializar posición
+    calendarContainer.style.position = 'fixed';
+    calendarContainer.style.bottom = `${initialBottom}px`;
+    calendarContainer.style.left = `${initialLeft}px`;
+
     window.addEventListener('scroll', function() {
+        requestAnimationFrame(updateCalendarPosition);
+
+        // Cerrar tarjeta de torneos si está abierta al hacer scroll
         const card = document.querySelector('.tournament-card');
         if (card) {
-            const dot = document.querySelector(`[data-dot="${card.dataset.date}"]`);
-            if (dot) {
-                dot.dispatchEvent(new Event('click'));
-            }
+            card.remove();
+        }
+    });
+
+    // Ajustar en redimensionamiento
+    window.addEventListener('resize', function() {
+        const calendarRect = calendarContainer.getBoundingClientRect();
+
+        // Asegurarse de que no se salga por la derecha
+        if (calendarRect.right > window.innerWidth) {
+            calendarContainer.style.left = `${window.innerWidth - calendarRect.width - 10}px`;
         }
     });
 });
