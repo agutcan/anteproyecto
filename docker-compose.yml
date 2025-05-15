@@ -93,7 +93,8 @@ services:
     volumes:
       - ./data:/data
     # ports:
-    #  - "8025:8025" # Interfaz web
+    #  - "8025:8025" # Inter  faz web
+
     #  - "1025:1025" # SMTP de prueba
     env_file:
       - .env
