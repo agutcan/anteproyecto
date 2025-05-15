@@ -52,7 +52,7 @@ Esta plataforma permitirá a los usuarios:
 | 🔐 Registro de usuarios | ✅ |
 | 📝 Inscripción de equipos | ✅ |
 | 🔄 Emparejamiento automático | ✅ |
-| 📅 Calendarios y resultados | ✅ |
+| 📅 Resultados | ✅ |
 | 🗂️ Gestión múltiple de torneos | ✅ |
 | 🔔 Sistema de notificaciones por correo | ✅ |
 | 🏆 Sistema de puntos/recompensas | ✅ |
@@ -89,7 +89,7 @@ Esta plataforma permitirá a los usuarios:
 - 🔐 Registrar usuarios y crear perfiles personalizados.
 - 📝 Inscribir equipos y jugadores en torneos específicos.
 - 🔄 Automatizar el emparejamiento y generar los enfrentamientos.
-- 📅 Mostrar calendarios y resultados en tiempo real.
+- 📅 Mostrar resultados en tiempo real.
 - 🗂️ Gestionar múltiples torneos de forma simultánea.
 - 🔔 Sistema de notificaciones.
 - 🏆 Sistema de puntos/recompensas.
@@ -158,6 +158,7 @@ Esta plataforma permitirá a los usuarios:
 
 - He cambiado la gestión de torneos, es decir, solo gestiono torneos de 2, 4 y 8 equipos, necesitaria de más tiempo para implementar un sistema para gestionar equipos impares y automatizar el sistema de gestión de torneos con más equipos
 - He cambiado la gestión de equipos al ver que tengo un gran problema, los jugadores solo pueden unirse a un equipo y el lider de este es el único que puede modificarlo, es decir, un jugador tiene que tener muy claro a que equipo va a unirse porque no va a poder abandonarlo o unirse a otro si se llega a participar en algún torneo con ese equipo. El tamaño de los integrantes de un equipo no puede variar una vez se ha participado en un torneo.
+- He quitado el calendario con los torneos de la página. 
 
 ### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
