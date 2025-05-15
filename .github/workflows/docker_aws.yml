@@ -49,7 +49,7 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.AWS_PRIVATEKEY }}
         source: ${{ env.COMPOSE }}
-        target: /home/ubuntu
+        target: /home/admin/anteproyecto
     - name: script deploy docker services
       uses: appleboy/ssh-action@v1.0.3
       with:
