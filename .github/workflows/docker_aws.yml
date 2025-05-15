@@ -2,13 +2,13 @@ name: docker&aws
 
 on:
   push:
-    branches: [ main ]
+    branches: [ despliegue ]
     paths:
-      - app/**
+      - /**
   pull_request:
-    branches: [ main ]
+    branches: [ despliegue ]
     paths:
-      - app/**
+      - /**
 
 env:
   IMAGE_NAME: anteproyecto
