@@ -29,32 +29,32 @@ from django.http import HttpResponseForbidden
 
 
 
-class TournamentListAPI(generics.ListAPIView):
-    """
-    API endpoint que permite listar todos los torneos disponibles en el sistema.
-    
-    Proporciona una interfaz de solo lectura (GET) para acceder a la información
-    básica de los torneos. Utiliza el serializer TournamentSerializer para definir
-    la estructura de los datos devueltos.
-
-    Atributos:
-        queryset (QuerySet): Todos los objetos Tournament existentes
-        serializer_class (Serializer): Clase que controla la serialización a JSON
-
-    Métodos heredados:
-        get: Maneja las solicitudes GET y devuelve la lista de jugadores serializados.
-    """
-    queryset = Tournament.objects.all()
-    serializer_class = TournamentSerializer
-
-    def get_queryset(self):
-            """
-            Versión optimizada del queryset que incluye prefetch de relaciones comunes.
-
-            Returns:
-                QuerySet: Torneos con sus relaciones precargadas para mejor performance
-            """
-            return super().get_queryset().select_related('created_by')
+# class TournamentListAPI(generics.ListAPIView):
+#     """
+#     API endpoint que permite listar todos los torneos disponibles en el sistema.
+#
+#     Proporciona una interfaz de solo lectura (GET) para acceder a la información
+#     básica de los torneos. Utiliza el serializer TournamentSerializer para definir
+#     la estructura de los datos devueltos.
+#
+#     Atributos:
+#         queryset (QuerySet): Todos los objetos Tournament existentes
+#         serializer_class (Serializer): Clase que controla la serialización a JSON
+#
+#     Métodos heredados:
+#         get: Maneja las solicitudes GET y devuelve la lista de jugadores serializados.
+#     """
+#     queryset = Tournament.objects.all()
+#     serializer_class = TournamentSerializer
+#
+#     def get_queryset(self):
+#             """
+#             Versión optimizada del queryset que incluye prefetch de relaciones comunes.
+#
+#             Returns:
+#                 QuerySet: Torneos con sus relaciones precargadas para mejor performance
+#             """
+#             return super().get_queryset().select_related('created_by')
         
 class PlayerStatsListAPI(generics.ListAPIView):
     """

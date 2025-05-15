@@ -296,104 +296,47 @@
         animation: float 3s ease-in-out infinite;
     }
 
-    /* Mini estadísticas */
     .stats-container {
-        background: rgba(0,0,0,0.4);
-        border-radius: 15px;
-        padding: 30px;
-        margin-top: 50px;
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(255,255,255,0.1);
-    }
+    background: rgba(0,0,0,0.4);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1);
+    max-width: 100%;
+}
 
-    .stat-item {
-        text-align: center;
-        padding: 0 20px;
-    }
+.stat-item {
+    min-width: 120px; /* Ancho mínimo para cada ítem */
+    flex: 1; /* Hace que los ítems crezcan para llenar el espacio */
+}
 
-    .stat-item .number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--primary);
-        margin-bottom: 5px;
-    }
+.number {
+    color: var(--primary);
+    font-size: 2rem; /* Tamaño base */
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
 
-    .stat-item .label {
-        font-size: 0.9rem;
-        opacity: 0.8;
-        letter-spacing: 0.5px;
-    }
+.label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+}
 
-    /* Estilos para el calendario flotante derecho */
-    #calendar-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-        width: 280px;
 
-        transition: transform 0.2s ease;
-    }
-
-    #calendar {
-        background: rgba(30, 30, 30, 0.95);
-        border-radius: 12px;
-        padding: 12px;
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-        border: 1px solid var(--primary);
-    }
-
-    .fc .fc-toolbar-title {
-        font-size: 1.1rem;
-        color: var(--primary);
-    }
-
-    .fc .fc-button {
-        background-color: var(--primary);
-        border-color: var(--primary);
-        color: #121212;
-        font-weight: bold;
-        padding: 0.25rem 0.5rem;
-        font-size: 0.8rem;
-    }
-
-    .fc .fc-button:hover {
-        background-color: var(--primary-dark);
-        border-color: var(--primary-dark);
-    }
-
-    .fc .fc-button-primary:disabled {
-        background-color: var(--primary);
-        border-color: var(--primary);
-        opacity: 0.5;
-    }
-
-    .fc .fc-toolbar {
+    .section-header {
         display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
     }
 
-    .fc .fc-header-toolbar {
-        margin-bottom: 10px;
+    .section-header h2 {
+        color: var(--primary);
+        margin: 0;
     }
 
-    .fc .fc-daygrid-day-frame {
-        min-height: 30px;
-    }
-
-    .fc .fc-daygrid-day-number {
-        font-size: 0.8rem;
-    }
-
-    .dot-indicator {
-        display: block;
-        width: 8px;
-        height: 8px;
-        background-color: var(--primary);
-        border-radius: 50%;
-        margin: 2px auto;
-    }
 
     .tournament-card {
         position: absolute;
@@ -411,21 +354,132 @@
         border-color: rgba(255,255,255,0.1);
     }
 
+        /* Nuevos estilos para secciones adicionales */
+    .streamers-section {
+        background: rgba(20,20,20,0.8);
+        padding: 80px 0;
+    }
+
+    .streamer-card {
+        background: rgba(40,40,40,0.7);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .streamer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
+    }
+
+    .streamer-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .streamer-info {
+        padding: 20px;
+    }
+
+    .news-section {
+        background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
+        padding: 80px 0;
+    }
+
+    .news-card {
+        background: rgba(30,30,30,0.8);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
+    }
+
+    .news-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .news-content {
+        padding: 20px;
+    }
+
+    .news-date {
+        color: var(--primary);
+        font-size: 0.9rem;
+    }
+
+    .partners-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.partner-logo {
+    height: 100px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(0.8);
+    transition: all 0.3s ease;
+    padding: 10px;
+}
+
+.partner-logo:hover {
+    filter: grayscale(0%) brightness(1.2);
+    transform: scale(1.1);
+}
+    .leaderboard {
+        background: rgba(30,30,30,0.7);
+        border-radius: 12px;
+        padding: 30px;
+    }
+
+    .leaderboard-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .leaderboard-item:last-child {
+        border-bottom: none;
+    }
+
+    .leaderboard-position {
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: #121212;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+
+    .leaderboard-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+        margin-right: 20px;
+    }
+
     /* Ajustes para móviles */
     @media (max-width: 768px) {
-        #calendar-container {
-            width: 250px;
-            right: 10px;
-            bottom: 10px;
-        }
-
-        #calendar {
-            padding: 8px;
-        }
-
-        .fc .fc-toolbar-title {
-            font-size: 1rem;
-        }
 
         .hero-title {
             font-size: 2.5rem;
@@ -435,34 +489,52 @@
             font-size: 1.2rem;
         }
     }
+
+    .full-width-section {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50.5vw;
+    margin-right: -55vw;
+    padding-left: 0;
+    padding-right: 0;
+}
 </style>
 
 <div class="container-fluid px-0">
     <!-- Hero Section -->
-    <section class="hero-section text-center">
+    <section class="hero-section full-width-section text-center">
         <div class="container position-relative">
             <h1 class="hero-title">Domina los <span class="text-warning">Esports</span></h1>
             <p class="hero-subtitle">Organiza, compite y gana en la plataforma líder para torneos gaming</p>
             <div class="d-flex gap-3 justify-content-center">
-                <a href="{% url 'web:register' %}" class="btn btn-warning btn-lg px-4 fw-bold pulse-animation">Regístrate Gratis</a>
-                <a href="{% url 'web:tournamentListView' %}" class="btn btn-outline-light btn-lg px-4">Explora Torneos</a>
+                {% if user.is_authenticated %}
+                    <!-- Botones para usuarios logueados -->
+                    <a href="{% url 'web:tournamentListView' %}" class="btn btn-warning btn-lg px-4 fw-bold pulse-animation">Ver Torneos</a>
+                    <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-outline-light btn-lg px-4">Crear Torneo</a>
+                {% else %}
+                    <!-- Botones para usuarios no logueados -->
+                    <a href="{% url 'web:register' %}" class="btn btn-warning btn-lg px-4 fw-bold pulse-animation">Regístrate Gratis</a>
+                    <a href="{% url 'web:tournamentListView' %}" class="btn btn-outline-light btn-lg px-4">Explora Torneos</a>
+                {% endif %}
             </div>
 
             <!-- Mini estadísticas mejoradas -->
-            <div class="stats-container d-flex justify-content-center gap-5 mx-auto">
-                <div class="stat-item">
-                    <div class="number">250+</div>
-                    <div class="label">Torneos mensuales</div>
-                </div>
-                <div class="stat-item">
-                    <div class="number">50K+</div>
-                    <div class="label">Jugadores activos</div>
-                </div>
-                <div class="stat-item">
-                    <div class="number">$100K+</div>
-                    <div class="label">En premios</div>
-                </div>
-            </div>
+            <div class="stats-container d-flex flex-wrap justify-content-center gap-3 gap-md-5 mx-auto">
+    <div class="stat-item text-center px-2 px-md-3 py-2">
+        <div class="number display-4 fw-bold">250+</div>
+        <div class="label fs-5 ">Torneos mensuales</div>
+    </div>
+    <div class="stat-item text-center px-2 px-md-3 py-2">
+        <div class="number display-4 fw-bold">50K+</div>
+        <div class="label fs-5 ">Jugadores activos</div>
+    </div>
+    <div class="stat-item text-center px-2 px-md-3 py-2">
+        <div class="number display-4 fw-bold">$100K+</div>
+        <div class="label fs-5 ">En premios</div>
+    </div>
+</div>
         </div>
     </section>
 
@@ -526,6 +598,93 @@
         </section>
         {% endif %}
 
+        <!-- Nuevo: Streamers Destacados -->
+        <section class="streamers-section py-5">
+            <div class="container">
+                <h2 class="text-center section-title">Streamers Destacados</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="streamer-card">
+                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/7ed5e0c6-0191-4eef-8328-4af6e4ea5318-profile_banner-480.jpeg" alt="Streamer 1">
+                            <div class="streamer-info">
+                                <h4>GameMasterTV</h4>
+                                <p class="text-secondary">Transmitiendo torneos semanales de Valorant</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning">En vivo ahora</span>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="streamer-card">
+                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/7a3b3c3e-c11a-4a29-8a07-4a1f3a3e4e9b-profile_banner-480.jpeg" alt="Streamer 2">
+                            <div class="streamer-info">
+                                <h4>ProGamer</h4>
+                                <p class="text-secondary">Analizando estrategias competitivas</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning">En vivo ahora</span>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="streamer-card">
+                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/9b7b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b-profile_banner-480.jpeg" alt="Streamer 3">
+                            <div class="streamer-info">
+                                <h4>TorneosArenaGG</h4>
+                                <p class="text-secondary">Cobertura oficial de torneos ArenaGG</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning">En vivo ahora</span>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            <!-- Nuevo: Noticias y Actualizaciones -->
+        <section class="news-section py-5 full-width-section">
+            <div class="container">
+                <h2 class="text-center section-title">Noticias y Actualizaciones</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="news-card">
+                            <div class="news-content">
+                                <span class="news-date">15 MAY 2023</span>
+                                <h4>Nuevo sistema de ranking implementado</h4>
+                                <p>Hemos actualizado nuestro sistema de puntuación para hacerlo más justo y competitivo.</p>
+                                <a href="#" class="btn btn-sm btn-warning">Leer más</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="news-card">
+                            <div class="news-content">
+                                <span class="news-date">10 MAY 2023</span>
+                                <h4>Torneo de Valorant con $10,000 en premios</h4>
+                                <p>Registrate ahora para el mayor torneo de la temporada con premios en efectivo.</p>
+                                <a href="#" class="btn btn-sm btn-warning">Leer más</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="news-card">
+                            <div class="news-content">
+                                <span class="news-date">5 MAY 2023</span>
+                                <h4>Nuevo juego añadido: Call of Duty Warzone</h4>
+                                <p>Ya puedes organizar y participar en torneos del popular battle royale.</p>
+                                <a href="#" class="btn btn-sm btn-warning">Leer más</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
         <!-- Testimonios -->
         <section class="py-5">
             <div class="container">
@@ -540,7 +699,7 @@
                                 <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos M.">
                                 <div>
                                     <h5 class="mb-0">Carlos M.</h5>
-                                    <small class="text-muted">Organizador</small>
+                                    <small class="text-secondary">Organizador</small>
                                 </div>
                             </div>
                         </div>
@@ -554,7 +713,7 @@
                                 <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana R.">
                                 <div>
                                     <h5 class="mb-0">Ana R.</h5>
-                                    <small class="text-muted">Jugadora profesional</small>
+                                    <small class="text-secondary">Jugador profesional</small>
                                 </div>
                             </div>
                         </div>
@@ -568,7 +727,7 @@
                                 <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Javier L.">
                                 <div>
                                     <h5 class="mb-0">Javier L.</h5>
-                                    <small class="text-muted">Streamer</small>
+                                    <small class="text-secondary">Streamer</small>
                                 </div>
                             </div>
                         </div>
@@ -576,182 +735,50 @@
                 </div>
             </div>
         </section>
-    </div>
 
+    <!-- Nuevo: Socios y Patrocinadores -->
+    <section class="partners-section py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Nuestros Socios</h2>
+            <div class="partners-container">
+    <!-- Red Bull -->
+    <img src="https://logos-world.net/wp-content/uploads/2020/11/Red-Bull-Logo.png" alt="Red Bull" class="partner-logo">
+
+    <!-- Razer -->
+    <img src="https://cdn.worldvectorlogo.com/logos/razer-1.svg" alt="Razer" class="partner-logo">
+
+    <!-- Twitch -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Twitch_logo.svg/2560px-Twitch_logo.svg.png" alt="Twitch" class="partner-logo">
+
+    <!-- NVIDIA -->
+    <img src="https://cdn.worldvectorlogo.com/logos/nvidia-1.svg" alt="NVIDIA" class="partner-logo">
+
+</div>
+        </div>
+    </section>
     <!-- CTA Final -->
-    <section class="cta-section text-center">
+    <section class="cta-section text-center full-width-section">
         <div class="container position-relative">
-            <h2 class="cta-title">¿Listo para comenzar?</h2>
-            <p class="cta-subtitle">Regístrate ahora y accede a los mejores torneos de esports</p>
+            <h2 class="cta-title">{% if user.is_authenticated %}¿Listo para competir?{% else %}¿Listo para comenzar?{% endif %}</h2>
+            <p class="cta-subtitle">
+                {% if user.is_authenticated %}
+                    Encuentra tu próximo torneo y demuestra tus habilidades
+                {% else %}
+                    Regístrate ahora y accede a los mejores torneos de esports
+                {% endif %}
+            </p>
             <div class="d-flex gap-3 justify-content-center">
-                <a href="{% url 'web:register' %}" class="btn btn-dark btn-lg px-4 fw-bold">Crear cuenta</a>
-                <a href="{% url 'web:howItWorkView' %}" class="btn btn-outline-dark btn-lg px-4">Saber más</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'web:tournamentListView' %}" class="btn btn-dark btn-lg px-4 fw-bold">Buscar Torneos</a>
+                    <a href="{% url 'web:playerProfileDetailView' request.user.player.id %}" class="btn btn-outline-dark btn-lg px-4">Mi Perfil</a>
+                {% else %}
+                    <a href="{% url 'web:register' %}" class="btn btn-dark btn-lg px-4 fw-bold">Crear cuenta</a>
+                    <a href="{% url 'web:howItWorkView' %}" class="btn btn-outline-dark btn-lg px-4">Saber más</a>
+                {% endif %}
             </div>
         </div>
     </section>
 </div>
 
-<!-- Contenedor del calendario flotante derecho -->
-<div id="calendar-container">
-    <div id="calendar"></div>
-</div>
 
-<!-- Script del calendario flotante -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const calendarEl = document.getElementById("calendar");
-    const calendarContainer = document.getElementById("calendar-container");
-
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        locale: "es",
-        headerToolbar: {
-            start: "title",
-            center: "",
-            end: "today prev,next"
-        },
-        height: "auto",
-        contentHeight: "auto",
-        aspectRatio: 0.8,  // Hace el calendario más compacto verticalmente
-
-        events: function(fetchInfo, successCallback, failureCallback) {
-            fetch("/api/tournaments/")
-                .then(res => res.json())
-                .then(data => {
-                    const grouped = {};
-                    data.forEach(t => {
-                        const date = t.start.split("T")[0];
-                        if (!grouped[date]) grouped[date] = [];
-                        grouped[date].push(t);
-                    });
-
-                    const flatEvents = Object.entries(grouped).flatMap(([date, list]) =>
-                        list.map(t => ({
-                            id: t.id,
-                            title: t.title,
-                            start: t.start,
-                            extendedProps: {
-                                groupDate: date,
-                                link: `/start/tournament/${t.id}`,
-                            }
-                        }))
-                    );
-
-                    calendar._groupedEventsByDate = grouped;
-                    successCallback(flatEvents);
-                })
-                .catch(failureCallback);
-        },
-
-        eventContent: () => ({ domNodes: [] }),
-
-        eventDidMount: function(info) {
-            const date = info.event.startStr.split("T")[0];
-            if (document.querySelector(`[data-dot="${date}"]`)) return;
-
-            const dot = document.createElement("a");
-            dot.href = "#";
-            dot.dataset.dot = date;
-            dot.className = "dot-indicator";
-
-            dot.addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                const existingCard = document.querySelector(".tournament-card");
-                if (existingCard) existingCard.remove();
-
-                const tournaments = calendar._groupedEventsByDate[date];
-                if (!tournaments || tournaments.length === 0) return;
-
-                const card = document.createElement("div");
-                card.className = "tournament-card";
-                card.dataset.date = date;
-
-                const listItems = tournaments.map(t => `
-                    <li style="margin-bottom: 10px;">
-                        <strong>${t.title}</strong><br>
-                        <small><i class="bi bi-clock"></i> ${new Date(t.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small><br>
-                        <a href="/tournament/${t.id}" class="btn btn-sm btn-warning mt-1">Ver torneo</a>
-                    </li>
-                    ${tournaments.indexOf(t) < tournaments.length - 1 ? '<hr style="margin: 10px 0;">' : ''}
-                `).join("");
-
-                card.innerHTML = `
-                    <strong><i class="bi bi-calendar-date"></i> Torneos del ${new Date(date).toLocaleDateString('es-ES', {day: 'numeric', month: 'long'})}</strong>
-                    <hr>
-                    <ul style="padding-left: 15px; margin-bottom: 0;">
-                        ${listItems}
-                    </ul>
-                `;
-
-                // Posicionar la tarjeta cerca del calendario (a la izquierda)
-                const calendarRect = calendarContainer.getBoundingClientRect();
-                const scrollPosition = window.scrollY || window.pageYOffset;
-
-                // Calcular posición (a la izquierda del calendario)
-                let cardTop = calendarRect.top + scrollPosition;
-                let cardLeft = calendarRect.left - 300; // Mostrar a la izquierda
-
-                // Si no cabe a la izquierda, mostrar a la derecha
-                if (cardLeft < 10) {
-                    cardLeft = calendarRect.right + 10;
-                }
-
-                // Ajustar si se sale por abajo
-                if (cardTop + 300 > scrollPosition + window.innerHeight) {
-                    cardTop = scrollPosition + window.innerHeight - 320;
-                }
-
-                card.style.position = 'absolute';
-                card.style.left = `${cardLeft}px`;
-                card.style.top = `${cardTop}px`;
-                card.style.width = '280px';
-
-                document.body.appendChild(card);
-
-                // Cerrar al hacer clic fuera
-                const closeCard = (ev) => {
-                    if (!card.contains(ev.target)) {
-                        card.remove();
-                        document.removeEventListener("click", closeCard);
-                    }
-                };
-
-                setTimeout(() => {
-                    document.addEventListener("click", closeCard);
-                }, 10);
-            });
-
-            info.el.innerHTML = '';
-            info.el.appendChild(dot);
-        }
-    });
-
-    calendar.render();
-
-    // Posición fija inicial (derecha abajo)
-    calendarContainer.style.position = 'fixed';
-    calendarContainer.style.bottom = '20px';
-    calendarContainer.style.right = '20px';
-
-    // Ajustar en redimensionamiento
-    window.addEventListener('resize', function() {
-        const calendarRect = calendarContainer.getBoundingClientRect();
-
-        // Asegurarse de que no se salga por la izquierda
-        if (calendarRect.left < 10) {
-            calendarContainer.style.right = `${window.innerWidth - calendarRect.width - 10}px`;
-        }
-    });
-
-    // Cerrar tarjeta de torneos al hacer scroll
-    window.addEventListener('scroll', function() {
-        const card = document.querySelector('.tournament-card');
-        if (card) {
-            card.remove();
-        }
-    });
-});
-</script>
 {% endblock %}

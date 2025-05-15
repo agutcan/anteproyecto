@@ -9,7 +9,7 @@ app_name = 'web'
 # Definir las rutas de URL para la aplicación
 urlpatterns = [
 
-    path("api/tournaments/", views.TournamentListAPI.as_view(), name="tournamentListApi"),  # Api para el calendario con los torneos
+    #path("api/tournaments/", views.TournamentListAPI.as_view(), name="tournamentListApi"),  # Api para el calendario con los torneos
     path('api/player-stats/', views.PlayerStatsListAPI.as_view(), name='playerStatsListApi'),  # Api para el gráfico con las estadísticas de cada jugador
 
     path('', views.IndexView.as_view(), name='indexView'),  # Vista principal (Estando logueado)
