@@ -3,16 +3,11 @@
 
 {% block content %}
 <style>
-    /* Estilo para el título con línea amarilla */
-    .support-title {
-        position: relative;
-        padding-bottom: 15px;
-        display: inline-block;
-    }
+
     ::placeholder {
         color: white !important;
-        opacity: 1; /* Opcional, para evitar transparencia */
     }
+
     .support-title:after {
         content: '';
         position: absolute;
@@ -25,7 +20,6 @@
         border-radius: 2px;
     }
 
-    /* Efecto hover actualizado para coincidir con el otro formulario */
     .support-card {
         border: 1px solid rgba(255, 193, 7, 0.3);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -71,7 +65,7 @@
 
             <!-- Encabezado con línea amarilla -->
             <div class="mb-5 text-center">
-                <h1 class="support-title text-warning fw-bold mb-3">
+                <h1 class="support-title d-inline-block position-relative text-warning fw-bold mb-3 pb-3">
                     <i class="bi bi-life-preserver me-2"></i>¿Necesitas ayuda?
                 </h1>
                 <p class="lead text-white">Nuestro equipo de soporte está aquí para ayudarte.</p>
@@ -145,7 +139,7 @@
                         <!-- Campo Mensaje -->
                         <div class="mb-4">
                             <label for="{{ form.message.id_for_label }}" class="form-label text-white mb-2">
-                                <i class="bi bi-chat-square-text me-1"></i> {{ form.message.label }}
+                                <i class="bi bi-chat-square-text me-1 text-warning"></i> {{ form.message.label }}
                             </label>
                             {{ form.message }}
                             {% if form.message.errors %}
@@ -158,7 +152,7 @@
                         <!-- Campo Archivo Adjunto -->
                         <div class="mb-4">
                             <label for="{{ form.attach_file.id_for_label }}" class="form-label text-white mb-2">
-                                <i class="bi bi-paperclip me-1"></i> {{ form.attach_file.label }}
+                                <i class="bi bi-paperclip me-1 text-warning"></i> {{ form.attach_file.label }}
                             </label>
                             {{ form.attach_file }}
                             <div class="form-text text-white-50">Adjunta capturas de pantalla si es necesario (máx. 5MB)</div>
@@ -167,7 +161,7 @@
                         <!-- Botón de envío -->
                         <div class="d-grid mt-4 pt-2">
                             <button type="submit" class="btn btn-warning py-2 fw-bold">
-                                <i class="bi bi-send-fill me-2"></i> Enviar Mensaje
+                                <i class="bi bi-send-fill me-2 "></i> Enviar Mensaje
                             </button>
                         </div>
                     </form>

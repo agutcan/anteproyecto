@@ -193,31 +193,6 @@
         border: 2px solid var(--primary);
     }
 
-    /* Stats */
-    .stat-card {
-        background: rgba(30,30,30,0.7);
-        border-radius: 12px;
-        padding: 30px;
-        text-align: center;
-        height: 100%;
-        border-left: 4px solid var(--primary);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
-    }
-
-    .stat-number {
-        font-size: 3rem;
-        font-weight: bold;
-        color: var(--primary);
-        margin-bottom: 10px;
-        line-height: 1;
-    }
-
     /* CTA Section */
     .cta-section {
         background: linear-gradient(135deg, var(--primary), #ffd54f);
@@ -297,32 +272,32 @@
     }
 
     .stats-container {
-    background: rgba(0,0,0,0.4);
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-top: 3rem;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.1);
-    max-width: 100%;
-}
+        background: rgba(0,0,0,0.4);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-top: 3rem;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.1);
+        max-width: 100%;
+    }
 
-.stat-item {
-    min-width: 120px; /* Ancho mínimo para cada ítem */
-    flex: 1; /* Hace que los ítems crezcan para llenar el espacio */
-}
+    .stat-item {
+        min-width: 120px; /* Ancho mínimo para cada ítem */
+        flex: 1; /* Hace que los ítems crezcan para llenar el espacio */
+    }
 
-.number {
-    color: var(--primary);
-    font-size: 2rem; /* Tamaño base */
-    line-height: 1;
-    margin-bottom: 0.5rem;
-}
+    .number {
+        color: var(--primary);
+        font-size: 2rem; /* Tamaño base */
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
 
-.label {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    letter-spacing: 0.5px;
-}
+    .label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        letter-spacing: 0.5px;
+    }
 
 
     .section-header {
@@ -335,23 +310,6 @@
     .section-header h2 {
         color: var(--primary);
         margin: 0;
-    }
-
-
-    .tournament-card {
-        position: absolute;
-        background: rgba(30, 30, 30, 0.95);
-        border-radius: 12px;
-        padding: 15px;
-        width: 280px;
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
-        border: 1px solid var(--primary);
-        z-index: 1001;
-        color: white;
-    }
-
-    .tournament-card hr {
-        border-color: rgba(255,255,255,0.1);
     }
 
         /* Nuevos estilos para secciones adicionales */
@@ -417,89 +375,39 @@
     }
 
     .partners-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    padding: 20px 0;
-}
-
-.partner-logo {
-    height: 100px;
-    width: auto;
-    max-width: 150px;
-    object-fit: contain;
-    filter: grayscale(100%) brightness(0.8);
-    transition: all 0.3s ease;
-    padding: 10px;
-}
-
-.partner-logo:hover {
-    filter: grayscale(0%) brightness(1.2);
-    transform: scale(1.1);
-}
-    .leaderboard {
-        background: rgba(30,30,30,0.7);
-        border-radius: 12px;
-        padding: 30px;
-    }
-
-    .leaderboard-item {
         display: flex;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .leaderboard-item:last-child {
-        border-bottom: none;
-    }
-
-    .leaderboard-position {
-        width: 40px;
-        height: 40px;
-        background: var(--primary);
-        color: #121212;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
+        flex-wrap: wrap;
         justify-content: center;
-        font-weight: bold;
-        margin-right: 20px;
+        align-items: center;
+        gap: 30px;
+        padding: 20px 0;
     }
 
-    .leaderboard-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid var(--primary);
-        margin-right: 20px;
+    .partner-logo {
+        height: 100px;
+        width: auto;
+        max-width: 150px;
+        object-fit: contain;
+        filter: grayscale(100%) brightness(0.8);
+        transition: all 0.3s ease;
+        padding: 10px;
     }
 
-    /* Ajustes para móviles */
-    @media (max-width: 768px) {
-
-        .hero-title {
-            font-size: 2.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-        }
+    .partner-logo:hover {
+        filter: grayscale(0%) brightness(1.2);
+        transform: scale(1.1);
     }
 
     .full-width-section {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50.5vw;
-    margin-right: -55vw;
-    padding-left: 0;
-    padding-right: 0;
-}
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50.5vw;
+        margin-right: -55vw;
+        padding-left: 0;
+        padding-right: 0;
+    }
 </style>
 
 <div class="container-fluid px-0">
@@ -605,10 +513,24 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="streamer-card">
-                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/7ed5e0c6-0191-4eef-8328-4af6e4ea5318-profile_banner-480.jpeg" alt="Streamer 1">
+                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/asmongold-profile_image-f7ddcbd0332f5d28-300x300.png" alt="Streamer 1" class="img-fluid">
                             <div class="streamer-info">
-                                <h4>GameMasterTV</h4>
-                                <p class="text-secondary">Transmitiendo torneos semanales de Valorant</p>
+                                <h4>Asmongold</h4>
+                                <p class="text-secondary">Jugando World of Warcraft Classic</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning">En vivo ahora</span>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="streamer-card">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Streamer 4" class="img-fluid">
+                            <div class="streamer-info">
+                                <h4>LilyPichu</h4>
+                                <p class="text-secondary">Musica y arte </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="text-warning">En vivo ahora</span>
                                     <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
@@ -618,10 +540,10 @@
                     </div>
                     <div class="col-md-4">
                         <div class="streamer-card">
-                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/7a3b3c3e-c11a-4a29-8a07-4a1f3a3e4e9b-profile_banner-480.jpeg" alt="Streamer 2">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Streamer 5" class="img-fluid">
                             <div class="streamer-info">
-                                <h4>ProGamer</h4>
-                                <p class="text-secondary">Analizando estrategias competitivas</p>
+                                <h4>TimTheTatman</h4>
+                                <p class="text-secondary">Videojuegos</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="text-warning">En vivo ahora</span>
                                     <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
@@ -629,23 +551,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="streamer-card">
-                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/9b7b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b-profile_banner-480.jpeg" alt="Streamer 3">
-                            <div class="streamer-info">
-                                <h4>TorneosArenaGG</h4>
-                                <p class="text-secondary">Cobertura oficial de torneos ArenaGG</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="text-warning">En vivo ahora</span>
-                                    <a href="#" class="btn btn-sm btn-outline-primary">Ver stream</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </section>
-            <!-- Nuevo: Noticias y Actualizaciones -->
+        <!-- Nuevo: Noticias y Actualizaciones -->
         <section class="news-section py-5 full-width-section">
             <div class="container">
                 <h2 class="text-center section-title">Noticias y Actualizaciones</h2>

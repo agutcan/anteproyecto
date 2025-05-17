@@ -12,7 +12,6 @@
 
     .rewards-container {
         max-width: 1200px;
-        margin: 0 auto;
         padding: 2rem 1rem;
     }
 
@@ -24,10 +23,7 @@
     .section-title {
         color: var(--gold);
         margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
         font-size: 1.8rem;
-        position: relative;
         padding-bottom: 10px;
     }
 
@@ -42,7 +38,6 @@
     }
 
     .section-description {
-        color: var(--text-light);
         font-size: 1rem;
         margin-bottom: 1.5rem;
     }
@@ -50,31 +45,24 @@
     /* Alertas compactas */
     .coins-alert {
         background: rgba(255, 193, 7, 0.1);
-        border: 1px solid var(--gold);
         border-radius: 6px;
         padding: 0.8rem;
-        display: flex;
-        align-items: center;
         margin-bottom: 1.5rem;
         font-size: 0.9rem;
     }
 
     .coins-alert i {
-        color: var(--gold);
         margin-right: 0.8rem;
         font-size: 1.2rem;
     }
 
     .coins-amount {
         font-weight: 700;
-        color: var(--gold);
     }
 
     /* Grid de recompensas compacto */
     .rewards-grid {
-        display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1.2rem;
     }
 
     /* Tarjetas compactas con foto completa */
@@ -235,14 +223,14 @@
 
 </style>
 
-<div class="rewards-container">
+<div class="rewards-container mx-auto">
     <!-- Encabezado con nueva línea decorativa -->
     <div class="section-header">
-        <h1 class="section-title">
+        <h1 class="section-title d-flex align-items-center position-relative">
             <i class="bi bi-gift"></i>
             <span style="margin-left: 0.5rem;">Recompensas</span>
         </h1>
-        <p class="section-description">
+        <p class="section-description text-light">
             Canjea tus monedas por estas recompensas exclusivas
         </p>
 
@@ -255,16 +243,16 @@
             {% endfor %}
         {% endif %}
 
-        <div class="coins-alert">
+        <div class="coins-alert border border-warning d-flex align-items-center">
             <i class="bi bi-trophy-fill text-warning"></i>
             <div>
-                <span class="coins-amount">{{ request.user.player.coins }}</span> monedas disponibles
+                <span class="coins-amount text-warning">{{ request.user.player.coins }}</span> monedas disponibles
             </div>
         </div>
     </div>
 
     <!-- Grid de recompensas compacto -->
-    <div class="rewards-grid">
+    <div class="rewards-grid d-grid gap-3">
         {% for reward in reward_list %}
             <div class="reward-card">
                 <div class="reward-image-container">

@@ -82,7 +82,7 @@ class PlayerStatsListAPI(generics.ListAPIView):
         """
         return super().get_queryset().select_related('team')
 
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(TemplateView):
     """
     Vista principal que muestra la página de inicio de la aplicación.
     
@@ -207,7 +207,14 @@ class TournamentListView(LoginRequiredMixin, ListView):
         Returns:
             QuerySet: Torneos filtrados según los parámetros recibidos
         """
-        queryset = Tournament.objects.all()
+        queryset = Tournament.objects.all().select_related('game').prefetch_related(
+            Prefetch(
+                'tournamentteam_set',
+                queryset=TournamentTeam.objects.select_related('team').prefetch_related(
+                    Prefetch('team__player_set')
+                )
+            )
+        )
 
         # Filtrar por nombre de torneo
         search_term = self.request.GET.get('search', '')
