@@ -10,7 +10,7 @@
     <div class="section-header mb-4">
         <h1 class="section-title pb-2 mb-2 text-warning d-flex align-items-center position-relative">
             <i class="bi bi-gift"></i>
-            <span style="margin-left: 0.5rem;">Recompensas</span>
+            <span class="ms-2">Recompensas</span>
         </h1>
         <p class="mb-3 fs-6 text-light">
             Canjea tus monedas por estas recompensas exclusivas
@@ -44,7 +44,7 @@
                     {% if reward.image %}
                         <img src="{{ reward.image.url }}" class="reward-image w-100 h-100 object-fit-cover" alt="{{ reward.name }}">
                     {% else %}
-                        <i class="bi bi-gift text-warning" style="font-size: 2rem;"></i>
+                        <i class="bi bi-gift text-warning fs-2"></i>
                     {% endif %}
                 </div>
                 <div class=" p-3 d-flex flex-column flex-grow-1">
