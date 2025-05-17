@@ -1,0 +1,62 @@
+/* Cambia el color del texto del placeholder a blanco, con !important para asegurar prioridad */
+::placeholder {
+    color: white !important;
+}
+
+/* Agrega una línea decorativa debajo del título con clase .support-title */
+.support-title:after {
+    content: '';
+    position: absolute; /* Posiciona el elemento respecto al contenedor padre */
+    bottom: 0; /* Alineado abajo del título */
+    left: 10%; /* Posición horizontal desde la izquierda */
+    transform: translateX(-50%); /* Centra horizontalmente el pseudo-elemento */
+    width: 80px; /* Ancho de la línea */
+    height: 3px; /* Grosor de la línea */
+    background: #ffc107; /* Color amarillo Bootstrap */
+    border-radius: 2px; /* Bordes redondeados */
+}
+
+/* Estilo base para la tarjeta del formulario de soporte */
+.support-card {
+    border: 1px solid rgba(255, 193, 7, 0.3); /* Borde amarillo translúcido */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+}
+
+/* Efecto visual cuando el usuario pasa el mouse sobre la tarjeta */
+.support-card:hover {
+    transform: translateY(-5px); /* Eleva ligeramente la tarjeta */
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2); /* Sombra amarilla */
+    border-color: #ffc107; /* Refuerza el borde con amarillo sólido */
+}
+
+/* Estilo del encabezado dentro de la tarjeta */
+.support-header {
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3); /* Línea separadora amarilla translúcida */
+}
+
+/* Estilo personalizado para los campos de formulario y selectores */
+.form-control, .form-select {
+    background-color: #1a1a1a; /* Fondo oscuro para mejor contraste */
+    border: 1px solid #444; /* Borde gris oscuro */
+    color: white; /* Texto blanco */
+}
+
+/* Estilo al enfocar los campos del formulario */
+.form-control:focus, .form-select:focus {
+    background-color: #1a1a1a; /* Mantiene fondo oscuro */
+    border-color: #ffc107; /* Borde amarillo al enfocar */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25); /* Sombra suave amarilla */
+    color: white; /* Texto blanco */
+}
+
+/* Estilo para alertas de éxito personalizadas */
+.alert-success {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    border-color: rgba(0, 255, 137, 0.3); /* Borde verde translúcido */
+}
+
+/* Estilo para alertas de error personalizadas */
+.alert-danger {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    border-color: rgb(255, 0, 24); /* Borde rojo sólido */
+}

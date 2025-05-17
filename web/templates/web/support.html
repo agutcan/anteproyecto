@@ -1,63 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Contactar Soporte | ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-
-    ::placeholder {
-        color: white !important;
-    }
-
-    .support-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 10%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-        border-radius: 2px;
-    }
-
-    .support-card {
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .support-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
-        border-color: #ffc107;
-    }
-
-    .support-header {
-        border-bottom: 1px solid rgba(255, 193, 7, 0.3);
-    }
-
-    .form-control, .form-select {
-        background-color: #1a1a1a;
-        border: 1px solid #444;
-        color: white;
-    }
-
-    .form-control:focus, .form-select:focus {
-        background-color: #1a1a1a;
-        border-color: #ffc107;
-        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
-        color: white;
-    }
-
-    .alert-success {
-        background-color: #1a1a1a;
-        border-color: rgba(0, 255, 137, 0.3);
-    }
-
-    .alert-danger {
-        background-color: #1a1a1a;
-        border-color: rgb(255, 0, 24);
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/support.css' %}">
 
 <div class="container py-5">
     <div class="row justify-content-center">
