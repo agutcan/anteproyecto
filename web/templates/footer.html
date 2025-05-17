@@ -1,50 +1,43 @@
 <!-- Footer -->
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
-<style>
-    .placeholder-white::placeholder {
-    color: darkgray !important;
-
-    }
-
-
-</style>
-    <footer class="footer">
+    <footer class="footer pt-5 pb-3 px-0">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <h3 class="text-warning mb-4"><img src="{% static 'images/favicon.png' %}" alt="Logo" class="img-fluid rounded" style="height: 40px;">ArenaGG</h3>
                     <p>La plataforma líder para torneos de esports. Conectamos jugadores, organizadores y patrocinadores en un ecosistema competitivo.</p>
-                    <div class="social-icons mt-4">
-                        <a href="#"><i class="bi bi-twitter"></i></a>
-                        <a href="#"><i class="bi bi-instagram"></i></a>
-                        <a href="#"><i class="bi bi-discord"></i></a>
-                        <a href="#"><i class="bi bi-twitch"></i></a>
-                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    <div class="social-icons mt-4 ">
+                        <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-twitter rounded "></i></a>
+                        <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-instagram  "></i></a>
+                        <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-discord "></i></a>
+                        <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-twitch "></i></a>
+                        <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-youtube "></i></a>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4">
-                    <h5 class="footer-links">Enlaces</h5>
-                    <ul>
-                        <li><a href="{% url 'web:indexView' %}">Inicio</a></li>
-                        <li><a href="{% url 'web:tournamentListView' %}">Torneos</a></li>
-                        <li><a href="{% url 'web:gameListView' %}">Juegos</a></li>
-                        <li><a href="{% url 'web:rewardListView' %}">Premios</a></li>
-                        <li><a href="{% url 'web:premiumView' %}">Premium</a></li>
-                        <li><a href="{% url 'web:faqView' %}">FAQ</a></li>
+                    <h5 class="footer-links list-unstyled p-0 mb-3">Enlaces</h5>
+                    <ul class="text-decoration-none">
+                        <li class="mb-1"><a href="{% url 'web:indexView' %}" >Inicio</a></li>
+                        <li class="mb-1"><a href="{% url 'web:tournamentListView' %}">Torneos</a></li>
+                        <li class="mb-1"><a href="{% url 'web:gameListView' %}">Juegos</a></li>
+                        <li class="mb-1"><a href="{% url 'web:rewardListView' %}">Premios</a></li>
+                        <li class="mb-1"><a href="{% url 'web:premiumView' %}">Premium</a></li>
+                        <li class="mb-1"><a href="{% url 'web:faqView' %}" >FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4">
-                    <h5 class="footer-links">Legal</h5>
-                    <ul>
-                        <li><a href="{% url 'web:termsOfUseView' %}">Términos</a></li>
-                        <li><a href="{% url 'web:privacyPolicyView' %}">Privacidad</a></li>
-                        <li><a href="{% url 'web:howItWorkView' %}">Reglas</a></li>
-                        <li><a href="{% url 'web:supportView' %}">Soporte</a></li>
+                    <h5 class="footer-links list-unstyled p-0 mb-3">Legal</h5>
+                    <ul class="text-decoration-none">
+                        <li class="mb-1"><a href="{% url 'web:termsOfUseView' %}" >Términos</a></li>
+                        <li class="mb-1"><a href="{% url 'web:privacyPolicyView' %}" >Privacidad</a></li>
+                        <li class="mb-1"><a href="{% url 'web:howItWorkView' %}" >Reglas</a></li>
+                        <li class="mb-1"><a href="{% url 'web:supportView' %}" >Soporte</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-4 mb-4">
-                    <h5 class="footer-links">Suscríbete</h5>
+                    <h5 class="footer-links mb-3">Suscríbete</h5>
                     <p>Recibe las últimas noticias sobre torneos y promociones.</p>
                     <div class="input-group mb-3">
                         <input type="email" id="emailInput" class="form-control bg-dark border-secondary text-light placeholder-white" placeholder="Tu email">
@@ -68,8 +61,4 @@
         </div>
     </footer>
 
-<script>
-    function clearInput() {
-        document.getElementById("emailInput").value = "";
-    }
-</script>
+    <script src="{% static 'js/footer.js' %}"></script>

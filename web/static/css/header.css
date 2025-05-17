@@ -1,0 +1,15 @@
+/* Estilo adicional para mejorar la apariencia del dropdown */
+.navbar .dropdown-menu {
+    border-radius: 8px;
+    background-color: #343a40;  /* Color de fondo más oscuro para que combine con la navbar */
+    border: 1px solid #444;     /* Borde sutil */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);  /* Sombra para darle profundidad */
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #007bff;  /* Color azul al pasar el mouse */
+}
+
+.navbar .nav-item .dropdown-toggle:hover {
+    color: #007bff;  /* Color azul al pasar el mouse */
+}

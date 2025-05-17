@@ -12,16 +12,9 @@
 
     .rewards-container {
         max-width: 1200px;
-        padding: 2rem 1rem;
-    }
-
-    /* Encabezado compacto con línea modificada */
-    .section-header {
-        margin-bottom: 2rem;
     }
 
     .section-title {
-        color: var(--gold);
         margin-bottom: 0.5rem;
         font-size: 1.8rem;
         padding-bottom: 10px;
@@ -121,7 +114,6 @@
     }
 
     .reward-description {
-        color: var(--text-light);
         font-size: 0.85rem;
         margin-bottom: 0.8rem;
         flex-grow: 1;
@@ -223,10 +215,10 @@
 
 </style>
 
-<div class="rewards-container mx-auto">
+<div class="rewards-container py-4 px-3 mx-auto">
     <!-- Encabezado con nueva línea decorativa -->
-    <div class="section-header">
-        <h1 class="section-title d-flex align-items-center position-relative">
+    <div class="section-header mb-4">
+        <h1 class="section-title text-warning d-flex align-items-center position-relative">
             <i class="bi bi-gift"></i>
             <span style="margin-left: 0.5rem;">Recompensas</span>
         </h1>
@@ -264,7 +256,7 @@
                 </div>
                 <div class="card-body">
                     <h3 class="reward-title" title="{{ reward.name }}">{{ reward.name }}</h3>
-                    <p class="reward-description" title="{{ reward.description }}">{{ reward.description }}</p>
+                    <p class="reward-description text-light" title="{{ reward.description }}">{{ reward.description }}</p>
 
                     <div class="reward-info">
                         <span class="reward-stock">Disponibles: {{ reward.stock }}</span>

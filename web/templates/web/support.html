@@ -3,13 +3,13 @@
 {% load static %}
 
 {% block content %}
+<!-- Enlace a la hoja de estilos personalizada para la página de soporte -->
 <link rel="stylesheet" href="{% static 'css/support.css' %}">
 
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-
-            <!-- Encabezado con línea amarilla -->
+            <!-- Encabezado de la sección de soporte -->
             <div class="mb-5 text-center">
                 <h1 class="support-title d-inline-block position-relative text-warning fw-bold mb-3 pb-3">
                     <i class="bi bi-life-preserver me-2"></i>¿Necesitas ayuda?
@@ -21,14 +21,15 @@
                 </p>
             </div>
 
-            <!-- Tarjeta de formulario -->
-            <div class="card bg-dark support-card">
+            <!-- Tarjeta que contiene el formulario de contacto -->
+            <section class="card bg-dark support-card">
+                <!-- Encabezado de la tarjeta con ícono -->
                 <div class="card-header bg-black text-warning support-header">
                     <h2 class="h4 mb-0"><i class="bi bi-headset me-2"></i> Formulario de Contacto</h2>
                 </div>
 
                 <div class="card-body p-4">
-                    <!-- Mensajes de alerta -->
+                    <!-- Bloque para mostrar mensajes de éxito -->
                     {% if messages %}
                         {% for message in messages %}
                         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
@@ -41,6 +42,7 @@
                         {% endfor %}
                     {% endif %}
 
+                    <!-- Alerta de error si el formulario contiene errores -->
                     {% if form.errors %}
                         <div class="alert alert-danger mb-4">
                             <div class="d-flex align-items-center">
@@ -52,11 +54,11 @@
                         </div>
                     {% endif %}
 
-                    <!-- Formulario -->
+                    <!-- Inicio del formulario de contacto -->
                     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <!-- Campo Email -->
+                        <!-- Campo de correo electrónico -->
                         <div class="mb-4">
                             <label for="{{ form.email.id_for_label }}" class="form-label text-white mb-2">
                                 <i class="bi bi-envelope me-1 text-warning"></i> {{ form.email.label }}
@@ -69,7 +71,7 @@
                             {% endif %}
                         </div>
 
-                        <!-- Campo Asunto -->
+                        <!-- Campo de asunto -->
                         <div class="mb-4">
                             <label for="{{ form.subject.id_for_label }}" class="form-label text-white mb-2">
                                 <i class="bi bi-card-heading me-1 text-warning"></i> {{ form.subject.label }}
@@ -82,7 +84,7 @@
                             {% endif %}
                         </div>
 
-                        <!-- Campo Mensaje -->
+                        <!-- Campo de mensaje -->
                         <div class="mb-4">
                             <label for="{{ form.message.id_for_label }}" class="form-label text-white mb-2">
                                 <i class="bi bi-chat-square-text me-1 text-warning"></i> {{ form.message.label }}
@@ -95,7 +97,7 @@
                             {% endif %}
                         </div>
 
-                        <!-- Campo Archivo Adjunto -->
+                        <!-- Campo para adjuntar archivo -->
                         <div class="mb-4">
                             <label for="{{ form.attach_file.id_for_label }}" class="form-label text-white mb-2">
                                 <i class="bi bi-paperclip me-1 text-warning"></i> {{ form.attach_file.label }}
@@ -104,15 +106,16 @@
                             <div class="form-text text-white-50">Adjunta capturas de pantalla si es necesario (máx. 5MB)</div>
                         </div>
 
-                        <!-- Botón de envío -->
+                        <!-- Botón de envío del formulario -->
                         <div class="d-grid mt-4 pt-2">
                             <button type="submit" class="btn btn-warning py-2 fw-bold">
                                 <i class="bi bi-send-fill me-2 "></i> Enviar Mensaje
                             </button>
                         </div>
                     </form>
+                    <!-- Fin del formulario -->
                 </div>
-            </div>
+            </section>
 
         </div>
     </div>

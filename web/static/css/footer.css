@@ -1,0 +1,30 @@
+.placeholder-white::placeholder {
+color: darkgray !important;
+
+}
+
+.footer {
+    background: #0a0a0a;
+}
+
+.footer-links a {
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    padding-left: 5px;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: #ff6b00;
+    color: #000;
+    transform: translateY(-3px);
+}

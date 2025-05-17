@@ -1,5 +1,8 @@
 <!-- Navbar -->
 {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{% url 'web:indexView' %}">
@@ -42,13 +45,13 @@
                             <span class="text-warning">{{ user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
-                            <li><a class="dropdown-item" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
-                            <li><a class="dropdown-item" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
-                            <li><a class="dropdown-item" href="{% url 'web:playerTeamDetailView' request.user.player.id %}">Mi equipo</a></li>
-                            <li><a class="dropdown-item" href="{% url 'web:redemptionListView' request.user.player.id %}">Mis recompensas</a></li>
+                            <li><a class="dropdown-item text-white" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
+                            <li><a class="dropdown-item text-white" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
+                            <li><a class="dropdown-item text-white" href="{% url 'web:playerTeamDetailView' request.user.player.id %}">Mi equipo</a></li>
+                            <li><a class="dropdown-item text-white" href="{% url 'web:redemptionListView' request.user.player.id %}">Mis recompensas</a></li>
                             <li><form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
-                                <input type="submit" value="Cerrar sesión" class="dropdown-item">
+                                <input type="submit" value="Cerrar sesión" class="dropdown-item text-white">
                                 </form>
                             </li>
                         </ul>
@@ -67,43 +70,7 @@
     </div>
 </nav>
 
-<script>
-// Cambiar navbar al hacer scroll
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('navbar-scrolled', 'bg-black');
-        navbar.classList.remove('bg-dark');
-    } else {
-        navbar.classList.remove('navbar-scrolled', 'bg-black');
-        navbar.classList.add('bg-dark');
-    }
-});
-</script>
+    <script src="{% static 'js/header.js' %}"></script>
 
-<style>
-/* Estilo adicional para mejorar la apariencia del dropdown */
-.navbar .dropdown-menu {
-    border-radius: 8px;
-    background-color: #343a40;  /* Color de fondo más oscuro para que combine con la navbar */
-    border: 1px solid #444;     /* Borde sutil */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);  /* Sombra para darle profundidad */
-}
 
-.navbar .dropdown-item {
-    color: #f8f9fa;  /* Color claro para los elementos */
-}
 
-.navbar .dropdown-item:hover {
-    background-color: #007bff;  /* Color azul al pasar el mouse */
-    color: white;
-}
-
-.navbar .nav-item .dropdown-toggle {
-    color: #f8f9fa;  /* Color claro para el nombre de usuario */
-}
-
-.navbar .nav-item .dropdown-toggle:hover {
-    color: #007bff;  /* Color azul al pasar el mouse */
-}
-</style>
