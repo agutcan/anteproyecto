@@ -1,0 +1,76 @@
+/* Estilos generales */
+.match-container {
+    max-width: 800px;
+}
+
+.match-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: #ffc107;
+    border-radius: 2px;
+}
+
+/* Tarjeta de partido */
+.match-card {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
+}
+
+.match-card-header {
+    background-color: #111 !important;
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.status-ongoing {
+    background-color: rgba(13, 110, 253, 0.2);
+    color: #0d6efd;
+}
+
+.status-completed {
+    background-color: rgba(25, 135, 84, 0.2);
+    color: #198754;
+}
+
+/* Formulario de resultados */
+.result-form label {
+    color: #ffc107;
+    font-weight: 500;
+}
+
+.result-form input {
+    background-color: #111 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+}
+
+.result-form input:focus {
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+}
+
+/* Botones */
+.btn-confirm {
+    background-color: #198754;
+    transition: all 0.3s ease;
+}
+
+.btn-confirm:hover {
+    background-color: #157347;
+    transform: translateY(-2px);
+}

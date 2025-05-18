@@ -1,0 +1,150 @@
+/* Estilos generales */
+.game-container {
+    max-width: 1200px;
+}
+
+/* Header con efecto especial */
+.game-header {
+    background: linear-gradient(135deg, rgba(30,30,30,0.8) 0%, rgba(0,0,0,0.9) 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.game-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, #ff6b00);
+}
+
+.game-title {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Badges personalizados */
+.game-badge {
+    border-radius: 50px;
+}
+
+.badge-genre {
+    background: rgba(13, 110, 253, 0.2);
+    border: 1px solid rgba(13, 110, 253, 0.5);
+}
+
+.badge-platform {
+    background: rgba(25, 135, 84, 0.2);
+    border: 1px solid rgba(25, 135, 84, 0.5);
+}
+
+/* Tarjetas */
+.game-card {
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.card-header-custom {
+    background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(0,0,0,1) 100%);
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Imagen del juego */
+.game-image-container {
+    border-radius: 10px;
+    border: 2px solid rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+}
+
+.game-image-container:hover {
+    transform: scale(1.05);
+    border-color: #ffc107;
+}
+
+/* Botones */
+.btn-game-action {
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-create {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    border: none;
+}
+
+.btn-create:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+}
+
+/* Lista de torneos */
+.tournament-list-item {
+    background: rgba(30, 30, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.tournament-list-item:hover {
+    background: rgba(255, 193, 7, 0.05);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+
+/* Contenedor con scroll */
+.list-wrapper {
+    max-height: 400px;
+    scrollbar-width: thin;
+    scrollbar-color: #ffc107 rgba(255, 255, 255, 0.05);
+}
+
+.list-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.list-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.list-wrapper::-webkit-scrollbar-thumb {
+    background-color: #ffc107;
+    border-radius: 10px;
+}
+
+/* Estado de torneos */
+.status-badge {
+    border-radius: 4px;
+}
+
+.status-open {
+    background: rgba(0, 200, 83, 0.2);
+    color: #00c853;
+    border: 1px solid #00c853;
+}
+
+.status-ongoing {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+.status-finished {
+    background: rgba(108, 117, 125, 0.2);
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}

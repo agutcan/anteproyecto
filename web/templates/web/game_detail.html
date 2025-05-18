@@ -1,216 +1,26 @@
 {% extends 'base.html' %}
 {% block title %}{{ game.name }} | ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilos generales */
-    .game-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+        <link rel="stylesheet" href="{% static 'css/game_detail.css' %}">
 
-    /* Header con efecto especial */
-    .game-header {
-        background: linear-gradient(135deg, rgba(30,30,30,0.8) 0%, rgba(0,0,0,0.9) 100%);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        padding: 2rem;
-        margin-bottom: 2rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .game-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, #ffc107, #ff6b00);
-    }
-
-    .game-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        background: linear-gradient(45deg, #ffc107, #ff8c00);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    /* Badges personalizados */
-    .game-badge {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
-        font-weight: 600;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-        display: inline-flex;
-        align-items: center;
-    }
-
-    .badge-genre {
-        background: rgba(13, 110, 253, 0.2);
-        border: 1px solid rgba(13, 110, 253, 0.5);
-    }
-
-    .badge-platform {
-        background: rgba(25, 135, 84, 0.2);
-        border: 1px solid rgba(25, 135, 84, 0.5);
-    }
-
-    /* Tarjetas */
-    .game-card {
-        background: rgba(30, 30, 30, 0.7);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 193, 7, 0.2);
-        transition: all 0.3s ease;
-        height: 100%;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .game-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.1);
-        border-color: #ffc107;
-    }
-
-    .card-header-custom {
-        background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(0,0,0,1) 100%);
-        border-bottom: 1px solid rgba(255, 193, 7, 0.3);
-        padding: 1.25rem;
-        border-radius: 10px 10px 0 0 !important;
-    }
-
-    /* Imagen del juego */
-    .game-image-container {
-        border-radius: 10px;
-        overflow: hidden;
-        border: 2px solid rgba(255, 193, 7, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .game-image-container:hover {
-        transform: scale(1.05);
-        border-color: #ffc107;
-    }
-
-    /* Botones */
-    .btn-game-action {
-        padding: 0.75rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 50px;
-        transition: all 0.3s ease;
-        letter-spacing: 0.5px;
-    }
-
-    .btn-create {
-        background: linear-gradient(45deg, #ffc107, #ff8c00);
-        border: none;
-        color: #000;
-    }
-
-    .btn-create:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
-    }
-
-    /* Lista de torneos */
-    .tournament-list-item {
-        background: rgba(30, 30, 30, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        margin-bottom: 0.75rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .tournament-list-item:hover {
-        background: rgba(255, 193, 7, 0.05);
-        border-color: rgba(255, 193, 7, 0.3);
-    }
-
-    /* Contenedor con scroll */
-    .list-wrapper {
-        max-height: 400px;
-        overflow-y: auto;
-        padding-right: 0.5rem;
-        scrollbar-width: thin;
-        scrollbar-color: #ffc107 rgba(255, 255, 255, 0.05);
-    }
-
-    .list-wrapper::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .list-wrapper::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .list-wrapper::-webkit-scrollbar-thumb {
-        background-color: #ffc107;
-        border-radius: 10px;
-    }
-
-    /* Estado de torneos */
-    .status-badge {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.75rem;
-        border-radius: 4px;
-        font-weight: 700;
-    }
-
-    .status-open {
-        background: rgba(0, 200, 83, 0.2);
-        color: #00c853;
-        border: 1px solid #00c853;
-    }
-
-    .status-ongoing {
-        background: rgba(255, 193, 7, 0.2);
-        color: #ffc107;
-        border: 1px solid #ffc107;
-    }
-
-    .status-finished {
-        background: rgba(108, 117, 125, 0.2);
-        color: #6c757d;
-        border: 1px solid #6c757d;
-    }
-
-    /* Responsivo */
-    @media (max-width: 768px) {
-        .game-title {
-            font-size: 1.8rem;
-        }
-
-        .btn-game-action {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-    }
-</style>
-
-<div class="container py-5 game-container">
+<div class="container py-5 game-container mx-auto">
     <!-- Header del juego -->
-    <div class="game-header">
+    <div class="game-header p-4 mb-4 position-relative overflow-hidden">
         <div class="row align-items-center">
             <div class="col-md-3 mb-4 mb-md-0">
-                <div class="game-image-container">
+                <div class="game-image-container overflow-hidden">
                     <img src="{{ game.image.url }}" class="img-fluid w-100" alt="{{ game.name }}">
                 </div>
             </div>
             <div class="col-md-9">
-                <h1 class="game-title mb-3">{{ game.name }}</h1>
+                <h1 class="game-title fs-1 fw-bold mb-3">{{ game.name }}</h1>
                 <div class="d-flex flex-wrap align-items-center">
-                    <span class="game-badge badge-genre">
+                    <span class="game-badge fs-6 px-3 py-2 fw-semibold me-2 mb-2 d-inline-flex align-items-center badge-genre">
                         <i class="bi bi-tag me-2"></i>{{ game.genre }}
                     </span>
-                    <span class="game-badge badge-platform">
+                    <span class="game-badge fs-6 px-3 py-2 fw-semibold me-2 mb-2 d-inline-flex align-items-center badge-platform">
                         <i class="bi bi-controller me-2"></i>Multiplataforma
                     </span>
                 </div>
@@ -222,8 +32,8 @@
     <div class="row">
         <!-- Columna izquierda: Información del juego -->
         <div class="col-lg-4 mb-4">
-            <div class="card game-card">
-                <div class="card-header card-header-custom text-warning">
+            <div class="card game-card h-100">
+                <div class="card-header card-header-custom p-3 text-warning">
                     <h3 class="h5 mb-0"><i class="bi bi-info-circle me-2"></i>Detalles del Juego</h3>
                 </div>
                 <div class="card-body">
@@ -247,21 +57,21 @@
 
         <!-- Columna central: Torneos activos -->
         <div class="col-lg-8 mb-4">
-            <div class="card game-card">
-                <div class="card-header card-header-custom text-warning">
+            <div class="card game-card h-100">
+                <div class="card-header card-header-custom p-3 text-warning">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="h5 mb-0"><i class="bi bi-trophy me-2"></i>Torneos Activos</h3>
-                        <button class="btn btn-create btn-game-action" data-bs-toggle="modal" data-bs-target="#premiumModal">
+                        <button class="btn btn-create btn-game-action py-2 px-4 fs-5 fw-semibold rounded-pill" data-bs-toggle="modal" data-bs-target="#premiumModal">
                             <i class="bi bi-plus-circle me-1"></i>Crear Torneo
                         </button>
                     </div>
                 </div>
-                <div class="card-body list-wrapper">
+                <div class="card-body list-wrapper overflow-auto pe-2">
                     {% if game.tournament_set.all %}
                         <div class="list-group">
                             {% for tournament in game.tournament_set.all %}
                             <a href="{% url 'web:tournamentDetailView' tournament.id %}"
-                                class="tournament-list-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                class="tournament-list-item mb-2 list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 <div>
                                     <h5 class="mb-1 text-white">{{ tournament.name }}</h5>
                                     <div class="d-flex flex-wrap">
@@ -273,8 +83,8 @@
                                         </small>
                                     </div>
                                 </div>
-                                <span class="status-badge
-                                    {% if tournament.status == 'open' %}status-open
+                                <span class="status-badge fs-6 py-1 px-2 fw-bold
+                                    {% if tournament.status == 'upcoming' %}status-open
                                     {% elif tournament.status == 'ongoing' %}status-ongoing
                                     {% else %}status-finished{% endif %}">
                                     {{ tournament.get_status_display }}
@@ -287,9 +97,7 @@
                             <i class="bi bi-trophy display-4 text-warning mb-3"></i>
                             <h4 class="text-white">No hay torneos disponibles</h4>
                             <p class="text-muted">Sé el primero en crear un torneo para este juego</p>
-                            <button class="btn btn-create btn-game-action mt-3" data-bs-toggle="modal" data-bs-target="#premiumModal">
-                                <i class="bi bi-stars me-2"></i>Crear Torneo
-                            </button>
+
                         </div>
                     {% endif %}
                 </div>

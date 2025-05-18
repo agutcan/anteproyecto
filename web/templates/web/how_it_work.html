@@ -1,109 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Cómo Funciona | ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilos generales heredados de la política */
-    .privacy-icon-container {
-        background: rgba(255, 193, 7, 0.1);
-        border: 2px solid #ffc107;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .list-group-item {
-        transition: all 0.3s ease;
-    }
-
-    .list-group-item:hover {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-    }
-
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background: rgba(30, 41, 59, 0.7);
-        border: 1px solid #ffc107;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    /* Estilos específicos para esta página */
-    .step-number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        background-color: #ffc107;
-        color: #000;
-        border-radius: 50%;
-        font-weight: bold;
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-    }
-
-    .feature-icon {
-        font-size: 2rem;
-        color: #ffc107;
-        margin-bottom: 15px;
-    }
-
-    .section-title {
-        position: relative;
-        margin-bottom: 50px;
-        color: #ffc107;
-    }
-
-    .section-title:after {
-        content: '';
-        position: absolute;
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-        bottom: -15px;
-        left: 0;
-    }
-
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-        border-radius: 10px;
-        margin: 40px 0;
-        border: 2px solid #ffc107;
-    }
-
-    .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .accordion-item {
-        background-color: rgba(30, 41, 59, 0.7);
-        border: 1px solid #ffc107;
-    }
-
-    .accordion-button {
-        background-color: rgba(0, 0, 0, 0.2);
-        color: white;
-    }
-
-    .accordion-button:not(.collapsed) {
-        background-color: rgba(255, 193, 7, 0.1);
-        color: #ffc107;
-    }
-</style>
+    <link rel="stylesheet" href="{% static 'css/how_it_work.css' %}">
 
 <div class="container py-5">
     <!-- Hero Section -->
@@ -118,8 +18,8 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/ejemplo" frameborder="0" allowfullscreen></iframe>
+            <div class="video-container ratio ratio-16x9 my-5">
+              <iframe class="position-absolute top-0 start-0 w-100 h-100" src="https://www.youtube.com/embed/ejemplo"  frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -127,13 +27,13 @@
     <!-- Pasos principales -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="section-title">Comienza en 4 simples pasos</h2>
+            <h2 class="section-title position-relative mb-5 text-warning"><i class="bi bi-list-ol me-2"></i>Comienza en 4 simples pasos</h2>
         </div>
 
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="step-number">1</div>
+                    <div class="step-number rounded-circle bg-warning fw-bold fs-3 mb-3 d-inline-flex align-items-center justify-content-center">1</div>
                     <h3 class="text-warning">Regístrate</h3>
                     <p class="text-white">Crea tu cuenta gratuita en menos de 1 minuto. Completa tu perfil de jugador para participar en torneos.</p>
                     <ul class="list-group list-group-flush">
@@ -148,7 +48,7 @@
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="step-number">2</div>
+                    <div class="step-number rounded-circle bg-warning fw-bold fs-3 mb-3 d-inline-flex align-items-center justify-content-center">2</div>
                     <h3 class="text-warning">Encuentra tu torneo</h3>
                     <p class="text-white">Explora entre cientos de torneos organizados por juego, fecha, nivel de habilidad o tipo de premio.</p>
                     <div class="mt-3">
@@ -163,7 +63,7 @@
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="step-number">3</div>
+                    <div class="step-number rounded-circle bg-warning fw-bold fs-3 mb-3 d-inline-flex align-items-center justify-content-center">3</div>
                     <h3 class="text-warning">Únete o crea un equipo</h3>
                     <p class="text-white">Participa como jugador individual o forma equipo con amigos y otros miembros de la comunidad.</p>
                     <div class="d-flex mt-3">
@@ -181,7 +81,7 @@
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="step-number">4</div>
+                    <div class="step-number rounded-circle bg-warning fw-bold fs-3 mb-3 d-inline-flex align-items-center justify-content-center">4</div>
                     <h3 class="text-warning">¡Juega y gana!</h3>
                     <p class="text-white">Participa en las partidas programadas y gana puntos, premios en efectivo o recompensas exclusivas.</p>
                     <div class="mt-3">
@@ -197,13 +97,13 @@
     <!-- Para jugadores -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="section-title">Para Jugadores</h2>
+            <h2 class="section-title position-relative mb-5 text-warning"> <i class="bi bi-controller me-2"></i>Para Jugadores</h2>
         </div>
 
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="feature-icon">
+                    <div class="fs-2 text-warning mb-3">
                         <i class="bi bi-search"></i>
                     </div>
                     <h3 class="text-warning">Encuentra torneos</h3>
@@ -226,7 +126,7 @@
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="feature-icon">
+                    <div class="fs-2 text-warning mb-3">
                         <i class="bi bi-people-fill"></i>
                     </div>
                     <h3 class="text-warning">Gestiona equipos</h3>
@@ -252,7 +152,7 @@
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="feature-icon">
+                    <div class="fs-2 text-warning mb-3">
                         <i class="bi bi-trophy-fill"></i>
                     </div>
                     <h3 class="text-warning">Participa y gana</h3>
@@ -274,13 +174,13 @@
     <!-- Para organizadores -->
     <div class="row mb-5">
         <div class="col-12">
-            <h2 class="section-title">Para Organizadores</h2>
+            <h2 class="section-title position-relative mb-5 text-warning"><i class="bi bi-people-fill me-2 text-warning"></i>Para Organizadores</h2>
         </div>
 
         <div class="col-md-6 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="feature-icon">
+                    <div class="fs-2 text-warning mb-3">
                         <i class="bi bi-plus-circle-fill"></i>
                     </div>
                     <h3 class="text-warning">Crea tu torneo</h3>
@@ -306,26 +206,26 @@
         <div class="col-md-6 mb-4">
             <div class="card h-100 border-warning">
                 <div class="card-body">
-                    <div class="feature-icon">
+                    <div class="fs-2 text-warning mb-3">
                         <i class="bi bi-graph-up"></i>
                     </div>
                     <h3 class="text-warning">Gestiona tu torneo</h3>
                     <p class="text-white">Herramientas profesionales para administrar tu competencia.</p>
                     <div class="row mt-4 text-center">
                         <div class="col-4">
-                            <div class="privacy-icon-container mx-auto mb-2">
+                            <div class="privacy-icon-container d-flex align-items-center justify-content-center mx-auto mb-2">
                             <i class="bi bi-diagram-3 text-warning fs-4"></i>
                             </div>
                             <small class="text-white">Brackets automáticos</small>
                         </div>
                         <div class="col-4">
-                            <div class="privacy-icon-container mx-auto mb-2">
+                            <div class="privacy-icon-container d-flex align-items-center justify-content-center mx-auto mb-2">
                                 <i class="bi bi-people text-warning fs-4"></i>
                             </div>
                             <small class="text-white">Emparejamiento</small>
                         </div>
                         <div class="col-4">
-                            <div class="privacy-icon-container mx-auto mb-2">
+                            <div class="privacy-icon-container d-flex align-items-center justify-content-center mx-auto mb-2">
                                 <i class="bi bi-bar-chart text-warning fs-4"></i>
                             </div>
                             <small class="text-white">Estadísticas</small>
@@ -339,7 +239,7 @@
     <!-- Preguntas frecuentes -->
     <div class="row">
         <div class="col-12">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <h2 class="section-title position-relative mb-5 text-warning"><i class="bi bi-question-circle me-2"></i> Preguntas Frecuentes</h2>
         </div>
         <div class="col-lg-8 mx-auto">
             <div class="accordion" id="faqAccordion">

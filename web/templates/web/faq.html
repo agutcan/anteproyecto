@@ -1,77 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Preguntas Frecuentes | ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    .faq-section {
-        padding: 80px 0;
-    }
-
-    .accordion-item {
-        background-color: rgba(30, 41, 59, 0.7);
-        border: 1px solid #ffc107;
-        margin-bottom: 15px;
-        border-radius: 5px;
-        overflow: hidden;
-    }
-
-    .accordion-button {
-        background-color: rgba(0, 0, 0, 0.2);
-        color: white;
-        font-weight: 500;
-    }
-
-    .accordion-button:not(.collapsed) {
-        background-color: rgba(255, 193, 7, 0.1);
-        color: #ffc107;
-    }
-
-    .accordion-button:focus {
-        box-shadow: none;
-        border-color: #ffc107;
-    }
-
-    .category-title {
-        position: relative;
-        margin: 40px 0 25px;
-        padding-bottom: 10px;
-        color: #ffc107;
-    }
-
-    .category-title:after {
-        content: '';
-        position: absolute;
-        width: 60px;
-        height: 2px;
-        background: #ffc107;
-        bottom: 0;
-        left: 0;
-    }
+    <link rel="stylesheet" href="{% static 'css/faq.css' %}">
 
 
-    .main-title {
-        color: #ffc107;
-        position: relative;
-        display: inline-block;
-    }
-
-    .main-title:after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 10%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-    }
-</style>
-
-<div class="faq-section">
+<div class="py-5">
     <div class="container">
         <div class="row mb-1">
             <div class="main-header col-lg-8 mx-auto text-center">
-                <h1 class="main-title fw-bold text-warning mb-4"><i class="bi bi-question-circle "></i> Preguntas Frecuentes</h1>
+                <h1 class="main-title position-relative d-inline-block fw-bold text-warning mb-4"><i class="bi bi-question-circle "></i> Preguntas Frecuentes</h1>
                 <p class="lead text-white">Encuentra respuestas a las preguntas más comunes sobre ArenaGG</p>
             </div>
         </div>
@@ -79,14 +18,14 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <!-- Torneos -->
-                <h3 class="category-title">
+                <h3 class="category-title position-relative my-4 mb-3 pb-2 text-warning">
                     <i class="bi bi-trophy me-2"></i> Torneos
                 </h3>
 
                 <div class="accordion" id="torneosAccordion">
-                    <div class="accordion-item">
+                    <div class="accordion-item mb-3 overflow-hidden">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo1">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo1">
                                 ¿Cómo me registro para un torneo?
                             </button>
                         </h3>
@@ -104,9 +43,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo2">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo2">
                                 ¿Qué pasa si mi equipo no se presenta a un partido?
                             </button>
                         </h3>
@@ -123,9 +62,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo3">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#torneo3">
                                 ¿Cómo funcionan los brackets de torneos?
                             </button>
                         </h3>
@@ -144,14 +83,14 @@
                 </div>
 
                 <!-- Premios y Pagos -->
-                <h3 class="category-title mt-5">
+                <h3 class="category-title position-relative my-4 mb-3 pb-2 text-warning mt-5">
                     <i class="bi bi-cash-coin me-2"></i> Premios y Pagos
                 </h3>
 
                 <div class="accordion" id="premiosAccordion">
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio1">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio1">
                                 ¿Cómo recibo mis premios?
                             </button>
                         </h3>
@@ -167,9 +106,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio2">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio2">
                                 ¿Hay algún requisito para retirar dinero?
                             </button>
                         </h3>
@@ -187,9 +126,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio3">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#premio3">
                                 ¿Qué son los Puntos Arena y para qué sirven?
                             </button>
                         </h3>
@@ -214,14 +153,14 @@
                 </div>
 
                 <!-- Cuenta y Perfil -->
-                <h3 class="category-title mt-5">
+                <h3 class="category-title position-relative my-4 mb-3 pb-2 text-warning mt-5">
                     <i class="bi bi-person-circle me-2"></i> Cuenta y Perfil
                 </h3>
 
                 <div class="accordion" id="cuentaAccordion">
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cuenta1">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cuenta1">
                                 ¿Cómo cambio mi nombre de usuario?
                             </button>
                         </h3>
@@ -239,9 +178,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cuenta2">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cuenta2">
                                 ¿Cómo verifico mi cuenta?
                             </button>
                         </h3>
@@ -266,14 +205,14 @@
                 </div>
 
                 <!-- Organización de Torneos -->
-                <h3 class="category-title mt-5">
+                <h3 class="category-title position-relative my-4 mb-3 pb-2 text-warning mt-5">
                     <i class="bi bi-megaphone me-2"></i> Organización de Torneos
                 </h3>
 
                 <div class="accordion" id="organizacionAccordion">
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org1">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org1">
                                 ¿Puedo organizar mi propio torneo?
                             </button>
                         </h3>
@@ -292,9 +231,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org2">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org2">
                                 ¿Qué comisión cobra ArenaGG por organizar torneos?
                             </button>
                         </h3>
@@ -312,9 +251,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org3">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#org3">
                                 ¿Cómo promociono mi torneo?
                             </button>
                         </h3>
@@ -334,14 +273,14 @@
                 </div>
 
                 <!-- Soporte Técnico -->
-                <h3 class="category-title mt-5">
+                <h3 class="category-title position-relative my-4 mb-3 pb-2 text-warning mt-5">
                     <i class="bi bi-headset me-2"></i> Soporte Técnico
                 </h3>
 
                 <div class="accordion" id="soporteAccordion">
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soporte1">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soporte1">
                                 ¿Qué hago si encuentro un error o bug?
                             </button>
                         </h3>
@@ -365,9 +304,9 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item overflow-hidden mb-3">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soporte2">
+                            <button class="accordion-button fw-medium text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soporte2">
                                 ¿Cómo contacto al soporte directamente?
                             </button>
                         </h3>

@@ -1,0 +1,64 @@
+/* Estilos generales heredados de la política */
+.privacy-icon-container {
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid #ffc107;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.list-group-item {
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid #ffc107;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Estilos específicos para esta página */
+.step-number {
+    width: 50px;
+    height: 50px;
+    color: #000;
+}
+
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background: #ffc107;
+    bottom: -15px;
+    left: 0;
+}
+
+.video-container {
+    border-radius: 5px;
+    border: 2px solid #ffc107;
+}
+
+.accordion-item {
+    background-color: rgba(30, 41, 59, 0.7);
+    border: 1px solid #ffc107;
+}
+
+.accordion-button {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}

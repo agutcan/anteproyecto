@@ -1,122 +1,13 @@
 {% extends 'base.html' %}
-
 {% block title %}Detalles del Partido - {{ match.team1.name }} vs {{ match.team2.name }}{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilos generales */
-    .match-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
+    <link rel="stylesheet" href="{% static 'css/match_detail.css' %}">
 
-    /* Título con línea decorativa */
-    .match-title {
-        position: relative;
-        padding-bottom: 15px;
-        color: #ffc107;
-        font-weight: bold;
-    }
-
-    .match-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-        border-radius: 2px;
-    }
-
-    /* Tarjeta de partido */
-    .match-card {
-        background-color: #1a1a1a;
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .match-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
-        border-color: #ffc107;
-    }
-
-    .match-card-header {
-        background-color: #111 !important;
-        border-bottom: 1px solid rgba(255, 193, 7, 0.3);
-    }
-
-    /* Estado del partido */
-    .match-status {
-        display: inline-block;
-        padding: 0.35rem 0.65rem;
-        border-radius: 6px;
-        font-weight: 600;
-    }
-
-    .status-pending {
-        background-color: rgba(255, 193, 7, 0.2);
-        color: #ffc107;
-    }
-
-    .status-ongoing {
-        background-color: rgba(13, 110, 253, 0.2);
-        color: #0d6efd;
-    }
-
-    .status-completed {
-        background-color: rgba(25, 135, 84, 0.2);
-        color: #198754;
-    }
-
-    /* Equipos */
-    .team-ready {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    /* Formulario de resultados */
-    .result-form label {
-        color: #ffc107;
-        font-weight: 500;
-    }
-
-    .result-form input {
-        background-color: #111 !important;
-        color: white !important;
-        border: 1px solid #444 !important;
-    }
-
-    .result-form input:focus {
-        border-color: #ffc107 !important;
-        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
-    }
-
-    /* Botones */
-    .btn-confirm {
-        background-color: #198754;
-        color: white;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .btn-confirm:hover {
-        background-color: #157347;
-        transform: translateY(-2px);
-    }
-
-    /* Contador */
-    #countdown {
-        font-weight: bold;
-        color: #ffc107;
-    }
-</style>
-
-<div class="container py-4 match-container">
+<div class="container py-4 match-container mx-auto">
     <!-- Título -->
-    <h1 class="match-title mb-4">
+    <h1 class="match-title position-relative pb-3 text-warning fw-bold mb-4">
         <i class="bi bi-controller me-2"></i>Detalles del Partido
     </h1>
 
@@ -153,7 +44,7 @@
                 {% if match.status == 'pending' %}
                     <p>
                         <strong><i class="bi bi-clock me-1"></i>Tiempo restante:</strong>
-                        <span id="countdown"></span>
+                        <span id="countdown" class="fw-bold text-warning"></span>
                     </p>
                 {% elif match.status == 'ongoing' %}
                     <p>
@@ -164,7 +55,7 @@
 
                 <p>
                     <strong><i class="bi bi-info-circle me-1"></i>Estado:</strong>
-                    <span class="match-status status-{{ match.status }}">
+                    <span class="match-status d-inline-block px-2 py-1 rounded fw-semibold status-{{ match.status }}">
                         {% if match.status == 'pending' %}
                             Pendiente
                         {% elif match.status == 'ongoing' %}
@@ -181,7 +72,7 @@
                 <div class="mb-4 text-secondary">
                     <p>
                         <strong><i class="bi bi-check-circle me-1"></i>Equipo 1 listo:</strong>
-                        <span class="team-ready">
+                        <span class="team-ready d-inline-flex align-items-center gap-2">
                             {% if match.team1_ready %}
                                 <i class="bi bi-check-circle-fill text-success"></i> Sí
                             {% else %}
@@ -191,7 +82,7 @@
                     </p>
                     <p>
                         <strong><i class="bi bi-check-circle me-1"></i>Equipo 2 listo:</strong>
-                        <span class="team-ready">
+                        <span class="team-ready d-inline-flex align-items-center gap-2">
                             {% if match.team2_ready %}
                                 <i class="bi bi-check-circle-fill text-success"></i> Sí
                             {% else %}
@@ -218,7 +109,7 @@
                         {% if not match.team1_ready or not match.team2_ready and not team_ready %}
                             <form method="post" action="{% url 'web:matchReadyView' match.id %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-confirm w-100 py-2">
+                                <button type="submit" class="btn btn-confirm fw-semibold text-white w-100 py-2">
                                     <i class="bi bi-check-circle me-2"></i>Confirmar que el equipo está listo
                                 </button>
                             </form>
@@ -282,7 +173,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-confirm w-100 py-2">
+                            <button type="submit" class="btn btn-confirm fw-semibold text-white w-100 py-2">
                                 <i class="bi bi-check-circle-fill me-2"></i>Confirmar resultado
                             </button>
                         </form>
@@ -326,30 +217,6 @@
     </div>
 </div>
 
-<script>
-    // Contador regresivo
-    const scheduledAt = new Date("{{ match.scheduled_at|date:'c' }}");
-    const countdownElement = document.getElementById("countdown");
-
-    function updateCountdown() {
-        const now = new Date();
-        const diff = scheduledAt - now;
-
-        if (diff <= 0) {
-            countdownElement.textContent = "¡El partido ha comenzado!";
-            clearInterval(timer);
-            return;
-        }
-
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-</script>
+    <script src="{% static 'js/footer.js' %}"></script>
 
 {% endblock %}
