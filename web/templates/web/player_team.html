@@ -1,208 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}Equipo de {{ player.user.username }} / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    :root {
-        --gold: #ffc107;
-        --dark-bg: #1a1a2e;
-        --card-bg: rgba(30, 41, 59, 0.7);
-        --text-light: #e6e6e6;
-    }
+        <link rel="stylesheet" href="{% static 'css/player_team.css' %}">
 
-    .team-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-    }
-
-    /* Título con línea decorativa */
-    .page-title {
-        color: var(--gold);
-        position: relative;
-        padding-bottom: 10px;
-        margin-bottom: 2rem;
-        font-size: 1.8rem;
-    }
-
-    .page-title:after {
-        content: '';
-        position: absolute;
-        width: 80px;
-        height: 3px;
-        background: var(--gold);
-        bottom: 0;
-        left: 0;
-    }
-
-    /* Alertas cerrables */
-    .alert-message {
-        border-radius: 6px;
-        padding: 1rem 3rem 1rem 1rem;
-        margin-bottom: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        position: relative;
-    }
-
-    .alert-close {
-        position: absolute;
-        top: 50%;
-        right: 1rem;
-        transform: translateY(-50%);
-        background: transparent;
-        border: none;
-        color: inherit;
-        opacity: 0.7;
-        cursor: pointer;
-        transition: opacity 0.2s;
-        padding: 0.3rem;
-    }
-
-    .alert-close:hover {
-        opacity: 1;
-    }
-
-    /* Tarjeta de equipo */
-    .team-card {
-        background: var(--card-bg);
-        border-radius: 8px;
-        border: 1px solid var(--gold);
-        overflow: hidden;
-        margin-bottom: 2rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Efecto hover añadido */
-    .team-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
-    }
-
-    .team-header {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 1rem;
-        border-bottom: 1px solid rgba(255, 193, 7, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .team-name {
-        color: var(--gold);
-        margin: 0;
-        font-size: 1.3rem;
-    }
-
-    .team-body {
-        padding: 1.5rem;
-    }
-
-    /* Listas de miembros y torneos */
-    .team-list {
-        list-style: none;
-        padding: 0;
-        margin: 1rem 0;
-    }
-
-    .team-list li {
-        padding: 0.5rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .team-list li:last-child {
-        border-bottom: none;
-    }
-
-    /* Botones */
-    .btn-action {
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .btn-sm {
-        padding: 0.3rem 0.7rem;
-        font-size: 0.8rem;
-    }
-
-    .btn-danger {
-        background: rgba(220, 53, 69, 0.2);
-        color: #dc3545;
-        border: 1px solid #dc3545;
-    }
-
-    .btn-danger:hover {
-        background: rgba(220, 53, 69, 0.3);
-    }
-
-    .btn-success {
-        background: rgba(25, 135, 84, 0.2);
-        color: #198754;
-        border: 1px solid #198754;
-    }
-
-    .btn-success:hover {
-        background: rgba(25, 135, 84, 0.3);
-    }
-
-    .btn-warning {
-        background: rgba(255, 193, 7, 0.2);
-        color: var(--gold);
-        border: 1px solid var(--gold);
-    }
-
-    .btn-warning:hover {
-        background: rgba(255, 193, 7, 0.3);
-    }
-
-    /* Estado sin equipo */
-    .no-team {
-        background: var(--card-bg);
-        border: 1px dashed var(--gold);
-        border-radius: 8px;
-        padding: 2rem;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    @media (max-width: 768px) {
-        .team-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .action-buttons {
-            flex-direction: column;
-        }
-
-        .action-buttons a {
-            width: 100%;
-            text-align: center;
-        }
-    }
-</style>
-
-<div class="team-container">
-    <h1 class="page-title">
+<div class="team-container mx-auto py-4 px-3">
+    <h1 class="page-title text-warning position-relative pb-2 mb-4 fs-3">
         <i class="bi bi-people"></i>
         <span style="margin-left: 0.5rem;">Equipo de {{ player.user.username }}</span>
     </h1>
@@ -212,71 +17,70 @@
             <div class="alert-message alert-{{ message.tags }}">
                 <i class="bi bi-exclamation-circle"></i>
                 <span>{{ message }}</span>
-                <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">
-                    <i class="bi bi-x"></i>
+                <button type="button" class="alert-close btn-close position-absolute top-50 translate-middle-y" onclick="this.parentElement.style.display='none'">
                 </button>
             </div>
         {% endfor %}
     {% endif %}
 
     {% if player.team %}
-        <div class="team-card">
-            <div class="team-header">
-                <h2 class="team-name">{{ player.team.name }}</h2>
+        <div class="team-card overflow-hidden mb-4">
+            <div class="team-header d-flex justify-content-between align-items-center flex-wrap gap-3 p-3">
+                <h2 class="m-0 fs-5 text-warning">{{ player.team.name }}</h2>
                 <div class="team-actions">
                     {% if player == player.team.leader %}
                         <form method="post" action="{% url 'web:toggleSearchingTeammatesView' player.team.id %}" class="d-inline">
                             {% csrf_token %}
                             {% if player.team.searching_teammates %}
-                                <button type="submit" class="btn-action btn-warning btn-sm">
+                                <button type="submit" class="btn-action px-3 py-1 rounded fs-6 d-inline-flex align-items-center gap-2 text-warning btn-warning ">
                                     <i class="bi bi-x"></i> Dejar de buscar
                                 </button>
                             {% else %}
-                                <button type="submit" class="btn-action btn-success btn-sm">
+                                <button type="submit" class="btn-action px-3 py-1 mb-1 rounded fs-6 d-inline-flex align-items-center gap-2 btn-success">
                                     <i class="bi bi-search"></i> Buscar jugadores
                                 </button>
                             {% endif %}
                         </form>
                         <form method="post" action="{% url 'web:teamDeleteView' player.team.id %}" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn-action btn-danger btn-sm">
+                            <button type="submit" class="btn-action px-3 py-1 rounded fs-6 d-inline-flex align-items-center gap-2 btn-danger">
                                 <i class="bi bi-trash"></i> Eliminar equipo
                             </button>
                         </form>
                     {% else %}
                         <form method="post" action="{% url 'web:leaveTeamView' player.id %}" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn-action btn-danger">
+                            <button type="submit" class="btn-action px-3 py-1 rounded fs-6 d-inline-flex align-items-center gap-2 btn-danger">
                                 <i class="bi bi-box-arrow-right"></i> Abandonar equipo
                             </button>
                         </form>
                     {% endif %}
                 </div>
             </div>
-            <div class="team-body">
+            <div class=" p-4">
                 <div class="team-section">
                     <h4><i class="bi bi-trophy"></i> Torneos</h4>
-                    <ul class="team-list">
+                    <ul class="team-list list-unstyled p-0 my-3">
                         {% for tt in player.team.tournamentteam_set.all %}
-                            <li>
+                            <li class="d-flex justify-content-between align-items-center py-2">
                                 <a href="{% url 'web:tournamentDetailView' tt.tournament.id %}">{{ tt.tournament.name }}</a>
                             </li>
                         {% empty %}
-                            <li>No registrado en torneos</li>
+                            <li class="d-flex justify-content-between align-items-center py-2">No registrado en torneos</li>
                         {% endfor %}
                     </ul>
                 </div>
 
                 <div class="team-section">
                     <h4><i class="bi bi-info-circle-fill"></i> Estado</h4>
-                    <ul class="team-list">
-                        <li>
+                    <ul class="team-list list-unstyled p-0 my-3">
+                        <li class="d-flex justify-content-between align-items-center py-2">
                             <span>Buscando jugadores:</span>
                             <span class="{% if player.team.searching_teammates %}text-success{% else %}text-danger{% endif %}">
                                 {% if player.team.searching_teammates %}Sí{% else %}No{% endif %}
                             </span>
                         </li>
-                        <li>
+                        <li class="d-flex justify-content-between align-items-center py-2">
                             <span>Líder:</span>
                             <span>{{ player.team.leader.user|default:"Sin líder" }}</span>
                         </li>
@@ -285,14 +89,14 @@
 
                 <div class="team-section">
                     <h4><i class="bi bi-people"></i> Miembros</h4>
-                    <ul class="team-list">
+                    <ul class="team-list list-unstyled p-0 my-3">
                         {% for teammate in player.team.player_set.all %}
-                            <li>
+                            <li class="d-flex justify-content-between align-items-center py-2">
                                 <span>{{ teammate.user.username }}</span>
                                 {% if player == player.team.leader and teammate != player %}
                                     <form method="post" action="{% url 'web:teamKickView' player.team.id teammate.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn-action btn-danger btn-sm" title="Expulsar jugador">
+                                        <button type="submit" class="btn-action px-3 py-1 rounded fs-6 d-inline-flex align-items-center gap-2 btn-danger" title="Expulsar jugador">
                                             <i class="bi bi-person-slash"></i> Expulsar
                                         </button>
                                     </form>
@@ -304,16 +108,16 @@
             </div>
         </div>
     {% else %}
-        <div class="no-team">
-            <i class="bi bi-person-slash" style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;"></i>
+        <div class="no-team rounded-3 p-4 text-center mb-4">
+            <i class="bi bi-person-slash text-warning" style="font-size: 2rem; margin-bottom: 1rem;"></i>
             <h3>Sin equipo actualmente</h3>
-            <p class="text-muted">Crea o únete a un equipo para participar en torneos</p>
+            <p class="text-secondary">Crea o únete a un equipo para participar en torneos</p>
 
-            <div class="action-buttons">
-                <a href="{% url 'web:teamCreateView' %}" class="btn-action btn-warning">
+            <div class=" d-flex justify-content-center flex-wrap gap-3">
+                <a href="{% url 'web:teamCreateView' %}" class="btn-action px-3 py-1  rounded fs-6 d-inline-flex align-items-center gap-2 text-warning btn-warning">
                     <i class="bi bi-plus"></i> Crear equipo
                 </a>
-                <a href="{% url 'web:teamJoinListView' %}" class="btn-action btn-success">
+                <a href="{% url 'web:teamJoinListView' %}" class="btn-action px-3 py-1 rounded fs-6 d-inline-flex align-items-center gap-2 btn-success">
                     <i class="bi bi-person-plus"></i> Unirse a equipo
                 </a>
             </div>

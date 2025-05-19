@@ -1,0 +1,80 @@
+/* Estilos generales */
+:root {
+    --gold: #ffc107;
+    --dark-bg: #1a1a2e;
+    --card-bg: rgba(18, 24, 33, 0.7);
+}
+
+.torneos-container {
+    max-width: 1200px;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background: var(--gold);
+    bottom: 0;
+    left: 0;
+}
+
+/* Tarjetas con estilo consistente */
+.torneo-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--gold);
+    transition: all 0.3s ease;
+}
+
+.torneo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.card-badge {
+    font-size: 0.7rem;
+}
+
+.detail-item {
+    font-size: 0.9rem;
+    color: #adb5bd;
+}
+
+.detail-item i {
+    width: 20px;
+}
+
+/* Botones estilo similar */
+.card-button {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.card-button:hover {
+    background: rgba(255, 193, 7, 0.2);
+}
+
+/* Estado vacío */
+.empty-state {
+    background: var(--card-bg);
+    border: 1px dashed var(--gold);
+    border-radius: 8px;
+    max-width: 500px;
+}
+
+.empty-state p {
+    color: #adb5bd;
+}
+
+.cta-button {
+    color: #000;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}

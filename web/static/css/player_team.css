@@ -1,0 +1,110 @@
+:root {
+    --gold: #ffc107;
+    --dark-bg: #1a1a2e;
+    --card-bg: rgba(30, 41, 59, 0.7);
+}
+
+.team-container {
+    max-width: 800px;
+}
+
+.page-title:after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background: var(--gold);
+    bottom: 0;
+    left: 0;
+}
+
+/* Alertas cerrables */
+.alert-message {
+    border-radius: 6px;
+    padding: 1rem 3rem 1rem 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    position: relative;
+}
+
+.alert-close {
+    opacity: 0.7;
+    right: 1rem;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+/* Tarjeta de equipo */
+.team-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--gold);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover añadido */
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
+}
+
+.team-header {
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+
+.team-list li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.team-list li:last-child {
+    border-bottom: none;
+}
+
+/* Botones */
+.btn-action {
+    transition: all 0.2s ease;
+}
+
+.btn-danger {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.btn-danger:hover {
+    background: rgba(220, 53, 69, 0.3);
+}
+
+.btn-success {
+    background: rgba(25, 135, 84, 0.2);
+    color: #198754;
+    border: 1px solid #198754;
+}
+
+.btn-success:hover {
+    background: rgba(25, 135, 84, 0.3);
+}
+
+.btn-warning {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid var(--gold);
+}
+
+.btn-warning:hover {
+    background: rgba(255, 193, 7, 0.3);
+}
+
+/* Estado sin equipo */
+.no-team {
+    background: var(--card-bg);
+    border: 1px dashed var(--gold);
+}

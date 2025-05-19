@@ -1,169 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Mis Torneos / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilos generales */
-    :root {
-        --gold: #ffc107;
-        --dark-bg: #1a1a2e;
-        --card-bg: rgba(18, 24, 33, 0.7);
-        --text-light: #e6e6e6;
-    }
+    <link rel="stylesheet" href="{% static 'css/my_tournament_list.css' %}">
 
-    .torneos-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-    }
 
-    /* Encabezado estilo similar */
-    .section-header {
-        margin-bottom: 3rem;
-    }
-
-    .section-title {
-        position: relative;
-        color: var(--gold);
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-    }
-
-    .section-title:after {
-        content: '';
-        position: absolute;
-        width: 80px;
-        height: 3px;
-        background: var(--gold);
-        bottom: 0;
-        left: 0;
-    }
-
-    /* Tarjetas con estilo consistente */
-    .torneo-card {
-        background: var(--card-bg);
-        border-radius: 8px;
-        border: 1px solid var(--gold);
-        transition: all 0.3s ease;
-        overflow: hidden;
-        height: 100%;
-    }
-
-    .torneo-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(255, 193, 7, 0.2);
-    }
-
-    .card-title {
-        color: var(--gold);
-        margin: 0;
-        font-size: 1.2rem;
-    }
-
-    .card-badge {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.7rem;
-        border-radius: 50px;
-        font-weight: 600;
-    }
-
-    .card-content {
-        margin: 1.5rem 0;
-    }
-
-    .detail-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.8rem;
-        color: #adb5bd;
-        font-size: 0.9rem;
-    }
-
-    .detail-item i {
-        margin-right: 0.8rem;
-        color: var(--gold);
-        width: 20px;
-        text-align: center;
-    }
-
-    /* Botones estilo similar */
-    .card-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.7rem;
-        background: rgba(255, 193, 7, 0.1);
-        color: var(--gold);
-        border: 1px solid var(--gold);
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        width: 100%;
-    }
-
-    .card-button:hover {
-        background: rgba(255, 193, 7, 0.2);
-    }
-
-    /* Estado vacío */
-    .empty-state {
-        text-align: center;
-        padding: 2rem;
-        background: var(--card-bg);
-        border: 1px dashed var(--gold);
-        border-radius: 8px;
-        max-width: 500px;
-        margin: 0 auto 3rem;
-    }
-
-    .empty-icon {
-        font-size: 3rem;
-        color: var(--gold);
-        margin-bottom: 1rem;
-    }
-
-    .empty-state h3 {
-        color: #fff;
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .empty-state p {
-        color: #adb5bd;
-        margin-bottom: 1.5rem;
-    }
-
-    .cta-button {
-        display: inline-block;
-        padding: 0.7rem 1.5rem;
-        background: var(--gold);
-        color: #000;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-</style>
-
-<div class="torneos-container">
+<div class="torneos-container mx-auto py-4 px-3">
     <!-- Encabezado con estilo similar -->
-    <div class="section-header">
-        <h1 class="section-title"><i class="bi bi-trophy-fill me-2"></i>Torneos en los que participas</h1>
+    <div class=" mb-5">
+        <h1 class="section-title position-relative mb-4 pb-2 text-warning"><i class="bi bi-trophy me-2"></i>Torneos en los que participas</h1>
         <p class="text-white">Revisa todos los torneos en los que estás inscrito actualmente</p>
     </div>
 
@@ -171,11 +17,11 @@
         <div class="row g-4">
             {% for tournament in tournament_list %}
             <div class="col-md-6 col-lg-4">
-                <div class="torneo-card">
-                    <div class="card-body">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="bi bi-trophy-fill text-warning me-2"></i> {{ tournament.name }}</h3>
-                            <span class="card-badge status-{{ tournament.status }}">
+                <div class="torneo-card overflow-hidden h-100">
+                    <div class=" p-4">
+                        <div class="card-header d-flex justify-content-between align-items-start mb-3 pb-3">
+                            <h3 class="text-warning m-0 fs-5"><i class="bi bi-trophy text-warning me-2"></i> {{ tournament.name }}</h3>
+                            <span class="card-badge px-2 py-1 rounded-pill fw-semibold status-{{ tournament.status }}">
                                 {% if tournament.status == "ongoing" %}
                                     En curso
                                 {% elif tournament.status == "upcoming" %}
@@ -186,19 +32,19 @@
                             </span>
                         </div>
 
-                        <div class="card-content">
-                            <div class="detail-item">
-                                <i class="bi bi-controller text-warning me-2"></i>
+                        <div class="my-4">
+                            <div class="detail-item d-flex align-items-center mb-3">
+                                <i class="bi bi-controller text-warning me-2 text-center"></i>
                                 <span>{{ tournament.game.name }}</span>
                             </div>
-                            <div class="detail-item">
-                                <i class="bi bi-people text-warning me-2"></i>
+                            <div class="detail-item d-flex align-items-center mb-3">
+                                <i class="bi bi-people text-warning me-2 text-center"></i>
                                 <span>{{ tournament.max_player_per_team }} jugadores/equipo</span>
                             </div>
                         </div>
 
-                        <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="card-button">
-                            <i class="fas fa-arrow-right me-2"></i>
+                        <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="card-button d-flex align-items-center justify-content-center px-3 py-2 w-100 fw-medium text-decoration-none text-warning">
+                            <i class="bi bi-arrow-right me-2"></i>
                             <span>Ver Detalles</span>
                         </a>
                     </div>
@@ -207,13 +53,13 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="empty-state">
-            <div class="empty-icon">
-                <i class="fas fa-trophy"></i>
+        <div class="empty-state text-center p-4 mx-auto mb-5">
+            <div class=" fs-1 text-warning mb-3">
+                <i class="bi bi-trophy"></i>
             </div>
-            <h3>No tienes torneos activos</h3>
-            <p>¡Regístrate en uno y comienza a competir!</p>
-            <a href="{% url 'web:tournamentListView' %}" class="cta-button">
+            <h3 class=" fs-4 mb-2">No tienes torneos activos</h3>
+            <p class="mb-4">¡Regístrate en uno y comienza a competir!</p>
+            <a href="{% url 'web:tournamentListView' %}" class="cta-button btn bg-warning px-4 py-2 fw-semibold text-decoration-none border-0">
                 <i class="fas fa-search me-2"></i>Explorar Torneos
             </a>
         </div>
