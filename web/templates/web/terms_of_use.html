@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}Términos de Uso | ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
+            <link rel="stylesheet" href="{% static 'css/terms_of_use.css' %}">
 <div class="container py-5">
     <!-- Encabezado -->
     <div class="row mb-4 align-items-center">
@@ -108,21 +110,6 @@
 </div>
 
 <style>
-    .list-group-item {
-        transition: all 0.3s ease;
-    }
 
-    .list-group-item:hover {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-    }
-
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
-    }
 </style>
 {% endblock %}

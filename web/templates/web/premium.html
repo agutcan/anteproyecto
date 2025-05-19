@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Hazte Premium / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
+            <link rel="stylesheet" href="{% static 'css/premium.css' %}">
+
 <div class="container py-5">
     <!-- Header con línea amarilla -->
-    <div class="section-header mb-5">
-        <h1 class="section-title text-warning">
+    <div class="mb-5">
+        <h1 class="section-title position-relative pb-2 d-inline-block text-warning">
             <i class="bi bi-stars me-2"></i>Hazte <span class="text-uppercase">Premium</span>
         </h1>
         <p class="text-white-50 mb-0">Desbloquea beneficios exclusivos y apoya la plataforma</p>
@@ -87,35 +90,6 @@
 </div>
 
 <style>
-    /* Estilos para la línea amarilla bajo el título */
-    .section-title {
-        color: #ffc107;
-        position: relative;
-        padding-bottom: 10px;
-        display: inline-block;
-    }
 
-    .section-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: #ffc107;
-    }
-
-    .section-header {
-        margin-bottom: 2rem;
-    }
-
-    /* Estilos para las tarjetas */
-    .card {
-        transition: transform 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
 </style>
 {% endblock %}
