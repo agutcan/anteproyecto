@@ -9,15 +9,26 @@ from unittest.mock import patch
 from web.forms import *
 
 class PlayerStatsListAPITest(APITestCase):
+    """
+    Pruebas para la API que lista las estadísticas de los jugadores.
+
+    Verifica que la respuesta de la API incluya correctamente los datos de los jugadores,
+    que la estructura del JSON sea la esperada, y que el número de jugadores devueltos
+    coincida con los creados.
+    """
+
     def setUp(self):
-        # Crear equipo de prueba
+        """
+        Configura los datos de prueba antes de cada test:
+        - Crea un equipo de prueba.
+        - Crea dos usuarios y jugadores asociados con estadísticas distintas.
+        - Define la URL de la vista que se probará.
+        """
         self.team = Team.objects.create(name="Test Team")
 
-        # Crear usuarios
         self.user1 = User.objects.create_user(username='user1', password='testpass')
         self.user2 = User.objects.create_user(username='user2', password='testpass')
 
-        # Crear jugadores asociados a los usuarios
         self.player1 = Player.objects.create(
             user=self.user1,
             team=self.team,
@@ -35,9 +46,13 @@ class PlayerStatsListAPITest(APITestCase):
             winrate=41.7
         )
 
-        self.url = reverse('web:playerStatsListApi')  
+        self.url = reverse('web:playerStatsListApi')
 
     def test_get_all_player_stats(self):
+        """
+        Verifica que la API devuelve correctamente todas las estadísticas
+        de los jugadores con un status HTTP 200 y datos equivalentes al serializer.
+        """
         response = self.client.get(self.url)
         players = Player.objects.select_related('team', 'user').all()
         serializer = PlayerStatsSerializer(players, many=True)
@@ -46,10 +61,23 @@ class PlayerStatsListAPITest(APITestCase):
         self.assertEqual(response.json(), serializer.data)
 
     def test_player_count(self):
+        """
+        Verifica que la cantidad de jugadores devueltos por la API
+        coincide con el número de jugadores creados (2).
+        """
         response = self.client.get(self.url)
         self.assertEqual(len(response.json()), 2)
 
     def test_response_structure(self):
+        """
+        Verifica que la estructura de la respuesta incluye los campos esperados:
+        - user
+        - team
+        - mmr
+        - games_played
+        - games_won
+        - winrate
+        """
         response = self.client.get(self.url)
         self.assertTrue(len(response.data) > 0)
         first = response.data[0]
@@ -62,6 +90,10 @@ class PlayerStatsListAPITest(APITestCase):
         self.assertIn('winrate', first)
 
     def tearDown(self):
+        """
+        Limpia la base de datos después de cada prueba eliminando
+        los jugadores, usuarios y equipos creados.
+        """
         Player.objects.all().delete()
         User.objects.all().delete()
         Team.objects.all().delete()
