@@ -1,17 +1,21 @@
-/* Estilos generales */
 :root {
+    /* Variables CSS para mantener consistencia en colores */
     --gold: #ffc107;
     --dark-bg: #1a1a2e;
     --card-bg: rgba(18, 24, 33, 0.7);
 }
 
 .torneos-container {
+    /* Limita el ancho máximo del contenedor principal de torneos */
     max-width: 1200px;
 }
 
 .section-title:after {
+    /* Línea decorativa debajo del título de sección */
     content: '';
     position: absolute;
+
+    /* Tamaño y posición de la línea */
     width: 80px;
     height: 3px;
     background: var(--gold);
@@ -19,62 +23,86 @@
     left: 0;
 }
 
-/* Tarjetas con estilo consistente */
 .torneo-card {
+    /* Fondo semitransparente para las tarjetas de torneo */
     background: var(--card-bg);
+
+    /* Bordes redondeados para suavizar el diseño */
     border-radius: 8px;
+
+    /* Borde dorado para resaltar */
     border: 1px solid var(--gold);
+
+    /* Transición suave para hover */
     transition: all 0.3s ease;
 }
 
 .torneo-card:hover {
+    /* Eleva la tarjeta al pasar el mouse */
     transform: translateY(-5px);
+
+    /* Sombra para dar profundidad */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card-header {
+    /* Línea divisoria tenue en la parte inferior del encabezado */
     border-bottom: 1px solid rgba(255, 193, 7, 0.2);
 }
 
 .card-badge {
+    /* Tamaño de fuente pequeño para las etiquetas/badges */
     font-size: 0.7rem;
 }
 
 .detail-item {
+    /* Tamaño de texto ligeramente pequeño y color gris claro para detalles */
     font-size: 0.9rem;
     color: #adb5bd;
 }
 
 .detail-item i {
+    /* Ancho fijo para iconos dentro de elementos de detalle */
     width: 20px;
 }
 
-/* Botones estilo similar */
 .card-button {
+    /* Botón con fondo dorado semitransparente y borde dorado */
     background: rgba(255, 193, 7, 0.1);
     border: 1px solid var(--gold);
+
+    /* Bordes redondeados para estilo suave */
     border-radius: 6px;
+
+    /* Transición suave para hover */
     transition: all 0.3s ease;
 }
 
 .card-button:hover {
+    /* Fondo más intenso al pasar el mouse */
     background: rgba(255, 193, 7, 0.2);
 }
 
-/* Estado vacío */
 .empty-state {
+    /* Fondo semitransparente y borde punteado para estado vacío */
     background: var(--card-bg);
     border: 1px dashed var(--gold);
     border-radius: 8px;
+
+    /* Limita el ancho para no extenderse demasiado */
     max-width: 500px;
 }
 
 .empty-state p {
+    /* Texto gris claro para mensajes en estado vacío */
     color: #adb5bd;
 }
 
 .cta-button {
+    /* Botón llamativo con texto negro y bordes redondeados */
     color: #000;
     border-radius: 6px;
+
+    /* Transición suave para interacciones */
     transition: all 0.3s ease;
 }
