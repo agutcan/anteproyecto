@@ -1,64 +1,98 @@
-/* Estilos generales heredados de la política */
 .privacy-icon-container {
+    /* Fondo semitransparente dorado para dar énfasis visual */
     background: rgba(255, 193, 7, 0.1);
+
+    /* Borde sólido dorado para destacar el ícono */
     border: 2px solid #ffc107;
+
+    /* Hace que el contenedor sea perfectamente circular */
     border-radius: 50%;
+
+    /* Dimensiones fijas del círculo */
     width: 100px;
     height: 100px;
 }
 
 .list-group-item {
+    /* Aplica una transición suave a cualquier cambio de estilo */
     transition: all 0.3s ease;
 }
 
 .list-group-item:hover {
+    /* Al pasar el mouse, cambia el fondo ligeramente */
     background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 .card {
+    /* Transiciones suaves para transformación y sombra */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Fondo semitransparente oscuro para la tarjeta */
     background: rgba(30, 41, 59, 0.7);
+
+    /* Borde dorado que rodea la tarjeta */
     border: 1px solid #ffc107;
 }
 
 .card:hover {
+    /* Eleva ligeramente la tarjeta en hover */
     transform: translateY(-5px);
+
+    /* Añade una sombra pronunciada al pasar el mouse */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Estilos específicos para esta página */
 .step-number {
+    /* Define tamaño cuadrado del número */
     width: 50px;
     height: 50px;
+
+    /* Color del texto (negro) dentro del número */
     color: #000;
 }
 
-
 .section-title:after {
+    /* Crea una línea decorativa debajo del título */
     content: '';
     position: absolute;
+
+    /* Tamaño de la línea */
     width: 80px;
     height: 3px;
+
+    /* Color dorado consistente con el resto del diseño */
     background: #ffc107;
+
+    /* Posiciona la línea justo debajo del título */
     bottom: -15px;
     left: 0;
 }
 
 .video-container {
+    /* Bordes redondeados del contenedor del video */
     border-radius: 5px;
+
+    /* Borde dorado que lo resalta */
     border: 2px solid #ffc107;
 }
 
 .accordion-item {
+    /* Fondo semitransparente oscuro */
     background-color: rgba(30, 41, 59, 0.7);
+
+    /* Borde dorado para resaltar cada ítem */
     border: 1px solid #ffc107;
 }
 
 .accordion-button {
+    /* Fondo ligeramente oscuro para los botones cerrados */
     background-color: rgba(0, 0, 0, 0.2);
 }
 
 .accordion-button:not(.collapsed) {
+    /* Cambia el fondo al abrir la sección */
     background-color: rgba(255, 193, 7, 0.1);
+
+    /* Texto en color dorado para el botón activo */
     color: #ffc107;
 }
