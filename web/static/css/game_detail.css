@@ -1,17 +1,24 @@
-/* Estilos generales */
 .game-container {
+    /* Limita el ancho máximo del contenedor principal del juego */
     max-width: 1200px;
 }
 
-/* Header con efecto especial */
 .game-header {
+    /* Fondo degradado oscuro en diagonal */
     background: linear-gradient(135deg, rgba(30,30,30,0.8) 0%, rgba(0,0,0,0.9) 100%);
+    
+    /* Bordes redondeados */
     border-radius: 10px;
+    
+    /* Borde tenue de color ámbar */
     border: 1px solid rgba(255, 193, 7, 0.3);
+    
+    /* Sombra para dar profundidad */
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .game-header::before {
+    /* Línea decorativa superior con gradiente horizontal */
     content: '';
     position: absolute;
     top: 0;
@@ -22,79 +29,97 @@
 }
 
 .game-title {
+    /* Texto con fondo degradado y color transparente para lograr efecto "relleno de texto" */
     background: linear-gradient(45deg, #ffc107, #ff8c00);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+
+    /* Sombra para mejorar la legibilidad */
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Badges personalizados */
 .game-badge {
+    /* Bordes totalmente redondeados (tipo píldora) */
     border-radius: 50px;
 }
 
 .badge-genre {
+    /* Fondo y borde en tonos azules tenues para géneros */
     background: rgba(13, 110, 253, 0.2);
     border: 1px solid rgba(13, 110, 253, 0.5);
 }
 
 .badge-platform {
+    /* Fondo y borde en verde para plataformas */
     background: rgba(25, 135, 84, 0.2);
     border: 1px solid rgba(25, 135, 84, 0.5);
 }
 
-/* Tarjetas */
 .game-card {
+    /* Fondo semitransparente oscuro */
     background: rgba(30, 30, 30, 0.7);
+    
+    /* Bordes redondeados y borde tenue ámbar */
     border-radius: 10px;
     border: 1px solid rgba(255, 193, 7, 0.2);
+
+    /* Sombra sutil y transición para efectos al pasar el mouse */
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .game-card:hover {
+    /* Elevación ligera al hacer hover */
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(255, 193, 7, 0.1);
     border-color: #ffc107;
 }
 
 .card-header-custom {
+    /* Fondo degradado oscuro para la cabecera de la tarjeta */
     background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(0,0,0,1) 100%);
+    
+    /* Línea divisoria inferior */
     border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+
+    /* Bordes redondeados arriba únicamente */
     border-radius: 10px 10px 0 0 !important;
 }
 
-/* Imagen del juego */
 .game-image-container {
+    /* Borde y redondeo decorativo para imágenes */
     border-radius: 10px;
     border: 2px solid rgba(255, 193, 7, 0.3);
     transition: all 0.3s ease;
 }
 
 .game-image-container:hover {
+    /* Efecto zoom y color más brillante al pasar el mouse */
     transform: scale(1.05);
     border-color: #ffc107;
 }
 
-/* Botones */
 .btn-game-action {
+    /* Espaciado entre letras y transición para interacción */
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
 }
 
 .btn-create {
+    /* Fondo degradado naranja/ámbar y sin borde */
     background: linear-gradient(45deg, #ffc107, #ff8c00);
     border: none;
 }
 
 .btn-create:hover {
+    /* Efecto de elevación al hacer hover */
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
 }
 
-/* Lista de torneos */
 .tournament-list-item {
+    /* Fondo semitransparente oscuro con bordes suaves */
     background: rgba(30, 30, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 8px;
@@ -102,17 +127,20 @@
 }
 
 .tournament-list-item:hover {
+    /* Resalta el ítem al hacer hover */
     background: rgba(255, 193, 7, 0.05);
     border-color: rgba(255, 193, 7, 0.3);
 }
 
-/* Contenedor con scroll */
 .list-wrapper {
     max-height: 400px;
+
+    /* Personalización para Firefox */
     scrollbar-width: thin;
     scrollbar-color: #ffc107 rgba(255, 255, 255, 0.05);
 }
 
+/* Personalización del scrollbar en WebKit (Chrome/Safari) */
 .list-wrapper::-webkit-scrollbar {
     width: 8px;
 }
@@ -126,24 +154,26 @@
     border-radius: 10px;
 }
 
-/* Estado de torneos */
 .status-badge {
     border-radius: 4px;
 }
 
 .status-open {
+    /* Verde para torneos abiertos */
     background: rgba(0, 200, 83, 0.2);
     color: #00c853;
     border: 1px solid #00c853;
 }
 
 .status-ongoing {
+    /* Ámbar para torneos en curso */
     background: rgba(255, 193, 7, 0.2);
     color: #ffc107;
     border: 1px solid #ffc107;
 }
 
 .status-finished {
+    /* Gris para torneos finalizados */
     background: rgba(108, 117, 125, 0.2);
     color: #6c757d;
     border: 1px solid #6c757d;
