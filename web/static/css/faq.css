@@ -1,41 +1,70 @@
 .accordion-item {
+    /* Fondo semitransparente con un tono azul oscuro */
     background-color: rgba(30, 41, 59, 0.7);
+
+    /* Borde sólido de 1px con color ámbar (#ffc107) */
     border: 1px solid #ffc107;
+
+    /* Bordes redondeados con un radio de 5px */
     border-radius: 5px;
 }
 
 .accordion-button {
+    /* Fondo semitransparente negro para los botones del acordeón */
     background-color: rgba(0, 0, 0, 0.2);
 }
 
 .accordion-button:not(.collapsed) {
+    /* Cambia el fondo cuando el acordeón está abierto (no colapsado) */
     background-color: rgba(255, 193, 7, 0.1);
+
+    /* Cambia el color del texto a ámbar cuando está activo */
     color: #ffc107;
 }
 
 .accordion-button:focus {
+    /* Elimina el efecto de sombra al enfocar el botón */
     box-shadow: none;
+
+    /* Cambia el color del borde al enfocar por el mismo color ámbar */
     border-color: #ffc107;
 }
 
-
 .category-title:after {
+    /* Agrega una línea decorativa debajo del título de categoría */
     content: '';
+
+    /* Posicionamiento absoluto respecto al contenedor */
     position: absolute;
+
+    /* Dimensiones de la línea */
     width: 60px;
     height: 2px;
+
+    /* Color ámbar */
     background: #ffc107;
+
+    /* Posicionamiento en la parte inferior izquierda del elemento */
     bottom: 0;
     left: 0;
 }
 
 .main-title:after {
+    /* Agrega una línea decorativa al título principal */
     content: '';
+
+    /* Posicionamiento absoluto debajo del título */
     position: absolute;
     bottom: -10px;
+
+    /* Centrado horizontal con desplazamiento */
     left: 10%;
     transform: translateX(-50%);
+
+    /* Dimensiones de la línea decorativa */
     width: 80px;
     height: 3px;
+
+    /* Color ámbar */
     background: #ffc107;
 }
