@@ -1,13 +1,16 @@
 :root {
-    --gold: #ffc107;
-    --card-bg: rgba(30, 41, 59, 0.7);
+    /* Variables globales para colores reutilizables */
+    --gold: #ffc107; /* Dorado usado como color primario */
+    --card-bg: rgba(30, 41, 59, 0.7); /* Fondo semitransparente para tarjetas */
 }
 
 .rewards-container {
+    /* Define el ancho máximo del contenedor de recompensas */
     max-width: 1200px;
 }
 
 .section-title:after {
+    /* Agrega una línea decorativa dorada debajo del título de sección */
     content: '';
     position: absolute;
     width: 80px;
@@ -19,94 +22,114 @@
 
 /* Alertas compactas */
 .coins-alert {
+    /* Fondo dorado semitransparente con bordes redondeados */
     background: rgba(255, 193, 7, 0.1);
     border-radius: 6px;
 }
 
 /* Grid de recompensas compacto */
 .rewards-grid {
+    /* Diseño de cuadrícula adaptable con columnas mínimas de 250px */
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
-/* Tarjetas compactas con foto completa */
+/* Tarjetas de recompensa */
 .reward-card {
+    /* Fondo y borde con estilo dorado */
     background: var(--card-bg);
     border-radius: 8px;
     border: 1px solid var(--gold);
+
+    /* Transición suave en hover */
     transition: all 0.2s ease;
 }
 
 .reward-card:hover {
+    /* Elevación sutil al pasar el mouse */
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .reward-image-container {
+    /* Contenedor de imagen con altura fija y fondo oscuro */
     height: 150px;
     background: rgba(0, 0, 0, 0.1);
 }
 
 .reward-image {
+    /* Transición suave para efecto de zoom al pasar el mouse */
     transition: transform 0.3s ease;
 }
 
 .reward-card:hover .reward-image {
+    /* Aumenta el tamaño de la imagen ligeramente en hover */
     transform: scale(1.05);
 }
 
 .reward-description {
+    /* Descripción en tamaño pequeño, limitada a 2 líneas con puntos suspensivos */
     font-size: 0.8rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .reward-info {
+    /* Texto informativo con tamaño reducido */
     font-size: 0.8rem;
 }
 
 .reward-stock {
+    /* Color gris claro para mostrar el stock */
     color: #adb5bd;
 }
 
-/* Botones compactos */
+/* Botones para canjear recompensas */
 .redeem-btn {
+    /* Botón compacto con bordes redondeados y transición suave */
     font-size: 0.85rem;
     border-radius: 4px;
     transition: all 0.2s ease;
 }
 
 .btn-available {
+    /* Estilo para recompensas disponibles en verde suave */
     background: rgba(40, 167, 69, 0.2);
     color: #28a745;
     border: 1px solid #28a745;
 }
 
 .btn-available:hover {
+    /* Intensifica el fondo verde al hacer hover */
     background: rgba(40, 167, 69, 0.3);
 }
 
 .btn-unavailable {
+    /* Estilo grisáceo para botones desactivados */
     background: rgba(108, 117, 125, 0.2);
     color: #adb5bd;
     border: 1px solid #6c757d;
-    cursor: not-allowed;
+    cursor: not-allowed; /* Cursor deshabilitado */
 }
 
-/* Estado vacío */
+/* Estado vacío (cuando no hay recompensas) */
 .empty-state {
+    /* Tarjeta con borde punteado y fondo personalizado */
     background: var(--card-bg);
     border: 1px dashed var(--gold);
     border-radius: 8px;
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* Ocupa todo el ancho de la grid */
 }
 
 /* Alertas cerrables */
 .alert-message {
+    /* Contenedor con bordes redondeados */
     border-radius: 6px;
 }
 
 .alert-close {
+    /* Botón de cierre con estilo transparente */
     transform: translateY(-50%);
     background: transparent;
     border: none;
@@ -116,6 +139,7 @@
     transition: opacity 0.2s;
 }
 
-    .alert-close:hover {
-        opacity: 1;
-    }
+.alert-close:hover {
+    /* Aumenta la visibilidad del botón al pasar el mouse */
+    opacity: 1;
+}
