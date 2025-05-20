@@ -1,76 +1,107 @@
-/* Estilos generales */
 .match-container {
+    /* Limita el ancho máximo del contenedor de partidos */
     max-width: 800px;
 }
 
 .match-title:after {
+    /* Crea una línea decorativa debajo del título del partido */
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
+
+    /* Tamaño y color de la línea */
     width: 80px;
     height: 3px;
     background: #ffc107;
+
+    /* Bordes ligeramente redondeados para suavizar la línea */
     border-radius: 2px;
 }
 
-/* Tarjeta de partido */
 .match-card {
+    /* Fondo oscuro para las tarjetas de partidos */
     background-color: #1a1a1a;
+
+    /* Borde dorado tenue para dar énfasis */
     border: 1px solid rgba(255, 193, 7, 0.3);
+
+    /* Transiciones suaves al hacer hover */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .match-card:hover {
+    /* Eleva ligeramente la tarjeta al pasar el mouse */
     transform: translateY(-5px);
+
+    /* Aplica una sombra con tono dorado */
     box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+
+    /* Refuerza el color del borde */
     border-color: #ffc107;
 }
 
 .match-card-header {
+    /* Fondo aún más oscuro para la cabecera de la tarjeta */
     background-color: #111 !important;
+
+    /* Borde inferior sutil en color dorado */
     border-bottom: 1px solid rgba(255, 193, 7, 0.3);
 }
 
+/* Estados del partido */
 .status-pending {
+    /* Fondo y texto para el estado pendiente */
     background-color: rgba(255, 193, 7, 0.2);
     color: #ffc107;
 }
 
 .status-ongoing {
+    /* Fondo y texto para el estado en curso */
     background-color: rgba(13, 110, 253, 0.2);
     color: #0d6efd;
 }
 
 .status-completed {
+    /* Fondo y texto para el estado completado */
     background-color: rgba(25, 135, 84, 0.2);
     color: #198754;
 }
 
 /* Formulario de resultados */
 .result-form label {
+    /* Color dorado y peso medio para las etiquetas */
     color: #ffc107;
     font-weight: 500;
 }
 
 .result-form input {
+    /* Fondo oscuro y texto blanco para los campos */
     background-color: #111 !important;
     color: white !important;
+
+    /* Borde gris oscuro para mantener el contraste */
     border: 1px solid #444 !important;
 }
 
 .result-form input:focus {
+    /* Resalta el campo enfocado con borde dorado */
     border-color: #ffc107 !important;
+
+    /* Añade un resplandor suave alrededor */
     box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
 }
 
-/* Botones */
 .btn-confirm {
+    /* Botón de confirmación con color verde */
     background-color: #198754;
+
+    /* Transiciones suaves al interactuar */
     transition: all 0.3s ease;
 }
 
 .btn-confirm:hover {
+    /* Oscurece el botón y lo eleva ligeramente al hacer hover */
     background-color: #157347;
     transform: translateY(-2px);
 }
