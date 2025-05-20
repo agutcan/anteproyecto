@@ -1,15 +1,23 @@
-/* Estilo adicional para mejorar la apariencia del dropdown */
 .navbar .dropdown-menu {
+    /* Bordes redondeados para el menú desplegable */
     border-radius: 8px;
-    background-color: #343a40;  /* Color de fondo más oscuro para que combine con la navbar */
-    border: 1px solid #444;     /* Borde sutil */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);  /* Sombra para darle profundidad */
+
+    /* Fondo oscuro para el menú */
+    background-color: #343a40;
+
+    /* Borde ligeramente más claro que el fondo para delimitar el área */
+    border: 1px solid #444;
+
+    /* Sombra para dar profundidad al menú */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .navbar .dropdown-item:hover {
-    background-color: #007bff;  /* Color azul al pasar el mouse */
+    /* Cambia el fondo del ítem cuando se pasa el mouse por encima */
+    background-color: #007bff;
 }
 
 .navbar .nav-item .dropdown-toggle:hover {
-    color: #007bff;  /* Color azul al pasar el mouse */
+    /* Cambia el color del texto al pasar el mouse sobre el toggle */
+    color: #007bff;
 }
