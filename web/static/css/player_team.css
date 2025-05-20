@@ -1,14 +1,17 @@
 :root {
+    /* Variables globales de colores */
     --gold: #ffc107;
     --dark-bg: #1a1a2e;
     --card-bg: rgba(30, 41, 59, 0.7);
 }
 
 .team-container {
+    /* Ancho máximo para el contenedor de equipos */
     max-width: 800px;
 }
 
 .page-title:after {
+    /* Línea decorativa dorada debajo del título de página */
     content: '';
     position: absolute;
     width: 80px;
@@ -18,10 +21,10 @@
     left: 0;
 }
 
-/* Alertas cerrables */
+/* Estilos para alertas con opción de cierre */
 .alert-message {
     border-radius: 6px;
-    padding: 1rem 3rem 1rem 1rem;
+    padding: 1rem 3rem 1rem 1rem; /* Espacio para el botón de cierre */
     margin-bottom: 2rem;
     display: flex;
     align-items: center;
@@ -30,6 +33,7 @@
 }
 
 .alert-close {
+    /* Botón de cerrar con opacidad reducida y posición ajustada */
     opacity: 0.7;
     right: 1rem;
     cursor: pointer;
@@ -38,10 +42,11 @@
 }
 
 .alert-close:hover {
+    /* Opacidad completa al pasar el cursor */
     opacity: 1;
 }
 
-/* Tarjeta de equipo */
+/* Tarjeta que representa a un equipo */
 .team-card {
     background: var(--card-bg);
     border-radius: 8px;
@@ -49,31 +54,34 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto hover añadido */
+/* Efecto de elevación y sombra al pasar el mouse */
 .team-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
 }
 
+/* Encabezado del equipo con fondo semitransparente y borde inferior dorado */
 .team-header {
     background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(255, 193, 7, 0.2);
 }
 
-
+/* Lista de miembros o elementos del equipo con borde sutil */
 .team-list li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Remueve el borde del último elemento para un acabado limpio */
 .team-list li:last-child {
     border-bottom: none;
 }
 
-/* Botones */
+/* Estilos generales para botones con transición suave */
 .btn-action {
     transition: all 0.2s ease;
 }
 
+/* Botón de peligro con colores rojos transparentes */
 .btn-danger {
     background: rgba(220, 53, 69, 0.2);
     color: #dc3545;
@@ -84,6 +92,7 @@
     background: rgba(220, 53, 69, 0.3);
 }
 
+/* Botón de éxito con tonos verdes transparentes */
 .btn-success {
     background: rgba(25, 135, 84, 0.2);
     color: #198754;
@@ -94,6 +103,7 @@
     background: rgba(25, 135, 84, 0.3);
 }
 
+/* Botón de advertencia con colores dorados transparentes */
 .btn-warning {
     background: rgba(255, 193, 7, 0.2);
     border: 1px solid var(--gold);
@@ -103,7 +113,7 @@
     background: rgba(255, 193, 7, 0.3);
 }
 
-/* Estado sin equipo */
+/* Estado visual para cuando no hay equipos asignados */
 .no-team {
     background: var(--card-bg);
     border: 1px dashed var(--gold);
