@@ -1,23 +1,35 @@
 input, select, textarea {
+    /* Fondo oscuro para los campos de formulario */
     background-color: #1a1a1a !important;
+
+    /* Texto en color blanco para mejor legibilidad */
     color: #ffffff !important;
+
+    /* Borde gris oscuro para delimitar los campos */
     border: 1px solid #444 !important;
 }
 
 input:focus, select:focus, textarea:focus {
+    /* Cambia el borde a dorado al enfocar el campo */
     border-color: #ffc107 !important;
+
+    /* Quita la sombra por defecto al enfocar */
     box-shadow: none !important;
 }
 
 .card {
+    /* Transiciones suaves para transformaciones y sombra */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
+    /* Eleva la tarjeta ligeramente y agrega sombra al pasar el cursor */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
+
 ::placeholder {
+    /* Color blanco para el texto placeholder y opacidad completa */
     color: white !important;
-    opacity: 1; /* Opcional, para evitar transparencia */
+    opacity: 1; /* Opcional, evita que el placeholder sea transparente */
 }
