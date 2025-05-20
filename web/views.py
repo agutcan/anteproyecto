@@ -184,6 +184,10 @@ class TournamentListView(LoginRequiredMixin, ListView):
     Requiere autenticación (LoginRequiredMixin) y proporciona funcionalidad para filtrar
     torneos por nombre, juego asociado y estado del torneo.
 
+    También optimiza las consultas a la base de datos utilizando `select_related` y `prefetch_related`
+    para evitar el problema N+1 y mejorar el rendimiento al acceder a relaciones entre torneos, juegos,
+    equipos y jugadores.
+    
     Atributos:
         model (Model): Modelo Tournament que representa los torneos
         template_name (str): Ruta al template que renderiza la lista (web/tournament_list.html)
@@ -203,6 +207,11 @@ class TournamentListView(LoginRequiredMixin, ListView):
         - Búsqueda por nombre (parámetro GET 'search')
         - Filtro por juego (parámetro GET 'game')
         - Filtro por estado (parámetro GET 'status')
+
+        Además, optimiza las relaciones:
+        - `select_related('game')`: para acceder eficientemente al juego asociado al torneo
+        - `prefetch_related('tournamentteam_set')`: para cargar en bloque los equipos del torneo
+        - `prefetch_related('team__player_set')`: para cargar también los jugadores de cada equipo
 
         Returns:
             QuerySet: Torneos filtrados según los parámetros recibidos
