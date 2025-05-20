@@ -311,6 +311,13 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
     Requiere autenticación (LoginRequiredMixin) y muestra información detallada
     de un torneo individual, incluyendo el estado de registro del usuario actual.
 
+    También mejora el rendimiento al acceder a relaciones complejas mediante
+    `select_related` y `prefetch_related`, lo cual permite cargar eficientemente:
+    - El equipo del jugador autenticado
+    - Los equipos participantes del torneo
+    - Los jugadores de cada equipo
+    - Los usuarios vinculados a cada jugador
+
     Atributos:
         model (Model): Modelo Tournament que contiene los datos del torneo
         template_name (str): Ruta al template que renderiza la vista (web/tournament_detail.html)
@@ -328,6 +335,11 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
         """
         Extiende el contexto base con información sobre si el usuario actual
         está registrado en el torneo.
+
+        Optimizaciones de consulta incluidas:
+        - `select_related('team')`: para obtener el equipo del jugador logueado
+        - `select_related('user')`: para acceder al usuario de cada jugador
+        - `prefetch_related('team__player_set')`: para obtener todos los jugadores de cada equipo del torneo
 
         Returns:
             dict: Contexto que incluye:
