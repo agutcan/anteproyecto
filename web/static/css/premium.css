@@ -1,18 +1,20 @@
 .section-title:after {
+    /* Línea decorativa dorada debajo del título de sección */
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 60px;
-    height: 3px;
-    background: #ffc107;
+    width: 60px; /* Ancho reducido para un diseño más compacto */
+    height: 3px;  /* Grosor de la línea */
+    background: #ffc107; /* Color dorado */
 }
 
-/* Estilos para las tarjetas */
 .card {
+    /* Transición suave para la transformación al hacer hover */
     transition: transform 0.3s ease;
 }
 
 .card:hover {
+    /* Eleva la tarjeta ligeramente al pasar el mouse */
     transform: translateY(-5px);
 }
