@@ -1,25 +1,38 @@
 .profile-header {
-    height: 120px; /* más alto para dar espacio al avatar */
+    /* Altura mayor para dar espacio al avatar */
+    height: 120px;
+
+    /* Fondo con degradado oscuro de gris a negro */
     background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+
+    /* Línea sutil en la parte inferior para separar visualmente */
     border-bottom: 1px solid rgba(255, 193, 7, 0.2);
 }
 
 .profile-avatar-container {
+    /* Tamaño fijo para el contenedor del avatar */
     width: 100px;
     height: 100px;
+
+    /* Posición desde arriba para ajustar verticalmente */
     top: 10px;
+
+    /* Centra horizontalmente el contenedor con transform */
     transform: translateX(-50%);
 }
 
 .bg-darker {
+    /* Fondo de color oscuro para secciones que requieran contraste */
     background-color: #1a1a1a;
 }
 
 .card {
+    /* Transiciones suaves para movimiento y sombra */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
+    /* Eleva la tarjeta y agrega sombra al pasar el mouse */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
