@@ -1,4 +1,9 @@
 body {
+    /* Establece un color de fondo oscuro para toda la página */
     background-color: #121212;
+
+    /* Define la familia de fuentes que se usará en el cuerpo del documento.
+       Se da preferencia a 'Segoe UI', pero si no está disponible,
+       se usan otras fuentes comunes como Tahoma, Geneva, Verdana, y por último una genérica sans-serif. */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+}
