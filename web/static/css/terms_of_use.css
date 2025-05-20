@@ -1,16 +1,20 @@
 .list-group-item {
+    /* Aplica una transición suave a todas las propiedades */
     transition: all 0.3s ease;
 }
 
 .list-group-item:hover {
+    /* Cambia el fondo al pasar el mouse para indicar interactividad */
     background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 .card {
+    /* Efecto de transición suave para transformaciones y sombras */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
+    /* Eleva la tarjeta y aplica una sombra al hacer hover */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
 }
