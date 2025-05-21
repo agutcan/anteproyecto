@@ -198,6 +198,6 @@ Esta plataforma permitirá a los usuarios:
 - [Formularios](docs/FORMS.md)
 - [Action](docs/WORKFLOWS.md)
 - [Test](docs/TESTS.md)
-- [Serializadores](docs/TESTS.md)
+- [Serializadores](docs/SERIALIZERS.md)
 - [Funciones](docs/FUNCTIONS.md)
 - [Docker Compose](docs/DOCKER_COMPOSE.md)
