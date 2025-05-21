@@ -53,7 +53,7 @@
 
 # 🗃️ Esquema de la base de datos
 
-![Esquema de la base de datos]()
+![Esquema de la base de datos](../web/static/images/diagrama.png)
 
 ## 🔄 Navegación
 [⬅️ Volver al README principal](../README.md)
