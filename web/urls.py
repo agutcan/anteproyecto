@@ -12,7 +12,7 @@ urlpatterns = [
     #path("api/tournaments/", views.TournamentListAPI.as_view(), name="tournamentListApi"),  # Api para el calendario con los torneos
     path('api/player-stats/', views.PlayerStatsListAPI.as_view(), name='playerStatsListApi'),  # Api para el gráfico con las estadísticas de cada jugador
 
-    path('', views.IndexView.as_view(), name='indexView'),  # Vista principal (Estando logueado)
+    path('', views.IndexView.as_view(), name='indexView'),  # Vista principal
     path('premium/', views.PremiumView.as_view(), name='premiumView'),  # Vista para la página de Premium/VIP
     path('premium/upgrade/', views.UpgradeToPremiumView.as_view(), name='upgradeToPremiumView'),  # Vista para actualizar el rol a Premium
     path('support/', views.SupportView.as_view(), name='supportView'),  # Vista para la página de contacto
