@@ -155,7 +155,7 @@ Esta plataforma permitirá a los usuarios:
 - He cambiado la gestión de torneos, es decir, solo gestiono torneos de 2, 4 y 8 equipos, necesitaría de más tiempo para implementar un sistema para gestionar equipos impares y automatizar el sistema de gestión de torneos con más equipos.
 - He cambiado la gestión de equipos, los jugadores solo pueden unirse a un equipo y el lider de este es el único que puede modificarlo, es decir, un jugador tiene que tener muy claro a que equipo va a unirse porque no va a poder abandonarlo o unirse a otro si llega a participar en algún torneo con ese equipo. El tamaño de los integrantes de un equipo no puede variar una vez se ha participado en un torneo.
 - He quitado el calendario con los torneos de la página.
-- No he realizado test a todas las vistas de la página, solo a algunas.
+- No he realizado test a todas las vistas de la página, ni he documentado todas en github, solo a algunas.
 - No he realizado un manual de usuario.
 
 ### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
