@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}Torneos / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
+            <link rel="stylesheet" href="{% static 'css/tournament_list.css' %}">
+
 <div class="container py-4">
     <!-- Header de torneos con línea amarilla -->
-    <div class="section-header mb-4">
+    <div class=" mb-4 pb-3">
         <div class="d-flex justify-content-between align-items-center flex-wrap">
             <div class="position-relative mb-3 mb-md-0">
-                <h1 class="section-title m-0">
+                <h1 class="section-title text-warning position-relative pb-2 d-inline-block m-0">
                     <i class="bi bi-trophy me-2"></i>Torneos Disponibles
                 </h1>
             </div>
@@ -178,49 +181,5 @@
 </div>
 
 <style>
-    /* Estilos para la línea amarilla bajo el título */
-    .section-title {
-        color: #ffc107;
-        position: relative;
-        padding-bottom: 10px;
-        display: inline-block;
-    }
-    ::placeholder {
-        color: white !important;
-        opacity: 1; /* Opcional, para evitar transparencia */
-    }
-    .section-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: #ffc107;
-    }
-
-    .section-header {
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-    }
-
-    /* Estilos existentes */
-    .btn-hover:hover {
-        transform: translateY(-2px);
-        transition: all 0.3s ease;
-    }
-
-    .tournament-card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .border-opacity-25 {
-        border-color: rgba(255, 193, 7, 0.25) !important;
-    }
-
-
-
 </style>
 {% endblock %}

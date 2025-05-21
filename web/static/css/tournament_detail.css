@@ -1,0 +1,154 @@
+/* Estilos generales */
+.tournament-container {
+    max-width: 1200px;
+}
+
+/* Título con efecto especial */
+.tournament-header {
+    background: linear-gradient(135deg, rgba(30,30,30,0.8) 0%, rgba(0,0,0,0.9) 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.tournament-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, #ff6b00);
+}
+
+.tournament-title {
+    background-clip: text;
+    color: transparent;
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    -webkit-background-clip: text;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.badge-game {
+    background: rgba(13, 110, 253, 0.2);
+    border: 1px solid rgba(13, 110, 253, 0.5);
+}
+
+.badge-status-upcoming {
+    background: rgba(25, 135, 84, 0.2);
+    border: 1px solid rgba(25, 135, 84, 0.5);
+}
+
+.badge-status-ongoing {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.5);
+    color: #ffc107 !important;
+}
+
+.badge-status-completed {
+    background: rgba(108, 117, 125, 0.2);
+    border: 1px solid rgba(108, 117, 125, 0.5);
+}
+
+.badge-prize {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.5);
+}
+
+/* Tarjetas */
+.tournament-card {
+    background: rgba(30, 30, 30, 0.7);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.tournament-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.card-header-custom {
+    background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(0,0,0,1) 100%);
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Acordeón */
+.accordion-custom .accordion-item {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.accordion-custom .accordion-button {
+    background-color: rgba(30, 30, 30, 0.7);
+}
+
+.accordion-custom .accordion-button:not(.collapsed) {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.accordion-custom .accordion-button::after {
+    filter: brightness(0.8);
+}
+
+/* Lista de partidos */
+.match-list-item {
+    background: rgba(30, 30, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.match-list-item:hover {
+    background: rgba(255, 193, 7, 0.05);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+
+/* Botones */
+.btn-tournament-action {
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-join {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    color: #000;
+}
+
+.btn-join:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+}
+
+/* Imagen del juego */
+.game-image-container {
+    border: 2px solid rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+}
+
+.game-image-container:hover {
+    transform: scale(1.05);
+    border-color: #ffc107;
+}
+
+/* Contenedor con scroll para la lista de partidos */
+.list_wrapper {
+    max-height: 400px;
+    scrollbar-width: thin;
+    scrollbar-color: #ffc107 rgba(255, 255, 255, 0.05);
+}
+
+.list_wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.list_wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.list_wrapper::-webkit-scrollbar-thumb {
+    background-color: #ffc107;
+    border-radius: 10px;
+}

@@ -1,66 +1,14 @@
 {% extends 'base.html' %}
-{% load tz %}
-
 {% block title %}Logs del Torneo - {{ tournament.name }} / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilo para el título con línea amarilla */
-    .logs-title {
-        position: relative;
-        padding-bottom: 15px;
-        display: inline-block;
-    }
-
-    .logs-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-        border-radius: 2px;
-    }
-
-    /* Mejoras de estilo para las tarjetas de logs */
-    .log-card {
-        border: 1px solid rgba(255, 193, 7, 0.2);
-        transition: all 0.3s ease;
-        margin-bottom: 1.5rem;
-    }
-
-    .log-card:hover {
-        border-color: #ffc107;
-        box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
-        transform: translateY(-2px);
-    }
-
-    .log-header {
-        border-bottom: 1px solid rgba(255, 193, 7, 0.3);
-    }
-
-    .log-item {
-        background-color: rgba(26, 26, 46, 0.5);
-        border-left: 3px solid transparent;
-        transition: all 0.2s ease;
-    }
-
-    .log-item:hover {
-        background-color: rgba(255, 193, 7, 0.05);
-        border-left-color: #ffc107;
-    }
-
-    .timestamp {
-        color: #0dcaf0;
-        font-weight: 500;
-    }
-</style>
+        <link rel="stylesheet" href="{% static 'css/tournament_logs.css' %}">
 
 <div class="container py-5">
     <!-- Encabezado con línea amarilla -->
     <div class="mb-5">
-        <h1 class="logs-title text-warning fw-bold">
+        <h1 class="logs-title position-relative pb-3 d-inline-block text-warning fw-bold">
             <i class="bi bi-journal-text me-2"></i>Logs del Torneo
         </h1>
         <h2 class="text-white mt-2">{{ tournament.name }}</h2>
@@ -69,7 +17,7 @@
     {% if match_logs %}
         {% for log in match_logs %}
             <!-- Tarjeta de log -->
-            <div class="card bg-dark log-card">
+            <div class="card bg-dark log-card mb-4">
                 <div class="card-header bg-black text-warning log-header">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                         <h5 class="mb-0">
@@ -87,8 +35,8 @@
                         <li class="list-group-item log-item text-white">
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center mb-1">
-                                    <span class="timestamp me-2">
-                                        {{ log.created_at|localtime|date:"d M Y H:i:s" }}
+                                    <span class=" fw-medium text-info me-2">
+                                        {{ log.created_at|date:"d M Y H:i:s" }}
                                     </span>
                                     {% if log.player %}
                                         <span class="badge bg-primary me-2">

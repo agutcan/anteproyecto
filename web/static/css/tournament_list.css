@@ -1,0 +1,31 @@
+/* Estilos para la línea amarilla bajo el título */
+
+::placeholder {
+    color: white !important;
+    opacity: 1; /* Opcional, para evitar transparencia */
+}
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #ffc107;
+}
+
+/* Estilos existentes */
+.btn-hover:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.tournament-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.border-opacity-25 {
+    border-color: rgba(255, 193, 7, 0.25) !important;
+}

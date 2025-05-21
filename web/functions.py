@@ -112,7 +112,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Número total de equipos en el torneo
     num_teams = tournament_teams.count()
     # Si el número de equipos es 0 cancelamos el torneo
-    if num_teams == 0 
+    if num_teams == 0:
         # Eliminar el torneo cancelado
         tournament.delete()
         print(f"⚠️ El torneo {tournament.name} ha sido cancelado debido a que no tiene equipos.")

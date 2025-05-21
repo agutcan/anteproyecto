@@ -1,0 +1,59 @@
+/* Estilos simplificados como el formulario de perfil */
+.tournament-form-card {
+    background-color: #1a1a1a !important;
+    border: 1px solid #ffc107 !important;
+    transition: transform 0.3s ease;
+}
+
+.tournament-form-card:hover {
+    transform: translateY(-3px);
+}
+
+.form-header {
+    background-color: #111 !important;
+    border-bottom: 1px solid #ffc107 !important;
+}
+
+input, select, textarea {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #444 !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #ffc107 !important;
+    box-shadow: none !important;
+}
+
+.invalid-feedback {
+    color: #ff6b6b !important;
+}
+
+/* Botones */
+.btn-warning {
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #ffca2c;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #adb5bd;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Texto de ayuda */
+.form-text {
+    color: #777 !important;
+}
+
+/* Iconos */
+.field-icon {
+    width: 20px;
+}
