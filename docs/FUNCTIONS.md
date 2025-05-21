@@ -175,12 +175,27 @@ Genera los partidos de un torneo basándose en el MMR promedio de los equipos pa
 ```python
 def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     """
-    Genera los partidos del torneo basados en el MMR de los equipos.
+    Genera los partidos de un torneo basándose en el MMR promedio de los equipos participantes.
     
-    Argumentos:
-    tournament_id (int): El ID del torneo para el cual se generarán los partidos.
-    round (int): El número de la ronda actual del torneo.
-    tournament_teams (QuerySet): Lista de equipos que participan en el torneo (opcional).
+    Esta función realiza las siguientes operaciones:
+    1. Verifica que el número de equipos sea válido (2, 4 u 8)
+    2. Valida que todos los equipos tengan el número correcto de jugadores
+    3. Cancela el torneo con notificaciones si no se cumplen las condiciones
+    4. Ordena los equipos por MMR promedio y los empareja
+    5. Crea los partidos correspondientes en la base de datos
+
+    Args:
+        tournament_id (int): ID del torneo en la base de datos. Debe existir un objeto Tournament con este ID.
+        round (int, optional): Número de ronda del torneo. Por defecto es 1.
+        tournament_teams (QuerySet, optional): Conjunto de equipos del torneo. Si es None, se obtienen de la base de datos.
+
+    Returns:
+        None: La función no retorna nada pero puede:
+              - Crear partidos en la base de datos
+              - Cancelar el torneo (eliminándolo) si hay condiciones inválidas
+
+    Raises:
+        Tournament.DoesNotExist: Si no existe un torneo con el ID proporcionado
     """
     
     # Obtener el torneo utilizando el ID proporcionado
@@ -193,11 +208,16 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     
     # Número total de equipos en el torneo
     num_teams = tournament_teams.count()
+    # Si el número de equipos es 0 cancelamos el torneo
+    if num_teams == 0 
+        # Eliminar el torneo cancelado
+        tournament.delete()
+        return
 
-    # Si el número de equipos es 0 o diferente a 2, 4 u 8, cancelamos el torneo
-    if num_teams == 0 or num_teams != 2 or num_teams != 4 or num_teams != 8:
+    # Si el número es diferente a 2, 4 u 8, cancelamos el torneo
+    if num_teams != 2 and num_teams != 4 and num_teams != 8:
         # Enviar correo a todos los jugadores del torneo notificando la cancelación
-        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('tournament')
+        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('team')
         for player in players:
             send_mail(
                 subject='Torneo Cancelado',  # Asunto del correo
@@ -214,7 +234,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Verificar que todos los equipos tengan la cantidad exacta de jugadores
     invalid_teams = []
     for team in Team.objects.filter(tournamentteam__tournament=tournament):
-        if team.players.count() != tournament.max_players_per_team:
+        if team.player_set.count() != tournament.max_player_per_team:
             invalid_teams.append(team)
 
     if invalid_teams:
@@ -260,6 +280,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Marcar que los partidos han sido generados y guardar el estado del torneo
     tournament.matches_generated = True
     tournament.save()
+
 ```
 
 ---
