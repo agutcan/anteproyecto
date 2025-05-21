@@ -616,7 +616,6 @@ Procesa la finalización de un torneo cuando se completa el último partido, det
 - Envía un email a cada jugador del equipo ganador notificando la victoria  
 
 ## ⚠️ Casos Especiales  
-- Si no se puede determinar un ganador, muestra advertencia en consola  
 - Si no hay jugadores en el equipo ganador, omite la distribución de premios  
 
 ```python
