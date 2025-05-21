@@ -1,9 +1,9 @@
-# 🏆 Explicación de Serializers en Django (`serializers.py`)
+ # 🏆 Explicación de Serializers en Django (`serializers.py`)
 
 Este archivo define los serializadores utilizados en la aplicación web. Los serializadores representan la forma en que los datos del backend, se transforman en formatos que pueden ser enviados o recibidos a través de una API, como JSON o XML. A continuación, se describen cada uno de los serializadores:
 
 ---
-
+<!--
 ## 🏅 TournamentSerializer
 
 
@@ -72,7 +72,7 @@ class TournamentSerializer(serializers.ModelSerializer):
         model = Tournament
         fields = ["id", "title", "game", "start"]
 ```
-
+-->
 ## 🎮 PlayerStatsSerializer
 
 ### 📝 Descripción
