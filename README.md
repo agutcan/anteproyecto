@@ -135,30 +135,28 @@ Esta plataforma permitirá a los usuarios:
 - 🛟 Sistema de soporte.
 - 🛠️ Creación de tareas automatizadas.
 - 🔗 Integrar las vistas con el backend.
-
-
+- ✅ Realizar pruebas unitarias con **Django TestCase**.
+- 📚 Redactar la documentación del sistema.
 
 ### En proceso
 
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
-- ✅ Realizar pruebas unitarias con **Django TestCase**.
 - 📊 Validar el correcto funcionamiento de la plataforma.
-- 📚 Redactar la documentación del sistema y el manual de usuario.
 
 ### Por hacer
 
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
-- ✅ Realizar pruebas unitarias con **Django TestCase**.
 - 📊 Validar el correcto funcionamiento de la plataforma.
-- 📚 Redactar la documentación del sistema y el manual de usuario.
 
 ### Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
 
-- He cambiado la gestión de torneos, es decir, solo gestiono torneos de 2, 4 y 8 equipos, necesitaria de más tiempo para implementar un sistema para gestionar equipos impares y automatizar el sistema de gestión de torneos con más equipos
+- He cambiado la gestión de torneos, es decir, solo gestiono torneos de 2, 4 y 8 equipos, necesitaría de más tiempo para implementar un sistema para gestionar equipos impares y automatizar el sistema de gestión de torneos con más equipos.
 - He cambiado la gestión de equipos al ver que tengo un gran problema, los jugadores solo pueden unirse a un equipo y el lider de este es el único que puede modificarlo, es decir, un jugador tiene que tener muy claro a que equipo va a unirse porque no va a poder abandonarlo o unirse a otro si se llega a participar en algún torneo con ese equipo. El tamaño de los integrantes de un equipo no puede variar una vez se ha participado en un torneo.
-- He quitado el calendario con los torneos de la página. 
+- He quitado el calendario con los torneos de la página.
+- No he realizado test a todas las vistas de la página, solo a algunas.
+- No he realizado un manual de usuario.
 
 ### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
@@ -167,6 +165,7 @@ Esta plataforma permitirá a los usuarios:
 - AI para contestar a los mensajes de soporte automáticamente.
 - Mixin personalizado para páginas en las que solo puedan acceder jugadores premium/vip.
 - Sistema de paginación.
+- Sistema para gestionar los torneos y equipos por juego, es decir, por ejemplo, Valorant tiene un máximo de jugadores de 5, una duración de partida de 45 min, hacer las validaciones y así con todos los juegos.
 
 ### Mejoras implementadas al proyecto
 
