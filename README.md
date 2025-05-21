@@ -166,6 +166,7 @@ Esta plataforma permitirá a los usuarios:
 - Mixin personalizado para páginas en las que solo puedan acceder jugadores premium/vip.
 - Sistema de paginación.
 - Sistema para gestionar los torneos y equipos por juego, es decir, por ejemplo, Valorant tiene un máximo de jugadores de 5, una duración de partida de 45 min, hacer las validaciones y así con todos los juegos.
+- Mejorar el sistema de MMR, hacerlo más complejo para que si los equipos que se enfrentan tiene mucha diferencia de MMR, fluctue más o menos al ganar o perder.
 
 ### Mejoras implementadas al proyecto
 
