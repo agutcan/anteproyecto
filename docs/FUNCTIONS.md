@@ -717,13 +717,6 @@ Gestiona la transición entre rondas en un torneo, procesando los resultados de 
 - Genera logs detallados de la operación  
 - Proporciona feedback visual en consola  
 
-### ⚠️ Casos Especiales  
-
-| Escenario | Sistema Responde |  
-|-----------|------------------|  
-| Sin ganadores definidos | Cancela generación + Notifica |  
-| Número impar de equipos | Congela torneo + Alerta |  
-
 ```python
 def process_round(tournament, round_number):
     """
