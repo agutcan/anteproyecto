@@ -191,7 +191,7 @@ Esta plataforma permitirá a los usuarios:
 
 ## 📄 Documentación
 
-- [Estructura del Proyecto](docs/PROJECT_STRUCTURE.md)
+- [Estructura del Proyecto y esquema de base de datos](docs/PROJECT_STRUCTURE.md)
 - [Admin](docs/ADMIN.md)
 - [Vistas](docs/VIEWS.md)
 - [Tareas programadas](docs/TASKS.md)
