@@ -1,0 +1,98 @@
+.login-container {
+    min-height: calc(100vh - 150px);
+}
+
+.login-card {
+    background: rgba(21, 21, 21, 0.85);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    max-width: 500px;
+    padding: 2.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 193, 7, 0.1);
+    border-color: rgba(255, 193, 7, 0.5);
+}
+
+.login-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 30%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ffc107;
+    border-radius: 3px;
+}
+
+#id_username,
+#id_password {
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid #444;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    width: 100%;
+}
+
+input {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #444 !important;
+}
+
+#id_username:focus,
+#id_password:focus {
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+}
+
+input::placeholder {
+    color: #ffffff !important;
+    opacity: 0.8;
+}
+
+.btn-login {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+}
+
+.divider {
+    border-top: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.divider-text {
+    top: -12px;
+    transform: translateX(-50%);
+    background: rgba(21, 21, 21, 0.85);
+    color: #adb5bd;
+}
+
+.btn-register {
+    background-color: transparent;
+    border: 1px solid #ffc107;
+    transition: all 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffca2c;
+}
+
+.error-message {
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}

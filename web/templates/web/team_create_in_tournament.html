@@ -1,102 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Crear Equipo / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilo para el título con línea decorativa */
-    .team-create-title {
-        position: relative;
-        padding-bottom: 15px;
-        display: inline-block;
-        color: #ffc107;
-        font-weight: bold;
-    }
+    <link rel="stylesheet" href="{% static 'css/team_create_in_tournament.css' %}">
 
-    .team-create-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 9%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-        border-radius: 2px;
-    }
-
-    ::placeholder {
-        color: white !important;
-        opacity: 1; /* Opcional, para evitar transparencia */
-    }
-    /* Estilos para la tarjeta del formulario */
-    .team-form-card {
-        background-color: #1a1a1a;
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .team-form-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
-        border-color: #ffc107;
-    }
-
-    /* Estilos para los campos del formulario */
-    .form-control {
-        background-color: #111 !important;
-        color: white !important;
-        border: 1px solid #444 !important;
-    }
-
-    .form-control:focus {
-        background-color: #111 !important;
-        border-color: #ffc107 !important;
-        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
-        color: white !important;
-    }
-
-    .form-label {
-        color: #ffc107 !important;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-    }
-
-    .invalid-feedback {
-        color: #ff6b6b !important;
-        font-size: 0.85rem;
-    }
-
-    /* Botones mejorados */
-    .btn-warning {
-        background-color: #ffc107;
-        color: #000;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .btn-warning:hover {
-        background-color: #ffca2c;
-        transform: translateY(-2px);
-    }
-
-    .btn-outline-secondary {
-        border-color: #6c757d;
-        color: #adb5bd;
-        transition: all 0.3s ease;
-    }
-
-    .btn-outline-secondary:hover {
-        background-color: #6c757d;
-        color: white;
-    }
-
-    /* Alertas */
-    .alert-danger {
-        background-color: rgba(220, 53, 69, 0.2);
-        border: 1px solid #dc3545;
-        color: #dc3545;
-    }
-</style>
 
 <div class="container py-5">
     <!-- Mensajes de error -->
@@ -116,9 +24,9 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <!-- Encabezado -->
-            <div class="text-center mb-5">
-                <h1 class="team-create-title">
-                    <i class="bi bi-people-fill me-2"></i>Crear Nuevo Equipo
+            <div class="text-center mb-4">
+                <h1 class="team-create-title position-relative pb-2 d-inline-block text-warning fw-bold">
+                    <i class="bi bi-people me-2"></i>Crear Nuevo Equipo
                 </h1>
                 <p class="text-white-50">Forma tu equipo para competir en torneos</p>
             </div>
@@ -138,7 +46,7 @@
 
                         <!-- Campo Nombre -->
                         <div class="mb-4">
-                            <label for="id_name" class="form-label">
+                            <label for="id_name" class=" text-warning fw-medium mb-2">
                                 <i class="bi bi-card-heading me-1"></i>Nombre del Equipo
                             </label>
                             {{ form.name }}
@@ -154,7 +62,7 @@
 
                         <!-- Botón de envío -->
                         <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-warning py-2 fw-bold">
+                            <button type="submit" class="btn btn-warning bg-warning fw-semibold py-2 fw-bold">
                                 <i class="bi bi-plus-circle me-2"></i>Crear Equipo
                             </button>
                         </div>

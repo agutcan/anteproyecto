@@ -1,91 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}Unirse a un equipo / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<style>
-    /* Estilo para el título */
-    .join-team-title {
-        position: relative;
-        padding-bottom: 15px;
-        display: inline-block;
-        color: #ffc107;
-        font-weight: bold;
-    }
-
-    .join-team-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 80px;
-        height: 3px;
-        background: #ffc107;
-        border-radius: 2px;
-    }
-
-    /* Estilos para las tarjetas de equipo */
-    .team-card {
-        background-color: #1a1a1a;
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        margin-bottom: 1.5rem;
-    }
-
-    .team-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
-        border-color: #ffc107;
-    }
-
-    .team-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.25rem;
-    }
-
-    .team-name {
-        color: #ffc107;
-        margin: 0;
-        font-size: 1.25rem;
-    }
-
-    /* Botones */
-    .btn-join {
-        background-color: rgba(25, 135, 84, 0.2);
-        color: #198754;
-        border: 1px solid #198754;
-        transition: all 0.3s ease;
-        padding: 0.5rem 1.25rem;
-    }
-
-    .btn-join:hover {
-        background-color: rgba(25, 135, 84, 0.3);
-        transform: translateY(-2px);
-    }
-
-    /* Mensaje cuando no hay equipos */
-    .no-teams {
-        background-color: #1a1a1a;
-        border: 1px dashed #ffc107;
-        border-radius: 8px;
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .no-teams-icon {
-        font-size: 2rem;
-        color: #ffc107;
-        margin-bottom: 1rem;
-    }
-</style>
+    <link rel="stylesheet" href="{% static 'css/team_join.css' %}">
 
 <div class="container py-5">
     <!-- Título -->
     <div class="mb-5">
-        <h1 class="join-team-title">
-            <i class="bi bi-people-fill me-2"></i>Unirse a un equipo
+        <h1 class="join-team-title position-relative pb-3 d-inline-block text-warning fw-bold">
+            <i class="bi bi-people me-2"></i>Unirse a un equipo
         </h1>
         <p class="text-white-50">Encuentra equipos que estén buscando miembros para sus torneos</p>
     </div>
@@ -94,9 +19,9 @@
         <div class="row">
             {% for entry in teams %}
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card team-card">
-                        <div class="team-card-header">
-                            <h3 class="team-name">
+                    <div class="card team-card mb-4">
+                        <div class="team-card-header d-flex justify-content-between align-items-center">
+                            <h3 class="team-name text-warning m-0 fs-5">
                                 <i class="bi bi-people me-2"></i>{{ entry.name }}
                             </h3>
                             {% if entry.searching_teammates %}
@@ -121,7 +46,7 @@
                             <form method="post" class="mt-3">
                                 {% csrf_token %}
                                 <input type="hidden" name="team_id" value="{{ entry.id }}">
-                                <button type="submit" class="btn btn-join w-100">
+                                <button type="submit" class="btn btn-join py-2 px-4 w-100">
                                     <i class="bi bi-person-plus me-1"></i>Unirse al equipo
                                 </button>
                             </form>
@@ -131,8 +56,8 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="no-teams">
-            <i class="bi bi-people-slash no-teams-icon"></i>
+        <div class="no-teams rounded-3 p-5 text-center">
+            <i class="bi bi-person-x no-teams-icon fs-1 text-warning mb-3"></i>
             <h3 class="text-warning">No hay equipos disponibles</h3>
             <p class="text-white-50">Actualmente no hay equipos buscando miembros en torneos próximos</p>
             <a href="{% url 'web:teamCreateView' %}" class="btn btn-warning mt-3">

@@ -1,0 +1,47 @@
+.join-team-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: #ffc107;
+    border-radius: 2px;
+}
+
+/* Estilos para las tarjetas de equipo */
+.team-card {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
+}
+
+.team-card-header {
+    padding: 1.25rem;
+}
+
+/* Botones */
+.btn-join {
+    background-color: rgba(25, 135, 84, 0.2);
+    color: #198754;
+    border: 1px solid #198754;
+    transition: all 0.3s ease;
+}
+
+.btn-join:hover {
+    background-color: rgba(25, 135, 84, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Mensaje cuando no hay equipos */
+.no-teams {
+    background-color: #1a1a1a;
+    border: 1px dashed #ffc107;
+
+}

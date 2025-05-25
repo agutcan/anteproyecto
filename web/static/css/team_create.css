@@ -1,0 +1,76 @@
+.team-create-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 9%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ffc107;
+    border-radius: 2px;
+}
+
+::placeholder {
+    color: white !important;
+    opacity: 1; /* Opcional, para evitar transparencia */
+}
+
+/* Estilos para la tarjeta del formulario */
+.team-form-card {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
+}
+
+/* Estilos para los campos del formulario */
+.form-control {
+    background-color: #111 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+}
+
+.form-control:focus {
+    background-color: #111 !important;
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+    color: white !important;
+}
+
+.invalid-feedback {
+    color: #ff6b6b !important;
+}
+
+/* Botones mejorados */
+.btn-warning {
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: #ffca2c;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #adb5bd;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Alertas */
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}

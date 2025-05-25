@@ -1,0 +1,62 @@
+.logout-container {
+    min-height: calc(100vh - 150px);
+    background: radial-gradient(circle at center, rgba(30,30,30,0.9) 0%, rgba(15,15,15,0.95) 100%);
+}
+
+.logout-card {
+    background: rgba(21, 21, 21, 0.85);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7),
+                0 0 20px rgba(255, 140, 0, 0.1) inset;
+    backdrop-filter: blur(8px);
+    max-width: 600px;
+    transition: all 0.4s ease;
+}
+
+.logout-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 140, 0, 0.2),
+                0 0 25px rgba(255, 193, 7, 0.1) inset;
+    border-color: rgba(255, 193, 7, 0.5);
+}
+
+.logout-title {
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+
+.btn-login-again {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    color: #212529;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+}
+
+.btn-login-again:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(255, 140, 0, 0.4);
+    color: #212529;
+}
+
+.icon-container {
+    font-size: 3rem;
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.god-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.god-icon:nth-child { animation-delay: 0s; }
