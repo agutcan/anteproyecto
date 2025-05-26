@@ -116,6 +116,7 @@
     /* Efecto de elevación al hacer hover */
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+    color: #0a0a0a;
 }
 
 .tournament-list-item {
@@ -133,8 +134,6 @@
 }
 
 .list-wrapper {
-    max-height: 400px;
-
     /* Personalización para Firefox */
     scrollbar-width: thin;
     scrollbar-color: #ffc107 rgba(255, 255, 255, 0.05);

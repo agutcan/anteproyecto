@@ -58,15 +58,21 @@
         <!-- Columna central: Torneos activos -->
         <div class="col-lg-8 mb-4">
             <div class="card game-card h-100">
-                <div class="card-header card-header-custom p-3 text-warning">
+                <div class="card-header card-header-custom p-2 text-warning">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="h5 mb-0"><i class="bi bi-trophy me-2"></i>Torneos Activos</h3>
-                        <button class="btn btn-create btn-game-action py-2 px-4 fs-5 fw-semibold rounded-pill" data-bs-toggle="modal" data-bs-target="#premiumModal">
+                        <h3 class="h5 mb-0"><i class="bi bi-trophy me-2 ms-2"></i>Torneos Activos</h3>
+                        {% if user.player.role == 'Premium' %}
+                            <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-create btn-game-action py-1 px-4 fs-5 fw-semibold rounded-pill">
+                                <i class="bi bi-plus-circle me-1"></i> Crear Torneo
+                            </a>
+                        {% else %}
+                        <button class="btn btn-create btn-game-action py-1 px-4 fs-5 fw-semibold rounded-pill" data-bs-toggle="modal" data-bs-target="#premiumModal">
                             <i class="bi bi-plus-circle me-1"></i>Crear Torneo
                         </button>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="card-body list-wrapper overflow-auto pe-2">
+                <div class="card-body list-wrapper overflow-auto pe-2" style="max-height: 200px">
                     {% if game.tournament_set.all %}
                         <div class="list-group">
                             {% for tournament in game.tournament_set.all %}
