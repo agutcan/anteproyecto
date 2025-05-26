@@ -1,53 +1,77 @@
 {% extends 'base.html' %}
-{% block title %}{{ tournament.name }} / ArenaGG{% endblock %}
+{% block title %}Unirse a equipo - {{ tournament.name }} / ArenaGG{% endblock %}
+{% load static %}
 
 {% block content %}
-<h2 class="text-warning mb-4">Elige un equipo para unirte</h2>
+    <link rel="stylesheet" href="{% static 'css/team_join.css' %}">
 
-{% if team_list %}
-<div class="row">
-    {% for tt in team_list %}
-    <div class="col-md-6 mb-4">
-        <div class="card bg-dark text-white border-secondary">
-            <div class="card-header bg-black d-flex justify-content-between align-items-center">
-                <strong>{{ tt.team.name }}</strong>
-                <span class="badge bg-info">
-                    {{ tt.team.player_set.count }} / {{ tournament.max_player_per_team }} jugadores
-                </span>
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush mb-3">
-                    {% for player in tt.team.player_set.all %}
-                    <li class="list-group-item bg-dark text-white border-secondary">
-                        <img src="{{ player.avatar.url }}" alt="{{ player.user.username }} avatar" class="rounded-circle" width="40" height="40">
-                         - {{ player.user.username }}
-                    </li>
-                    {% endfor %}
-                </ul>
-
-                {% if tt.team.player_set.count < tournament.max_player_per_team %}
-                    <form method="POST" action="{% url 'web:joinTeamView' tt.team.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success w-100 fw-bold">Unirse a este equipo</button>
-                    </form>
-                {% else %}
-                    <div class="alert alert-warning text-center mb-0">Equipo lleno</div>
-                {% endif %}
-            </div>
-        </div>
+<div class="container py-5">
+    <!-- Título -->
+    <div class="mb-5">
+        <h1 class="join-team-title position-relative pb-3 d-inline-block text-warning fw-bold">
+            <i class="bi bi-trophy me-2"></i>{{ tournament.name }}
+        </h1>
+        <p class="text-white-50">Elige un equipo para unirte al torneo</p>
     </div>
-    {% endfor %}
-</div>
-{% else %}
-<div class="alert alert-info bg-dark border-info text-center">
-    <i class="bi bi-info-circle"></i> No hay equipos disponibles en este torneo.
-</div>
+
+    {% if team_list %}
+        <div class="row">
+            {% for tt in team_list %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card team-card mb-4">
+                        <div class="team-card-header d-flex justify-content-between align-items-center">
+                            <h3 class="team-name text-warning m-0 fs-5">
+                                <i class="bi bi-people me-2"></i>{{ tt.team.name }}
+                            </h3>
+                            <span class="badge bg-info">
+                                {{ tt.team.player_set.count }} / {{ tournament.max_player_per_team }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <ul class="list-unstyled text-white-50">
+                                    {% for player in tt.team.player_set.all %}
+                                    <li class="d-flex align-items-center mb-2">
+                                        <img src="{{ player.avatar.url }}"
+                                             alt="{{ player.user.username }}"
+                                             class="rounded-circle me-2"
+                                             width="30"
+                                             height="30">
+                                        {{ player.user.username }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            {% if tt.team.player_set.count < tournament.max_player_per_team %}
+                                <form method="POST" action="{% url 'web:joinTeamView' tt.team.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-join py-2 px-4 w-100">
+                                        <i class="bi bi-person-plus me-1"></i>Unirse al equipo
+                                    </button>
+                                </form>
+                            {% else %}
+                                <div class="alert alert-warning text-center mb-0 py-2">
+                                    <i class="bi bi-exclamation-triangle"></i> Equipo lleno
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-teams rounded-3 p-5 text-center">
+            <i class="bi bi-people no-teams-icon fs-1 text-warning mb-3"></i>
+            <h3 class="text-warning">No hay equipos disponibles</h3>
+            <p class="text-white-50">Ningún equipo se ha registrado aún en este torneo</p>
+        </div>
     {% endif %}
 
-<div class="d-flex justify-content-center gap-3">
-    <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Volver
-    </a>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-secondary px-4">
+            <i class="bi bi-arrow-left me-2"></i>Volver al torneo
+        </a>
+    </div>
 </div>
-
 {% endblock %}

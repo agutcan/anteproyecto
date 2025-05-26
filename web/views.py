@@ -915,13 +915,14 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
                 tournamentteam__team=team,
                 status='upcoming'
             )
-            for tournament in upcoming_tournaments:
-                if team.player_set.count() >= tournament.max_players_per_team:
-                    messages.error(
-                        request,
-                        f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'."
-                    )
-                    return redirect('web:playerTeamDetailView', pk=player.pk)
+            if upcoming_tournaments.exists():
+                for tournament in upcoming_tournaments:
+                    if team.player_set.count() >= tournament.max_player_per_team:
+                        messages.error(
+                            request,
+                            f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'."
+                        )
+                        return redirect('web:playerTeamDetailView', pk=player.pk)
 
         team.searching_teammates = not team.searching_teammates
         team.save()
@@ -949,7 +950,7 @@ class LeaveTeamView(LoginRequiredMixin, View):
         player_id = kwargs.get('pk')
         player = get_object_or_404(Player, pk=player_id)
 
-        recipient_email = player.team.leader.user.email  # También podrías usar: player.user.email
+        recipient_email = player.team.leader.user.email
         if not recipient_email:
             messages.error(request, "No se proporcionó una dirección de correo.")
             return redirect('web:playerTeamDetailView', pk=player_id)
