@@ -23,7 +23,7 @@
                     <div class="game-card overflow-hidden h-100">
                         <div class="game-image-container w-100 overflow-hidden position-relative">
                             {% if game.image %}
-                                <img src="{{ game.image.url }}" class="game-image w-100 h-100 object-fit-cover" alt="{{ game.name }}">
+                                <img src="{{ game.image.url }}" class="game-image w-100 h-100 " alt="{{ game.name }}">
                             {% else %}
                                 <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
                                     <i class="bi bi-controller text-warning fs-1"></i>

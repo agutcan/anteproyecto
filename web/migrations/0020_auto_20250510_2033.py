@@ -113,9 +113,9 @@ def poblar_datos(apps, schema_editor):
 
     # Crear juegos
     games = [
-        Game(name="Valorant", genre="Shooter táctico"),
-        Game(name="League of Legends", genre="MOBA"),
-        Game(name="Counter-Strike 2", genre="Shooter táctico")
+        Game(name="Valorant", genre="Shooter táctico", image="games/valorant.webp"),
+        Game(name="League of Legends", genre="MOBA", image="games/lol.webp"),
+        Game(name="Counter-Strike 2", genre="Shooter táctico", image="games/cs2.webp"),
     ]
     Game.objects.bulk_create(games)  # Guardar todos los juegos de una vez
 
