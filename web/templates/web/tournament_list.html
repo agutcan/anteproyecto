@@ -78,7 +78,7 @@
                 <div class="position-relative overflow-hidden" style="height: 180px;">
                     <div class="card-img-top bg-black d-flex align-items-center justify-content-center h-100"
                          style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
-                        <i class="bi bi-trophy-fill text-warning" style="font-size: 3rem; opacity: 0.5;"></i>
+                        <i class="bi bi-trophy text-warning" style="font-size: 3rem; opacity: 0.5;"></i>
                     </div>
                     <span class="position-absolute top-0 end-0 m-2 badge
                                 {% if tournament.status == 'upcoming' %}bg-success{% elif tournament.status == 'ongoing' %}bg-primary{% else %}bg-secondary{% endif %}">
@@ -87,14 +87,14 @@
                         {% elif tournament.status == "upcoming" %}
                             <i class="bi bi-calendar-check me-1"></i> Próximamente
                         {% else %}
-                            <i class="bi bi-flag-fill me-1"></i> Finalizado
+                            <i class="bi bi-flag me-1"></i> Finalizado
                         {% endif %}
                     </span>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h5 class="card-title text-truncate">{{ tournament.name }}</h5>
-                        <small class="text-warning fw-bold"><i class="bi bi-trophy-fill text-warning"></i> {{ tournament.prize_pool|default:"Sin premio" }}</small>
+                        <small class="text-warning fw-bold"><i class="bi bi-trophy text-warning"></i> {{ tournament.prize_pool|default:"Sin premio" }}</small>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ tournament.game.image.url }}" alt="{{ tournament.game.name }}"
@@ -103,7 +103,7 @@
                     </div>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-people-fill text-white me-1"></i>
+                            <i class="bi bi-people text-white me-1"></i>
                             <small>
                                 {{ tournament.count_registered_players }}/{{ tournament.get_max_total_players }}
                             </small>
@@ -128,7 +128,7 @@
         {% empty %}
         <div class="col-12">
             <div class="text-center py-5">
-                <i class="bi bi-trophy-fill display-4 text-warning mb-3"></i>
+                <i class="bi bi-trophy display-4 text-warning mb-3"></i>
                 <h3 class="text-white mb-2">No hay torneos disponibles</h3>
                 <p class="text-muted mb-4">Crea el primer torneo o vuelve más tarde</p>
                 {% if user.is_authenticated and user.player.role == 'Premium' %}
@@ -162,13 +162,13 @@
                 </div>
                 <h6 class="text-white mb-3">Beneficios de ser Premium:</h6>
                 <ul class="list-unstyled text-white-50">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Crear torneos ilimitados</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Premios exclusivos</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Estadísticas avanzadas</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Soporte prioritario</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Crear torneos ilimitados</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Premios exclusivos</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Estadísticas avanzadas</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Soporte prioritario</li>
                 </ul>
                 <div class="alert bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 mt-4">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <i class="bi bi-exclamation-triangle me-2"></i>
                     Necesitas una cuenta Premium para crear torneos.
                 </div>
             </div>

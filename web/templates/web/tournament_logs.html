@@ -40,12 +40,12 @@
                                     </span>
                                     {% if log.player %}
                                         <span class="badge bg-primary me-2">
-                                            <i class="bi bi-person-fill me-1"></i>{{ log.player.user.username }}
+                                            <i class="bi bi-person me-1"></i>{{ log.player.user.username }}
                                         </span>
                                     {% endif %}
                                     {% if log.team %}
                                         <span class="badge bg-secondary">
-                                            <i class="bi bi-people-fill me-1"></i>{{ log.team.name }}
+                                            <i class="bi bi-people me-1"></i>{{ log.team.name }}
                                         </span>
                                     {% endif %}
                                 </div>
@@ -62,7 +62,7 @@
         <!-- Estado vacío -->
         <div class="text-center py-5">
             <div class="alert alert-info bg-dark border-info d-inline-block">
-                <i class="bi bi-info-circle-fill me-2"></i> No hay registros disponibles para este torneo
+                <i class="bi bi-info-circle me-2"></i> No hay registros disponibles para este torneo
             </div>
             <div class="mt-4">
                 <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-outline-light">

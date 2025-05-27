@@ -81,7 +81,6 @@
     background-color: rgba(30, 41, 59, 0.7);
 
     /* Borde dorado para resaltar cada ítem */
-    border: 1px solid #ffc107;
 }
 
 .accordion-button {
@@ -93,6 +92,4 @@
     /* Cambia el fondo al abrir la sección */
     background-color: rgba(255, 193, 7, 0.1);
 
-    /* Texto en color dorado para el botón activo */
-    color: #ffc107;
 }

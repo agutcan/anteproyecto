@@ -16,7 +16,7 @@
         <div class="mb-4">
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-white bg-dark border-{{ message.tags }}" role="alert">
-                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    <i class="bi bi-exclamation-circle me-2"></i>
                     {{ message }}
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
@@ -74,9 +74,9 @@
                         <strong><i class="bi bi-check-circle me-1"></i>Equipo 1 listo:</strong>
                         <span class="team-ready d-inline-flex align-items-center gap-2">
                             {% if match.team1_ready %}
-                                <i class="bi bi-check-circle-fill text-success"></i> Sí
+                                <i class="bi bi-check-circle text-success"></i> Sí
                             {% else %}
-                                <i class="bi bi-x-circle-fill text-danger"></i> No
+                                <i class="bi bi-x-circle text-danger"></i> No
                             {% endif %}
                         </span>
                     </p>
@@ -84,9 +84,9 @@
                         <strong><i class="bi bi-check-circle me-1"></i>Equipo 2 listo:</strong>
                         <span class="team-ready d-inline-flex align-items-center gap-2">
                             {% if match.team2_ready %}
-                                <i class="bi bi-check-circle-fill text-success"></i> Sí
+                                <i class="bi bi-check-circle text-success"></i> Sí
                             {% else %}
-                                <i class="bi bi-x-circle-fill text-danger"></i> No
+                                <i class="bi bi-x-circle text-danger"></i> No
                             {% endif %}
                         </span>
                     </p>
@@ -96,7 +96,7 @@
             <!-- Resultados -->
             {% if match.status == 'completed' %}
                 <div class="alert alert-success text-center">
-                    <h5><i class="bi bi-trophy-fill me-2"></i>Resultado Confirmado</h5>
+                    <h5><i class="bi bi-trophy me-2"></i>Resultado Confirmado</h5>
                     <p class="mb-0">
                         El ganador es <strong>{{ match.winner.name }}</strong> con un puntaje de
                         <strong>{{ match.matchresult.team1_score }} - {{ match.matchresult.team2_score }}</strong>.
@@ -117,18 +117,18 @@
                     {% endif %}
 
                     {% if match.status == 'ongoing' and not team_confirmed %}
-                        <h5 class="text-warning mb-3"><i class="bi bi-flag-fill me-2"></i>Reportar Resultado</h5>
+                        <h5 class="text-warning mb-3"><i class="bi bi-flag me-2"></i>Reportar Resultado</h5>
 
                         {% if match.team1_confirmed %}
                             <div class="alert alert-success mb-3">
-                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <i class="bi bi-check-circle me-2"></i>
                                 <strong>{{ match.team1.name }}</strong> ya ha confirmado el resultado.
                             </div>
                         {% endif %}
 
                         {% if match.team2_confirmed %}
                             <div class="alert alert-success mb-3">
-                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <i class="bi bi-check-circle me-2"></i>
                                 <strong>{{ match.team2.name }}</strong> ya ha confirmado el resultado.
                             </div>
                         {% endif %}
@@ -174,7 +174,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-confirm fw-semibold text-white w-100 py-2">
-                                <i class="bi bi-check-circle-fill me-2"></i>Confirmar resultado
+                                <i class="bi bi-check-circle me-2"></i>Confirmar resultado
                             </button>
                         </form>
 
@@ -190,19 +190,19 @@
                     {% if match.team1_ready and match.team2_ready %}
                         <div class="alert alert-info text-center mt-3">
                             {% if match.status == 'pending' %}
-                                <i class="bi bi-check-circle-fill me-2"></i> Ambos equipos están listos. El partido comenzará pronto.
+                                <i class="bi bi-check-circle me-2"></i> Ambos equipos están listos. El partido comenzará pronto.
                             {% else %}
-                                <i class="bi bi-play-circle-fill me-2"></i> El partido está en curso.
+                                <i class="bi bi-play-circle me-2"></i> El partido está en curso.
                             {% endif %}
                         </div>
                     {% else %}
                         <div class="alert alert-warning text-center mt-3">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Aún falta que ambos equipos confirmen que están listos.
+                            <i class="bi bi-exclamation-triangle me-2"></i> Aún falta que ambos equipos confirmen que están listos.
                         </div>
                     {% endif %}
                 {% else %}
                     <div class="alert alert-warning text-center mt-3">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Este partido aún no ha sido confirmado como finalizado.
+                        <i class="bi bi-exclamation-triangle me-2"></i> Este partido aún no ha sido confirmado como finalizado.
                     </div>
                 {% endif %}
             {% endif %}
