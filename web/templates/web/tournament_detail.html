@@ -155,12 +155,23 @@
                         <a href="{% url 'web:matchDetailView' match.id %}"
                             class="match-list-item mb-2 rounded-3 list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
-                                <small class="text-light d-block">Ronda {{ match.round_number }}</small>
-                                <strong class="text-secondary">{{ match.team1 }} vs {{ match.team2 }}</strong>
+                                <small class="text-light d-block">Ronda {{ match.round }}</small>
+                                <strong class="text-secondary small">{{ match.team1 }} vs {{ match.team2 }}</strong>
                             </div>
-                            <span class="badge bg-{% if match.status == 'completed' %}success{% elif match.status == 'ongoing' %}warning text-dark{% else %}secondary{% endif %}">
-                                {{ match.get_status_display }}
-                            </span>
+                            {% if match.status == 'completed' %}
+                                <span class="badge bg-success">
+                                    Finalizado
+                                </span>
+                            {% elif match.status == 'ongoing' %}
+                                <span class="badge bg-warning text-dark">
+                                    En curso
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    Pendiente
+                                </span>
+                            {% endif %}
+
                         </a>
                         {% endfor %}
                     </div>
