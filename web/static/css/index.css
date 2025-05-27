@@ -253,6 +253,7 @@
     background: rgba(255,255,255,0.1);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+    color: white;
 }
 
 @keyframes pulse {
@@ -310,8 +311,17 @@
 }
 
 .streamer-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
+/* Elevación visual al pasar el mouse */
+    transform: translateY(-8px);
+
+    /* Fondo con tinte ámbar suave */
+    background: rgba(255, 193, 7, 0.1);
+
+    /* Borde dorado */
+    border-color: var(--gold);
+
+    /* Sombra dorada más intensa */
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
 }
 
 .streamer-card img {
@@ -330,8 +340,14 @@
 }
 
 .news-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
+    /* Elevación visual al pasar el mouse */
+    transform: translateY(-8px);
+
+    /* Borde dorado */
+    border-color: var(--gold);
+
+    /* Sombra dorada más intensa */
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
 }
 
 .news-content {
