@@ -1,77 +1,125 @@
 :root {
+    /* Definición de variables CSS globales para reutilizar colores */
     --gold: #ffc107;  /* Amarillo */
     --gold-dark: #ffab00;  /* Amarillo oscuro */
-    --dark: #121212;
+    --dark: #121212; /* Negro profundo para fondos */
 }
 
-/* Hero Section */
 .hero-section {
+    /* Imagen de fondo con superposición oscura para contraste de texto */
     background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
+
+    /* Espaciado superior e inferior para el contenido */
     padding: 180px 0 120px;
+
+    /* Margen inferior para separación visual */
     margin-bottom: 80px;
 }
 
 .hero-title {
+    /* Tamaño grande para destacar el título */
     font-size: 3.5rem;
+
+    /* Espaciado entre líneas para legibilidad */
     line-height: 1.2;
+
+    /* Sombra para que el texto resalte sobre el fondo */
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .hero-subtitle {
+    /* Tamaño moderado para el subtítulo */
     font-size: 1.5rem;
+
+    /* Ligeramente transparente */
     opacity: 0.9;
 }
 
-/* Lista de juegos */
 .game-list {
+    /* Grid flexible con columnas automáticas */
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+    /* Espaciado entre tarjetas */
     gap: 25px;
+
+    /* Separación con respecto a otras secciones */
     margin: 40px 0;
 }
 
 .game-card {
+    /* Fondo semitransparente oscuro */
     background: rgba(30,30,30,0.7);
+
+    /* Relleno interno */
     padding: 20px;
+
+    /* Bordes redondeados */
     border-radius: 12px;
+
+    /* Transición suave en hover */
     transition: all 0.3s ease;
+
+    /* Borde tenue */
     border: 1px solid rgba(255,255,255,0.1);
+
+    /* Sombra para profundidad */
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .game-card:hover {
+    /* Elevación visual al pasar el mouse */
     transform: translateY(-8px);
+
+    /* Fondo con tinte ámbar suave */
     background: rgba(255, 193, 7, 0.1);
+
+    /* Borde dorado */
     border-color: var(--gold);
+
+    /* Sombra dorada más intensa */
     box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
 }
 
 .game-card img {
+    /* Dimensiones fijas para imágenes */
     width: 100px;
     height: 100px;
+
+    /* Ajuste para no deformar la imagen */
     object-fit: contain;
+
+    /* Efecto de brillo dorado */
     filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.4));
+
+    /* Transición de transformación */
     transition: transform 0.3s ease;
 }
 
 .game-card:hover img {
+    /* Escala aumentada al hacer hover */
     transform: scale(1.1);
 }
 
 .game-card h3 {
+    /* Tamaño del título de la tarjeta */
     font-size: 1.1rem;
+
+    /* Transición para el color */
     transition: color 0.3s ease;
 }
 
 .game-card:hover h3 {
+    /* Color ámbar al hacer hover */
     color: var(--gold);
 }
 
-/* Sections */
 .section-title {
+    /* Tamaño grande para encabezados */
     font-size: 2.2rem;
 }
 
 .section-title:after {
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
     width: 60%;
@@ -82,17 +130,26 @@
     border-radius: 2px;
 }
 
-/* Features */
 .feature-card {
+    /* Fondo oscuro translúcido */
     background: rgba(30,30,30,0.7);
+
+    /* Bordes redondeados y espacio interno */
     border-radius: 12px;
     padding: 35px 25px;
+
+    /* Transición suave */
     transition: all 0.3s ease;
+
+    /* Borde tenue */
     border: 1px solid rgba(255,255,255,0.1);
+
+    /* Sombra para profundidad */
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .feature-card:hover {
+    /* Elevación y fondo con matiz ámbar */
     transform: translateY(-8px);
     background: rgba(255, 193, 7, 0.08);
     border-color: var(--gold);
@@ -100,55 +157,48 @@
 }
 
 .feature-icon {
+    /* Tamaño grande para íconos */
     font-size: 3rem;
+
+    /* Animación en hover */
     transition: transform 0.3s ease;
 }
 
+
 .feature-card:hover .feature-icon {
+    /* Agrandamiento del ícono */
     transform: scale(1.1);
 }
 
 .feature-card h3 {
+    /* Tamaño del título */
     font-size: 1.4rem;
     transition: color 0.3s ease;
 }
 
 .feature-card:hover h3 {
+    /* Color ámbar en hover */
     color: var(--gold);
 }
 
-/* Testimonials */
 .testimonial-card {
-    background: rgba(30,30,30,0.7);
-    border-radius: 12px;
-    padding: 30px;
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background: rgba(30,30,30,0.7); /* Fondo oscuro translúcido */
+    border-radius: 12px;            /* Bordes redondeados */
+    padding: 30px;                  /* Espaciado interno */
+    border: 1px solid rgba(255,255,255,0.1); /* Borde sutil */
+    transition: all 0.3s ease;      /* Transición suave en hover */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra para profundidad */
 }
 
+/* Efecto al pasar el mouse sobre la tarjeta */
 .testimonial-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
-}
-
-.testimonial-card .quote {
-    font-size: 1.1rem;
-}
-
-.testimonial-card .quote:before {
-    content: '"';
-    font-size: 3rem;
-    color: var(--gold);
-    opacity: 0.3;
-    position: absolute;
-    top: -20px;
-    left: -10px;
+    transform: translateY(-5px);    /* Eleva ligeramente la tarjeta */
+    border-color: var(--gold);     /* Borde resaltado en dorado */
+    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2); /* Sombra más brillante */
 }
 
 .testimonial-author {
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.1); /* Separador superior */
 }
 
 .testimonial-author img {
@@ -158,7 +208,6 @@
     border: 2px solid var(--gold);
 }
 
-/* CTA Section */
 .cta-section {
     background: linear-gradient(135deg, var(--gold), #ffd54f);
     padding: 80px 0;
@@ -185,7 +234,6 @@
     opacity: 0.9;
 }
 
-/* Botones */
 .btn-warning {
     background: linear-gradient(45deg, var(--gold), var(--gold-dark));
     letter-spacing: 0.5px;
@@ -207,7 +255,6 @@
     box-shadow: 0 5px 15px rgba(255,255,255,0.1);
 }
 
-/* Animations */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -251,7 +298,6 @@
     letter-spacing: 0.5px;
 }
 
-    /* Nuevos estilos para secciones adicionales */
 .streamers-section {
     padding: 80px 0;
 }
@@ -320,3 +366,5 @@
     margin-left: -50.5vw;
     margin-right: -55vw;
 }
+
+
