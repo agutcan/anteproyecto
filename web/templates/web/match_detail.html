@@ -217,30 +217,11 @@
     </div>
 </div>
 
-<script>
-    // Contador regresivo
-    const scheduledAt = new Date("{{ match.scheduled_at|date:'c' }}");
-    const countdownElement = document.getElementById("countdown");
+<script src="{% static 'js/match_detail.js' %}"></script>
 
-    function updateCountdown() {
-    const now = new Date();
-    const diff = scheduledAt - now;
+    <script>
+    const matchScheduledAt = "{{ match.scheduled_at|date:'c' }}";  // pasa el dato de Django al JS
 
-    if (diff <= 0) {
-        countdownElement.textContent = "¡El partido ha comenzado!";
-        clearInterval(timer);
-        return;
-    }
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
+    startCountdown(matchScheduledAt, "countdown");
 </script>
-
 {% endblock %}
