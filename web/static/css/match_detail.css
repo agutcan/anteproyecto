@@ -1,8 +1,3 @@
-.match-container {
-    /* Limita el ancho máximo del contenedor de partidos */
-    max-width: 800px;
-}
-
 .match-title:after {
     /* Crea una línea decorativa debajo del título del partido */
     content: '';
@@ -76,20 +71,16 @@
 }
 
 .result-form input {
-    /* Fondo oscuro y texto blanco para los campos */
-    background-color: #111 !important;
-    color: white !important;
-
-    /* Borde gris oscuro para mantener el contraste */
-    border: 1px solid #444 !important;
+    background-color: #1a1a1a; /* Fondo oscuro para mejor contraste */
+    border: 1px solid #444; /* Borde gris oscuro */
+    color: white; /* Texto blanco */
 }
 
 .result-form input:focus {
-    /* Resalta el campo enfocado con borde dorado */
-    border-color: #ffc107 !important;
-
-    /* Añade un resplandor suave alrededor */
-    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+    background-color: #1a1a1a; /* Mantiene fondo oscuro */
+    border-color: #ffc107; /* Borde amarillo al enfocar */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25); /* Sombra suave amarilla */
+    color: white; /* Texto blanco */
 }
 
 .btn-confirm {

@@ -12,7 +12,7 @@
 /* Contenedor general para la sección de juegos */
 .games-container {
     /* Limita el ancho máximo del contenedor */
-    max-width: 1200px;
+    max-width: 1320px;
 }
 
 /* Línea decorativa debajo del título de la página */
