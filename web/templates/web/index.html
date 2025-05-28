@@ -265,8 +265,8 @@
     <!-- CTA Final -->
     <section class="cta-section position-relative overflow-hidden text-center full-width-section position-relative ps-0 pe-0">
         <div class="container position-relative">
-            <h2 class="cta-title fw-bold mb-4">{% if user.is_authenticated %}¿Listo para competir?{% else %}¿Listo para comenzar?{% endif %}</h2>
-            <p class="cta-subtitle mb-5">
+            <h2 class="cta-title text-dark fw-bold mb-4">{% if user.is_authenticated %}¿Listo para competir?{% else %}¿Listo para comenzar?{% endif %}</h2>
+            <p class="cta-subtitle mb-5 text-dark">
                 {% if user.is_authenticated %}
                     Encuentra tu próximo torneo y demuestra tus habilidades
                 {% else %}

@@ -17,19 +17,19 @@
                     <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'web:indexView' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/tournaments/' %}active{% endif %}" href="{% url 'web:tournamentListView' %}">Torneos</a>
+                    <a class="nav-link {% if request.path == '/tournament/' %}active{% endif %}" href="{% url 'web:tournamentListView' %}">Torneos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/ranking/' %}active{% endif %}" href="{% url 'web:rankingView' %}">Ranking</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/games/' %}active{% endif %}" href="{% url 'web:gameListView' %}">Juegos</a>
+                    <a class="nav-link {% if request.path == '/game/' %}active{% endif %}" href="{% url 'web:gameListView' %}">Juegos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/how-it-works/' %}active{% endif %}" href="{% url 'web:howItWorkView' %}">Cómo funciona</a>
+                    <a class="nav-link {% if request.path == '/how_it_works/' %}active{% endif %}" href="{% url 'web:howItWorkView' %}">Cómo funciona</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/rewards/' %}active{% endif %}" href="{% url 'web:rewardListView' %}">Premios</a>
+                    <a class="nav-link {% if request.path == '/reward/' %}active{% endif %}" href="{% url 'web:rewardListView' %}">Premios</a>
                 </li>
 
                 {% if user.is_authenticated %}
