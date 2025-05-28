@@ -39,7 +39,7 @@
     <!-- Grid de recompensas compacto -->
     <div class="rewards-grid d-grid gap-3">
         {% for reward in reward_list %}
-            <div class="reward-card overflow-hidden d-flex flex-column h-100">
+            <div class="reward-card overflow-hidden d-flex flex-column">
                 <div class="reward-image-container w-100 overflow-hidden d-flex align-items-center justify-content-center">
                     {% if reward.image %}
                         <img src="{{ reward.image.url }}" class="reward-image w-100 h-100 object-fit-cover" alt="{{ reward.name }}">

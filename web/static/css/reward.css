@@ -39,7 +39,7 @@
     background: var(--card-bg);
     border-radius: 8px;
     border: 1px solid var(--gold);
-
+    height: 500px;
     /* Transición suave en hover */
     transition: all 0.2s ease;
 }
@@ -52,7 +52,7 @@
 
 .reward-image-container {
     /* Contenedor de imagen con altura fija y fondo oscuro */
-    height: 150px;
+    height: 300px;
     background: rgba(0, 0, 0, 0.1);
 }
 
