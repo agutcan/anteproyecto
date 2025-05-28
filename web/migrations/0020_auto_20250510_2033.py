@@ -224,15 +224,15 @@ def poblar_datos(apps, schema_editor):
 
     # Crear recompensas
     rewards = [
-        Reward(name="Premium Skin", description="Una skin exclusiva para tu personaje en el juego.",
+        Reward(name="Premium Skin", description="Una skin exclusiva para valorant.",
                coins_cost=500, stock=100, is_active=True,
-               created_at=timezone.now(), updated_at=timezone.now()),
+               created_at=timezone.now(), updated_at=timezone.now(), image="rewards/skin.webp"),
         Reward(name="Double XP Boost", description="Duplica tu experiencia ganada en partidas durante 24 horas.",
                coins_cost=300, stock=50, is_active=True,
-               created_at=timezone.now(), updated_at=timezone.now()),
-        Reward(name="VIP Access", description="Accede a eventos VIP exclusivos dentro del juego.",
+               created_at=timezone.now(), updated_at=timezone.now(), image="rewards/x2.webp"),
+        Reward(name="VIP Access", description="Accede a eventos VIP exclusivos dentro de la página.",
                coins_cost=1000, stock=20, is_active=True,
-               created_at=timezone.now(), updated_at=timezone.now())
+               created_at=timezone.now(), updated_at=timezone.now(), image="rewards/vip.webp"),
     ]
 
     # Usar bulk_create para insertar las recompensas de forma eficiente

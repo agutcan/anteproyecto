@@ -29,8 +29,8 @@ env = environ.Env(
     DEBUG=(bool, False)  # Define DEBUG como booleano
 )
 
-# Cargar las variables desde el archivo ..env
-environ.Env.read_env(os.path.join(BASE_DIR, "..env"))
+# Cargar las variables desde el archivo .env
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Configuración de DEBUG
 DEBUG = env("DEBUG")
@@ -47,7 +47,7 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = "administracion@arenagg.com"
 SUPPORT_EMAIL = "soporte@arenagg.com"
 
-CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="")
 
 
 CELERY_ACCEPT_CONTENT = ['json']

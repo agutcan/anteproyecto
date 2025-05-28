@@ -1,15 +1,33 @@
-/* Estilos para la línea amarilla bajo el título */
+:root {
+    /* Variables CSS para mantener consistencia en colores */
+    --gold: #ffc107;
+    --card-bg: rgba(30, 41, 59, 0.7);
+}
 
 ::placeholder {
     color: white !important;
     opacity: 1; /* Opcional, para evitar transparencia */
 }
+
+.empty-state {
+    /* Fondo semitransparente y borde punteado para estado vacío */
+    background: var(--card-bg);
+    border: 1px dashed var(--gold);
+    border-radius: 8px;
+
+}
+
+.empty-state p {
+    /* Texto gris claro para mensajes en estado vacío */
+    color: #adb5bd;
+}
+
 .section-title:after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 60px;
+    width: 80px;
     height: 3px;
     background: #ffc107;
 }
@@ -29,3 +47,4 @@
 .border-opacity-25 {
     border-color: rgba(255, 193, 7, 0.25) !important;
 }
+

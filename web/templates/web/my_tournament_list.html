@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="{% static 'css/my_tournament_list.css' %}">
 
 
-<div class="torneos-container mx-auto py-4 px-3">
+<div class="torneos-container mx-auto w-100 py-4 px-3">
     <!-- Encabezado con estilo similar -->
     <div class=" mb-5">
-        <h1 class="section-title position-relative mb-4 pb-2 text-warning"><i class="bi bi-trophy me-2"></i>Torneos en los que participas</h1>
+        <h1 class="section-title position-relative mb-4 pb-2 text-warning"><i class="bi bi-trophy me-3"></i>Torneos en los que participas</h1>
         <p class="text-white">Revisa todos los torneos en los que estás inscrito actualmente</p>
     </div>
 
@@ -53,7 +53,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="empty-state text-center p-4 mx-auto mb-5">
+        <div class="empty-state text-center p-4 w-100 mb-5">
             <div class=" fs-1 text-warning mb-3">
                 <i class="bi bi-trophy"></i>
             </div>

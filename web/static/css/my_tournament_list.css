@@ -2,7 +2,7 @@
     /* Variables CSS para mantener consistencia en colores */
     --gold: #ffc107;
     --dark-bg: #1a1a2e;
-    --card-bg: rgba(18, 24, 33, 0.7);
+    --card-bg: rgba(30, 41, 59, 0.7);
 }
 
 .torneos-container {
@@ -89,8 +89,6 @@
     border: 1px dashed var(--gold);
     border-radius: 8px;
 
-    /* Limita el ancho para no extenderse demasiado */
-    max-width: 500px;
 }
 
 .empty-state p {

@@ -118,29 +118,22 @@
 
     /* Bordes redondeados */
     border-radius: 8px;
+}
 
-    /* Limita el ancho máximo */
-    max-width: 600px;
+.empty-state p {
+    /* Texto gris claro para mensajes en estado vacío */
+    color: #adb5bd;
 }
 
 
-/* Media Queries para pantallas más pequeñas */
 @media (max-width: 768px) {
     .game-image-container {
         height: 250px;
-    }
-
-    .game-body {
-        height: calc(100% - 250px);
     }
 }
 
 @media (max-width: 480px) {
     .game-image-container {
         height: 180px;
-    }
-
-    .game-body {
-        height: calc(100% - 180px);
     }
 }

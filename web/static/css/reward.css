@@ -119,7 +119,10 @@
     background: var(--card-bg);
     border: 1px dashed var(--gold);
     border-radius: 8px;
-    grid-column: 1 / -1; /* Ocupa todo el ancho de la grid */
+}
+
+.empty-state p {
+    color: #adb5bd;
 }
 
 /* Alertas cerrables */

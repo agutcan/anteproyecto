@@ -6,18 +6,18 @@
     <link rel="stylesheet" href="{% static 'css/game_list.css' %}">
 
 
-<div class="games-container mx-auto py-5 px-3">
+<div class="games-container mx-auto py-4 px-3">
     <!-- Encabezado -->
-    <div class=" text-center mb-5 position-relative">
+    <div class=" mb-5 position-relative">
         <h1 class="page-title position-relative d-inline-block mb-4 fs-1 text-warning"><i class="bi bi-controller"></i> Explora Juegos Disponibles</h1>
-        <p class="page-subtitle fs-6 mx-auto text-light">
+        <p class="page-subtitle fs-6 text-light">
             Selecciona un juego para descubrir torneos activos y comenzar a competir
         </p>
     </div>
 
     <!-- Grid de juegos -->
     {% if game_list %}
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
             {% for game in game_list %}
                 <div class="col">
                     <div class="game-card overflow-hidden h-100">
@@ -42,8 +42,8 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="empty-state text-center p-5 mx-auto">
-            <i class="bi bi-controller text-warning fs-1 mb-4"></i>
+        <div class="empty-state text-center p-4 mx-auto w-100">
+            <i class="bi bi-controller text-warning display-5 mb-4"></i>
             <h3 class="mb-2">No hay juegos disponibles</h3>
             <p>Estamos preparando nuevos juegos para ti. ¡Vuelve pronto!</p>
         </div>

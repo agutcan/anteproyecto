@@ -6,10 +6,9 @@
 {% block content %}
         <link rel="stylesheet" href="{% static 'css/player_team.css' %}">
 
-<div class="team-container mx-auto py-4 px-3">
-    <h1 class="page-title text-warning position-relative pb-2 mb-4 fs-3">
-        <i class="bi bi-people"></i>
-        <span style="margin-left: 0.5rem;">Equipo de {{ player.user.username }}</span>
+<div class="team-container mx-auto py-4 px-4">
+    <h1 class="page-title text-warning position-relative pb-2 mb-4">
+        <i class="bi bi-people me-2"></i> Equipo de {{ player.user.username }}
     </h1>
 
     {% if messages %}
@@ -109,9 +108,9 @@
         </div>
     {% else %}
         <div class="no-team rounded-3 p-4 text-center mb-4">
-            <i class="bi bi-person-slash text-warning" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+            <i class="bi bi-person-slash text-warning display-6"></i>
             <h3>Sin equipo actualmente</h3>
-            <p class="text-secondary">Crea o únete a un equipo para participar en torneos</p>
+            <p>Crea o únete a un equipo para participar en torneos</p>
 
             <div class=" d-flex justify-content-center flex-wrap gap-3">
                 <a href="{% url 'web:teamCreateView' %}" class="btn-action px-3 py-1  rounded fs-6 d-inline-flex align-items-center gap-2 text-warning btn-warning">

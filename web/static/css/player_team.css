@@ -7,7 +7,7 @@
 
 .team-container {
     /* Ancho máximo para el contenedor de equipos */
-    max-width: 800px;
+    max-width: 1200px;
 }
 
 .page-title:after {
@@ -30,6 +30,16 @@
     align-items: center;
     gap: 0.8rem;
     position: relative;
+}
+
+/* Estado visual para cuando no hay equipos asignados */
+.no-team {
+    background: var(--card-bg);
+    border: 1px dashed var(--gold);
+}
+
+.no-team p {
+    color: #adb5bd;
 }
 
 .alert-close {
@@ -113,8 +123,5 @@
     background: rgba(255, 193, 7, 0.3);
 }
 
-/* Estado visual para cuando no hay equipos asignados */
-.no-team {
-    background: var(--card-bg);
-    border: 1px dashed var(--gold);
-}
+
+
