@@ -11,7 +11,7 @@
         <h1 class="join-team-title position-relative pb-3 d-inline-block text-warning fw-bold">
             <i class="bi bi-trophy me-2"></i>{{ tournament.name }}
         </h1>
-        <p class="text-white-50">Elige un equipo para unirte al torneo</p>
+        <p>Elige un equipo para unirte al torneo</p>
     </div>
 
     {% if team_list %}
@@ -61,10 +61,10 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="no-teams rounded-3 p-5 text-center">
+        <div class="no-teams rounded-3 p-4 text-center">
             <i class="bi bi-people no-teams-icon fs-1 text-warning mb-3"></i>
-            <h3 class="text-warning">No hay equipos disponibles</h3>
-            <p class="text-white-50">Ningún equipo se ha registrado aún en este torneo</p>
+            <h3>No hay equipos disponibles</h3>
+            <p>Ningún equipo se ha registrado aún en este torneo</p>
         </div>
     {% endif %}
 

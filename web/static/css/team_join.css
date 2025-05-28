@@ -9,6 +9,22 @@
     border-radius: 2px;
 }
 
+.no-teams:hover {
+    /* Elevación visual al pasar el mouse */
+    transform: translateY(-5px);
+}
+
+.no-teams p {
+    color: #adb5bd;
+}
+
+/* Mensaje cuando no hay equipos */
+.no-teams {
+    background-color: rgba(30, 41, 59, 0.7);;
+    border: 1px dashed #ffc107;
+}
+
+
 /* Estilos para las tarjetas de equipo */
 .team-card {
     background-color: #1a1a1a;
@@ -39,9 +55,3 @@
     transform: translateY(-2px);
 }
 
-/* Mensaje cuando no hay equipos */
-.no-teams {
-    background-color: #1a1a1a;
-    border: 1px dashed #ffc107;
-
-}

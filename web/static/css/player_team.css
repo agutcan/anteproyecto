@@ -10,6 +10,13 @@
     max-width: 1200px;
 }
 
+.no-team:hover {
+    /* Elevación visual al pasar el mouse */
+    transform: translateY(-5px);
+
+}
+
+
 .page-title:after {
     /* Línea decorativa dorada debajo del título de página */
     content: '';

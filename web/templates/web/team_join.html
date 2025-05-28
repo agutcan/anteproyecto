@@ -12,7 +12,7 @@
         <h1 class="join-team-title position-relative pb-3 d-inline-block text-warning fw-bold">
             <i class="bi bi-people me-2"></i>Unirse a un equipo
         </h1>
-        <p class="text-white-50">Encuentra equipos que estén buscando miembros para sus torneos</p>
+        <p>Encuentra equipos que estén buscando miembros para sus torneos</p>
     </div>
 
     {% if teams %}
@@ -56,10 +56,10 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="no-teams rounded-3 p-5 text-center">
+        <div class="no-teams rounded-3 p-4 text-center">
             <i class="bi bi-person-x no-teams-icon fs-1 text-warning mb-3"></i>
-            <h3 class="text-warning">No hay equipos disponibles</h3>
-            <p class="text-white-50">Actualmente no hay equipos buscando miembros en torneos próximos</p>
+            <h3>No hay equipos disponibles</h3>
+            <p>Actualmente no hay equipos buscando miembros en torneos próximos</p>
             <a href="{% url 'web:teamCreateView' %}" class="btn btn-warning mt-3">
                 <i class="bi bi-plus-circle me-1"></i>Crear mi propio equipo
             </a>
