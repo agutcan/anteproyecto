@@ -12,9 +12,14 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+.navbar .dropdown-item {
+    color: white;
+}
+
 .navbar .dropdown-item:hover {
     /* Cambia el fondo del ítem cuando se pasa el mouse por encima */
-    background-color: #007bff;
+    background-color: #ffc107;
+    color: #121212;
 }
 
 .navbar .nav-item .dropdown-toggle:hover {

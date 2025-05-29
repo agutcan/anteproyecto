@@ -54,7 +54,8 @@ input {
 }
 
 input::placeholder {
-    color: #ffffff !important;
+    /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
+    color: darkgray !important;
     opacity: 0.8;
 }
 

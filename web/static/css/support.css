@@ -1,6 +1,7 @@
 /* Cambia el color del texto del placeholder a blanco, con !important para asegurar prioridad */
 ::placeholder {
-    color: white !important;
+    /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
+    color: darkgray !important;
 }
 
 /* Agrega una línea decorativa debajo del título con clase .support-title */

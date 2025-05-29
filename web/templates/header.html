@@ -45,13 +45,13 @@
                             <span class="text-warning">{{ user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
-                            <li><a class="dropdown-item text-white" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
-                            <li><a class="dropdown-item text-white" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
-                            <li><a class="dropdown-item text-white" href="{% url 'web:playerTeamDetailView' request.user.player.id %}">Mi equipo</a></li>
-                            <li><a class="dropdown-item text-white" href="{% url 'web:redemptionListView' request.user.player.id %}">Mis recompensas</a></li>
+                            <li><a class="dropdown-item" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
+                            <li><a class="dropdown-item" href="{% url 'web:playerTeamDetailView' request.user.player.id %}">Mi equipo</a></li>
+                            <li><a class="dropdown-item" href="{% url 'web:redemptionListView' request.user.player.id %}">Mis recompensas</a></li>
                             <li><form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
-                                <input type="submit" value="Cerrar sesión" class="dropdown-item text-white">
+                                <input type="submit" value="Cerrar sesión" class="dropdown-item ">
                                 </form>
                             </li>
                         </ul>

@@ -11,7 +11,8 @@
 }
 
 ::placeholder {
-    color: white !important;
+    /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
+    color: darkgray !important;
     opacity: 1; /* Opcional, para evitar transparencia */
 }
 /* Estilos para la tarjeta del formulario */

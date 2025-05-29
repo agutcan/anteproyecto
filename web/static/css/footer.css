@@ -1,21 +1,25 @@
+.footer-links a {
+    /* Aplica una transición suave a todas las propiedades para los enlaces del pie de página */
+    transition: all 0.3s ease;
+    color: darkgray;
+}
+
+.footer-links a:hover {
+    color: #0d6efd;
+    /* Al pasar el mouse, agrega un pequeño desplazamiento hacia la derecha */
+    padding-left: 5px;
+}
+
+
 .placeholder-white::placeholder {
     /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
     color: darkgray !important;
 }
 
+
 .footer {
     /* Establece un fondo muy oscuro para el pie de página */
     background: #0a0a0a;
-}
-
-.footer-links a {
-    /* Aplica una transición suave a todas las propiedades para los enlaces del pie de página */
-    transition: all 0.3s ease;
-}
-
-.footer-links a:hover {
-    /* Al pasar el mouse, agrega un pequeño desplazamiento hacia la derecha */
-    padding-left: 5px;
 }
 
 .social-icons a {
