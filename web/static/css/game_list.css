@@ -64,11 +64,6 @@
     box-shadow: 0 10px 20px rgba(255, 180, 0, 0.1);
 }
 
-/* Contenedor de la imagen del juego */
-.game-image-container {
-    /* Fija la altura de la imagen */
-    height: 400px;
-}
 
 /* Imagen del juego */
 .game-image {
@@ -81,11 +76,7 @@
     transform: scale(1.05);
 }
 
-/* Cuerpo de la tarjeta debajo de la imagen */
-.game-body {
-    /* Calcula el alto restante restando el alto de la imagen */
-    height: calc(100% - 400px);
-}
+
 
 /* Botón dentro de la tarjeta */
 .game-button {
@@ -123,17 +114,4 @@
 .empty-state p {
     /* Texto gris claro para mensajes en estado vacío */
     color: #adb5bd;
-}
-
-
-@media (max-width: 768px) {
-    .game-image-container {
-        height: 250px;
-    }
-}
-
-@media (max-width: 480px) {
-    .game-image-container {
-        height: 180px;
-    }
 }
