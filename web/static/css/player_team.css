@@ -122,12 +122,12 @@
 }
 
 /* Botón de advertencia con colores dorados transparentes */
-.btn-warning {
+.btn-warning.team {
     background: rgba(255, 193, 7, 0.2);
     border: 1px solid var(--gold);
 }
 
-.btn-warning:hover {
+.btn-warning.team:hover {
     background: rgba(255, 193, 7, 0.3);
 }
 

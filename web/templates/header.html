@@ -14,22 +14,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'web:indexView' %}">Inicio</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'web:indexView' %}active{% endif %}" href="{% url 'web:indexView' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/tournament/' %}active{% endif %}" href="{% url 'web:tournamentListView' %}">Torneos</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'web:tournamentListView' %}active{% endif %}" href="{% url 'web:tournamentListView' %}">Torneos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/ranking/' %}active{% endif %}" href="{% url 'web:rankingView' %}">Ranking</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'web:rankingView' %}active{% endif %}" href="{% url 'web:rankingView' %}">Ranking</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/game/' %}active{% endif %}" href="{% url 'web:gameListView' %}">Juegos</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'web:gameListView' %}active{% endif %}" href="{% url 'web:gameListView' %}">Juegos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/how_it_works/' %}active{% endif %}" href="{% url 'web:howItWorkView' %}">Cómo funciona</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'web:howItWorkView' %}active{% endif %}" href="{% url 'web:howItWorkView' %}">Cómo funciona</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/reward/' %}active{% endif %}" href="{% url 'web:rewardListView' %}">Premios</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'web:rewardListView' %}active{% endif %}" href="{% url 'web:rewardListView' %}">Premios</a>
                 </li>
 
                 {% if user.is_authenticated %}
@@ -45,10 +45,10 @@
                             <span class="text-warning">{{ user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
-                            <li><a class="dropdown-item" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
-                            <li><a class="dropdown-item" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
-                            <li><a class="dropdown-item" href="{% url 'web:playerTeamDetailView' request.user.player.id %}">Mi equipo</a></li>
-                            <li><a class="dropdown-item" href="{% url 'web:redemptionListView' request.user.player.id %}">Mis recompensas</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:playerProfileDetailView' %}active{% endif %}" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:myTournamentListView' %}active{% endif %}" href="{% url 'web:myTournamentListView' request.user.player.id %}">Mis torneos</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:playerTeamDetailView' %}active{% endif %}" href="{% url 'web:playerTeamDetailView' request.user.player.id %}">Mi equipo</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:redemptionListView' %}active{% endif %}" href="{% url 'web:redemptionListView' request.user.player.id %}">Mis recompensas</a></li>
                             <li><form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <input type="submit" value="Cerrar sesión" class="dropdown-item ">

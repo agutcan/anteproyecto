@@ -16,6 +16,11 @@
     color: white;
 }
 
+.dropdown-item.active {
+    background-color: #ffc107;
+    color: #121212;
+}
+
 .navbar .dropdown-item:hover {
     /* Cambia el fondo del ítem cuando se pasa el mouse por encima */
     background-color: #ffc107;
@@ -26,3 +31,4 @@
     /* Cambia el color del texto al pasar el mouse sobre el toggle */
     color: #ffc107;
 }
+
