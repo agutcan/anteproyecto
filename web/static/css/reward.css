@@ -10,14 +10,15 @@
 }
 
 .section-title:after {
-    /* Agrega una línea decorativa dorada debajo del título de sección */
+        /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-    width: 80px;
-    height: 3px;
-    background: var(--gold);
-    bottom: 0;
+    width: 15%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
     left: 0;
+    border-radius: 2px;
 }
 
 /* Alertas compactas */
@@ -131,18 +132,3 @@
     border-radius: 6px;
 }
 
-.alert-close {
-    /* Botón de cierre con estilo transparente */
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: inherit;
-    opacity: 0.7;
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-
-.alert-close:hover {
-    /* Aumenta la visibilidad del botón al pasar el mouse */
-    opacity: 1;
-}

@@ -14,6 +14,15 @@
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+/* Aplica a todos los botones del acordeón */
+.accordion-button::after {
+    background-image: url("../media/icons/acordeon_flecha.svg");
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("../media/icons/acordeon_flecha.svg");
+}
+
 .accordion-button:not(.collapsed) {
     /* Cambia el fondo cuando el acordeón está abierto (no colapsado) */
     background-color: rgba(255, 193, 7, 0.1);
@@ -30,41 +39,14 @@
     border-color: #ffc107;
 }
 
-.category-title:after {
-    /* Agrega una línea decorativa debajo del título de categoría */
+.main-title:after, .category-title:after {
+    /* Línea decorativa debajo del título */
     content: '';
-
-    /* Posicionamiento absoluto respecto al contenedor */
     position: absolute;
-
-    /* Dimensiones de la línea */
-    width: 60px;
-    height: 2px;
-
-    /* Color ámbar */
-    background: #ffc107;
-
-    /* Posicionamiento en la parte inferior izquierda del elemento */
-    bottom: 0;
+    width: 25%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
     left: 0;
-}
-
-.main-title:after {
-    /* Agrega una línea decorativa al título principal */
-    content: '';
-
-    /* Posicionamiento absoluto debajo del título */
-    position: absolute;
-    bottom: -10px;
-
-    /* Centrado horizontal con desplazamiento */
-    left: 10%;
-    transform: translateX(-50%);
-
-    /* Dimensiones de la línea decorativa */
-    width: 80px;
-    height: 3px;
-
-    /* Color ámbar */
-    background: #ffc107;
+    border-radius: 2px;
 }

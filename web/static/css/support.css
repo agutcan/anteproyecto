@@ -6,15 +6,15 @@
 
 /* Agrega una línea decorativa debajo del título con clase .support-title */
 .support-title:after {
+    /* Línea decorativa debajo del título */
     content: '';
-    position: absolute; /* Posiciona el elemento respecto al contenedor padre */
-    bottom: 0; /* Alineado abajo del título */
-    left: 10%; /* Posición horizontal desde la izquierda */
-    transform: translateX(-50%); /* Centra horizontalmente el pseudo-elemento */
-    width: 80px; /* Ancho de la línea */
-    height: 3px; /* Grosor de la línea */
-    background: #ffc107; /* Color amarillo Bootstrap */
-    border-radius: 2px; /* Bordes redondeados */
+    position: absolute;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
+    left: 0;
+    border-radius: 2px;
 }
 
 /* Estilo base para la tarjeta del formulario de soporte */
@@ -52,12 +52,18 @@
 
 /* Estilo para alertas de éxito personalizadas */
 .alert-success {
-    background-color: #1a1a1a; /* Fondo oscuro */
-    border-color: rgba(0, 255, 137, 0.3); /* Borde verde translúcido */
+    background: rgba(25, 135, 84, 0.2);
+    color: #198754;
+    border: 1px solid #198754;
+}
+
+.btn-close {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffc107' viewBox='0 0 16 16'%3E%3Cpath d='M2.146 2.146a.5.5 0 0 1 .708 0L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 }
 
 /* Estilo para alertas de error personalizadas */
 .alert-danger {
-    background-color: #1a1a1a; /* Fondo oscuro */
-    border-color: rgb(255, 0, 24); /* Borde rojo sólido */
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    color: #dc3545;
 }

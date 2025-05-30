@@ -8,12 +8,12 @@
 
 <div class="container py-4">
     <!-- Encabezado con línea amarilla -->
-    <div class=" mb-3 pb-3">
+    <div class="pb-4">
         <div class="d-flex align-items-center flex-wrap">
 
             <div class="position-relative">
                 <h1 class="section-title position-relative d-inline-block text-warning mb-1 pb-2"> <i class="bi bi-trophy text-warning me-3"></i>Ranking de Jugadores</h1>
-                <p class="text-white mb-0 mt-2 px-4">
+                <p class="text-white mt-4">
                     Los mejores jugadores de ArenaGG ordenados por MMR
                 </p>
             </div>
@@ -57,10 +57,22 @@
 
                     <!-- Renombre/Reputación -->
                     <div class="d-flex align-items-center">
-                        <i class="bi bi-award text-info me-1"></i>
-                        <span class="text-info fw-bold">
-                            {{ p.renombre|default:"0" }} RP
-                        </span>
+                        {% if p.renombre > 50 %}
+                            <i class="bi bi-award text-info me-1"></i>
+                            <span class="text-info fw-bold">
+                                {{ p.renombre|default:"0" }} RP
+                            </span>
+                        {% elif p.renombre > 40 %}
+                            <i class="bi bi-award text-warning me-1"></i>
+                            <span class="text-warning fw-bold">
+                                {{ p.renombre|default:"0" }} RP
+                            </span>
+                        {% else %}
+                            <i class="bi bi-award text-danger me-1"></i>
+                            <span class="text-danger fw-bold">
+                                {{ p.renombre|default:"0" }} RP
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
             </div>

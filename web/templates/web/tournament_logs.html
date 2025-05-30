@@ -11,7 +11,7 @@
         <h1 class="logs-title position-relative pb-3 d-inline-block text-warning fw-bold">
             <i class="bi bi-journal-text me-2"></i>Logs del Torneo
         </h1>
-        <h2 class="text-white mt-2">{{ tournament.name }}</h2>
+        <h2 class="text-white mt-3">{{ tournament.name }}</h2>
     </div>
 
     {% if match_logs %}
@@ -58,6 +58,11 @@
                 </div>
             </div>
         {% endfor %}
+        <div class="text-center py-5">
+            <a href="{% url 'web:tournamentDetailView' tournament.id %}" class="btn btn-outline-light">
+                <i class="bi bi-arrow-left me-2"></i> Volver al torneo
+            </a>
+        </div>
     {% else %}
         <!-- Estado vacío -->
         <div class="text-center py-5">

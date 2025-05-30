@@ -18,6 +18,16 @@
     transition: all 0.3s ease;
 }
 
+/* Aplica a todos los botones del acordeón */
+.accordion-button::after {
+    background-image: url("../media/icons/acordeon_flecha.svg");
+}
+
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("../media/icons/acordeon_flecha.svg");
+}
+
 .list-group-item:hover {
     /* Al pasar el mouse, cambia el fondo ligeramente */
     background-color: rgba(255, 255, 255, 0.05) !important;
@@ -52,20 +62,15 @@
 }
 
 .section-title:after {
-    /* Crea una línea decorativa debajo del título */
+        /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-
-    /* Tamaño de la línea */
-    width: 80px;
-    height: 3px;
-
-    /* Color dorado consistente con el resto del diseño */
-    background: #ffc107;
-
-    /* Posiciona la línea justo debajo del título */
+    width: 15%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
     bottom: -15px;
     left: 0;
+    border-radius: 2px;
 }
 
 .video-container {

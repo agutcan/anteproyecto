@@ -12,7 +12,7 @@
     {% if messages %}
         <div class="container mb-4">
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-white bg-dark border-{{ message.tags }} shadow" role="alert">
+                <div class="alert alert-{{ message.tags }} alert-dismissible text-white fade show bg-dark border-{{ message.tags }} shadow" role="alert">
                     <i class="bi bi-exclamation-circle me-2"></i> {{ message }}
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
@@ -235,16 +235,18 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body text-center">
-                <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
-                <div class="d-grid gap-3">
-                    {% if not player.team %}
-                        <a href="{% url 'web:joinTeamInTournamentListView' tournament.id %}" class="btn btn-outline-info btn-lg py-3 fw-bold">
-                            <i class="bi bi-person-add me-2"></i>Unirse a un equipo
-                        </a>
-                        <a href="{% url 'web:teamCreateInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg py-3 fw-bold">
-                            <i class="bi bi-plus-circle me-2"></i>Crear un equipo
-                        </a>
-                    {% else %}
+                {% if not player.team %}
+                    <p class="mb-4">Elige si deseas unirte a un equipo existente o crear uno nuevo para participar en el torneo.</p>
+                    <div class="d-grid gap-3">
+                            <a href="{% url 'web:joinTeamInTournamentListView' tournament.id %}" class="btn btn-outline-info btn-lg py-3 fw-bold">
+                                <i class="bi bi-person-add me-2"></i>Unirse a un equipo
+                            </a>
+                            <a href="{% url 'web:teamCreateInTournamentView' tournament.id %}" class="btn btn-outline-success btn-lg py-3 fw-bold">
+                                <i class="bi bi-plus-circle me-2"></i>Crear un equipo
+                            </a>
+                {% else %}
+                    <p class="mb-4">Parece que tienes equipo! Inscríbelo en el torneo.</p>
+                    <div class="d-grid gap-3">
                         <form action="{% url 'web:teamInscribeInTournamentView' tournament.id player.team.id %}" method="post" class="d-grid">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-success btn-lg py-3 fw-bold">

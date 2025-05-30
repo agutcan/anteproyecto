@@ -9,6 +9,7 @@ input, select, textarea {
     border: 1px solid #444 !important;
 }
 
+
 input:focus, select:focus, textarea:focus {
     /* Cambia el borde a dorado al enfocar el campo */
     border-color: #ffc107 !important;

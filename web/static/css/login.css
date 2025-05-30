@@ -20,15 +20,15 @@
 }
 
 .login-title:after {
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 30%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: #ffc107;
-    border-radius: 3px;
+    width: 35%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
+    left: 21%;
+    border-radius: 2px;
 }
 
 #id_username,

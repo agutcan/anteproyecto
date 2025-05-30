@@ -11,16 +11,15 @@
 }
 
 .section-title:after {
-    /* Línea decorativa debajo del título de sección */
+/* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-
-    /* Tamaño y posición de la línea */
-    width: 80px;
-    height: 3px;
-    background: var(--gold);
-    bottom: 0;
+    width: 25%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    bottom: -15px;
     left: 0;
+    border-radius: 2px;
 }
 
 .torneo-card {

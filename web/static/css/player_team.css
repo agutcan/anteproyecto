@@ -18,14 +18,15 @@
 
 
 .page-title:after {
-    /* Línea decorativa dorada debajo del título de página */
+/* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-    width: 80px;
-    height: 3px;
-    background: var(--gold);
-    bottom: 0;
+    width: 20%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    bottom: -15px;
     left: 0;
+    border-radius: 2px;
 }
 
 /* Estilos para alertas con opción de cierre */

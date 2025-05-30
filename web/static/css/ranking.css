@@ -1,12 +1,13 @@
 .section-title:after {
-    /* Agrega una línea decorativa dorada debajo del título de sección */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-    bottom: 0;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
     left: 0;
-    width: 60px;
-    height: 3px;
-    background: #ffc107;
+    border-radius: 2px;
 }
 
 .list-group-item {

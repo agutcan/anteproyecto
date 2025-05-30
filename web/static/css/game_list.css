@@ -17,22 +17,15 @@
 
 /* Línea decorativa debajo del título de la página */
 .page-title:after {
+        /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-
-    /* Tamaño de la línea */
-    width: 80px;
-    height: 3px;
-
-    /* Usa la variable dorada para el color */
-    background: var(--gold);
-
-    /* Posición debajo del título */
-    bottom: -10px;
-    left: 40px;
-
-    /* Centra horizontalmente respecto a su posición */
-    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
+    left: 0;
+    border-radius: 2px;
 }
 
 /* Limita el ancho del subtítulo para mejorar la legibilidad */

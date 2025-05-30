@@ -48,7 +48,7 @@
                         </li>
                         <li class="list-group-item bg-transparent text-white border-secondary d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-trophy me-2 text-warning"></i>Torneos completados</span>
-                            <span class="fw-bold">{{ completed_tournaments_count|default:0 }}</span>
+                            <span class="fw-bold">{{ finalized_tournaments_count|default:0 }}</span>
                         </li>
                     </ul>
                 </div>
@@ -89,12 +89,20 @@
                                         </small>
                                     </div>
                                 </div>
-                                <span class="status-badge fs-6 py-1 px-2 fw-bold
-                                    {% if tournament.status == 'upcoming' %}status-open
-                                    {% elif tournament.status == 'ongoing' %}status-ongoing
-                                    {% else %}status-finished{% endif %}">
-                                    {{ tournament.get_status_display }}
-                                </span>
+                                    {% if tournament.status == 'upcoming' %}
+                                         <span class="status-badge fs-6 py-1 px-2 fw-bold status-open">
+                                            Próximamente
+                                        </span>
+                                    {% elif tournament.status == 'ongoing' %}
+                                        <span class="status-badge fs-6 py-1 px-2 fw-bold status-ongoing">
+                                            En curso
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge fs-6 py-1 px-2 fw-bold status-finished">
+                                            Finalizado
+                                        </span>
+                                    {% endif %}
+
                             </a>
                             {% endfor %}
                         </div>

@@ -7,19 +7,6 @@
 
 
 <div class="container py-5">
-    <!-- Mensajes de error -->
-    {% if messages %}
-        {% for message in messages %}
-            {% if message.tags == 'error' %}
-                <div class="alert alert-danger mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        <div>{{ message }}</div>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -28,7 +15,7 @@
                 <h1 class="team-create-title position-relative pb-2 d-inline-block text-warning fw-bold">
                     <i class="bi bi-people me-2"></i>Crear Nuevo Equipo
                 </h1>
-                <p class="text-white-50">Forma tu equipo para competir en torneos</p>
+                <p class="text-white-50 mt-3">Forma tu equipo para competir en torneos</p>
             </div>
 
             <!-- Tarjeta del formulario -->
@@ -43,7 +30,16 @@
                     <form method="POST">
                         {% csrf_token %}
                         {{ form.non_field_errors }}
-
+                        {% if form.errors %}
+                        <div class="alert alert-danger mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                <div>
+                                    <strong>Error:</strong> Por favor corrige los errores en el formulario.
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                         <!-- Campo Nombre -->
                         <div class="mb-4">
                             <label for="id_name" class=" text-warning fw-medium mb-2">

@@ -24,13 +24,15 @@
 }
 
 .section-title:after {
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-    bottom: 0;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    bottom: -15px;
     left: 0;
-    width: 80px;
-    height: 3px;
-    background: #ffc107;
+    border-radius: 2px;
 }
 
 /* Estilos existentes */

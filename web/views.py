@@ -650,6 +650,17 @@ class GameDetailView(LoginRequiredMixin, DetailView):
     template_name = 'web/game_detail.html'
     context_object_name = 'game'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        game = self.get_object()
+
+        # Contar torneos finalizados asociados a este juego
+        finalized_tournaments_count = game.tournament_set.filter(status='completed').count()
+
+        # Lo agregamos al contexto
+        context['finalized_tournaments_count'] = finalized_tournaments_count
+        return context
+
 
 class TournamentCreateView(LoginRequiredMixin, CreateView):
     """
