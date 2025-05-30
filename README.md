@@ -2,9 +2,9 @@
 
 # ![Logo](web/static/images/favicon_peque.png) ArenaGG - Plataforma de gestión de torneos de videojuegos
 
-## 👤 Autor del proyecto
+## 👤 Autor del proyecto / Tutor 
 
-Aarón Gutiérrez Caña
+Aarón Gutiérrez Caña / Jose Angel Gómez
 
 ## 📌 Tabla de Contenidos
 
