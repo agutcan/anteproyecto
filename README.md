@@ -1,9 +1,6 @@
+# Anteproyecto
 
-# 🎮 Título del proyecto 
-
-** ArenaGG - Plataforma de gestión de torneos de videojuegos**  
-
-![Logo](web/static/images/favicon_peque.png)
+# ![Logo](web/static/images/favicon_peque.png) ArenaGG - Plataforma de gestión de torneos de videojuegos
 
 ## 👤 Autor del proyecto
 
