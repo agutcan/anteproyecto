@@ -1,16 +1,12 @@
 .match-title:after {
-    /* Crea una línea decorativa debajo del título del partido */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
-    bottom: 0;
+    width: 17%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    bottom: -15px;
     left: 0;
-
-    /* Tamaño y color de la línea */
-    width: 80px;
-    height: 3px;
-    background: #ffc107;
-
-    /* Bordes ligeramente redondeados para suavizar la línea */
     border-radius: 2px;
 }
 

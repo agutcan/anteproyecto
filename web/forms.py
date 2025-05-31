@@ -78,6 +78,11 @@ class TournamentForm(forms.ModelForm):
         try:
             valorant = Game.objects.get(name__iexact="Valorant")
             self.fields['game'].initial = valorant.pk
+
+            for field in self.fields.values():
+                existing_classes = field.widget.attrs.get('class', '')
+                field.widget.attrs['class'] = f'{existing_classes} form-control'.strip()
+
         except Game.DoesNotExist:
             pass  # No pasa nada si no existe
 
@@ -288,10 +293,18 @@ class MatchResultForm(forms.Form):
     
     team1_score = forms.IntegerField(
         min_value=0,
-        label="Puntuación Equipo 1"
+        label="Puntuación Equipo 1",
+
     )
     
     team2_score = forms.IntegerField(
         min_value=0,
         label="Puntuación Equipo 2"
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if not isinstance(field.widget, forms.RadioSelect):
+                existing_classes = field.widget.attrs.get('class', '')
+                field.widget.attrs['class'] = f'{existing_classes} form-control'.strip()

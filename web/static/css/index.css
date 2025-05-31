@@ -376,11 +376,15 @@
 }
 
 .full-width-section {
+    position: relative;
     width: 100vw;
     left: 50%;
-    right: 50%;
-    margin-left: -50.5vw;
-    margin-right: -55vw;
+    transform: translateX(-50.5%);
+    /*width: 100vw;*/
+    /*left: 50%;*/
+    /*right: 50%;*/
+    /*margin-left: -50.5vw;*/
+    /*margin-right: -55vw;*/
 }
 
 
