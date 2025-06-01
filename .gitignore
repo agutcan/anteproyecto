@@ -5,3 +5,5 @@ __pycache__/
 .env*
 mailpit.db-shm
 mailpit.db-wal
+letsencrypt/
+staticfiles/
