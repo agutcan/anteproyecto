@@ -24,11 +24,6 @@ env = environ.Env(
     DEBUG=(bool, False)  # Define DEBUG como booleano
 )
 
-# Inicializar django-environ
-env = environ.Env(
-    DEBUG=(bool, False)  # Define DEBUG como booleano
-)
-
 # Cargar las variables desde el archivo .env
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -185,7 +180,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'web/static'),  # Aquí van imágenes como logotipos, fondos, etc.
@@ -196,6 +191,8 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'web/static/media')  # Los archivos subidos se guardarán en "media/"
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Definir la URL a la que los usuarios serán redirigidos si intentan acceder a una página que requiere autenticación
 LOGIN_URL = '/accounts/login/'
 
@@ -205,6 +202,12 @@ LOGIN_REDIRECT_URL = '/'
 # Definir la URL a la que el usuario será redirigido después de cerrar sesión
 LOGOUT_REDIRECT_URL = '/accounts/logout/'
 
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://arenagg.aarongutierrez.tech',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
