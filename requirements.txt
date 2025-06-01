@@ -10,3 +10,4 @@ django-environ
 celery
 django-celery-beat
 redis
+gunicorn

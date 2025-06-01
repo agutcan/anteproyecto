@@ -61,10 +61,7 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-volvz_3+v)0tpe@=_)@$8^m_ujl=c5asg)51ga--sy15x1gla8'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = env("SECRET_KEY", default="")
 
 ALLOWED_HOSTS = ["*"]
 
