@@ -24,11 +24,6 @@ env = environ.Env(
     DEBUG=(bool, False)  # Define DEBUG como booleano
 )
 
-# Inicializar django-environ
-env = environ.Env(
-    DEBUG=(bool, False)  # Define DEBUG como booleano
-)
-
 # Cargar las variables desde el archivo .env
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
