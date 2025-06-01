@@ -49,15 +49,13 @@ services:
     container_name: "whoami"
     labels:
       - "traefik.enable=true"
-      # Usar  cada uno SU DOMINIO .tech
+      # Usar cada uno SU DOMINIO .tech
       - "traefik.http.routers.whoami.rule=Host(`whoami.aarongutierrez.tech`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${IMAGE}
     container_name: django_web
     #ports:
     #  - "8000:8000"
@@ -68,7 +66,7 @@ services:
     depends_on:
       - db
       - mailpit
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn ArenaGG.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 2
     restart: unless-stopped  # Asegura que el contenedor se reinicie si falla    
     labels:
       - "traefik.enable=true"
@@ -111,7 +109,7 @@ services:
     #  - "6379:6379"
     
   celery:
-    build: .
+    image: ${IMAGE}
     command: celery -A ArenaGG worker --loglevel=info
     volumes:
       - .:/app
@@ -122,7 +120,7 @@ services:
       - .env
       
   celery-beat:
-    build: .
+    image: ${IMAGE}
     command: celery -A ArenaGG beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/app
@@ -131,7 +129,6 @@ services:
       - redis
     env_file:
       - .env
-
     
 volumes:
   postgres_data:
