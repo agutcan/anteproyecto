@@ -96,10 +96,9 @@ services:
     container_name: mailpit
     volumes:
       - ./data:/data
-    # ports:
-    #  - "8025:8025" # Inter  faz web
-
-    #  - "1025:1025" # SMTP de prueba
+    ports:
+      - "8025:8025"
+      - "1025:1025" # SMTP de prueba
     env_file:
       - .env
     restart: unless-stopped
@@ -108,6 +107,8 @@ services:
       - "traefik.http.routers.mailpit.rule=Host(`mailpit.aarongutierrez.tech`)"
       - "traefik.http.routers.mailpit.entrypoints=websecure"
       - "traefik.http.routers.mailpit.tls.certresolver=myresolver"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
+
 
   redis:
     image: redis:7

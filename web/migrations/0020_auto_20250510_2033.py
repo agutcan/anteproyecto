@@ -69,47 +69,38 @@ def poblar_datos(apps, schema_editor):
 
     # Crear usuarios
     users = [
-        User(username="player8", password="Usuario1", first_name="Leo", last_name="Doe", email="Leo@example.com"),
-        User(username="player9", password="Usuario1", first_name="Clara", last_name="Lee", email="clara@example.com"),
-        User(username="player10", password="Usuario1", first_name="Liam", last_name="Kim", email="liam@example.com"),
-        User(username="player11", password="Usuario1", first_name="Olivia", last_name="Chen",
-             email="olivia@example.com"),
-        User(username="player12", password="Usuario1", first_name="Noah", last_name="Wang", email="noah@example.com"),
-        User(username="player13", password="Usuario1", first_name="Emma", last_name="Park", email="emma@example.com"),
-        User(username="player14", password="Usuario1", first_name="Mason", last_name="Nguyen",
-             email="mason@example.com"),
-        User(username="player15", password="Usuario1", first_name="Sophia", last_name="Tran",
-             email="sophia@example.com"),
-        User(username="player16", password="Usuario1", first_name="James", last_name="Lopez",
-             email="james@example.com"),
-        User(username="player17", password="Usuario1", first_name="Ava", last_name="Garcia", email="ava@example.com"),
-        User(username="player18", password="Usuario1", first_name="Lucas", last_name="Martinez",
-             email="lucas@example.com"),
-        User(username="player19", password="Usuario1", first_name="Mia", last_name="Hernandez",
-             email="mia@example.com"),
-        User(username="player20", password="Usuario1", first_name="Benjamin", last_name="Ramirez",
-             email="benjamin@example.com"),
-        User(username="player21", password="Usuario1", first_name="Amelia", last_name="Torres",
-             email="amelia@example.com"),
-        User(username="player22", password="Usuario1", first_name="Logan", last_name="Rivera",
-             email="logan@example.com"),
-        User(username="player23", password="Usuario1", first_name="Evelyn", last_name="Gomez",
-             email="evelyn@example.com"),
-        User(username="player24", password="Usuario1", first_name="Elijah", last_name="Sanchez",
-             email="elijah@example.com"),
-        User(username="player25", password="Usuario1", first_name="Harper", last_name="Reyes",
-             email="harper@example.com"),
-        User(username="player26", password="Usuario1", first_name="Daniel", last_name="Flores",
-             email="daniel@example.com"),
-        User(username="player27", password="Usuario1", first_name="Daniel", last_name="Flores",
-             email="daniel4@example.com"),
-        User(username="player28", password="Usuario1", first_name="Daniel", last_name="Flores",
-             email="daniel2@example.com"),
-        User(username="player29", password="Usuario1", first_name="Daniel", last_name="Flores",
-             email="daniel23@example.com"),
+        {"username": "player8", "password": "Usuario1", "first_name": "Leo", "last_name": "Doe", "email": "Leo@example.com"},
+    {"username": "player9", "password": "Usuario1", "first_name": "Clara", "last_name": "Lee", "email": "clara@example.com"},
+    {"username": "player10", "password": "Usuario1", "first_name": "Liam", "last_name": "Kim", "email": "liam@example.com"},
+    {"username": "player11", "password": "Usuario1", "first_name": "Olivia", "last_name": "Chen", "email": "olivia@example.com"},
+    {"username": "player12", "password": "Usuario1", "first_name": "Noah", "last_name": "Wang", "email": "noah@example.com"},
+    {"username": "player13", "password": "Usuario1", "first_name": "Emma", "last_name": "Park", "email": "emma@example.com"},
+    {"username": "player14", "password": "Usuario1", "first_name": "Mason", "last_name": "Nguyen", "email": "mason@example.com"},
+    {"username": "player15", "password": "Usuario1", "first_name": "Sophia", "last_name": "Tran", "email": "sophia@example.com"},
+    {"username": "player16", "password": "Usuario1", "first_name": "James", "last_name": "Lopez", "email": "james@example.com"},
+    {"username": "player17", "password": "Usuario1", "first_name": "Ava", "last_name": "Garcia", "email": "ava@example.com"},
+    {"username": "player18", "password": "Usuario1", "first_name": "Lucas", "last_name": "Martinez", "email": "lucas@example.com"},
+    {"username": "player19", "password": "Usuario1", "first_name": "Mia", "last_name": "Hernandez", "email": "mia@example.com"},
+    {"username": "player20", "password": "Usuario1", "first_name": "Benjamin", "last_name": "Ramirez", "email": "benjamin@example.com"},
+    {"username": "player21", "password": "Usuario1", "first_name": "Amelia", "last_name": "Torres", "email": "amelia@example.com"},
+    {"username": "player22", "password": "Usuario1", "first_name": "Logan", "last_name": "Rivera", "email": "logan@example.com"},
+    {"username": "player23", "password": "Usuario1", "first_name": "Evelyn", "last_name": "Gomez", "email": "evelyn@example.com"},
+    {"username": "player24", "password": "Usuario1", "first_name": "Elijah", "last_name": "Sanchez", "email": "elijah@example.com"},
+    {"username": "player25", "password": "Usuario1", "first_name": "Harper", "last_name": "Reyes", "email": "harper@example.com"},
+    {"username": "player26", "password": "Usuario1", "first_name": "Daniel", "last_name": "Flores", "email": "daniel@example.com"},
+    {"username": "player27", "password": "Usuario1", "first_name": "Daniel", "last_name": "Flores", "email": "daniel4@example.com"},
+    {"username": "player28", "password": "Usuario1", "first_name": "Daniel", "last_name": "Flores", "email": "daniel2@example.com"},
+    {"username": "player29", "password": "Usuario1", "first_name": "Daniel", "last_name": "Flores", "email": "daniel23@example.com"},
 
     ]
-    User.objects.bulk_create(users)  # Crear todos los usuarios de una vez
+    
+    for user in users:
+        User.objects.create_user(**user)
+
+    users = []
+
+    for user in User.objects.all():
+        users.append(user)
 
     # Crear juegos
     games = [
@@ -272,7 +263,6 @@ def poblar_datos(apps, schema_editor):
         task=task_name,
         args=json.dumps([]),  # Argumentos si tu tarea los necesita
     )
-    print(f"Tarea periódica '{task_name}' creada correctamente.")
 
 
     # Nombre de la tarea (coincide con la función @shared_task)
@@ -285,7 +275,6 @@ def poblar_datos(apps, schema_editor):
         task=task_name,
         args=json.dumps([]),
     )
-    print(f"Tarea periódica '{task_name}' creada correctamente.")
 
 
     # Nombre de la tarea (coincide con la función @shared_task)
@@ -297,7 +286,6 @@ def poblar_datos(apps, schema_editor):
         task=task_name,
         args=json.dumps([]),
     )
-    print(f"Tarea periódica '{task_name}' creada correctamente.")
 
 
 class Migration(migrations.Migration):

@@ -16,7 +16,7 @@
                 </h1>
             </div>
             {% if user.player.role == 'Premium' %}
-                <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning btn-hover">
+                <a href="{% url 'web:tournamentCreateView' %}" class="btn btn-warning mt-2 btn-hover">
                     <i class="bi bi-plus-circle me-1"></i> Crear Torneo
                 </a>
             {% else %}
@@ -94,7 +94,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h5 class="card-title text-truncate text-warning">{{ tournament.name }}</h5>
-                        <small class="text-warning fw-bold"><i class="bi bi-trophy text-warning"></i> {{ tournament.prize_pool|default:"Sin premio" }}</small>
+                        <small class="text-warning fw-bold ms-2 text-nowrap"><i class="bi bi-trophy text-warning"></i> {{ tournament.prize_pool|default:"Sin premio" }}</small>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ tournament.game.image.url }}" alt="{{ tournament.game.name }}"
