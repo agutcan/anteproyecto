@@ -1099,7 +1099,7 @@ class RegisterView(FormView):
     """
     template_name = 'registration/register.html'
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('web:indexView')
 
     def form_valid(self, form):
         """
