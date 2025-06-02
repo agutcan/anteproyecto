@@ -194,8 +194,6 @@ Esta plataforma permitirá a los usuarios:
 - [Tareas programadas](docs/TASKS.md)
 - [Modelos](docs/MODELS.md)
 - [Formularios](docs/FORMS.md)
-- [Action](docs/WORKFLOWS.md)
 - [Test](docs/TESTS.md)
 - [Serializadores](docs/SERIALIZERS.md)
 - [Funciones](docs/FUNCTIONS.md)
-- [Docker Compose](docs/DOCKER_COMPOSE.md)
