@@ -127,8 +127,7 @@ class TournamentForm(forms.ModelForm):
 
 Formulario simple para crear equipos.
 
-- 📝 Campo `name` obligatorio, con estilos personalizados.
-
+- 📝 Campo `name` obligatorio, con estilos personalizados, placeholder y mensajes de error personalizado.
 
 ```python
 class TeamForm(forms.ModelForm):
@@ -145,8 +144,15 @@ class TeamForm(forms.ModelForm):
         fields = ['name']  # Solo incluye el campo 'name' del modelo Team
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary'  # Clases BOOSTRAP para estilo
+                'class': 'form-control bg-dark text-white border-secondary',  # Clases BOOSTRAP para estilo
+                'placeholder': 'Nombre del equipo...'
             }),
+        }
+        error_messages = {
+            'name': {
+                'unique': "Ya existe un equipo con ese nombre.",
+                'required': "Este campo es obligatorio.",
+            },
         }
 ```
 
