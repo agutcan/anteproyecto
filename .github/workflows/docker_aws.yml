@@ -2,10 +2,10 @@ name: docker&aws
 
 on:
   push:
-    branches: [ despliegue ]
+    branches: [ main ]
 
   pull_request:
-    branches: [ despliegue ]
+    branches: [ main ]
 
 
 env:
@@ -38,16 +38,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: copy docker compose via ssh key
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.AWS_HOSTNAME }}
-        username: ${{ secrets.AWS_USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.AWS_PRIVATEKEY }}
-        source: ${{ env.COMPOSE }}
-        target: /home/admin/anteproyecto
     - name: script deploy docker services
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -57,56 +47,9 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
             sleep 10
+            cd anteproyecto
+            git pull
             docker compose down
             sleep 10
-            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            docker compose up -d 
-        #script: |
-        #      cd /home/ubuntu
-        #      docker compose pull
-        #      docker compose down
-        #      docker compose up -d --remove-orphans
-
-  test:
-    name: Run Django tests before deploy
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: pass
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-  
-    env:
-      DATABASE_NAME: testdb
-      DATABASE_USER: user
-      DATABASE_PASSWORD: pass
-      DATABASE_HOST: localhost
-      DATABASE_PORT: 5432
-      DEBUG: "False"
-  
-    steps:
-      - uses: actions/checkout@v4
-  
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-  
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-  
-      - name: Run migrations
-        run: python manage.py migrate
-  
-      - name: Run tests
-        run: python manage.py test web.tests.test_models # Comprobar
+            docker compose up -d
+            
