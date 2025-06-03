@@ -3,10 +3,8 @@ name: docker&aws
 on:
   push:
     branches: [ main ]
-
   pull_request:
     branches: [ main ]
-
 
 env:
   IMAGE_NAME: anteproyecto
@@ -19,18 +17,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-          
+
       - name: Login to DockerHub
-        uses: docker/login-action@v3 
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true 
+          push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
   aws:
@@ -38,18 +36,20 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: script deploy docker services
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.AWS_HOSTNAME }}
-        username: ${{ secrets.AWS_USERNAME }}
-        key: ${{ secrets.AWS_PRIVATEKEY }}
-        port: ${{ secrets.PORT }}
-        script: |
-            sleep 10
-            cd anteproyecto
+      - name: script deploy docker services
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOSTNAME }}
+          username: ${{ secrets.AWS_USERNAME }}
+          key: ${{ secrets.AWS_PRIVATEKEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            set -e
+            APP_DIR=anteproyecto
+            IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+            cd $APP_DIR
             git pull
+            docker pull $IMAGE
             docker compose down
-            sleep 10
             docker compose up -d
-            
