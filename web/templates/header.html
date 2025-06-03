@@ -43,8 +43,23 @@
                                 <i class="fas fa-user" style="font-size: 30px;"></i> <!-- Icono de usuario -->
                             {% endif %}
                             <span class="text-warning">{{ user.username }}</span>
-                            <!--  Badge con monedas   -->
-                            <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy "></i>{{ request.user.player.coins|default:0 }}</span>
+                            <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy me-1"></i>{{ request.user.player.coins|default:0 }}</span>
+                            {% if p.renombre > 50 %}
+                            <i class="bi bi-award text-info me-1"></i>
+                            <span class="text-info fw-bold">
+                                {{ p.renombre|default:"0" }} RP
+                            </span>
+                        {% elif p.renombre > 40 %}
+                            <i class="bi bi-award text-warning me-1"></i>
+                            <span class="text-warning fw-bold">
+                                {{ p.renombre|default:"0" }} RP
+                            </span>
+                        {% else %}
+                            <i class="bi bi-award text-danger me-1"></i>
+                            <span class="text-danger fw-bold">
+                                {{ p.renombre|default:"0" }} RP
+                            </span>
+                        {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
                             <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:playerProfileDetailView' %}active{% endif %}" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
