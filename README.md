@@ -174,19 +174,19 @@ Esta plataforma permitirá a los usuarios:
 
 ## 📚 Bibliografía
 
-- [Python – Documentación oficial](https://docs.python.org/3/)
-- [JavaScript – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [HTML5 – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
-- [Bootstrap 5.3 – Introducción](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- [CSS – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS)
-- [Celery – Documentación oficial](https://docs.celeryq.dev/en/stable/)
-- [Django – Documentación oficial](https://docs.djangoproject.com/en/stable/)
-- [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
-- [Django Extensions – Documentación oficial](https://django-extensions.readthedocs.io/en/latest/)
-- [Django Debug Toolbar – Documentación oficial](https://django-debug-toolbar.readthedocs.io/en/latest/)
-- [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
-- [Docker – Documentación oficial](https://docs.docker.com/)
-- [AWS – Documentación oficial](https://docs.aws.amazon.com/)
+- 🐍 [Python – Documentación oficial](https://docs.python.org/3/)
+- 📜 [JavaScript – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- 🌐 [HTML5 – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- 🎨 [Bootstrap 5.3 – Introducción](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- 🎨 [CSS – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- 🐰 [Celery – Documentación oficial](https://docs.celeryq.dev/en/stable/)
+- 🌟 [Django – Documentación oficial](https://docs.djangoproject.com/en/stable/)
+- 🔗 [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
+- 🧩 [Django Extensions – Documentación oficial](https://django-extensions.readthedocs.io/en/latest/)
+- 🐞 [Django Debug Toolbar – Documentación oficial](https://django-debug-toolbar.readthedocs.io/en/latest/)
+- 📧 [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
+- 🐳 [Docker – Documentación oficial](https://docs.docker.com/)
+- ☁️ [AWS – Documentación oficial](https://docs.aws.amazon.com/)
 
 ## 📄 Documentación
 
