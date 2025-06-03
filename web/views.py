@@ -658,7 +658,7 @@ class GameDetailView(LoginRequiredMixin, DetailView):
             **kwargs: Argumentos clave adicionales
 
         Returns:
-            int: Número de torneos finalizados.
+         int: Número de torneos finalizados.
         """
         context = super().get_context_data(**kwargs)
         game = self.get_object()
