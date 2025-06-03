@@ -43,21 +43,6 @@
                                 <i class="fas fa-user" style="font-size: 30px;"></i> <!-- Icono de usuario -->
                             {% endif %}
                             <span class="text-warning">{{ user.username }}</span>
-                            <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy me-1"></i>{{ request.user.player.coins|default:0 }}</span>
-                            {% if p.renombre > 50 %}
-                                <span class="badge bg-info text-dark">
-                                    <i class="bi bi-award me-1"></i>{{ user.player.renombre|default:"0" }} RP
-                                </span>
-                            {% elif p.renombre > 40 %}
-                                <span class="badge bg-warning text-dark">
-                                    <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
-                                </span>
-                            {% else %}
-
-                                <span class="badge bg-danger text-dark">
-                                    <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
-                                </span>
-                            {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
                             <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:playerProfileDetailView' %}active{% endif %}" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
@@ -71,6 +56,22 @@
                             </li>
                         </ul>
                     </li>
+                <li class="nav-item">
+                <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy me-1"></i>{{ request.user.player.coins|default:0 }}</span>
+                            {% if p.renombre > 50 %}
+                                <span class="badge bg-info text-dark">
+                                    <i class="bi bi-award me-1"></i>{{ user.player.renombre|default:"0" }} RP
+                                </span>
+                            {% elif p.renombre > 40 %}
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
+                                </span>
+                            {% else %}
+                                <span class="badge bg-danger text-dark">
+                                    <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
+                                </span>
+                            {% endif %}
+                </li>
                 {% else %}
                     <!-- Si no está autenticado, mostrar los botones de login y register -->
                     <li class="nav-item ms-lg-3">
