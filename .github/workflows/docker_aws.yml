@@ -68,7 +68,7 @@ jobs:
 
             cd $APP_DIR
             git pull
+            docker compose down
             docker images ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --format "{{.ID}}" | xargs -r docker rmi -f
             docker pull $IMAGE
-            docker compose down
             docker compose up -d
