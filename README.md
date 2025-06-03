@@ -26,12 +26,14 @@ El objetivo principal del proyecto es desarrollar una plataforma web llamada **A
 - 🔫 Counter-Strike 2
 
 Esta plataforma permitirá a los usuarios:
-- Gestionar torneos y equipos
+- Gestionar multiple de torneos y equipo
 - Seguir torneos en tiempo real
 - Registrar su perfil y personalizarlo
 - Consultar resultados
 - Reclamar recompensas
+- Convertirse en VIP
 - Enviar mensajes a soporte
+- Recibir notificaciones por correo
 
 ## 🎯 Finalidad
 **ArenaGG** facilitará:
