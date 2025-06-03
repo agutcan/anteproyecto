@@ -43,6 +43,10 @@
                                 <i class="fas fa-user" style="font-size: 30px;"></i> <!-- Icono de usuario -->
                             {% endif %}
                             <span class="text-warning">{{ user.username }}</span>
+                            <!-- Badge con monedas -->
+                            {% if request.user.player.coins %}
+                                <span class="badge bg-warning text-dark ms-1">💰 {{ request.user.player.coins }}</span>
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="navbarDropdown" style="border-radius: 8px; background-color: #343a40;">
                             <li><a class="dropdown-item {% if request.resolver_match.view_name == 'web:playerProfileDetailView' %}active{% endif %}" href="{% url 'web:playerProfileDetailView' request.user.player.id %}">Perfil</a></li>
