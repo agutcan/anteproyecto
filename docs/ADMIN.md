@@ -837,7 +837,7 @@ class RedemptionAdmin(admin.ModelAdmin):
 - [Tareas programadas](TASKS.md)
 - [Modelos](MODELS.md)
 - [Formularios](FORMS.md)
-- [Test](/TESTS.md)
+- [Test](TESTS.md)
 - [Serializadores](SERIALIZERS.md)
 - [Funciones](FUNCTIONS.md)
 -  [⬅️ Volver al README principal](../README.md)
