@@ -70,4 +70,5 @@ jobs:
             git pull
             docker pull $IMAGE
             docker compose down
+            docker system prune -a -f --volumes
             docker compose up -d
