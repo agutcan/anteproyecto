@@ -138,7 +138,7 @@ class PlayerStatsListAPI(generics.ListAPIView):
 ```
 ---
 
-# 🏠 Vista `IndexView` en Django
+## 🏠 Vista `IndexView` en Django
 
 La vista `IndexView` es una vista basada en clases que se encarga de mostrar la página principal del sitio web una vez que el usuario ha iniciado sesión. Utiliza `TemplateView` de Django junto con el mixin `LoginRequiredMixin`.
 
