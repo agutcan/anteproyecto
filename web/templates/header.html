@@ -49,12 +49,12 @@
                                 <i class="bi bi-award me-1"></i>{{ p.renombre|default:"0" }} RP
                             </span>
                         {% elif p.renombre > 40 %}
-                            <span class="badge bg-warning text-warning">
+                            <span class="badge bg-warning text-dark">
                                 <i class="bi bi-award me-1"></i> {{ p.renombre|default:"0" }} RP
                             </span>
                         {% else %}
 
-                            <span class="badge bg-danger text-danger">
+                            <span class="badge bg-danger text-dark">
                                 <i class="bi bi-award me-1"></i> {{ p.renombre|default:"0" }} RP
                             </span>
                         {% endif %}
