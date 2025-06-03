@@ -37,12 +37,12 @@ Esta plataforma permitirá a los usuarios:
 
 ## 🎯 Finalidad
 **ArenaGG** facilitará:
-- Creación y administración de torneos
-- Automatización de procesos (emparejamiento, generación de brackets 2/4/8)
-- Sistema de puntos canjeables por:
+- La creación y administración sencilla de torneos de videojuegos.
+- La automatización de procesos clave, como el emparejamiento y la generación de brackets (para 2, 4, 8 jugadores/equipos).
+- Un sistema de puntos que los usuarios podrán canjear por:
   - 💰 Premios en efectivo
-  - 🎚 Merchandising
-  - 📱 Suscripciones
+  - 🎚 Merchandising exclusivo
+  - 📱 Suscripciones y beneficios dentro de la plataforma
 
 ## ✅ Objetivos
 
@@ -136,17 +136,15 @@ Esta plataforma permitirá a los usuarios:
 - 🔗 Integrar las vistas con el backend.
 - ✅ Realizar pruebas unitarias con **Django TestCase**.
 - 📚 Redactar la documentación del sistema.
+- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
+- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 
 ### En proceso
 
-- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
-- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - 📊 Validar el correcto funcionamiento de la plataforma.
 
 ### Por hacer
 
-- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
-- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - 📊 Validar el correcto funcionamiento de la plataforma.
 
 ### Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
