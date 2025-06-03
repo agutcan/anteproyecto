@@ -190,12 +190,12 @@ Esta plataforma permitirá a los usuarios:
 
 ## 📄 Documentación
 
-- [Estructura del Proyecto y esquema de base de datos](docs/PROJECT_STRUCTURE.md)
-- [Admin](docs/ADMIN.md)
-- [Vistas](docs/VIEWS.md)
-- [Tareas programadas](docs/TASKS.md)
-- [Modelos](docs/MODELS.md)
-- [Formularios](docs/FORMS.md)
-- [Test](docs/TESTS.md)
-- [Serializadores](docs/SERIALIZERS.md)
-- [Funciones](docs/FUNCTIONS.md)
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](docs/PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](docs/ADMIN.md)
+- 🖼️ [Vistas](docs/VIEWS.md)
+- ⏰ [Tareas programadas](docs/TASKS.md)
+- 🧩 [Modelos](docs/MODELS.md)
+- 📝 [Formularios](docs/FORMS.md)
+- ✅ [Test](docs/TESTS.md)
+- 🔄 [Serializadores](docs/SERIALIZERS.md)
+- 🧠 [Funciones](docs/FUNCTIONS.md)
