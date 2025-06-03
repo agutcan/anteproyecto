@@ -45,19 +45,17 @@
                             <span class="text-warning">{{ user.username }}</span>
                             <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy me-1"></i>{{ request.user.player.coins|default:0 }}</span>
                             {% if p.renombre > 50 %}
-                            <i class="bi bi-award text-info me-1"></i>
-                            <span class="text-info fw-bold">
-                                {{ p.renombre|default:"0" }} RP
+                            <span class="badge bg-info text-dark">
+                                <i class="bi bi-award me-1"></i>{{ p.renombre|default:"0" }} RP
                             </span>
                         {% elif p.renombre > 40 %}
-                            <i class="bi bi-award text-warning me-1"></i>
-                            <span class="text-warning fw-bold">
-                                {{ p.renombre|default:"0" }} RP
+                            <span class="badge bg-warning text-warning">
+                                <i class="bi bi-award me-1"></i> {{ p.renombre|default:"0" }} RP
                             </span>
                         {% else %}
-                            <i class="bi bi-award text-danger me-1"></i>
-                            <span class="text-danger fw-bold">
-                                {{ p.renombre|default:"0" }} RP
+
+                            <span class="badge bg-danger text-danger">
+                                <i class="bi bi-award me-1"></i> {{ p.renombre|default:"0" }} RP
                             </span>
                         {% endif %}
                         </a>
