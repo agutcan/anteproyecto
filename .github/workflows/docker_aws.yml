@@ -3,9 +3,27 @@ name: docker&aws
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'ArenaGG/**'
+      - 'data/**'
+      - 'templates/**'
+      - 'web/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'manage.py'
+      - 'requirements.txt'
   pull_request:
     branches: [ main ]
-
+    paths:
+      - 'ArenaGG/**'
+      - 'data/**'
+      - 'templates/**'
+      - 'web/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'manage.py'
+      - 'requirements.txt'
+      
 env:
   IMAGE_NAME: anteproyecto
   IMAGE_TAG: latest
