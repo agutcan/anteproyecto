@@ -57,20 +57,22 @@
                         </ul>
                     </li>
                 <li class="nav-item d-flex flex-column justify-content-center align-items-center">
-                    <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy me-1 "></i>{{ request.user.player.coins|default:0 }}</span>
-                    {% if p.renombre > 50 %}
-                        <span class="badge bg-info text-dark">
-                            <i class="bi bi-award me-1"></i>{{ user.player.renombre|default:"0" }} RP
-                        </span>
-                    {% elif p.renombre > 40 %}
-                        <span class="badge bg-warning text-dark">
-                            <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
-                        </span>
-                    {% else %}
-                        <span class="badge bg-danger text-dark">
-                            <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
-                        </span>
-                    {% endif %}
+                    <div>
+                        <span class="badge bg-warning text-dark ms-1"><i class="bi bi-trophy me-1 "></i>{{ request.user.player.coins|default:0 }}</span>
+                        {% if p.renombre > 50 %}
+                            <span class="badge bg-info text-dark">
+                                <i class="bi bi-award me-1"></i>{{ user.player.renombre|default:"0" }} RP
+                            </span>
+                        {% elif p.renombre > 40 %}
+                            <span class="badge bg-warning text-dark">
+                                <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
+                            </span>
+                        {% else %}
+                            <span class="badge bg-danger text-dark">
+                                <i class="bi bi-award me-1"></i> {{ user.player.renombre|default:"0" }} RP
+                            </span>
+                        {% endif %}
+                    </div>
                 </li>
                 {% else %}
                     <!-- Si no está autenticado, mostrar los botones de login y register -->
