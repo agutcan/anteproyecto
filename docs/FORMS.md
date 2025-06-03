@@ -145,7 +145,7 @@ class TeamForm(forms.ModelForm):
         fields = ['name']  # Solo incluye el campo 'name' del modelo Team
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary'  # Clases BOOSTRAP para estilizado
+                'class': 'form-control bg-dark text-white border-secondary'  # Clases BOOSTRAP para estilo
             }),
         }
 ```
