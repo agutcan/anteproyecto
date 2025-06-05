@@ -144,7 +144,7 @@ services:
       - ./web/static/media:/usr/share/nginx/html:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.media.rule=PathPrefix(`/media`)"
+      - "traefik.http.routers.media.rule=Host(`arenagg.aarongutierrez.tech`) && PathPrefix(`/media`)"
       - "traefik.http.routers.media.entrypoints=websecure"
       - "traefik.http.routers.media.tls.certresolver=myresolver"
       - "traefik.http.services.media.loadbalancer.server.port=80"
