@@ -88,7 +88,7 @@
                 <!-- Grid de juegos con Bootstrap 5 -->
                 <div class="row game-list g-3">
                     {% for game in game_list %}
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="col-5 col-sm-3 col-md-2 col-lg-1">
                             <div class="game-card text-center h-100">
                                 <a href="{% url 'web:gameDetailView' game.id %}" class="text-decoration-none text-white">
                                     <img src="{{ game.image.url }}" alt="{{ game.name }}" class="float-animation mb-3">

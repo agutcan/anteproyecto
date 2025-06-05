@@ -36,9 +36,9 @@
 }
 
 .game-list {
-    /* Espaciado entre tarjetas */
-    gap: 25px;
 
+    min-width: 180px;
+    
     /* Separación con respecto a otras secciones */
     margin: 40px 0;
 }
