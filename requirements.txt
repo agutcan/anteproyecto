@@ -11,4 +11,3 @@ celery
 django-celery-beat
 redis
 gunicorn
-whitenoise
