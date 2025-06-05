@@ -28,12 +28,6 @@
     border-radius: 6px;
 }
 
-/* Grid de recompensas compacto */
-.rewards-grid {
-    /* Diseño de cuadrícula adaptable con columnas mínimas de 250px */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
-
 /* Tarjetas de recompensa */
 .reward-card {
     /* Fondo y borde con estilo dorado */

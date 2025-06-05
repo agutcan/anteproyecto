@@ -36,10 +36,11 @@
         </div>
     </div>
 
-    <!-- Grid de recompensas compacto -->
-    <div class="rewards-grid d-grid gap-3">
-        {% for reward in reward_list %}
-            <div class="reward-card overflow-hidden d-flex flex-column">
+    <!-- Grid de recompensas usando Bootstrap 5 -->
+<div class="row g-3">
+    {% for reward in reward_list %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="reward-card overflow-hidden d-flex flex-column h-100">
                 <div class="reward-image-container w-100 overflow-hidden d-flex align-items-center justify-content-center">
                     {% if reward.image %}
                         <img src="{{ reward.image.url }}" class="reward-image w-100 h-100 object-fit-cover" alt="{{ reward.name }}">
@@ -47,13 +48,12 @@
                         <i class="bi bi-gift text-warning fs-2"></i>
                     {% endif %}
                 </div>
-                <div class=" p-3 d-flex flex-column flex-grow-1">
+                <div class="p-3 d-flex flex-column flex-grow-1">
                     <h3 class="mb-2 fs-6 fw-semibold text-nowrap overflow-hidden text-truncate w-100 text-warning" title="{{ reward.name }}">{{ reward.name }}</h3>
                     <p class="reward-description mb-3 overflow-hidden flex-grow-1 text-light" title="{{ reward.description }}">{{ reward.description }}</p>
 
                     <div class="reward-info d-flex justify-content-between align-items-center mb-3">
                         <span class="reward-stock">Disponibles: {{ reward.stock }}</span>
-
                         <span class="ms-1 fw-semibold d-flex align-items-center text-warning">
                              <i class="bi bi-trophy text-warning me-1"></i> {{ reward.coins_cost }}
                         </span>
@@ -73,13 +73,14 @@
                     {% endif %}
                 </div>
             </div>
-        {% empty %}
-            <div class="empty-state text-center p-3">
-                <i class="bi bi-box text-warning fs-1 mb-2"></i>
-                <h3 class="mb-2">No hay recompensas</h3>
-                <p class="fs-6">Vuelve más tarde</p>
-            </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% empty %}
+        <div class="empty-state text-center p-3">
+            <i class="bi bi-box text-warning fs-1 mb-2"></i>
+            <h3 class="mb-2">No hay recompensas</h3>
+            <p class="fs-6">Vuelve más tarde</p>
+        </div>
+    {% endfor %}
+</div>
 </div>
 {% endblock %}
