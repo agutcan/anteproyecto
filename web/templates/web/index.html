@@ -86,9 +86,9 @@
             <div class="container">
                 <h2 class="text-center section-title position-relative d-inline-block mb-2 fw-bold text-warning">Juegos Disponibles</h2>
                 <!-- Grid de juegos con Bootstrap 5 -->
-                <div class="row game-list g-3">
+                <div class="row game-list g-2">
                     {% for game in game_list %}
-                        <div class="col-5 col-sm-3 col-md-2 col-lg-1">
+                        <div class="col-7 col-sm-5 col-md-4 col-lg-3">
                             <div class="game-card text-center h-100">
                                 <a href="{% url 'web:gameDetailView' game.id %}" class="text-decoration-none text-white">
                                     <img src="{{ game.image.url }}" alt="{{ game.name }}" class="float-animation mb-3">
