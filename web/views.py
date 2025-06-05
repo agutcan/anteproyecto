@@ -651,6 +651,15 @@ class GameDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'game'
 
     def get_context_data(self, **kwargs):
+        """
+        Añade la cantidad de torneos finalizados al contexto del template.
+
+        Args:
+            **kwargs: Argumentos clave adicionales
+
+        Returns:
+         int: Número de torneos finalizados.
+        """
         context = super().get_context_data(**kwargs)
         game = self.get_object()
 
@@ -1099,7 +1108,7 @@ class RegisterView(FormView):
     """
     template_name = 'registration/register.html'
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('web:indexView')
 
     def form_valid(self, form):
         """

@@ -36,12 +36,9 @@
 }
 
 .game-list {
-    /* Grid flexible con columnas automáticas */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 
-    /* Espaciado entre tarjetas */
-    gap: 25px;
-
+    min-width: 180px;
+    
     /* Separación con respecto a otras secciones */
     margin: 40px 0;
 }

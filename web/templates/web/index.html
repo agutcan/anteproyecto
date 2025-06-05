@@ -51,8 +51,8 @@
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4">
                         <div class="feature-card h-100 text-center">
-                            <div class="feature-icon mb-4 text-warning">
-                                <i class="bi bi-trophy float-animation"></i>
+                            <div class="feature-icon mb-4 text-warning float-animation">
+                                <i class="bi bi-trophy "></i>
                             </div>
                             <h3 class="mb-3">Torneos profesionales</h3>
                             <p class="mb-0">Organiza y participa en torneos con reglas profesionales, brackets automáticos y seguimiento en tiempo real.</p>
@@ -60,8 +60,8 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="feature-card h-100 text-center">
-                            <div class="feature-icon mb-4 text-warning">
-                                <i class="bi bi-cash-stack float-animation"></i>
+                            <div class="feature-icon mb-4 text-warning float-animation">
+                                <i class="bi bi-cash-stack "></i>
                             </div>
                             <h3 class="mb-3">Sistema de premios</h3>
                             <p class="mb-0">Premios garantizados en efectivo, skins de juegos o puntos canjeables por recompensas exclusivas.</p>
@@ -69,8 +69,8 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="feature-card h-100 text-center">
-                            <div class="feature-icon mb-4 text-warning">
-                                <i class="bi bi-shield-check float-animation"></i>
+                            <div class="feature-icon mb-4 text-warning float-animation">
+                                <i class="bi bi-shield-check "></i>
                             </div>
                             <h3 class="mb-3">Seguridad total</h3>
                             <p class="mb-0">Protegemos tus datos y pagos con cifrado de última generación y verificación de jugadores.</p>
@@ -85,14 +85,17 @@
         <section class="py-5">
             <div class="container">
                 <h2 class="text-center section-title position-relative d-inline-block mb-2 fw-bold text-warning">Juegos Disponibles</h2>
-                <div class="game-list d-grid">
+                <!-- Grid de juegos con Bootstrap 5 -->
+                <div class="row game-list g-2">
                     {% for game in game_list %}
-                    <div class="game-card  text-center h-100">
-                        <a href="{% url 'web:gameDetailView' game.id %}" class="text-decoration-none text-white">
-                            <img src="{{ game.image.url }}" alt="{{ game.name }}" class="float-animation mb-3">
-                            <h3 class="mt-2">{{ game.name }}</h3>
-                        </a>
-                    </div>
+                        <div class="col-7 col-sm-5 col-lg-3">
+                            <div class="game-card text-center h-100">
+                                <a href="{% url 'web:gameDetailView' game.id %}" class="text-decoration-none text-white">
+                                    <img src="{{ game.image.url }}" alt="{{ game.name }}" class="float-animation mb-3">
+                                    <h3 class="mt-2">{{ game.name }}</h3>
+                                </a>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
                 <div class="text-center mt-5">

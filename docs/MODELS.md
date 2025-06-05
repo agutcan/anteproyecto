@@ -572,4 +572,14 @@ class Redemption(models.Model):
 
 
 ## 🔄 Navegación
-[⬅️ Volver al README principal](../README.md)
+
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](ADMIN.md)
+- 🖼️ [Vistas](VIEWS.md)
+- ⏰ [Tareas programadas](TASKS.md)
+- 🧩 [Modelos](MODELS.md)
+- 📝 [Formularios](FORMS.md)
+- ✅ [Test](TESTS.md)
+- 🔄 [Serializadores](SERIALIZERS.md)
+- 🧠 [Funciones](FUNCTIONS.md)
+- ⬅️ [Volver al README principal](../README.md)

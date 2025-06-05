@@ -138,7 +138,7 @@ class PlayerStatsListAPI(generics.ListAPIView):
 ```
 ---
 
-# 🏠 Vista `IndexView` en Django
+## 🏠 Vista `IndexView` en Django
 
 La vista `IndexView` es una vista basada en clases que se encarga de mostrar la página principal del sitio web una vez que el usuario ha iniciado sesión. Utiliza `TemplateView` de Django junto con el mixin `LoginRequiredMixin`.
 
@@ -1132,4 +1132,13 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
 ---
 
 ## 🔄 Navegación
-[⬅️ Volver al README principal](../README.md)
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](ADMIN.md)
+- 🖼️ [Vistas](VIEWS.md)
+- ⏰ [Tareas programadas](TASKS.md)
+- 🧩 [Modelos](MODELS.md)
+- 📝 [Formularios](FORMS.md)
+- ✅ [Test](TESTS.md)
+- 🔄 [Serializadores](SERIALIZERS.md)
+- 🧠 [Funciones](FUNCTIONS.md)
+- ⬅️ [Volver al README principal](../README.md)

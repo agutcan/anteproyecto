@@ -2,20 +2,20 @@
 
 # ![Logo](web/static/images/favicon_peque.png) ArenaGG - Plataforma de gestión de torneos de videojuegos
 
-## 👤 Autor del proyecto / Tutor 
+## 👤 Autor del proyecto
 
-Aarón Gutiérrez Caña / Jose Angel Gómez
+Aarón Gutiérrez Caña
 
 ## 📌 Tabla de Contenidos
 
-1. [Introducción](#-introducción-del-proyecto)
-2. [Finalidad](#-finalidad)
-3. [Objetivos](#-objetivos)
-4. [Tecnologías](#%EF%B8%8F-medios-hw-y-sf)
-5. [Planificación](#-planificación)
-6. [Progreso](#-actualizaciones)
-7. [Bibliografía](#-bibliografía)
-8. [Documentación](#-documentación)
+1. 📖 [Introducción](#-introducción-del-proyecto)
+2. 🎯 [Finalidad](#-finalidad)
+3. ✅ [Objetivos](#-objetivos)
+4. 🛠️ [Tecnologías](#%EF%B8%8F-medios-hw-y-sf)
+5. 📊 [Planificación](#-planificación)
+6. 🔄 [Progreso](#-actualizaciones)
+7. 📚 [Bibliografía](#-bibliografía)
+8. 📄 [Documentación](#-documentación)
    
 ## 📖 Introducción del proyecto
 
@@ -26,21 +26,23 @@ El objetivo principal del proyecto es desarrollar una plataforma web llamada **A
 - 🔫 Counter-Strike 2
 
 Esta plataforma permitirá a los usuarios:
-- Gestionar torneos y equipos
+- Gestionar multiple de torneos y equipo
 - Seguir torneos en tiempo real
 - Registrar su perfil y personalizarlo
 - Consultar resultados
 - Reclamar recompensas
+- Convertirse en VIP
 - Enviar mensajes a soporte
+- Recibir notificaciones por correo
 
 ## 🎯 Finalidad
 **ArenaGG** facilitará:
-- Creación y administración de torneos
-- Automatización de procesos (emparejamiento, generación de brackets 2/4/8)
-- Sistema de puntos canjeables por:
+- La creación y administración sencilla de torneos de videojuegos.
+- La automatización de procesos clave, como el emparejamiento y la generación de brackets (para 2, 4, 8 jugadores/equipos).
+- Un sistema de puntos que los usuarios podrán canjear por:
   - 💰 Premios en efectivo
-  - 🎚 Merchandising
-  - 📱 Suscripciones
+  - 🎚 Merchandising exclusivo
+  - 📱 Suscripciones y beneficios dentro de la plataforma
 
 ## ✅ Objetivos
 
@@ -134,17 +136,15 @@ Esta plataforma permitirá a los usuarios:
 - 🔗 Integrar las vistas con el backend.
 - ✅ Realizar pruebas unitarias con **Django TestCase**.
 - 📚 Redactar la documentación del sistema.
+- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
+- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 
 ### En proceso
 
-- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
-- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - 📊 Validar el correcto funcionamiento de la plataforma.
 
 ### Por hacer
 
-- 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
-- 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - 📊 Validar el correcto funcionamiento de la plataforma.
 
 ### Modificaciones sobre el proyecto plantado inicialmente (“Si no hemos realizado todo lo planificado”)
@@ -154,6 +154,7 @@ Esta plataforma permitirá a los usuarios:
 - He quitado el calendario con los torneos de la página.
 - No he realizado test a todas las vistas de la página, ni he documentado todas en github, solo a algunas.
 - No he realizado un manual de usuario.
+- Automatizar el despliegue con actions de github.
 
 ### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
@@ -165,6 +166,7 @@ Esta plataforma permitirá a los usuarios:
 - Sistema para gestionar los torneos y equipos por juego, es decir, por ejemplo, Valorant tiene un máximo de jugadores de 5, una duración de partida de 45 min, hacer las validaciones y así con todos los juegos.
 - Mejorar el sistema de MMR, hacerlo más complejo para que si los equipos que se enfrentan tiene mucha diferencia de MMR, fluctue más o menos al ganar o perder.
 - Historial de partidas jugadas con el modelo MatchResult.
+- Automatización de despliegue con actions de github.
 
 ### Mejoras implementadas al proyecto
 
@@ -172,30 +174,28 @@ Esta plataforma permitirá a los usuarios:
 
 ## 📚 Bibliografía
 
-- [Python – Documentación oficial](https://docs.python.org/3/)
-- [JavaScript – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [HTML5 – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
-- [Bootstrap 5.3 – Introducción](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- [CSS – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS)
-- [Celery – Documentación oficial](https://docs.celeryq.dev/en/stable/)
-- [Django – Documentación oficial](https://docs.djangoproject.com/en/stable/)
-- [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
-- [Django Extensions – Documentación oficial](https://django-extensions.readthedocs.io/en/latest/)
-- [Django Debug Toolbar – Documentación oficial](https://django-debug-toolbar.readthedocs.io/en/latest/)
-- [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
-- [Docker – Documentación oficial](https://docs.docker.com/)
-- [AWS – Documentación oficial](https://docs.aws.amazon.com/)
+- 🐍 [Python – Documentación oficial](https://docs.python.org/3/)
+- 📜 [JavaScript – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- 🌐 [HTML5 – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- 🎨 [Bootstrap 5.3 – Introducción](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- 🎨 [CSS – MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- 🐰 [Celery – Documentación oficial](https://docs.celeryq.dev/en/stable/)
+- 🌟 [Django – Documentación oficial](https://docs.djangoproject.com/en/stable/)
+- 🔗 [Django REST Framework – Documentación oficial](https://www.django-rest-framework.org/)
+- 🧩 [Django Extensions – Documentación oficial](https://django-extensions.readthedocs.io/en/latest/)
+- 🐞 [Django Debug Toolbar – Documentación oficial](https://django-debug-toolbar.readthedocs.io/en/latest/)
+- 📧 [Mailpit – Documentación oficial](https://mailpit.axllent.org/docs/)
+- 🐳 [Docker – Documentación oficial](https://docs.docker.com/)
+- ☁️ [AWS – Documentación oficial](https://docs.aws.amazon.com/)
 
 ## 📄 Documentación
 
-- [Estructura del Proyecto y esquema de base de datos](docs/PROJECT_STRUCTURE.md)
-- [Admin](docs/ADMIN.md)
-- [Vistas](docs/VIEWS.md)
-- [Tareas programadas](docs/TASKS.md)
-- [Modelos](docs/MODELS.md)
-- [Formularios](docs/FORMS.md)
-- [Action](docs/WORKFLOWS.md)
-- [Test](docs/TESTS.md)
-- [Serializadores](docs/SERIALIZERS.md)
-- [Funciones](docs/FUNCTIONS.md)
-- [Docker Compose](docs/DOCKER_COMPOSE.md)
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](docs/PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](docs/ADMIN.md)
+- 🖼️ [Vistas](docs/VIEWS.md)
+- ⏰ [Tareas programadas](docs/TASKS.md)
+- 🧩 [Modelos](docs/MODELS.md)
+- 📝 [Formularios](docs/FORMS.md)
+- ✅ [Test](docs/TESTS.md)
+- 🔄 [Serializadores](docs/SERIALIZERS.md)
+- 🧠 [Funciones](docs/FUNCTIONS.md)
