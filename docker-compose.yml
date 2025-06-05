@@ -138,5 +138,16 @@ services:
     env_file:
       - .env
 
+  media-server:
+    image: nginx:alpine
+    volumes:
+      - ./web/static/media:/usr/share/nginx/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.media.rule=PathPrefix(`/media`)"
+      - "traefik.http.routers.media.entrypoints=websecure"
+      - "traefik.http.routers.media.tls.certresolver=myresolver"
+      - "traefik.http.services.media.loadbalancer.server.port=80"
+
 volumes:
   postgres_data:

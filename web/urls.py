@@ -49,7 +49,7 @@ urlpatterns = [
     path('accounts/register/', views.RegisterView.as_view(), name='register'),  # Vista para registro de usuarios
     path('match/confirm_result/<int:pk>/', views.MatchConfirmView.as_view(), name='matchConfirmView'),  # Vista para confirmar el resultado de una partida
     path('match/ready/<int:pk>/', views.MatchReadyView.as_view(), name='matchReadyView'),  # Vista para marcar el equipo como preparado
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
