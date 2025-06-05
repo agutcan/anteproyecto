@@ -141,7 +141,7 @@ services:
   media-server:
     image: nginx:alpine
     volumes:
-      - ./web/static/media:/usr/share/nginx/html:ro
+      - ./web/static/media:/usr/share/nginx/html/media:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.media.rule=Host(`arenagg.aarongutierrez.tech`) && PathPrefix(`/media`)"
