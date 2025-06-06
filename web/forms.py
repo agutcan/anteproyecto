@@ -142,7 +142,7 @@ class PlayerForm(forms.ModelForm):
         Meta.widgets: Configuración de los inputs del formulario
         Meta.labels: Etiquetas personalizadas para los campos
     """
-    
+
     class Meta:
         model = Player
         fields = [
@@ -184,6 +184,11 @@ class PlayerForm(forms.ModelForm):
             'bio': 'Biografía',
             'avatar': 'Avatar',
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.birth_date:
+            self.initial['birth_date'] = self.instance.birth_date.strftime('%Y-%m-%d')
 
 class TournamentFilterForm(forms.Form):
     """Formulario de filtrado para torneos con opciones de:
