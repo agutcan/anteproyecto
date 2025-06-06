@@ -1,5 +1,5 @@
 .team-create-title:after {
-/* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
     width: 60%;
@@ -13,30 +13,32 @@
 ::placeholder {
     /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
     color: darkgray !important;
-    opacity: 1; /* Opcional, para evitar transparencia */
+    opacity: 1;
 }
 
-/* Estilos para la tarjeta del formulario */
 .team-form-card {
+    /* Fondo oscuro con borde amarillo translúcido y transición suave */
     background-color: #1a1a1a;
     border: 1px solid rgba(255, 193, 7, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .team-form-card:hover {
+    /* Elevación y sombra amarilla al pasar el cursor */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
     border-color: #ffc107;
 }
 
-/* Estilos para los campos del formulario */
 .form-control {
+    /* Estilo oscuro para inputs con borde gris y texto blanco */
     background-color: #111 !important;
     color: white !important;
     border: 1px solid #444 !important;
 }
 
 .form-control:focus {
+    /* Resalta el borde con amarillo y añade sombra suave al enfocar */
     background-color: #111 !important;
     border-color: #ffc107 !important;
     box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
@@ -44,33 +46,37 @@
 }
 
 .invalid-feedback {
+    /* Mensajes de error en rojo para validaciones */
     color: #ff6b6b !important;
 }
 
-/* Botones mejorados */
 .btn-warning {
+    /* Botón con texto negro y transición */
     color: #000;
     transition: all 0.3s ease;
 }
 
 .btn-warning:hover {
+    /* Cambio de fondo y elevación al pasar el cursor */
     background-color: #ffca2c;
     transform: translateY(-2px);
 }
 
 .btn-outline-secondary {
+    /* Botón con borde gris y texto gris claro */
     border-color: #6c757d;
     color: #adb5bd;
     transition: all 0.3s ease;
 }
 
 .btn-outline-secondary:hover {
+    /* Cambio de fondo a gris oscuro y texto blanco al pasar el cursor */
     background-color: #6c757d;
     color: white;
 }
 
-/* Alertas */
 .alert-danger {
+    /* Fondo y borde rojo translúcido para alertas de error */
     background-color: rgba(220, 53, 69, 0.2);
     border: 1px solid #dc3545;
     color: #dc3545;

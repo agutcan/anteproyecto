@@ -7,7 +7,7 @@
 ::placeholder {
     /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
     color: darkgray !important;
-    opacity: 1; /* Opcional, para evitar transparencia */
+    opacity: 1;
 }
 
 .empty-state {
@@ -35,19 +35,21 @@
     border-radius: 2px;
 }
 
-/* Estilos existentes */
 .btn-hover:hover {
+    /* Efecto de elevación al pasar el mouse con transición suave */
     transform: translateY(-2px);
     transition: all 0.3s ease;
 }
 
 .tournament-card-hover:hover {
+    /* Elevación mayor con sombra y transición suave en tarjetas */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .border-opacity-25 {
+    /* Clase para borde amarillo con 25% de opacidad */
     border-color: rgba(255, 193, 7, 0.25) !important;
 }
 

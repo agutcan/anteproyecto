@@ -9,15 +9,13 @@
     --card-bg: rgba(30, 41, 59, 0.7);
 }
 
-/* Contenedor general para la sección de juegos */
 .games-container {
     /* Limita el ancho máximo del contenedor */
     max-width: 1320px;
 }
 
-/* Línea decorativa debajo del título de la página */
 .page-title:after {
-        /* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
     width: 60%;
@@ -28,12 +26,11 @@
     border-radius: 2px;
 }
 
-/* Limita el ancho del subtítulo para mejorar la legibilidad */
 .page-subtitle {
+    /* Limita el ancho máximo del contenedor */
     max-width: 600px;
 }
 
-/* Tarjeta de un juego individual */
 .game-card {
     /* Fondo semitransparente personalizado */
     background: var(--card-bg);
@@ -48,7 +45,6 @@
     transition: all 0.3s ease;
 }
 
-/* Efecto al pasar el mouse sobre la tarjeta */
 .game-card:hover {
     /* Desplaza la tarjeta ligeramente hacia arriba */
     transform: translateY(-5px);
@@ -58,20 +54,18 @@
 }
 
 
-/* Imagen del juego */
 .game-image {
     /* Transición suave al escalar la imagen */
     transition: transform 0.3s ease;
 }
 
-/* Al pasar el mouse sobre la tarjeta, la imagen se amplía */
 .game-card:hover .game-image {
+    /* Aplica un ligero zoom a la imagen del juego al pasar el cursor */
     transform: scale(1.05);
 }
 
 
 
-/* Botón dentro de la tarjeta */
 .game-button {
     /* Fondo semitransparente dorado */
     background: rgba(255, 193, 7, 0.1);
@@ -86,13 +80,11 @@
     transition: all 0.3s ease;
 }
 
-/* Efecto al pasar el mouse sobre el botón */
 .game-button:hover {
     /* Fondo un poco más opaco */
     background: rgba(255, 193, 7, 0.2);
 }
 
-/* Estado de vista vacía, cuando no hay juegos que mostrar */
 .empty-state {
     /* Usa el mismo fondo que las tarjetas */
     background: var(--card-bg);

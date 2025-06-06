@@ -16,52 +16,67 @@
 }
 
 .tournaments-links a {
-    /* Aplica una transición suave a todas las propiedades para los enlaces del pie de página */
+    /* Transición suave para enlaces en la sección de torneos */
     transition: all 0.3s ease;
     color: darkgray;
 }
 
 .tournaments-links a:hover {
+    /* Color azul al pasar el mouse */
     color: #0d6efd;
-    /* Al pasar el mouse, agrega un pequeño desplazamiento hacia la derecha */
+
+    /* Desplazamiento a la derecha para dar feedback visual */
     padding-left: 5px;
 }
 
 .page-title:after {
-/* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título principal */
     content: '';
     position: absolute;
     width: 20%;
     height: 4px;
+
+    /* Degradado dorado a transparente */
     background: linear-gradient(90deg, var(--gold), transparent);
+
+    /* Posición debajo del título */
     bottom: -15px;
     left: 0;
+
+    /* Bordes ligeramente redondeados */
     border-radius: 2px;
 }
 
-/* Estilos para alertas con opción de cierre */
 .alert-message {
+    /* Caja de alerta con borde redondeado y padding */
     border-radius: 6px;
-    padding: 1rem 3rem 1rem 1rem; /* Espacio para el botón de cierre */
+    padding: 1rem 3rem 1rem 1rem;
+
+    /* Margen inferior para separación */
     margin-bottom: 2rem;
+
+    /* Flexbox para alinear iconos y texto */
     display: flex;
     align-items: center;
     gap: 0.8rem;
+
+    /* Posición relativa para elementos hijos posicionados */
     position: relative;
 }
 
-/* Estado visual para cuando no hay equipos asignados */
 .no-team {
+    /* Fondo translúcido con borde discontinuo dorado */
     background: var(--card-bg);
     border: 1px dashed var(--gold);
 }
 
 .no-team p {
+    /* Texto gris claro para mensajes sin equipo */
     color: #adb5bd;
 }
 
 .alert-close {
-    /* Botón de cerrar con opacidad reducida y posición ajustada */
+    /* Botón de cerrar con opacidad reducida y posicionamiento a la derecha */
     opacity: 0.7;
     right: 1rem;
     cursor: pointer;
@@ -74,72 +89,74 @@
     opacity: 1;
 }
 
-/* Tarjeta que representa a un equipo */
 .team-card {
+    /* Fondo translúcido con borde dorado y bordes redondeados */
     background: var(--card-bg);
     border-radius: 8px;
     border: 1px solid var(--gold);
+
+    /* Transición suave para transform y sombra */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto de elevación y sombra al pasar el mouse */
 .team-card:hover {
+    /* Elevación y sombra al pasar el mouse */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
 }
 
-/* Encabezado del equipo con fondo semitransparente y borde inferior dorado */
 .team-header {
+    /* Fondo semitransparente oscuro con borde inferior ámbar */
     background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(255, 193, 7, 0.2);
 }
 
-/* Lista de miembros o elementos del equipo con borde sutil */
 .team-list li {
+    /* Separador sutil entre elementos de la lista */
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Remueve el borde del último elemento para un acabado limpio */
 .team-list li:last-child {
+    /* Eliminar borde del último elemento */
     border-bottom: none;
 }
 
-/* Estilos generales para botones con transición suave */
 .btn-action {
+    /* Transición rápida para botones de acción */
     transition: all 0.2s ease;
 }
 
-/* Botón de peligro con colores rojos transparentes */
 .btn-danger {
+    /* Fondo rojo translúcido, texto y borde rojo */
     background: rgba(220, 53, 69, 0.2);
     color: #dc3545;
     border: 1px solid #dc3545;
 }
 
 .btn-danger:hover {
+    /* Fondo rojo más intenso al hover */
     background: rgba(220, 53, 69, 0.3);
 }
 
-/* Botón de éxito con tonos verdes transparentes */
 .btn-success {
+    /* Fondo verde translúcido, texto y borde verde */
     background: rgba(25, 135, 84, 0.2);
     color: #198754;
     border: 1px solid #198754;
 }
 
 .btn-success:hover {
+    /* Fondo verde más intenso al hover */
     background: rgba(25, 135, 84, 0.3);
 }
 
-/* Botón de advertencia con colores dorados transparentes */
 .btn-warning.team {
+    /* Fondo ámbar translúcido y borde dorado para botón de equipo */
     background: rgba(255, 193, 7, 0.2);
     border: 1px solid var(--gold);
 }
 
 .btn-warning.team:hover {
+    /* Fondo ámbar más intenso al hover */
     background: rgba(255, 193, 7, 0.3);
 }
-
-
-

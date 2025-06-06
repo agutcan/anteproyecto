@@ -186,6 +186,7 @@ class PlayerForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        """Inicializa el formulario estableciendo la fecha de nacimiento del jugador si existe."""
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.birth_date:
             self.initial['birth_date'] = self.instance.birth_date.strftime('%Y-%m-%d')

@@ -1,74 +1,92 @@
 :root {
+    /* Variables globales de colores */
     --gold: #ffc107;
     --dark-bg: #1a1a2e;
     --card-bg: rgba(30, 41, 59, 0.7);
 }
 
 .rewards-container {
+    /* Ancho máximo para el contenedor de recompensas */
     max-width: 1320px;
 }
 
 .section-title:after {
-/* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título de sección */
     content: '';
     position: absolute;
     width: 25%;
     height: 4px;
+
+    /* Degradado dorado a transparente */
     background: linear-gradient(90deg, var(--gold), transparent);
+
+    /* Posición debajo del título */
     bottom: -15px;
     left: 0;
+
+    /* Bordes ligeramente redondeados */
     border-radius: 2px;
 }
 
-/* Alertas */
 .info-alert {
+    /* Fondo ámbar translúcido con borde dorado */
     background: rgba(255, 193, 7, 0.1);
     border: 1px solid var(--gold);
 }
 
-/* Tarjetas de recompensas */
 .reward-card {
+    /* Fondo translúcido oscuro con borde dorado */
     background: var(--card-bg);
     border: 1px solid var(--gold);
+
+    /* Transición suave para transform y sombra */
     transition: all 0.3s ease;
 }
 
 .reward-card:hover {
+    /* Elevación y sombra suave al pasar el mouse */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(255, 180, 0, 0.1);
 }
 
 .reward-description {
+    /* Altura mínima para la descripción */
     min-height: 60px;
 }
 
 .reward-image-container {
+    /* Altura fija y fondo semi-transparente para el contenedor de imagen */
     height: 180px;
     background: rgba(0, 0, 0, 0.1);
 }
 
 .reward-image {
+    /* Tamaño máximo limitado, con ajuste de contenido */
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+
+    /* Transición suave para transformaciones */
     transition: transform 0.3s ease;
 }
 
 .reward-card:hover .reward-image {
+    /* Escala la imagen ligeramente al hover del card */
     transform: scale(1.05);
 }
 
 .reward-date {
+    /* Color gris para la fecha */
     color: #adb5bd;
 }
 
-/* Estado vacío */
 .empty-state {
+    /* Fondo translúcido con borde discontinuo dorado */
     background: var(--card-bg);
     border: 1px dashed var(--gold);
 }
 
 .empty-state i {
+    /* Icono grande para el estado vacío */
     font-size: 3rem;
 }
-

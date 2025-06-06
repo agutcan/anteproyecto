@@ -1,5 +1,5 @@
 .join-team-title:after {
-/* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
     width: 60%;
@@ -16,35 +16,37 @@
 }
 
 .no-teams p {
+    /* Color gris claro para el texto dentro del contenedor sin equipos */
     color: #adb5bd;
 }
 
-/* Mensaje cuando no hay equipos */
 .no-teams {
-    background-color: rgba(30, 41, 59, 0.7);;
+    /* Fondo translúcido oscuro con borde amarillo punteado */
+    background-color: rgba(30, 41, 59, 0.7);
     border: 1px dashed #ffc107;
 }
 
-
-/* Estilos para las tarjetas de equipo */
 .team-card {
+    /* Fondo oscuro con borde amarillo translúcido y transición suave */
     background-color: #1a1a1a;
     border: 1px solid rgba(255, 193, 7, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .team-card:hover {
+    /* Elevación, sombra amarilla y borde amarillo sólido al pasar el cursor */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
     border-color: #ffc107;
 }
 
 .team-card-header {
+    /* Espaciado interno del encabezado de la tarjeta */
     padding: 1.25rem;
 }
 
-/* Botones */
 .btn-join {
+    /* Botón verde translúcido con borde y texto en verde */
     background-color: rgba(25, 135, 84, 0.2);
     color: #198754;
     border: 1px solid #198754;
@@ -52,6 +54,7 @@
 }
 
 .btn-join:hover {
+    /* Fondo verde más intenso y ligera elevación en hover */
     background-color: rgba(25, 135, 84, 0.3);
     transform: translateY(-2px);
 }

@@ -1,26 +1,28 @@
-/* Estilos generales */
 .tournament-container {
+    /* Contenedor principal con ancho máximo de 1200px */
     max-width: 1200px;
 }
 
-/* Título con efecto especial */
 .tournament-header {
+    /* Fondo degradado oscuro, bordes y sombra para encabezado */
     background: linear-gradient(135deg, rgba(30,30,30,0.8) 0%, rgba(0,0,0,0.9) 100%);
     border-radius: 10px;
     border: 1px solid rgba(255, 193, 7, 0.3);
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Aplica a todos los botones del acordeón */
 .accordion-button::after {
+    /* Icono de flecha para acordeón */
     background-image: url("../media/icons/acordeon_flecha.svg");
 }
 
 .accordion-button:not(.collapsed)::after {
+    /* Icono de flecha para acordeón cuando está expandido */
     background-image: url("../media/icons/acordeon_flecha.svg");
 }
 
 .tournament-header::before {
+    /* Barra decorativa superior con degradado amarillo */
     content: '';
     position: absolute;
     top: 0;
@@ -31,6 +33,7 @@
 }
 
 .tournament-title {
+    /* Texto con degradado amarillo y sombra para título */
     background-clip: text;
     color: transparent;
     background: linear-gradient(45deg, #ffc107, #ff8c00);
@@ -39,33 +42,38 @@
 }
 
 .badge-game {
+    /* Distintivo azul translúcido para juegos */
     background: rgba(13, 110, 253, 0.2);
     border: 1px solid rgba(13, 110, 253, 0.5);
 }
 
 .badge-status-upcoming {
+    /* Distintivo verde translúcido para eventos próximos */
     background: rgba(25, 135, 84, 0.2);
     border: 1px solid rgba(25, 135, 84, 0.5);
 }
 
 .badge-status-ongoing {
+    /* Distintivo amarillo translúcido para eventos en curso */
     background: rgba(255, 193, 7, 0.2);
     border: 1px solid rgba(255, 193, 7, 0.5);
     color: #ffc107 !important;
 }
 
 .badge-status-completed {
+    /* Distintivo gris translúcido para eventos completados */
     background: rgba(108, 117, 125, 0.2);
     border: 1px solid rgba(108, 117, 125, 0.5);
 }
 
 .badge-prize {
+    /* Distintivo amarillo translúcido para premios */
     background: rgba(255, 193, 7, 0.2);
     border: 1px solid rgba(255, 193, 7, 0.5);
 }
 
-/* Tarjetas */
 .tournament-card {
+    /* Fondo oscuro semi-transparente, borde amarillo tenue, sombra y transición */
     background: rgba(30, 30, 30, 0.7);
     border: 1px solid rgba(255, 193, 7, 0.2);
     transition: all 0.3s ease;
@@ -73,91 +81,103 @@
 }
 
 .tournament-card:hover {
+    /* Eleva la tarjeta, sombra y borde amarillo más visible en hover */
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(255, 193, 7, 0.1);
     border-color: #ffc107;
 }
 
 .card-header-custom {
+    /* Fondo degradado oscuro y borde inferior amarillo translúcido, bordes superiores redondeados */
     background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(0,0,0,1) 100%);
     border-bottom: 1px solid rgba(255, 193, 7, 0.3);
     border-radius: 10px 10px 0 0 !important;
 }
 
-/* Acordeón */
 .accordion-custom .accordion-item {
+    /* Fondo transparente con borde blanco tenue */
     background-color: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .accordion-custom .accordion-button {
+    /* Fondo oscuro translúcido para botón acordeón */
     background-color: rgba(30, 30, 30, 0.7);
 }
 
 .accordion-custom .accordion-button:not(.collapsed) {
+    /* Fondo amarillo muy tenue y texto amarillo para acordeón activo */
     background-color: rgba(255, 193, 7, 0.1);
     color: #ffc107;
 }
 
 .accordion-custom .accordion-button::after {
+    /* Reduce brillo del icono */
     filter: brightness(0.8);
 }
 
-/* Lista de partidos */
 .match-list-item {
+    /* Fondo oscuro translúcido y borde blanco muy tenue */
     background: rgba(30, 30, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
 }
 
 .match-list-item:hover {
+    /* Fondo y borde amarillos tenues en hover */
     background: rgba(255, 193, 7, 0.05);
     border-color: rgba(255, 193, 7, 0.3);
 }
 
-/* Botones */
 .btn-tournament-action {
+    /* Botones con transición y separación de letras */
     transition: all 0.3s ease;
     letter-spacing: 0.5px;
 }
 
 .btn-join {
+    /* Botón con fondo degradado amarillo y texto negro */
     background: linear-gradient(45deg, #ffc107, #ff8c00);
     color: #000;
 }
 
 .btn-join:hover {
+    /* Efecto elevación y sombra al pasar el mouse */
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
 }
 
-/* Imagen del juego */
 .game-image-container {
+    /* Contenedor con borde amarillo translúcido y transición suave */
     border: 2px solid rgba(255, 193, 7, 0.3);
     transition: all 0.3s ease;
 }
 
 .game-image-container:hover {
+    /* Escala y borde amarillo sólido en hover */
     transform: scale(1.05);
     border-color: #ffc107;
 }
 
-/* Contenedor con scroll para la lista de partidos */
 .list_wrapper {
+    /* Contenedor con altura máxima y scroll estilizado */
     max-height: 400px;
     scrollbar-width: thin;
     scrollbar-color: #ffc107 rgba(255, 255, 255, 0.05);
 }
 
 .list_wrapper::-webkit-scrollbar {
+    /* Ancho del scrollbar para navegadores WebKit */
     width: 8px;
 }
 
 .list_wrapper::-webkit-scrollbar-track {
+    /* Fondo del track del scrollbar */
     background: rgba(255, 255, 255, 0.05);
 }
 
 .list_wrapper::-webkit-scrollbar-thumb {
+    /* Color y radio de borde para el thumb del scrollbar */
     background-color: #ffc107;
     border-radius: 10px;
 }

@@ -18,13 +18,14 @@
     transition: all 0.3s ease;
 }
 
-/* Aplica a todos los botones del acordeón */
 .accordion-button::after {
+    /* Fondo semitransparente negro para los botones del acordeón */
     background-image: url("../media/icons/acordeon_flecha.svg");
 }
 
 
 .accordion-button:not(.collapsed)::after {
+     /* Fondo semitransparente negro para los botones del acordeón */
     background-image: url("../media/icons/acordeon_flecha.svg");
 }
 
@@ -62,7 +63,7 @@
 }
 
 .section-title:after {
-        /* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
     width: 15%;
@@ -84,8 +85,6 @@
 .accordion-item {
     /* Fondo semitransparente oscuro */
     background-color: rgba(30, 41, 59, 0.7);
-
-    /* Borde dorado para resaltar cada ítem */
 }
 
 .accordion-button {

@@ -1,69 +1,102 @@
-/* Cambia el color del texto del placeholder a blanco, con !important para asegurar prioridad */
 ::placeholder {
-    /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
+    /* Color del texto del placeholder en gris oscuro */
     color: darkgray !important;
 }
 
-/* Agrega una línea decorativa debajo del título con clase .support-title */
 .support-title:after {
     /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
+
+    /* Tamaño y forma */
     width: 60%;
     height: 4px;
+
+    /* Degradado dorado */
     background: linear-gradient(90deg, #ffc107, transparent);
+
+    /* Posición */
     bottom: -15px;
     left: 0;
+
+    /* Bordes redondeados */
     border-radius: 2px;
 }
 
-/* Estilo base para la tarjeta del formulario de soporte */
 .support-card {
-    border: 1px solid rgba(255, 193, 7, 0.3); /* Borde amarillo translúcido */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+    /* Borde amarillo translúcido */
+    border: 1px solid rgba(255, 193, 7, 0.3);
+
+    /* Transiciones suaves para transform y sombra */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto visual cuando el usuario pasa el mouse sobre la tarjeta */
 .support-card:hover {
-    transform: translateY(-5px); /* Eleva ligeramente la tarjeta */
-    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2); /* Sombra amarilla */
-    border-color: #ffc107; /* Refuerza el borde con amarillo sólido */
+    /* Elevación al pasar mouse */
+    transform: translateY(-5px);
+
+    /* Sombra amarilla */
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+
+    /* Borde amarillo sólido */
+    border-color: #ffc107;
 }
 
-/* Estilo del encabezado dentro de la tarjeta */
 .support-header {
-    border-bottom: 1px solid rgba(255, 193, 7, 0.3); /* Línea separadora amarilla translúcida */
+    /* Línea separadora amarilla translúcida */
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3);
 }
 
-/* Estilo personalizado para los campos de formulario y selectores */
-.form-control, .form-select {
-    background-color: #1a1a1a; /* Fondo oscuro para mejor contraste */
-    border: 1px solid #444; /* Borde gris oscuro */
-    color: white; /* Texto blanco */
+.form-control,
+.form-select {
+    /* Fondo oscuro para inputs y selects */
+    background-color: #1a1a1a;
+
+    /* Borde gris oscuro */
+    border: 1px solid #444;
+
+    /* Texto blanco */
+    color: white;
 }
 
-/* Estilo al enfocar los campos del formulario */
-.form-control:focus, .form-select:focus {
-    background-color: #1a1a1a; /* Mantiene fondo oscuro */
-    border-color: #ffc107; /* Borde amarillo al enfocar */
-    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25); /* Sombra suave amarilla */
-    color: white; /* Texto blanco */
+.form-control:focus,
+.form-select:focus {
+    /* Mantener fondo oscuro al enfocar */
+    background-color: #1a1a1a;
+
+    /* Borde amarillo brillante */
+    border-color: #ffc107;
+
+    /* Sombra amarilla suave */
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+
+    /* Texto blanco */
+    color: white;
 }
 
-/* Estilo para alertas de éxito personalizadas */
 .alert-success {
+    /* Fondo verde claro translúcido */
     background: rgba(25, 135, 84, 0.2);
+
+    /* Texto verde */
     color: #198754;
+
+    /* Borde verde */
     border: 1px solid #198754;
 }
 
 .btn-close {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffc107' viewBox='0 0 16 16'%3E%3Cpath d='M2.146 2.146a.5.5 0 0 1 .708 0L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    /* Icono SVG para botón cerrar, color dorado */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffc107' viewBox='0 0 16 16'%3E%3Cpath d='M2.146 2.146a.5.5 0 0 1 .708 0L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 }
 
-/* Estilo para alertas de error personalizadas */
 .alert-danger {
+    /* Fondo rojo translúcido */
     background-color: rgba(220, 53, 69, 0.2);
+
+    /* Borde rojo */
     border: 1px solid #dc3545;
+
+    /* Texto rojo */
     color: #dc3545;
 }

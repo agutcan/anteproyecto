@@ -14,12 +14,13 @@
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* Aplica a todos los botones del acordeón */
 .accordion-button::after {
+    /* Icono personalizado para la flecha del acordeón */
     background-image: url("../media/icons/acordeon_flecha.svg");
 }
 
 .accordion-button:not(.collapsed)::after {
+    /* Icono personalizado para la flecha del acordeón */
     background-image: url("../media/icons/acordeon_flecha.svg");
 }
 

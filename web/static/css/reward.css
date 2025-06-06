@@ -10,7 +10,7 @@
 }
 
 .section-title:after {
-        /* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
     width: 15%;
@@ -21,14 +21,12 @@
     border-radius: 2px;
 }
 
-/* Alertas compactas */
 .coins-alert {
     /* Fondo dorado semitransparente con bordes redondeados */
     background: rgba(255, 193, 7, 0.1);
     border-radius: 6px;
 }
 
-/* Tarjetas de recompensa */
 .reward-card {
     /* Fondo y borde con estilo dorado */
     background: var(--card-bg);
@@ -120,7 +118,6 @@
     color: #adb5bd;
 }
 
-/* Alertas cerrables */
 .alert-message {
     /* Contenedor con bordes redondeados */
     border-radius: 6px;

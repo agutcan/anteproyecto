@@ -1,20 +1,39 @@
 .login-container {
+    /* Altura mínima ajustada para ocupar toda la ventana menos 150px */
     min-height: calc(100vh - 150px);
 }
 
 .login-card {
+    /* Fondo translúcido oscuro */
     background: rgba(21, 21, 21, 0.85);
+
+    /* Borde ámbar translúcido */
     border: 1px solid rgba(255, 193, 7, 0.3);
+
+    /* Bordes redondeados */
     border-radius: 12px;
+
+    /* Sombra suave para profundidad */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    /* Efecto blur en el fondo */
     backdrop-filter: blur(5px);
+
+    /* Ancho máximo para la tarjeta */
     max-width: 500px;
+
+    /* Espaciado interno */
     padding: 2.5rem;
+
+    /* Transición suave para transform y sombra */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-card:hover {
+    /* Eleva la tarjeta al pasar el mouse */
     transform: translateY(-5px);
+
+    /* Sombra más suave y borde más visible */
     box-shadow: 0 15px 35px rgba(255, 193, 7, 0.1);
     border-color: rgba(255, 193, 7, 0.5);
 }
@@ -25,75 +44,123 @@
     position: absolute;
     width: 35%;
     height: 4px;
+
+    /* Degradado dorado a transparente */
     background: linear-gradient(90deg, #ffc107, transparent);
+
+    /* Posición debajo del título */
     bottom: -15px;
     left: 21%;
+
+    /* Bordes redondeados pequeños */
     border-radius: 2px;
 }
 
 #id_username,
 #id_password {
+    /* Fondo oscuro translúcido para inputs */
     background-color: rgba(30, 30, 30, 0.8);
+
+    /* Borde gris oscuro */
     border: 1px solid #444;
+
+    /* Texto blanco */
     color: white;
+
+    /* Relleno interno para comodidad */
     padding: 0.75rem 1rem;
+
+    /* Bordes redondeados */
     border-radius: 8px;
+
+    /* Ancho completo */
     width: 100%;
 }
 
 input {
+    /* Fondo y texto forzados con !important para consistencia */
     background-color: #1a1a1a !important;
     color: #ffffff !important;
+
+    /* Borde oscuro */
     border: 1px solid #444 !important;
 }
 
 #id_username:focus,
 #id_password:focus {
+    /* Borde dorado al enfocar */
     border-color: #ffc107 !important;
+
+    /* Sombra dorada alrededor */
     box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
 }
 
 input::placeholder {
-    /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
+    /* Color del placeholder gris oscuro con opacidad */
     color: darkgray !important;
     opacity: 0.8;
 }
 
 .btn-login {
+    /* Fondo degradado dorado-anaranjado */
     background: linear-gradient(45deg, #ffc107, #ff8c00);
+
+    /* Espaciado entre letras */
     letter-spacing: 0.5px;
+
+    /* Transición suave */
     transition: all 0.3s ease;
 }
 
 .btn-login:hover {
+    /* Eleva el botón */
     transform: translateY(-2px);
+
+    /* Sombra suave */
     box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
 }
 
 .divider {
+    /* Línea horizontal ámbar translúcida */
     border-top: 1px solid rgba(255, 193, 7, 0.3);
 }
 
 .divider-text {
+    /* Posición centrada y arriba para el texto separador */
     top: -12px;
     transform: translateX(-50%);
+
+    /* Fondo semitransparente para que el texto destaque */
     background: rgba(21, 21, 21, 0.85);
+
+    /* Color gris claro para el texto */
     color: #adb5bd;
 }
 
 .btn-register {
+    /* Botón con fondo transparente y borde ámbar */
     background-color: transparent;
     border: 1px solid #ffc107;
+
+    /* Transición suave */
     transition: all 0.3s ease;
 }
 
 .btn-register:hover {
+    /* Fondo ámbar translúcido al pasar el cursor */
     background-color: rgba(255, 193, 7, 0.1);
+
+    /* Color de texto dorado */
     color: #ffca2c;
 }
 
 .error-message {
+    /* Fondo rojo suave para errores */
     background-color: rgba(220, 53, 69, 0.2);
+
+    /* Borde rojo */
     border: 1px solid #dc3545;
+
+    /* Texto rojo */
     color: #dc3545;
 }

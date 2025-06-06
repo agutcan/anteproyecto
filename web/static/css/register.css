@@ -1,105 +1,146 @@
 .register-container {
+    /* Altura mínima para que ocupe casi toda la pantalla */
     min-height: calc(100vh - 150px);
 }
 
 .register-card {
+    /* Fondo oscuro translúcido con borde dorado tenue */
     background: rgba(21, 21, 21, 0.85);
     border: 1px solid rgba(255, 193, 7, 0.3);
     border-radius: 12px;
+
+    /* Sombra suave para profundidad */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    /* Efecto de desenfoque de fondo */
     backdrop-filter: blur(5px);
+
+    /* Ancho máximo */
     max-width: 500px;
+
+    /* Transiciones para transform y sombra */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .register-card:hover {
+    /* Elevación y sombra al pasar el mouse */
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(255, 140, 0, 0.3);
+
+    /* Borde dorado más intenso */
     border-color: rgba(255, 193, 7, 0.5);
 }
 
 .register-title:after {
-/* Línea decorativa debajo del título */
+    /* Línea decorativa debajo del título */
     content: '';
     position: absolute;
+
+    /* Dimensiones de la línea */
     width: 60%;
     height: 4px;
+
+    /* Degradado dorado a transparente */
     background: linear-gradient(90deg, #ffc107, transparent);
+
+    /* Posición */
     bottom: -15px;
     left: 7%;
+
+    /* Bordes redondeados */
     border-radius: 2px;
 }
 
 .form-control {
+    /* Fondo oscuro y borde gris oscuro */
     background-color: rgba(30, 30, 30, 0.8) !important;
     border: 1px solid #444 !important;
 }
 
 .form-control:focus {
+    /* Borde y sombra dorados al enfocar */
     border-color: #ffc107 !important;
     box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
 }
 
-/* Estilo para todos los placeholders */
 .form-control::placeholder {
+    /* Color blanco semitransparente */
     color: white !important;
-    opacity: 0.9; /* Asegura que el color blanco se muestre correctamente */
+    opacity: 0.9;
 }
 
 .btn-register {
+    /* Botón con degradado dorado */
     background: linear-gradient(45deg, #ffc107, #ff8c00);
     letter-spacing: 0.5px;
+
+    /* Transición suave */
     transition: all 0.3s ease;
+
+    /* Color texto */
     color: #212529;
 }
 
 .btn-register:hover {
+    /* Elevación y sombra al pasar el mouse */
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+
+    /* Color texto mantenido */
     color: #212529;
 }
 
 .divider {
+    /* Línea divisoria translúcida dorada */
     border-top: 1px solid rgba(255, 193, 7, 0.3);
-
 }
 
 .divider-text {
+    /* Texto encima de la línea, centrado horizontalmente */
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
+
+    /* Fondo y color del texto */
     background: rgba(21, 21, 21, 0.85);
     color: #adb5bd;
 }
 
 .btn-login {
+    /* Botón transparente con borde dorado */
     background-color: transparent;
     border: 1px solid #ffc107;
+
+    /* Transición suave */
     transition: all 0.3s ease;
 }
 
 .btn-login:hover {
+    /* Fondo dorado muy suave y cambio de color texto */
     background-color: rgba(255, 193, 7, 0.1);
     color: #ffca2c;
 }
 
 .error-message {
+    /* Fondo rojo semitransparente y borde rojo */
     background-color: rgba(220, 53, 69, 0.2);
     border: 1px solid #dc3545;
     color: #dc3545;
 }
 
 .form-check-input:checked {
+    /* Checkbox marcado en dorado */
     background-color: #ffc107;
     border-color: #ffc107;
 }
 
 .form-check-label a {
-
+    /* Transición para enlaces dentro de etiquetas */
     transition: all 0.3s ease;
 }
 
 .form-check-label a:hover {
+    /* Subrayado y color dorado al pasar el mouse */
     text-decoration: underline;
     color: #ffd700;
 }

@@ -1,66 +1,72 @@
-/* Estilos simplificados como el formulario de perfil */
 .tournament-form-card {
+    /* Fondo oscuro y borde amarillo sólido con importancia para asegurar estilos */
     background-color: #1a1a1a !important;
     border: 1px solid #ffc107 !important;
     transition: transform 0.3s ease;
 }
 
 ::placeholder {
-    /* Establece el color del texto del placeholder a gris oscuro y usa !important para asegurarse de que se aplique */
+    /* Color gris oscuro para el texto del placeholder con !important */
     color: darkgray !important;
 }
 
 .tournament-form-card:hover {
+    /* Ligeramente eleva la tarjeta al pasar el mouse */
     transform: translateY(-3px);
 }
 
 .form-header {
+    /* Fondo más oscuro con borde amarillo en la parte inferior */
     background-color: #111 !important;
     border-bottom: 1px solid #ffc107 !important;
 }
 
 input, select, textarea {
+    /* Campos con fondo oscuro, texto blanco y borde gris oscuro */
     background-color: #1a1a1a !important;
     color: #ffffff !important;
     border: 1px solid #444 !important;
 }
 
 input:focus, select:focus, textarea:focus {
+    /* Al enfocar cambia el borde a amarillo y sin sombra */
     border-color: #ffc107 !important;
     box-shadow: none !important;
 }
 
 .invalid-feedback {
+    /* Mensajes de error en rojo claro */
     color: #ff6b6b !important;
 }
 
-
-
-/* Botones */
 .btn-warning {
+    /* Botón con texto negro */
     color: #000;
 }
 
 .btn-warning:hover {
+    /* Cambia fondo a amarillo más fuerte al pasar el cursor */
     background-color: #ffca2c;
 }
 
 .btn-outline-secondary {
+    /* Botón con borde y texto gris claro */
     border-color: #6c757d;
     color: #adb5bd;
 }
 
 .btn-outline-secondary:hover {
+    /* Fondo gris oscuro y texto blanco en hover */
     background-color: #6c757d;
     color: white;
 }
 
-/* Texto de ayuda */
 .form-text {
+    /* Texto auxiliar en gris medio */
     color: #777 !important;
 }
 
-/* Iconos */
 .field-icon {
+    /* Ancho fijo para iconos dentro de campos */
     width: 20px;
 }

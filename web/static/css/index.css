@@ -36,7 +36,7 @@
 }
 
 .game-list {
-
+    /* Establece un ancho mínimo del contenedor */
     min-width: 180px;
     
     /* Separación con respecto a otras secciones */
@@ -179,38 +179,66 @@
 }
 
 .testimonial-card {
-    background: rgba(30,30,30,0.7); /* Fondo oscuro translúcido */
-    border-radius: 12px;            /* Bordes redondeados */
-    padding: 30px;                  /* Espaciado interno */
-    border: 1px solid rgba(255,255,255,0.1); /* Borde sutil */
-    transition: all 0.3s ease;      /* Transición suave en hover */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra para profundidad */
+    /* Fondo oscuro translúcido */
+    background: rgba(30,30,30,0.7);
+
+    /* Bordes redondeados */
+    border-radius: 12px;
+
+    /* Espaciado interno */
+    padding: 30px;
+
+    /* Borde sutil */
+    border: 1px solid rgba(255,255,255,0.1);
+
+    /* Transición suave en hover */
+    transition: all 0.3s ease;
+
+    /* Sombra para profundidad */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Efecto al pasar el mouse sobre la tarjeta */
 .testimonial-card:hover {
-    transform: translateY(-5px);    /* Eleva ligeramente la tarjeta */
-    border-color: var(--gold);     /* Borde resaltado en dorado */
-    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2); /* Sombra más brillante */
+    /* Eleva ligeramente la tarjeta */
+    transform: translateY(-5px);
+
+    /* Borde resaltado en dorado */
+    border-color: var(--gold);
+
+    /* Sombra más brillante */
+    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.2);
 }
 
 .testimonial-author {
-    border-top: 1px solid rgba(255,255,255,0.1); /* Separador superior */
+    /* Separador superior */
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .testimonial-author img {
+    /* Ancho fijo del avatar */
     width: 60px;
+
+    /* Alto fijo del avatar */
     height: 60px;
+
+    /* Recorte proporcional de la imagen */
     object-fit: cover;
+
+    /* Borde dorado alrededor del avatar */
     border: 2px solid var(--gold);
 }
 
 .cta-section {
+    /* Fondo degradado dorado */
     background: linear-gradient(135deg, var(--gold), #ffd54f);
+
+    /* Espaciado vertical amplio */
     padding: 80px 0;
 }
 
+
 .cta-section:before {
+    /* Capa decorativa con imagen de fondo translúcida */
     content: '';
     position: absolute;
     top: 0;
@@ -222,34 +250,56 @@
 }
 
 .cta-title {
+    /* Tamaño grande para el título principal */
     font-size: 2.5rem;
+
+    /* Sombra para mejorar legibilidad */
     text-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .cta-subtitle {
+    /* Tamaño moderado para subtítulo */
     font-size: 1.3rem;
+
+    /* Opacidad ligeramente reducida */
     opacity: 0.9;
 }
 
 .btn-warning {
+    /* Fondo degradado dorado */
     background: linear-gradient(45deg, var(--gold), var(--gold-dark));
+
+    /* Espacio entre letras */
     letter-spacing: 0.5px;
+
+    /* Transición suave para efectos */
     transition: all 0.3s ease;
 }
 
 .btn-warning:hover {
+    /* Levanta el botón al pasar el cursor */
     transform: translateY(-3px);
+
+    /* Sombra brillante dorada */
     box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);
 }
 
 .btn-outline-light {
+    /* Transición suave para efectos */
     transition: all 0.3s ease;
 }
 
 .btn-outline-light:hover {
+    /* Fondo translúcido al pasar el cursor */
     background: rgba(255,255,255,0.1);
+
+    /* Levanta el botón */
     transform: translateY(-3px);
+
+    /* Sombra blanca sutil */
     box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+
+    /* Color blanco para el texto */
     color: white;
 }
 
@@ -260,6 +310,7 @@
 }
 
 .pulse-animation {
+    /* Animación de pulso constante */
     animation: pulse 2s infinite;
 }
 
@@ -270,45 +321,72 @@
 }
 
 .float-animation {
+    /* Animación de flotación suave y continua */
     animation: float 3s ease-in-out infinite;
 }
 
 .stats-container {
+    /* Fondo oscuro translúcido con desenfoque */
     background: rgba(0,0,0,0.4);
+
+    /* Bordes redondeados */
     border-radius: 15px;
+
+    /* Desenfoque del fondo */
     backdrop-filter: blur(5px);
+
+    /* Borde sutil */
     border: 1px solid rgba(255,255,255,0.1);
+
+    /* Ancho máximo adaptativo */
     max-width: 100%;
 }
 
 .stat-item {
-    min-width: 120px; /* Ancho mínimo para cada ítem */
+    /* Ancho mínimo para cada ítem */
+    min-width: 120px;
 }
 
 .number {
+    /* Color dorado para los números */
     color: var(--gold);
-    font-size: 2rem; /* Tamaño base */
+
+    /* Tamaño grande para destacar */
+    font-size: 2rem;
 }
 
 .label {
+    /* Tamaño pequeño para etiquetas */
     font-size: 0.9rem;
+
+    /* Opacidad reducida para menor protagonismo */
     opacity: 0.8;
+
+    /* Espacio entre letras */
     letter-spacing: 0.5px;
 }
 
 .streamers-section {
+    /* Espaciado vertical amplio */
     padding: 80px 0;
 }
 
 .streamer-card {
+    /* Fondo oscuro translúcido */
     background: rgba(40,40,40,0.7);
+
+    /* Bordes redondeados */
     border-radius: 12px;
+
+    /* Transición suave para efectos */
     transition: all 0.3s ease;
+
+    /* Borde sutil */
     border: 1px solid rgba(255,255,255,0.1);
 }
 
 .streamer-card:hover {
-/* Elevación visual al pasar el mouse */
+    /* Elevación visual al pasar el mouse */
     transform: translateY(-8px);
 
     /* Fondo con tinte ámbar suave */
@@ -322,17 +400,26 @@
 }
 
 .streamer-card img {
+    /* Altura fija para imágenes */
     height: 200px;
+
+    /* Recorte proporcional de la imagen */
     object-fit: cover;
 }
 
 .news-section {
+    /* Fondo degradado oscuro con imagen de fondo */
     background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('../images/fondo-index-3.webp') center/cover;
 }
 
 .news-card {
+    /* Fondo oscuro translúcido */
     background: rgba(30,30,30,0.8);
+
+    /* Bordes redondeados */
     border-radius: 12px;
+
+    /* Transición suave para efectos */
     transition: all 0.3s ease;
 }
 
@@ -348,40 +435,55 @@
 }
 
 .news-content {
+    /* Espaciado interno */
     padding: 20px;
 }
 
 .news-date {
+    /* Tamaño pequeño para la fecha */
     font-size: 0.9rem;
 }
 
 .partners-container {
+    /* Espacio entre logos */
     gap: 30px;
 }
 
 .partner-logo {
+    /* Altura fija para logos */
     height: 100px;
+
+    /* Ancho máximo para logos */
     max-width: 150px;
+
+    /* Mantener proporciones */
     object-fit: contain;
+
+    /* Logo en escala de grises y brillo reducido */
     filter: grayscale(100%) brightness(0.8);
+
+    /* Transición suave para efectos */
     transition: all 0.3s ease;
 }
 
 .partner-logo:hover {
+    /* Color original en hover */
     filter: grayscale(0%) brightness(1.2);
+
+    /* Aumenta tamaño al pasar el cursor */
     transform: scale(1.1);
 }
 
 .full-width-section {
+    /* Posición relativa para contener elementos absolutos */
     position: relative;
+
+    /* Ancho completo de la ventana */
     width: 100vw;
+
+    /* Centrado horizontal exacto */
     left: 50%;
     transform: translateX(-50.5%);
-    /*width: 100vw;*/
-    /*left: 50%;*/
-    /*right: 50%;*/
-    /*margin-left: -50.5vw;*/
-    /*margin-right: -55vw;*/
 }
 
 

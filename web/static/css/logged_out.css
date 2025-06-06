@@ -1,61 +1,106 @@
 .logout-container {
+    /* Altura mínima ajustada para ocupar la ventana menos 150px */
     min-height: calc(100vh - 150px);
+
+    /* Fondo degradado radial oscuro */
     background: radial-gradient(circle at center, rgba(30,30,30,0.9) 0%, rgba(15,15,15,0.95) 100%);
 }
 
 .logout-card {
+    /* Fondo translúcido oscuro */
     background: rgba(21, 21, 21, 0.85);
+
+    /* Borde ámbar translúcido */
     border: 1px solid rgba(255, 193, 7, 0.3);
+
+    /* Bordes redondeados */
     border-radius: 16px;
+
+    /* Sombra externa e interna para profundidad */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7),
                 0 0 20px rgba(255, 140, 0, 0.1) inset;
+
+    /* Efecto blur en el fondo */
     backdrop-filter: blur(8px);
+
+    /* Ancho máximo para tarjetas */
     max-width: 600px;
+
+    /* Transición suave para hover */
     transition: all 0.4s ease;
 }
 
 .logout-card:hover {
+    /* Eleva la tarjeta al pasar el mouse */
     transform: translateY(-5px);
+
+    /* Sombra más intensa externa e interna */
     box-shadow: 0 15px 35px rgba(255, 140, 0, 0.2),
                 0 0 25px rgba(255, 193, 7, 0.1) inset;
+
+    /* Borde ámbar más visible */
     border-color: rgba(255, 193, 7, 0.5);
 }
 
 .logout-title {
+    /* Sombra luminosa dorada para el título */
     text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
 }
 
-
 .btn-login-again {
+    /* Fondo degradado dorado-anaranjado */
     background: linear-gradient(45deg, #ffc107, #ff8c00);
+
+    /* Espacio entre letras */
     letter-spacing: 0.5px;
+
+    /* Transición suave */
     transition: all 0.3s ease;
+
+    /* Color del texto oscuro */
     color: #212529;
+
+    /* Sombra suave debajo */
     box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
 }
 
 .btn-login-again:hover {
+    /* Eleva el botón al pasar el cursor */
     transform: translateY(-3px);
+
+    /* Sombra más intensa */
     box-shadow: 0 7px 20px rgba(255, 140, 0, 0.4);
+
+    /* Mantiene el color del texto */
     color: #212529;
 }
 
 .icon-container {
+    /* Tamaño grande para iconos */
     font-size: 3rem;
+
+    /* Animación de aparición suave */
     animation: fadeIn 0.8s ease;
 }
 
 @keyframes fadeIn {
+    /* Desde transparente y desplazado arriba */
     from { opacity: 0; transform: translateY(-20px); }
+
+    /* Hasta visible y posición original */
     to { opacity: 1; transform: translateY(0); }
 }
 
 .god-icon {
+    /* Animación de flotación continua */
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
+    /* Posición original al inicio y final */
     0%, 100% { transform: translateY(0); }
+
+    /* Desplazamiento hacia arriba a mitad */
     50% { transform: translateY(-10px); }
 }
 
