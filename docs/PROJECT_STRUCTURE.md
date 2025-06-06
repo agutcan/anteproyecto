@@ -55,7 +55,10 @@
 
 ![Esquema de la base de datos](../web/static/images/diagrama.png)
 
+---
+
 ## 🔄 Navegación
+
 - ️🏗️ [Estructura del Proyecto y esquema de base de datos](PROJECT_STRUCTURE.md)
 - ⚙️ [Admin](ADMIN.md)
 - 🖼️ [Vistas](VIEWS.md)
@@ -65,4 +68,6 @@
 - ✅ [Test](TESTS.md)
 - 🔄 [Serializadores](SERIALIZERS.md)
 - 🧠 [Funciones](FUNCTIONS.md)
+- 🎯 [Workflows](WORKFLOWS.md)
+- 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)

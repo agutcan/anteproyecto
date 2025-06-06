@@ -582,4 +582,6 @@ class Redemption(models.Model):
 - ✅ [Test](TESTS.md)
 - 🔄 [Serializadores](SERIALIZERS.md)
 - 🧠 [Funciones](FUNCTIONS.md)
+- 🎯 [Workflows](WORKFLOWS.md)
+- 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
