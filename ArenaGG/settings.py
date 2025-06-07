@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
-    'debug_toolbar',
     'rest_framework',
     'django_celery_beat',
     'celery',

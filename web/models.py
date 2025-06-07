@@ -8,9 +8,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-# Create your models here.
-
-
 class Game(models.Model):
     """Modelo que representa un videojuego en el sistema.
     
@@ -180,11 +177,9 @@ class Player(models.Model):
         winrate: Porcentaje de victorias
     """
     
-    # Relaciones con otros modelos
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
 
-    # Roles de los jugadores
     PREMIUM = 'Premium'
     DEFAULT = 'Normal'
     ROLE_CHOICES = [
@@ -197,12 +192,10 @@ class Player(models.Model):
         default=DEFAULT,
     )
 
-    # Información personal
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
 
-    # País de origen
     COUNTRY_CHOICES = [
         ('AR', 'Argentina'),
         ('BR', 'Brasil'),
@@ -218,14 +211,12 @@ class Player(models.Model):
         default='ES'
     )
 
-    # Perfil y estadísticas
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default_avatar.png')
     coins = models.IntegerField(default=0)
     renombre = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
     mmr = models.IntegerField(default=50, validators=[MinValueValidator(10)])
     
-    # Estadísticas de juego
     games_played = models.IntegerField(default=0)
     games_won = models.IntegerField(default=0)
     winrate = models.FloatField(default=0.0)

@@ -126,7 +126,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
             send_mail(
                 subject='Torneo Cancelado',  # Asunto del correo
                 message=f'Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.',
-                from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente (asegúrate de configurar un remitente válido)
+                from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
                 recipient_list=[player.user.email],  # Correo del jugador
                 fail_silently=False,  # Si ocurre un error, lanzar una excepción
             )
@@ -162,7 +162,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     team_mmr_pairs = []
     for tt in tournament_teams:
         # Obtener el MMR promedio del equipo
-        avg_mmr = tt.team.get_avg_mmr()  # Se asume que 'get_avg_mmr' devuelve el MMR promedio del equipo
+        avg_mmr = tt.team.get_avg_mmr()  # 'get_avg_mmr' devuelve el MMR promedio del equipo
         team_mmr_pairs.append((tt, avg_mmr))
 
     # Ordenar los equipos por su MMR (de menor a mayor)
@@ -234,8 +234,8 @@ def record_match_result(match, winner, team1_score, team2_score):
                 f'Resultado del partido {match}: {team1_score}-{team2_score}\n\n'  # Resultado del partido
                 '- El equipo de ArenaGG'  # Firma
             ),
-            from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente configurado en settings
-            recipient_list=[player.user.email],  # Lista de destinatarios (correo del jugador)
+            from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
+            recipient_list=[player.user.email],  # Lista de destinatarios
             fail_silently=False,  # Si ocurre un error, se lanza una excepción
         )
 
@@ -249,8 +249,8 @@ def record_match_result(match, winner, team1_score, team2_score):
                 f'Resultado del partido {match}: {team1_score}-{team2_score}\n\n'  # Resultado del partido
                 '- El equipo de ArenaGG'  # Firma
             ),
-            from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente configurado en settings
-            recipient_list=[player.user.email],  # Lista de destinatarios (correo del jugador)
+            from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
+            recipient_list=[player.user.email],  # Lista de destinatarios
             fail_silently=False,  # Si ocurre un error, se lanza una excepción
         )
 
@@ -390,7 +390,7 @@ def process_final_match(tournament, completed_matches_queryset):
                         f'Enhorabuena por ganar el torneo!!\n\n'  # Felicitaciones por ganar
                         '- El equipo de ArenaGG'  # Firma
                     ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente configurado en settings
+                    from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
                     recipient_list=[player.user.email],  # Correo del jugador
                     fail_silently=False,  # Si ocurre un error, lanzará una excepción
                 )

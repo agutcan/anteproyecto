@@ -38,7 +38,7 @@ def update_tournament_status():
             new_status = 'ongoing'
         else:
             new_status = 'upcoming'
-        
+
         print(f"  Nuevo status: {new_status}")
 
         # Solo actualiza si el estado ha cambiado
@@ -134,7 +134,6 @@ def check_teams_ready_for_match():
                 team1_score, team2_score = 1, 0
                 match.winner = winner
                 match.save()
-                reason = "solo el equipo 1 estaba listo"
 
                 # Actualiza estadísticas: equipo 1 gana, equipo 2 pierde
                 update_players_stats(match.team1, True)
@@ -150,7 +149,6 @@ def check_teams_ready_for_match():
                 team1_score, team2_score = 0, 1
                 match.winner = winner
                 match.save()
-                reason = "solo el equipo 2 estaba listo"
 
                 update_players_stats(match.team1)
                 update_players_stats(match.team2, True)

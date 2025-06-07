@@ -679,9 +679,9 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
     pueda crear una nueva facción.
     """
 
-    model = Tournament  # Especifica el modelo relacionado
-    form_class = TournamentForm  # Usamos el formulario `FactionDefaultForm`
-    template_name = 'web/tournament_create.html'  # Especifica el template para renderizar la vista
+    model = Tournament
+    form_class = TournamentForm
+    template_name = 'web/tournament_create.html'
 
     def form_valid(self, form):
         """
@@ -693,8 +693,6 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
             form.instance.created_by = self.request.user
             form.instance.prize_pool = 1000  # Valor por defecto
 
-            # El método save() automáticamente llama a full_clean()
-            # que ejecuta las validaciones del modelo
             tournament = form.save()
 
             # Enviar correo de confirmación
@@ -1618,7 +1616,7 @@ class RewardRedemptionView(LoginRequiredMixin, View):
             HttpResponseRedirect: Redirección a la lista de recompensas
         """
         reward = get_object_or_404(Reward, id=pk)
-        player = request.user.player  # Asumes que cada user tiene un perfil Player
+        player = request.user.player
 
         if player.coins >= reward.coins_cost:
             # Restar las monedas y guardar
@@ -1743,7 +1741,6 @@ class PlayerTeamDetailView(LoginRequiredMixin, DetailView):
         Returns:
             QuerySet: Jugadores con su relación de equipo precargada
         """
-        # Opcional: restringir a solo el jugador autenticado, si deseas
         return Player.objects.select_related('team')
 
 class TeamInscribeInTournamentView(LoginRequiredMixin, View):
@@ -1793,7 +1790,7 @@ class TeamInscribeInTournamentView(LoginRequiredMixin, View):
             messages.warning(request, "Este equipo ya está inscrito en el torneo.")
             return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
 
-        # Verificar si hay cupo en el torneo
+        # Verificar si hay espacio en el torneo
         if TournamentTeam.objects.filter(tournament=tournament).count() >= tournament.max_teams:
             messages.error(request, "El torneo ya ha alcanzado el número máximo de equipos.")
             return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
