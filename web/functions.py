@@ -179,7 +179,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
             Match.objects.create(
                 tournament=tournament,
                 round=round,
-                scheduled_at=timezone.now() + timezone.timedelta(minutes=5),  # Programar el partido para dentro de 5 minutos
+                scheduled_at=timezone.now() + timezone.timedelta(minutes=2),  # Programar el partido para dentro de 5 minutos
                 team1=team1.team,  # Asignar el primer equipo
                 team2=team2.team,  # Asignar el segundo equipo
             )
