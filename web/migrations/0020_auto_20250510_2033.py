@@ -219,8 +219,8 @@ def poblar_datos(apps, schema_editor):
         Tournament(name="4 teams 4 teams inactive", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=2), prize_pool=1000.00, created_by=users[0]),
 
         Tournament(name="2 teams matchs", game=games[0],  max_player_per_team=2, max_teams=2, start_date = timezone.now() + timedelta(minutes=5), prize_pool=1000.00, created_by=users[0]),
-        Tournament(name="4 teams multi 1", game=games[0],  max_player_per_team=1, max_teams=2, start_date = timezone.now() + timedelta(days=1), prize_pool=1000.00, created_by=users[0]),
-        Tournament(name="4 teams multi 2", game=games[0],  max_player_per_team=1, max_teams=2, start_date = timezone.now() + timedelta(minutes=6), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="2 teams multi 1", game=games[0],  max_player_per_team=1, max_teams=2, start_date = timezone.now() + timedelta(days=1), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="2 teams multi 2", game=games[0],  max_player_per_team=1, max_teams=2, start_date = timezone.now() + timedelta(minutes=6), prize_pool=1000.00, created_by=users[0]),
     ]
     Tournament.objects.bulk_create(tournaments)  # Guardar todos los torneos de una vez
 
