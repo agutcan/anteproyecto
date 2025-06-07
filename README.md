@@ -203,3 +203,8 @@ Esta plataforma permitirá a los usuarios:
 - 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
 
+## 📄 Presentación
+
+- ☁🖼️ [Canva](https://www.canva.com/design/DAGplCVE9Us/QY6BAPe9e4b9MMpWUPcrpQ/edit?utm_content=DAGplCVE9Us&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+
