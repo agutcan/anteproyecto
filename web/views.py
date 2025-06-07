@@ -918,6 +918,16 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
             return redirect('web:playerTeamDetailView', pk=player.pk)
 
         if not team.searching_teammates:
+            completed_tournaments = TournamentTeam.objects.filter(
+                tournamentteam__team=team, status='completed')
+
+            if completed_tournaments.exists():
+                messages.error(
+                    request,
+                    "No puedes activar la búsqueda de jugadores porque el equipo ya ha participado en un torneo."
+                )
+                return redirect('web:playerTeamDetailView', pk=player.pk)
+
             ongoing_tournaments = Tournament.objects.filter(
                 tournamentteam__team=team,
                 status='ongoing'
