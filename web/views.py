@@ -918,8 +918,10 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
             return redirect('web:playerTeamDetailView', pk=player.pk)
 
         if not team.searching_teammates:
-            completed_tournaments = TournamentTeam.objects.filter(
-                tournamentteam__team=team, status='completed')
+            completed_tournaments = Tournament.objects.filter(
+                tournamentteam__team=team,
+                status='completed'
+            )
 
             if completed_tournaments.exists():
                 messages.error(
