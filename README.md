@@ -191,18 +191,17 @@ Esta plataforma permitirá a los usuarios:
 
 ## 📄 Documentación
 
-- ️🏗️ [Estructura del Proyecto y esquema de base de datos](PROJECT_STRUCTURE.md)
-- ⚙️ [Admin](ADMIN.md)
-- 🖼️ [Vistas](VIEWS.md)
-- ⏰ [Tareas programadas](TASKS.md)
-- 🧩 [Modelos](MODELS.md)
-- 📝 [Formularios](FORMS.md)
-- ✅ [Test](TESTS.md)
-- 🔄 [Serializadores](SERIALIZERS.md)
-- 🧠 [Funciones](FUNCTIONS.md)
-- 🎯 [Workflows](WORKFLOWS.md)
-- 🚀 [Compose](DOCKER-COMPOSE.md)
-- ⬅️ [Volver al README principal](../README.md)
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](docs/PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](docs/ADMIN.md)
+- 🖼️ [Vistas](docs/VIEWS.md)
+- ⏰ [Tareas programadas](docs/TASKS.md)
+- 🧩 [Modelos](docs/MODELS.md)
+- 📝 [Formularios](docs/FORMS.md)
+- ✅ [Test](docs/TESTS.md)
+- 🔄 [Serializadores](docs/SERIALIZERS.md)
+- 🧠 [Funciones](docs/FUNCTIONS.md)
+- 🎯 [Workflows](docs/WORKFLOWS.md)
+- 🚀 [Compose](docs/DOCKER-COMPOSE.md)
 
 ## 📄 Presentación
 
