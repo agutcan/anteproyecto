@@ -142,11 +142,11 @@ def poblar_datos(apps, schema_editor):
         Player(user=users[20], games_played=95, games_won=70, coins=2300),
         Player(user=users[21], games_played=95, mmr=85, games_won=60, coins=2300),
 
-        Player(user=users[22], games_played=45, mmr=20, games_won=55, coins=500),
-        Player(user=users[23], games_played=35, mmr=85, games_won=50, coins=600),
-        Player(user=users[24], games_played=55, mmr=40, games_won=30, coins=200),
-        Player(user=users[25], games_played=65, mmr=50, games_won=50, coins=400),
-        Player(user=users[26], games_played=45, mmr=60, games_won=10, coins=500),
+        Player(user=users[22], games_played=45, mmr=20, games_won=55, coins=2000),
+        Player(user=users[23], games_played=35, mmr=85, games_won=50, coins=2000),
+        Player(user=users[24], games_played=55, mmr=40, games_won=30, coins=2000),
+        Player(user=users[25], games_played=65, mmr=50, games_won=50, coins=2000),
+        Player(user=users[26], games_played=45, mmr=60, games_won=10, coins=2000),
         Player(user=users[27], games_played=35, mmr=20, games_won=32, coins=2700),
     ]
     Player.objects.bulk_create(players)  # Guardar todos los jugadores de una vez
@@ -194,11 +194,17 @@ def poblar_datos(apps, schema_editor):
         player.save()
 
     players[22].team=teams[22]
+    players[22].save()
     players[23].team=teams[22]
+    players[23].save()
     players[24].team=teams[23]
+    players[24].save()
     players[25].team=teams[23]
+    players[25].save()
     players[26].team=teams[24]
+    players[26].save()
     players[27].team=teams[25]
+    players[27].save()
 
     for team in teams:
         team.leader = team.player_set.first()
@@ -212,7 +218,7 @@ def poblar_datos(apps, schema_editor):
         Tournament(name="8 teams 8 teams inactive", game=games[1],  max_player_per_team=1, max_teams=8, start_date = timezone.now() + timedelta(minutes=2), prize_pool=1000.00, created_by=users[0]),
         Tournament(name="4 teams 4 teams inactive", game=games[1],  max_player_per_team=1, max_teams=4, start_date = timezone.now() + timedelta(minutes=2), prize_pool=1000.00, created_by=users[0]),
 
-        Tournament(name="4 teams matchs", game=games[0],  max_player_per_team=2, max_teams=2, start_date = timezone.now() + timedelta(minutes=5), prize_pool=1000.00, created_by=users[0]),
+        Tournament(name="2 teams matchs", game=games[0],  max_player_per_team=2, max_teams=2, start_date = timezone.now() + timedelta(minutes=5), prize_pool=1000.00, created_by=users[0]),
         Tournament(name="4 teams multi 1", game=games[0],  max_player_per_team=1, max_teams=2, start_date = timezone.now() + timedelta(days=1), prize_pool=1000.00, created_by=users[0]),
         Tournament(name="4 teams multi 2", game=games[0],  max_player_per_team=1, max_teams=2, start_date = timezone.now() + timedelta(minutes=6), prize_pool=1000.00, created_by=users[0]),
     ]
