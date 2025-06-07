@@ -29,7 +29,7 @@
                         <input type="checkbox" class="form-check-input" id="{{ field.id_for_label }}" name="{{ field.name }}" {% if field.value %}checked{% endif %}>
                         <label for="{{ field.id_for_label }}" class="form-check-label">
                             <i class="bi bi-check-circle text-warning me-2"></i>
-                            Acepto las <a class="text-warning text-decoration-none" href="{% url 'web:privacyPolicyView' %}" target="_blank">Políticas de Privacidad</a> y los <a class="text-warning text-decoration-none" href="{% url 'web:termsOfUseView' %}" target="_blank">Términos de uso</a>
+                            Acepto las <a class="text-warning text-decoration-none" href="{% url 'web:privacyPolicyView' %}">Políticas de Privacidad</a> y los <a class="text-warning text-decoration-none" href="{% url 'web:termsOfUseView' %}">Términos de uso</a>
                         </label>
                         {% if field.errors %}
                             <div class="text-danger mt-1">{{ field.errors }}</div>
