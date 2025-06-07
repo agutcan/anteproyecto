@@ -5,7 +5,7 @@
     <footer class="footer pt-5 pb-3 px-0">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 mb-4">
+                <section class="col-lg-4 mb-4">
                     <h3 class="text-warning mb-4"><img src="{% static 'images/favicon.png' %}" alt="Logo" class="img-fluid rounded" style="height: 40px;">ArenaGG</h3>
                     <p>La plataforma líder para torneos de esports. Conectamos jugadores, organizadores y patrocinadores en un ecosistema competitivo.</p>
                     <div class="social-icons mt-4 ">
@@ -15,8 +15,8 @@
                         <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-twitch "></i></a>
                         <a class="justify-content-center align-items-center d-inline-flex me-2 text-white" href="#"><i class="bi bi-youtube "></i></a>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-4 mb-4">
+                </section>
+                <section class="col-lg-2 col-md-4 mb-4">
                     <h5 class=" p-0 mb-3 text-warning">Enlaces</h5>
                     <ul class="footer-links list-unstyled">
                         <li class="mb-1"><a class="text-decoration-none" href="{% url 'web:indexView' %}" >Inicio</a></li>
@@ -26,8 +26,8 @@
                         <li class="mb-1"><a class=" text-decoration-none" href="{% url 'web:premiumView' %}">Premium</a></li>
                         <li class="mb-1"><a class=" text-decoration-none" href="{% url 'web:faqView' %}" >FAQ</a></li>
                     </ul>
-                </div>
-                <div class="col-lg-2 col-md-4 mb-4">
+                </section>
+                <section class="col-lg-2 col-md-4 mb-4">
                     <h5 class=" p-0 mb-3 text-warning">Legal</h5>
                     <ul class="footer-links list-unstyled">
                         <li class="mb-1"><a class=" text-decoration-none" href="{% url 'web:termsOfUseView' %}" >Términos</a></li>
@@ -35,8 +35,8 @@
                         <li class="mb-1"><a class=" text-decoration-none" href="{% url 'web:howItWorkView' %}" >Reglas</a></li>
                         <li class="mb-1"><a class=" text-decoration-none" href="{% url 'web:supportView' %}" >Soporte</a></li>
                     </ul>
-                </div>
-                <div class="col-lg-4 col-md-4 mb-4 ">
+                </section>
+                <section class="col-lg-4 col-md-4 mb-4 ">
                     <h5 class="footer-links mb-3 text-warning">Suscríbete</h5>
                     <p>Recibe las últimas noticias sobre torneos y promociones.</p>
                     <div class="input-group mb-3">
@@ -47,17 +47,17 @@
                         <i class="bi bi-shield-check me-2"></i>
                         <small class="text-light">Protegemos tus datos</small>
                     </div>
-                </div>
+                </section>
             </div>
             <hr class="my-4 bg-secondary">
-            <div class="row">
+            <section class="row">
                 <div class="col-md-6 text-center text-md-start">
                     <small class="text-light">© {% now "Y" %} ArenaGG. Todos los derechos reservados.</small>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <small class="text-light">Desarrollado con <i class="bi bi-heart-fill text-danger"></i> para la comunidad gamer</small>
                 </div>
-            </div>
+            </section>
         </div>
     </footer>
 
