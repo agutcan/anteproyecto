@@ -1415,7 +1415,7 @@ class MatchConfirmView(LoginRequiredMixin, View):
 
             # Llamar a la función `record_match_result` para guardar el resultado
             record_match_result(match, match.winner, team1_score, team2_score)
-            create_match_log(match, f"El partido ha sido completado. Ganador: {match.winner.name}. ({team1_score} - {team2_score}")
+            create_match_log(match, f"El partido ha sido completado. Ganador: {match.winner.name}. ({team1_score} - {team2_score})")
 
         match.save()
 
