@@ -57,5 +57,6 @@
     /* Fondo verde más intenso y ligera elevación en hover */
     background-color: rgba(25, 135, 84, 0.3);
     transform: translateY(-2px);
+    color: #198754;
 }
 
