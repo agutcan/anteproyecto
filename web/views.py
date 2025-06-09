@@ -1032,7 +1032,7 @@ class TeamJoinListView(LoginRequiredMixin, ListView):
         ).distinct()
 
         for tournament in upcoming_tournaments:
-            if team.player_set.count() >= tournament.max_players_per_team:
+            if team.player_set.count() >= tournament.max_player_per_team:
                 messages.error(
                     request,
                     f"No puedes unirte porque el equipo ya está completo en el torneo '{tournament.name}'."
