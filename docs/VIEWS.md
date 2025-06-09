@@ -34,7 +34,7 @@ Incluye una versión personalizada del conjunto de datos (queryset) con las sigu
 
 ### 📊 Resultado
 
-La respuesta será una lista de objetos JSON, donde cada objeto representará a un jugador y contendrá los campos relevantes como su nombre de usuario, equipo, estadísticas de partidas jugadas, ganadas, el rol, el país, entre otros.
+La respuesta será una lista de objetos JSON, donde cada objeto representará a un jugador y contendrá los campos relevantes como su nombre de usuario, estadísticas de partidas jugadas y ganadas.
 
 ### 🎯 Beneficios de usar `ListAPIView`
 
