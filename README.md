@@ -139,14 +139,12 @@ Esta plataforma permitirá a los usuarios:
 - 📚 Redactar la documentación del sistema.
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
+- 📊 Validar el correcto funcionamiento de la plataforma.
+
 
 ### En proceso
 
-- 📊 Validar el correcto funcionamiento de la plataforma.
-
 ### Por hacer
-
-- 📊 Validar el correcto funcionamiento de la plataforma.
 
 ### Problemas encontrados
 
