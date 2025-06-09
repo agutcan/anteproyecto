@@ -563,17 +563,6 @@ class JoinTeamView(LoginRequiredMixin, View):
             messages.error(request, "Ya perteneces a un equipo.")
             return redirect('web:playerTeamDetailView', pk=player.pk)
 
-        tournament_teams = TournamentTeam.objects.filter(
-            tournamentteam__team=team,
-            tournament__status='upcoming'
-        )
-
-        for tt in tournament_teams:
-            if team.player_set.count() >= tt.tournament.max_players_per_team:
-                messages.error(request,
-                               f"El equipo '{team.name}' ya está completo para el torneo '{tt.tournament.name}'.")
-                return redirect('web:playerTeamDetailView', pk=player.pk)
-
         player.team = team
         player.save()
 
@@ -1039,7 +1028,7 @@ class TeamJoinListView(LoginRequiredMixin, ListView):
         # Validar límite de jugadores por torneo
         upcoming_tournaments = Tournament.objects.filter(
             tournamentteam__team=team,
-            status='Upcoming'
+            status='upcoming'
         ).distinct()
 
         for tournament in upcoming_tournaments:
