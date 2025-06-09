@@ -255,7 +255,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     team_mmr_pairs = []
     for tt in tournament_teams:
         # Obtener el MMR promedio del equipo
-        avg_mmr = tt.team.get_avg_mmr()  # Se asume que 'get_avg_mmr' devuelve el MMR promedio del equipo
+        avg_mmr = tt.team.get_avg_mmr() 
         team_mmr_pairs.append((tt, avg_mmr))
 
     # Ordenar los equipos por su MMR (de menor a mayor)
