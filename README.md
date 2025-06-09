@@ -161,7 +161,6 @@ Esta plataforma permitirá a los usuarios:
 - He quitado el calendario con los torneos de la página principal.
 - No he realizado test a todas las vistas de la página, ni he documentado todas en github, solo a algunas.
 - No he realizado un manual de usuario.
-- Automatizar el despliegue con actions de github.
 
 ### Posibles mejoras al proyecto (“Posibles mejoras futuras”)
 
@@ -178,6 +177,7 @@ Esta plataforma permitirá a los usuarios:
 ### Mejoras implementadas al proyecto
 
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
+- Automatización de despliegue con actions de github.
 
 ## 📚 Bibliografía
 
