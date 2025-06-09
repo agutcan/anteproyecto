@@ -160,7 +160,7 @@ Genera los partidos de un torneo basándose en el MMR promedio de los equipos pa
    - Empareja:  
      - **1° vs 2°**, **3° vs 4°**, etc. (usando `zip_longest` para evitar desbordamiento).  
    - Crea partidos en la BD con:  
-     - **Hora de inicio**: 5 minutos después de la generación (`timezone.now() + timedelta(minutes=5)`).  
+     - **Hora de inicio**: 2 minutos después de la generación (`timezone.now() + timedelta(minutes=2)`).  
 
 3. **Actualización del torneo**  
    - Marca `matches_generated = True` en el torneo.  
@@ -272,7 +272,7 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
             Match.objects.create(
                 tournament=tournament,
                 round=round,
-                scheduled_at=timezone.now() + timezone.timedelta(minutes=5),  # Programar el partido para dentro de 5 minutos
+                scheduled_at=timezone.now() + timezone.timedelta(minutes=2),  # Programar el partido para dentro de 2 minutos
                 team1=team1.team,  # Asignar el primer equipo
                 team2=team2.team,  # Asignar el segundo equipo
             )
