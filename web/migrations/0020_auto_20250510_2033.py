@@ -11,6 +11,9 @@ from django_celery_beat.models import PeriodicTask, IntervalSchedule
 
 import json
 
+from web.functions import update_winrate
+
+
 def eliminar_datos(apps, schema_editor):
     # Obtener los modelos de la aplicación 'web'
     Game = apps.get_model('web', 'Game')
@@ -205,6 +208,10 @@ def poblar_datos(apps, schema_editor):
     players[26].save()
     players[27].team=teams[25]
     players[27].save()
+
+    for player in players:
+        update_winrate(player)
+        player.save()
 
     for team in teams:
         team.leader = team.player_set.first()
