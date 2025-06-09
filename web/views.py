@@ -1037,7 +1037,7 @@ class TeamJoinListView(LoginRequiredMixin, ListView):
                     request,
                     f"No puedes unirte porque el equipo ya está completo en el torneo '{tournament.name}'."
                 )
-                return redirect('web:teamJoinListView', pk=player.pk)
+                return redirect('web:teamJoinListView')
 
         # Unir al jugador al equipo
         player.team = team
