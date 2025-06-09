@@ -142,8 +142,8 @@ def poblar_datos(apps, schema_editor):
         Player(user=users[20], games_played=95, games_won=70, coins=2300),
         Player(user=users[21], games_played=95, mmr=85, games_won=60, coins=2300),
 
-        Player(user=users[22], games_played=45, mmr=20, games_won=55, coins=2000),
-        Player(user=users[23], games_played=35, mmr=85, games_won=50, coins=2000),
+        Player(user=users[22], games_played=70, mmr=20, games_won=55, coins=2000),
+        Player(user=users[23], games_played=65, mmr=85, games_won=50, coins=2000),
         Player(user=users[24], games_played=55, mmr=40, games_won=30, coins=2000),
         Player(user=users[25], games_played=65, mmr=50, games_won=50, coins=2000),
         Player(user=users[26], games_played=45, mmr=60, games_won=10, coins=2000),
