@@ -1,3 +1,5 @@
+# ![Portada](web/static/images/portada.png)
+
 # Anteproyecto
 
 # ![Logo](web/static/images/favicon_peque.png) ArenaGG - Plataforma de gestión de torneos de videojuegos
