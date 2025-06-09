@@ -1792,7 +1792,7 @@ class TeamInscribeInTournamentView(LoginRequiredMixin, View):
             messages.error(request, "No puedes inscribir un equipo al que no perteneces.")
             return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
 
-        # Verificar que el usuario sea lider del equipo
+        # Verificar que el usuario sea líder del equipo
         if team.leader != player:
             messages.error(request, "Solo el líder del equipo puede inscribir al equipo en el torneo.")
             return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
