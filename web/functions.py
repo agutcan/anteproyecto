@@ -115,7 +115,6 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     if num_teams == 0:
         # Eliminar el torneo cancelado
         tournament.delete()
-        print(f"⚠️ El torneo {tournament.name} ha sido cancelado debido a que no tiene equipos.")
         return
 
     # Si el número es diferente a 2, 4 u 8, cancelamos el torneo
@@ -133,7 +132,6 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
 
         # Eliminar el torneo cancelado
         tournament.delete()
-        print(f"⚠️ El torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.")
         return
 
     # Verificar que todos los equipos tengan la cantidad exacta de jugadores
@@ -154,8 +152,6 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
             )
 
         tournament.delete()
-        print(
-            f"⚠️ El torneo {tournament.name} ha sido cancelado porque algunos equipos no tenían el número correcto de jugadores.")
         return
 
     # Si el número de equipos es par, procedemos a generar los partidos
@@ -254,8 +250,6 @@ def record_match_result(match, winner, team1_score, team2_score):
             fail_silently=False,  # Si ocurre un error, se lanza una excepción
         )
 
-    # Imprimir el resultado registrado en la consola para verificar
-    print(f"Resultado registrado para el partido {match}: {team1_score}-{team2_score}")
 
 
 def create_match_log(match, event, team=None, player=None):
@@ -277,7 +271,6 @@ def create_match_log(match, event, team=None, player=None):
         team=team,
         player=player
     )
-    print(f"Log creado para el partido {match}: {event}")
     return log
 
 def decrease_player_renombre(player, amount, reason=None):
@@ -308,7 +301,6 @@ def decrease_player_renombre(player, amount, reason=None):
                 player=player
             )
 
-    print(f"Renombre reducido para {player}: {original_renombre} → {player.renombre}")
     return player
 
 def increase_player_renombre(player, amount, reason=None):
@@ -339,7 +331,6 @@ def increase_player_renombre(player, amount, reason=None):
                 player=player
             )
 
-    print(f"Renombre aumentado para {player}: {original_renombre} → {player.renombre}")
     return player
 
 def process_final_match(tournament, completed_matches_queryset):
@@ -357,7 +348,6 @@ def process_final_match(tournament, completed_matches_queryset):
 
     if last_match and last_match.winner:  # Verificar si la última partida tiene un ganador
         winner = last_match.winner  # El ganador del torneo es el ganador de la última partida
-        print(f"   ✅ El ganador de la última partida es: {winner.name}")
 
         # Uso de una transacción atómica para garantizar la consistencia de las operaciones
         with transaction.atomic():
@@ -395,11 +385,6 @@ def process_final_match(tournament, completed_matches_queryset):
                     fail_silently=False,  # Si ocurre un error, lanzará una excepción
                 )
 
-        # Imprimir un mensaje de confirmación en consola
-        print(f"   🏅 Torneo finalizado. Ganador: {winner.name}")
-    else:
-        # Si no se puede determinar el ganador, mostrar un mensaje de advertencia
-        print("   ⚠️ No se pudo determinar el ganador del partido completado.")
 
 
 
@@ -431,14 +416,10 @@ def process_round(tournament, round_number):
         tournament=tournament,
         team__id__in=winner_team_ids
     )
-    print(winning_tournament_teams)
 
     # Validar que haya suficientes equipos (en número par) para emparejar
     if winning_tournament_teams.count() >= 2 and winning_tournament_teams.count() % 2 == 0:
         # Generar los partidos para la siguiente ronda usando los TournamentTeam ganadores
         generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_tournament_teams)
 
-        print(f"   ✅ Generados partidos para la ronda {round_number}.")  # Confirmación en consola
-    else:
-        # Si no se pudieron determinar los ganadores de todos los partidos, mostrar un mensaje de advertencia
-        print(f"   ⚠️ No se pudo determinar el ganador de todas las partidas completadas para la ronda {round_number}.")
+
