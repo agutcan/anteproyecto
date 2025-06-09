@@ -36,6 +36,9 @@
 }
 
 .game-list {
+    /* Establece un ancho mínimo del contenedor */
+    min-width: 180px;
+
     /* Separación con respecto a otras secciones */
     margin: 40px 0;
 }
@@ -43,9 +46,6 @@
 .game-card {
     /* Fondo semitransparente oscuro */
     background: rgba(30,30,30,0.7);
-
-    /* Establece un ancho mínimo del contenedor */
-    min-width: 180px;
 
     /* Relleno interno */
     padding: 20px;
@@ -488,8 +488,13 @@
 
 @media (max-width: 560px) {
 
-    .game-list {
-        text-align: center;
-    }
+  body {
+    background-color: lightgray;
+  }
+
+  .mi-clase {
+    font-size: 14px;
+    padding: 10px;
+  }
 }
 
