@@ -1534,7 +1534,7 @@ class SupportView(LoginRequiredMixin, FormView):
         username = self.request.user.username
 
         # Construir el mensaje
-        message = f"""
+        message = f""" 
         Mensaje de contacto de ArenaGG:
 
         Usuario: {username}
