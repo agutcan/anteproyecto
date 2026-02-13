@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'web.apps.WebConfig',
     'rest_framework',
     'django_celery_beat',
+    "debug_toolbar",
     'celery',
 
 ]
@@ -86,9 +87,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-
 ]
+
+if DEBUG:
+    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
 
 ROOT_URLCONF = 'ArenaGG.urls'
 
