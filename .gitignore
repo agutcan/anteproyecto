@@ -7,3 +7,5 @@ mailpit.db-shm
 mailpit.db-wal
 letsencrypt/
 staticfiles/
+frontend/node_modules/
+frontend/dist/
