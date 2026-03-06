@@ -2,7 +2,7 @@ __pycache__/
 *.pyc
 .venv/
 .idea/
-.env*
+.env
 mailpit.db-shm
 mailpit.db-wal
 letsencrypt/
