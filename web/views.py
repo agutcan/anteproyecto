@@ -147,7 +147,7 @@ class FaqView(TemplateView):
 
     template_name = 'web/faq.html'
 
-class RankingView(LoginRequiredMixin, TemplateView):
+class RankingView(LoginRequiredMixin, ListView):
     """
     Vista que muestra el ranking de jugadores ordenado por MMR (Match Making Rating).
     
@@ -160,20 +160,20 @@ class RankingView(LoginRequiredMixin, TemplateView):
     Métodos:
         get_context_data: Añade al contexto la lista de jugadores ordenada y paginada
     """
+    model = Player
     template_name = 'web/ranking.html'
+    context_object_name = 'ranking_list'
+    paginate_by = 10
 
-    def get_context_data(self, **kwargs):
+    def get_queryset(self):
         """
-        Prepara el contexto para el template incluyendo:
-        - Lista de jugadores ordenada por MMR
-        - Datos adicionales del usuario
+        Devuelve los jugadores ordenados por MMR descendente y optimiza
+        el acceso al usuario relacionado.
 
         Returns:
-            dict: Contexto con los jugadores y datos de paginación
+            QuerySet: Jugadores ordenados por MMR
         """
-        context = super().get_context_data(**kwargs)
-        context['ranking_list'] = Player.objects.order_by('-mmr').select_related('user')
-        return context
+        return Player.objects.order_by('-mmr').select_related('user')
 
 
 class TournamentListView(LoginRequiredMixin, ListView):

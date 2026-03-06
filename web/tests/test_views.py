@@ -273,6 +273,22 @@ class RankingViewTest(TestCase):
         mmr_values = list(ranking_list.values_list('mmr', flat=True))
         self.assertEqual(mmr_values, sorted(mmr_values, reverse=True))
 
+    def test_ranking_is_paginated_by_ten(self):
+        """
+        Verifica que la vista de ranking pagina en bloques de 10 jugadores.
+        """
+        for i in range(4, 15):
+            user = User.objects.create_user(username=f'user{i}')
+            Player.objects.create(user=user, mmr=300 - i)
+
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['is_paginated'])
+        self.assertEqual(len(response.context['ranking_list']), 10)
+        self.assertTrue(response.context['page_obj'].has_next())
+
     def tearDown(self):
         """
         Limpia los datos creados durante las pruebas.
