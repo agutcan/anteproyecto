@@ -1,0 +1,14 @@
+<section class="game-list">
+  <h2>Juegos</h2>
+  <div *ngIf="loading">Cargando...</div>
+  <div *ngIf="!loading && games.length === 0">No hay juegos.</div>
+  <ul *ngIf="!loading">
+    <li *ngFor="let g of games">
+      <img [src]="g.image" alt="{{g.name}}" width="80" />
+      <div class="meta">
+        <h3>{{g.name}}</h3>
+        <p>{{g.genre}}</p>
+      </div>
+    </li>
+  </ul>
+</section>

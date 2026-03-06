@@ -16,6 +16,22 @@ services:
     command: gunicorn ArenaGG.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 2
     restart: unless-stopped
 
+  frontend:
+    image: node:20
+    container_name: angular_frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    command: sh -c "npm install && npm start -- --host 0.0.0.0 --disableHostCheck true"
+    env_file:
+      - .env
+    depends_on:
+      - web
+    restart: unless-stopped
+
   db:
     image: postgres:16
     container_name: postgres_db

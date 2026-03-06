@@ -1,0 +1,27 @@
+{
+  "name": "arenagg-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "ng": "npx -y @angular/cli@20.3.1",
+    "start": "npx -y @angular/cli@20.3.1 serve --host 0.0.0.0",
+    "build": "npx -y @angular/cli@20.3.1 build --configuration production",
+    "build:django": "npx -y @angular/cli@20.3.1 build --configuration production --output-path ../staticfiles/frontend"
+  },
+  "dependencies": {
+    "@angular/common": "^20.3.1",
+    "@angular/compiler": "^20.3.1",
+    "@angular/core": "^20.3.1",
+    "@angular/platform-browser": "^20.3.1",
+    "@angular/platform-browser-dynamic": "^20.3.1",
+    "@angular/router": "^20.3.1",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.5.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^20.3.1",
+    "@angular/cli": "^20.3.1",
+    "@angular/compiler-cli": "^20.3.1",
+    "typescript": "^5.9.3"
+  }
+}

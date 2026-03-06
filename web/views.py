@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, FormView, DetailView, CreateView, UpdateView
 from rest_framework import generics
+from rest_framework import viewsets, permissions
 
 from .functions import record_match_result, create_match_log, update_players_stats, increase_player_renombre
 from .serializers import *
@@ -453,6 +454,71 @@ class PlayerUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['player'] = Player.objects.get(user=self.request.user)
         return context
+
+
+# -------------------------
+# API ViewSets (Django REST Framework)
+# -------------------------
+
+
+class GameViewSet(viewsets.ModelViewSet):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class TeamViewSet(viewsets.ModelViewSet):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class PlayerViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.select_related('user', 'team').all()
+    serializer_class = PlayerSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class TournamentViewSet(viewsets.ModelViewSet):
+    queryset = Tournament.objects.select_related('game', 'created_by').all()
+    serializer_class = TournamentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class TournamentTeamViewSet(viewsets.ModelViewSet):
+    queryset = TournamentTeam.objects.select_related('team', 'tournament').all()
+    serializer_class = TournamentTeamSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class MatchViewSet(viewsets.ModelViewSet):
+    queryset = Match.objects.select_related('tournament', 'team1', 'team2', 'winner').all()
+    serializer_class = MatchSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class MatchResultViewSet(viewsets.ModelViewSet):
+    queryset = MatchResult.objects.select_related('match', 'winner').all()
+    serializer_class = MatchResultSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class MatchLogViewSet(viewsets.ModelViewSet):
+    queryset = MatchLog.objects.select_related('match', 'team', 'player').all()
+    serializer_class = MatchLogSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class RewardViewSet(viewsets.ModelViewSet):
+    queryset = Reward.objects.all()
+    serializer_class = RewardSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class RedemptionViewSet(viewsets.ModelViewSet):
+    queryset = Redemption.objects.select_related('user', 'reward').all()
+    serializer_class = RedemptionSerializer
+    permission_classes = [permissions.AllowAny]
 
     def get_success_url(self):
         """
