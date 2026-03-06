@@ -7,3 +7,4 @@ mailpit.db-shm
 mailpit.db-wal
 letsencrypt/
 staticfiles/
+data/mailpit.db
