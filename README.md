@@ -173,6 +173,7 @@ Esta plataforma permitirá a los usuarios:
 - Mejorar el sistema de MMR, hacerlo más complejo para que si los equipos que se enfrentan tiene mucha diferencia de MMR, fluctue más o menos al ganar o perder.
 - Historial de partidas jugadas con el modelo MatchResult.
 - Automatización de despliegue con actions de github.
+- Integrar Black (Libreria de Python)
 
 ### Mejoras implementadas al proyecto
 
