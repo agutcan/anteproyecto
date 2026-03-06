@@ -245,7 +245,6 @@ docker compose exec web python -c 'from django.core.management.utils import get_
 # reemplaza la key en el archivo .env, SECRETE_KEY=<key>
 docker compose restart web
 docker compose exec web python manage.py migrate
-docker compose exec web python manage.py runserver
 ````
 
 Tendrás accesible el proyecto en el puerto 8000: `http://localhost:8000/`
