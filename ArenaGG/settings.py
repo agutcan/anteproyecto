@@ -118,25 +118,7 @@ WSGI_APPLICATION = 'ArenaGG.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        # Especifica el backend de la base de datos que se utilizará. En este caso, estamos usando PostgreSQL.
-        "ENGINE": "django.db.backends.postgresql",  # Backend de PostgreSQL
-
-        # Nombre de la base de datos que se utilizará. En este caso, la base de datos se llama "django_db".
-        "NAME": "django_db",  # Nombre de la base de datos
-
-        # Usuario que se usará para conectarse a la base de datos.
-        "USER": "postgres",  # Usuario de la base de datos
-
-        # Contraseña del usuario para acceder a la base de datos.
-        "PASSWORD": "password",  # Contraseña del usuario de la base de datos
-
-        # Dirección del servidor de la base de datos. Si estás usando Docker, el valor podría ser el nombre del servicio, como "db".
-        "HOST": "db",  # Dirección del host de la base de datos
-
-        # Puerto en el que se ejecuta la base de datos. El valor predeterminado de PostgreSQL es 5432.
-        "PORT": "5432",  # Puerto donde la base de datos escucha
-    }
+    "default": env.db() # Definido en DATABASE_URL
 }
 
 # Obtenemos el nombre del host (máquina local) y sus direcciones IP asociadas

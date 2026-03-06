@@ -1,6 +1,9 @@
 services:
   web:
     image: ${IMAGE}
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: django_web
     ports:
       - "8000:8000"
