@@ -174,6 +174,7 @@ Esta plataforma permitirá a los usuarios:
 - Historial de partidas jugadas con el modelo MatchResult.
 - Automatización de despliegue con actions de github.
 - Integrar Black (Libreria de Python)
+- Poner noticias y anuncion en un carrusel para que se vaya actualizando automáticamente
 
 ### Mejoras implementadas al proyecto
 
