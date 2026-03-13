@@ -588,9 +588,11 @@ class TournamentCreateViewTests(TestCase):
         self.client.login(username="user1", password="pass")
         form_data = {
             "name": "New Tournament",
+            "description": "Torneo de prueba",
             "game": self.game.id,
-            "status": "upcoming",
-            "start_date": "2025-12-01",
+            "max_player_per_team": 1,
+            "max_teams": 2,
+            "start_date": (timezone.now() + timedelta(days=2)).strftime("%Y-%m-%dT%H:%M"),
         }
         response = self.client.post(self.url, form_data)
 
