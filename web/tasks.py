@@ -25,16 +25,15 @@ def update_tournament_status():
 
     # Filtra los torneos cuyo estado actual contiene la palabra 'upcoming' (es decir, que aún no han comenzado).
     tournaments = Tournament.objects.filter(status__icontains="upcoming")
-    
+
     # Itera sobre cada torneo encontrado
     for tournament in tournaments:
 
         # Determina si el torneo debe cambiar a 'ongoing' según la fecha actual y su estado actual
         if tournament.start_date <= now and tournament.status != "completed":
-            new_status = 'ongoing'
+            new_status = "ongoing"
         else:
-            new_status = 'upcoming'
-
+            new_status = "upcoming"
 
         # Solo actualiza si el estado ha cambiado
         if tournament.status != new_status:
@@ -42,8 +41,9 @@ def update_tournament_status():
             tournament.save()  # Guarda los cambios en la base de datos
 
             # Si el torneo pasa a estado 'ongoing' y aún no se han generado las partidas
-            if new_status == 'ongoing' and not tournament.matches_generated:
+            if new_status == "ongoing" and not tournament.matches_generated:
                 generate_matches_by_mmr(tournament.id)  # Llama a la función que genera las partidas
+
 
 @shared_task
 def check_teams_ready_for_match():
@@ -66,7 +66,7 @@ def check_teams_ready_for_match():
     now = timezone.now()
 
     # Filtra todos los partidos pendientes en la base de datos
-    matches = Match.objects.filter(status='pending')
+    matches = Match.objects.filter(status="pending")
 
     # Procesa uno por uno
     for match in matches:
@@ -81,11 +81,11 @@ def check_teams_ready_for_match():
             # Notifica a cada jugador del equipo 1 por correo electrónico
             for player in match.team1.player_set.all():
                 send_mail(
-                    subject='✅ ¡Partida Comenzada!',
+                    subject="✅ ¡Partida Comenzada!",
                     message=(
-                        f'Hola {player.user},\n\n'
-                        'La partida ha comenzado correctamente.\n\n'
-                        '- El equipo de ArenaGG'
+                        f"Hola {player.user},\n\n"
+                        "La partida ha comenzado correctamente.\n\n"
+                        "- El equipo de ArenaGG"
                     ),
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[player.user.email],
@@ -95,11 +95,11 @@ def check_teams_ready_for_match():
             # Notifica a cada jugador del equipo 2 por correo electrónico
             for player in match.team2.player_set.all():
                 send_mail(
-                    subject='✅ ¡Partida finalizada!',
+                    subject="✅ ¡Partida finalizada!",
                     message=(
-                        f'Hola {player.user},\n\n'
-                        'La partida ha comenzado correctamente.\n\n'
-                        '- El equipo de ArenaGG'
+                        f"Hola {player.user},\n\n"
+                        "La partida ha comenzado correctamente.\n\n"
+                        "- El equipo de ArenaGG"
                     ),
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[player.user.email],
@@ -136,9 +136,9 @@ def check_teams_ready_for_match():
 
                 update_players_stats(match.team1)
                 update_players_stats(match.team2, True)
-                
+
                 # Penaliza a los jugadores del equipo 1 por inasistencia
-                for player in match.team1.player_set.all():  
+                for player in match.team1.player_set.all():
                     decrease_player_renombre(player, 5, "No se ha presentado")
 
             # Subcaso: ningún equipo está listo → se elige un ganador aleatoriamente
@@ -166,9 +166,9 @@ def check_teams_ready_for_match():
             # Guarda resultado y genera un log del partido
             record_match_result(match, winner, team1_score, team2_score)
             create_match_log(
-                match,
-                f"Partido finalizado automáticamente. Ganador: {winner.name} ({reason})."
+                match, f"Partido finalizado automáticamente. Ganador: {winner.name} ({reason})."
             )
+
 
 @shared_task
 def check_tournament_match_progress():
@@ -202,20 +202,20 @@ def check_tournament_match_progress():
     now = timezone.now()
 
     # Buscar torneos que estén en curso
-    ongoing_tournaments = Tournament.objects.filter(status='ongoing')
+    ongoing_tournaments = Tournament.objects.filter(status="ongoing")
     if not ongoing_tournaments.exists():
         return
 
     # Procesar cada torneo en curso
     for tournament in ongoing_tournaments:
         # Obtener métricas del torneo
-        ongoing_matches = Match.objects.filter(tournament=tournament, status='ongoing').count()
-        completed_matches = Match.objects.filter(tournament=tournament, status='completed').count()
+        ongoing_matches = Match.objects.filter(tournament=tournament, status="ongoing").count()
+        completed_matches = Match.objects.filter(tournament=tournament, status="completed").count()
         total_matches = Match.objects.filter(tournament=tournament).count()
         team_count = tournament.tournamentteam_set.count()
 
         # Obtener queryset reutilizable de partidas finalizadas
-        completed_matches_queryset = Match.objects.filter(tournament=tournament, status='completed')
+        completed_matches_queryset = Match.objects.filter(tournament=tournament, status="completed")
 
         # Lógica para torneos de 2 equipos (1 final directa)
         if team_count == 2 and completed_matches == 1:
@@ -241,4 +241,3 @@ def check_tournament_match_progress():
                 process_round(tournament, round_number=3)
             elif completed_matches == 7:
                 process_final_match(tournament, completed_matches_queryset)
-

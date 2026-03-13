@@ -12,6 +12,8 @@ on:
       - 'docker-compose.yml'
       - 'manage.py'
       - 'requirements.txt'
+      - 'pyproject.toml'
+      - '.github/workflows/**'
   pull_request:
     branches: [ main ]
     paths:
@@ -23,6 +25,8 @@ on:
       - 'docker-compose.yml'
       - 'manage.py'
       - 'requirements.txt'
+      - 'pyproject.toml'
+      - '.github/workflows/**'
       
 env:
   IMAGE_NAME: anteproyecto
@@ -30,8 +34,28 @@ env:
   COMPOSE: docker-compose.yml
 
 jobs:
+  black:
+    name: Black format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Black check
+        run: python -m black --check .
+
   build:
     name: build and push Docker image
+    needs: black
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

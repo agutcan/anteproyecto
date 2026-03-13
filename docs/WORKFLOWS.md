@@ -10,6 +10,8 @@ Este flujo de trabajo automatiza el proceso completo de construcción, publicaci
   - Archivos de plantillas
   - Archivos de configuración de Docker
   - Requerimientos de Python
+   - Configuración de formato (`pyproject.toml`)
+   - Definiciones de workflows (`.github/workflows/**`)
 
 ## ⚙️ Variables de Entorno
 | Variable | Valor | Descripción |
@@ -20,14 +22,21 @@ Este flujo de trabajo automatiza el proceso completo de construcción, publicaci
 
 ## 🔄 Proceso de Ejecución
 
-### 1. 🏗️ Construcción de Imagen Docker
+### 1. 🎨 Validación de formato con Black
+**Pasos:**
+1. Checkout del código
+2. Configuración de Python 3.13
+3. Instalación de dependencias (`requirements.txt`)
+4. Ejecución de `python -m black --check .`
+
+### 2. 🏗️ Construcción de Imagen Docker
 **Pasos:**
 1. Checkout del código
 2. Login en Docker Hub usando credenciales secretas
 3. Construcción y publicación de la imagen con el formato: `usuario/anteproyecto:latest`
 
-### 2. 🚀 Despliegue en AWS
-**Requisito:** Depende de la finalización exitosa del job de construcción
+### 3. 🚀 Despliegue en AWS
+**Requisito:** Depende de la finalización exitosa de los jobs de formato y construcción
 
 **Pasos:**
 1. Conexión SSH a la instancia AWS usando:

@@ -8,20 +8,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+
 class Game(models.Model):
     """Modelo que representa un videojuego en el sistema.
-    
+
     Atributos:
         name: Nombre único del juego (CharField)
         genre: Género del juego (opcional)
         created_at: Fecha de creación automática
         image: Imagen del juego con valor por defecto
     """
-    
+
     name = models.CharField(max_length=100, unique=True)
     genre = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='games', blank=True, null=True, default='games/default_game.webp')
+    image = models.ImageField(
+        upload_to="games", blank=True, null=True, default="games/default_game.webp"
+    )
 
     def __str__(self):
         """Representación en cadena del juego (devuelve el nombre)"""
@@ -31,7 +34,7 @@ class Game(models.Model):
 class Tournament(models.Model):
     """
     Modelo que representa un torneo de videojuegos en el sistema.
-    
+
     Atributos:
         name: Nombre del torneo (requerido)
         game: Juego asociado (relación ForeignKey a Game)
@@ -45,14 +48,14 @@ class Tournament(models.Model):
         matches_generated: Indica si los partidos están generados
         winner: Equipo ganador (se establece al finalizar)
     """
-    
+
     name = models.CharField(max_length=100)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255, blank=True, null=True, default='Torneo...')
+    description = models.CharField(max_length=255, blank=True, null=True, default="Torneo...")
     status = models.CharField(
         max_length=10,
-        choices=[('upcoming', 'Upcoming'), ('ongoing', 'Ongoing'), ('completed', 'Completed')],
-        default='upcoming'
+        choices=[("upcoming", "Upcoming"), ("ongoing", "Ongoing"), ("completed", "Completed")],
+        default="upcoming",
     )
     prize_pool = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     start_date = models.DateTimeField()
@@ -69,19 +72,23 @@ class Tournament(models.Model):
     def count_registered_players(self):
         """
         Calcula el número total de jugadores registrados en el torneo.
-        
+
         Returns:
             int: Cantidad de jugadores únicos registrados
         """
         from django.db.models import Count
-        return self.tournamentteam_set.aggregate(
-            total_players=Count('team__player', distinct=True)
-        )['total_players'] or 0
+
+        return (
+            self.tournamentteam_set.aggregate(total_players=Count("team__player", distinct=True))[
+                "total_players"
+            ]
+            or 0
+        )
 
     def get_max_total_players(self):
         """
         Calcula la capacidad máxima teórica de jugadores.
-        
+
         Returns:
             int: max_teams * max_player_per_team
         """
@@ -90,7 +97,7 @@ class Tournament(models.Model):
     def get_available_slots(self):
         """
         Calcula los espacios disponibles para nuevos jugadores.
-        
+
         Returns:
             int: Diferencia entre capacidad máxima y jugadores registrados
         """
@@ -99,7 +106,7 @@ class Tournament(models.Model):
     def get_registered_teams(self):
         """
         Obtiene la lista de equipos registrados en el torneo.
-        
+
         Returns:
             list: Lista de objetos Team registrados
         """
@@ -115,29 +122,29 @@ class Tournament(models.Model):
 
         if self.max_teams not in {2, 4, 8}:
             raise ValidationError(
-                {'max_teams': 'El número de equipos debe ser (2, 4 u 8) para el formato de eliminatorias.'}
+                {
+                    "max_teams": "El número de equipos debe ser (2, 4 u 8) para el formato de eliminatorias."
+                }
             )
 
         if self.start_date and self.start_date < timezone.now():
             raise ValidationError("La fecha de inicio no puede ser en el pasado")
 
+
 class Team(models.Model):
     """Modelo que representa un equipo de jugadores.
-    
+
     Atributos:
         name: Nombre único del equipo (CharField)
         created_at: Fecha de creación automática (DateTimeField)
         leader: Relación OneToOne con el jugador líder (Player)
         searching_teammates: Booleano que indica si buscan miembros
     """
+
     name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     leader = models.OneToOneField(
-        "Player", 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        blank=True,
-        related_name='led_team'
+        "Player", on_delete=models.SET_NULL, null=True, blank=True, related_name="led_team"
     )
     searching_teammates = models.BooleanField(default=False)
 
@@ -147,7 +154,7 @@ class Team(models.Model):
 
     def get_avg_mmr(self):
         """Calcula el MMR promedio de los jugadores del equipo.
-        
+
         Returns:
             float: Promedio de MMR o 0 si no tiene jugadores
         """
@@ -156,9 +163,10 @@ class Team(models.Model):
             return 0
         return sum(player.mmr for player in players) / players.count()
 
+
 class Player(models.Model):
     """Modelo que representa un jugador en el sistema.
-    
+
     Atributos:
         user: Relación OneToOne con el modelo User de Django
         team: Equipo al que pertenece el jugador (opcional)
@@ -176,15 +184,15 @@ class Player(models.Model):
         games_won: Total de partidas ganadas
         winrate: Porcentaje de victorias
     """
-    
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
 
-    PREMIUM = 'Premium'
-    DEFAULT = 'Normal'
+    PREMIUM = "Premium"
+    DEFAULT = "Normal"
     ROLE_CHOICES = [
-        (PREMIUM, 'Premium'),
-        (DEFAULT, 'Normal'),
+        (PREMIUM, "Premium"),
+        (DEFAULT, "Normal"),
     ]
     role = models.CharField(
         max_length=10,
@@ -197,26 +205,26 @@ class Player(models.Model):
     birth_date = models.DateField(blank=True, null=True)
 
     COUNTRY_CHOICES = [
-        ('AR', 'Argentina'),
-        ('BR', 'Brasil'),
-        ('CL', 'Chile'),
-        ('CO', 'Colombia'),
-        ('ES', 'España'),
-        ('MX', 'México'),
-        ('US', 'Estados Unidos'),
+        ("AR", "Argentina"),
+        ("BR", "Brasil"),
+        ("CL", "Chile"),
+        ("CO", "Colombia"),
+        ("ES", "España"),
+        ("MX", "México"),
+        ("US", "Estados Unidos"),
     ]
-    country = models.CharField(
-        max_length=2,
-        choices=COUNTRY_CHOICES,
-        default='ES'
-    )
+    country = models.CharField(max_length=2, choices=COUNTRY_CHOICES, default="ES")
 
     bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='avatars/default_avatar.png')
+    avatar = models.ImageField(
+        upload_to="avatars/", null=True, blank=True, default="avatars/default_avatar.png"
+    )
     coins = models.IntegerField(default=0)
-    renombre = models.IntegerField(default=50, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    renombre = models.IntegerField(
+        default=50, validators=[MinValueValidator(1), MaxValueValidator(100)]
+    )
     mmr = models.IntegerField(default=50, validators=[MinValueValidator(10)])
-    
+
     games_played = models.IntegerField(default=0)
     games_won = models.IntegerField(default=0)
     winrate = models.FloatField(default=0.0)
@@ -225,19 +233,21 @@ class Player(models.Model):
         """Representación en string del jugador (username + equipo + winrate)."""
         return f"{self.user.username} - {self.team.name if self.team else 'Sin equipo'} (Winrate: {self.winrate:.2f}%)"
 
+
 class TournamentTeam(models.Model):
     """Modelo que relaciona equipos con torneos (tabla intermedia M2M).
-    
+
     Atributos:
         tournament (ForeignKey): Torneo al que se inscribe el equipo
         team (ForeignKey): Equipo que participa en el torneo
     """
+
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     class Meta:
         # Evita duplicados de equipo en el mismo torneo
-        unique_together = ('tournament', 'team')
+        unique_together = ("tournament", "team")
 
     def __str__(self):
         """Representación: '[Nombre equipo] en [Nombre torneo]'"""
@@ -246,7 +256,7 @@ class TournamentTeam(models.Model):
 
 class Match(models.Model):
     """Modelo que representa un partido dentro de un torneo.
-    
+
     Atributos:
         tournament (ForeignKey): Torneo al que pertenece el partido
         round (IntegerField): Número de ronda del torneo
@@ -262,16 +272,19 @@ class Match(models.Model):
         team1_winner (BooleanField): Autodeclaración ganador equipo 1
         team2_winner (BooleanField): Autodeclaración ganador equipo 2
     """
+
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     round = models.IntegerField()
-    team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='matches_as_team1')
-    team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='matches_as_team2')
-    winner = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, related_name='matches_won')
+    team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="matches_as_team1")
+    team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="matches_as_team2")
+    winner = models.ForeignKey(
+        Team, on_delete=models.SET_NULL, null=True, blank=True, related_name="matches_won"
+    )
     scheduled_at = models.DateTimeField()
     status = models.CharField(
         max_length=10,
-        choices=[('pending', 'Pending'), ('ongoing', 'Ongoing'), ('completed', 'Completed')],
-        default='pending'
+        choices=[("pending", "Pending"), ("ongoing", "Ongoing"), ("completed", "Completed")],
+        default="pending",
     )
     team1_ready = models.BooleanField(default=False)
     team2_ready = models.BooleanField(default=False)
@@ -287,7 +300,7 @@ class Match(models.Model):
 
 class MatchResult(models.Model):
     """Modelo que almacena los resultados de un partido.
-    
+
     Atributos:
         match (OneToOneField): Partido asociado al resultado
         winner (ForeignKey): Equipo ganador (puede ser nulo)
@@ -295,6 +308,7 @@ class MatchResult(models.Model):
         team2_score (IntegerField): Puntuación del equipo 2
         completed_at (DateTimeField): Fecha de finalización
     """
+
     match = models.OneToOneField(Match, on_delete=models.CASCADE)
     winner = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
     team1_score = models.IntegerField(default=0)
@@ -305,9 +319,10 @@ class MatchResult(models.Model):
         """Representación: 'Resultado: [equipo1] [score1] - [score2] [equipo2]'"""
         return f"Resultado: {self.match.team1.name} {self.team1_score} - {self.team2_score} {self.match.team2.name}"
 
+
 class MatchLog(models.Model):
     """Modelo que registra eventos ocurridos durante una partida.
-    
+
     Atributos:
         match (ForeignKey): Partida asociada al evento
         team (ForeignKey): Equipo relacionado (opcional)
@@ -315,9 +330,12 @@ class MatchLog(models.Model):
         event (TextField): Descripción del evento registrado
         created_at (DateTimeField): Fecha de creación del registro
     """
+
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    player = models.ForeignKey(
+        Player, on_delete=models.SET_NULL, null=True, blank=True, default=None
+    )
     event = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -328,7 +346,7 @@ class MatchLog(models.Model):
 
 class Reward(models.Model):
     """Modelo que representa una recompensa/premio canjeable.
-    
+
     Atributos:
         name (CharField): Nombre de la recompensa
         description (TextField): Descripción detallada (opcional)
@@ -339,6 +357,7 @@ class Reward(models.Model):
         updated_at (DateTimeField): Fecha de última actualización
         image (ImageField): Imagen representativa
     """
+
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     coins_cost = models.PositiveIntegerField(default=100)
@@ -347,34 +366,25 @@ class Reward(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(
-        upload_to='rewards/', 
-        blank=True, 
-        null=True, 
-        default='rewards/default_reward.webp'
+        upload_to="rewards/", blank=True, null=True, default="rewards/default_reward.webp"
     )
 
     def __str__(self):
         """Representación: '[nombre] ([costo] coins)'"""
         return f"{self.name} ({self.coins_cost} coins)"
 
+
 class Redemption(models.Model):
     """Modelo que registra el canje de recompensas por usuarios.
-    
+
     Atributos:
         user (ForeignKey): Usuario que realiza el canje
         reward (ForeignKey): Recompensa canjeada
         redeemed_at (DateTimeField): Fecha de canje automática
     """
-    user = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        related_name="redemptions"
-    )
-    reward = models.ForeignKey(
-        Reward, 
-        on_delete=models.CASCADE, 
-        related_name="redemptions"
-    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="redemptions")
+    reward = models.ForeignKey(Reward, on_delete=models.CASCADE, related_name="redemptions")
     redeemed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -5,10 +5,11 @@ from .models import *
 from django.db import transaction
 from itertools import zip_longest
 
+
 def update_winrate(player):
     """
     Actualiza el porcentaje de victorias (winrate) de un jugador basado en sus estadísticas.
-    
+
     Calcula el winrate como (games_won / games_played) * 100 y guarda el resultado.
     Si no hay partidas jugadas, establece el winrate a 0.0.
 
@@ -22,17 +23,18 @@ def update_winrate(player):
     Returns:
         None: La función no retorna nada, pero modifica y guarda el objeto player
     """
-    
+
     if player.games_played > 0:
         player.winrate = (player.games_won / player.games_played) * 100
     else:
         player.winrate = 0.0
     player.save()
 
+
 def update_players_stats(team, is_winner=False):
     """
     Actualiza las estadísticas de todos los jugadores de un equipo tras un partido.
-    
+
     Esta función modifica múltiples métricas de los jugadores incluyendo:
     - Contadores de partidas jugadas y ganadas
     - Winrate (porcentaje de victorias)
@@ -49,18 +51,18 @@ def update_players_stats(team, is_winner=False):
     """
     # Recorre todos los jugadores del equipo
     for player in team.player_set.all():
-        
+
         # Incrementa el contador de juegos jugados para cada jugador
         player.games_played += 1
-        
+
         # Si el equipo ganó el partido, incrementa los juegos ganados
         if is_winner:
             player.games_won += 1
-        
+
         # Actualiza el winrate del jugador
         update_winrate(player)
 
-        # Actualiza el MMR del jugador. Si el jugador ganó, aumenta su MMR en 10, 
+        # Actualiza el MMR del jugador. Si el jugador ganó, aumenta su MMR en 10,
         # de lo contrario lo disminuye en 5, pero no puede bajar de 10
         if is_winner:
             player.mmr += 10
@@ -70,16 +72,15 @@ def update_players_stats(team, is_winner=False):
         # Si el jugador ganó, incrementa su renombre en 5 unidades
         if is_winner:
             increase_player_renombre(player, amount=5, reason="Victoria en partido oficial")
-        
+
         # Guarda los cambios realizados en el jugador
         player.save()
-
 
 
 def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     """
     Genera los partidos de un torneo basándose en el MMR promedio de los equipos participantes.
-    
+
     Esta función realiza las siguientes operaciones:
     1. Verifica que el número de equipos sea válido (2, 4 u 8)
     2. Valida que todos los equipos tengan el número correcto de jugadores
@@ -100,15 +101,17 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     Raises:
         Tournament.DoesNotExist: Si no existe un torneo con el ID proporcionado
     """
-    
+
     # Obtener el torneo utilizando el ID proporcionado
     tournament = Tournament.objects.get(id=tournament_id)
 
     # Verificar el número de equipos en el torneo
     if not tournament_teams:
         # Si no se pasan equipos, los obtenemos desde la base de datos
-        tournament_teams = TournamentTeam.objects.filter(tournament=tournament).select_related('team')
-    
+        tournament_teams = TournamentTeam.objects.filter(tournament=tournament).select_related(
+            "team"
+        )
+
     # Número total de equipos en el torneo
     num_teams = tournament_teams.count()
     # Si el número de equipos es 0 cancelamos el torneo
@@ -120,11 +123,13 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     # Si el número es diferente a 2, 4 u 8, cancelamos el torneo
     if num_teams != 2 and num_teams != 4 and num_teams != 8:
         # Enviar correo a todos los jugadores del torneo notificando la cancelación
-        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related('team')
+        players = Player.objects.filter(team__tournamentteam__tournament=tournament).select_related(
+            "team"
+        )
         for player in players:
             send_mail(
-                subject='Torneo Cancelado',  # Asunto del correo
-                message=f'Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.',
+                subject="Torneo Cancelado",  # Asunto del correo
+                message=f"Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado debido a un número impar de equipos.",
                 from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
                 recipient_list=[player.user.email],  # Correo del jugador
                 fail_silently=False,  # Si ocurre un error, lanzar una excepción
@@ -144,8 +149,8 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
         players = Player.objects.filter(team__in=invalid_teams)
         for player in players:
             send_mail(
-                subject='Torneo Cancelado',
-                message=f'Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado porque algunos equipos no tienen el número correcto de jugadores.',
+                subject="Torneo Cancelado",
+                message=f"Hola {player.user.username},\n\nLamentablemente, el torneo {tournament.name} ha sido cancelado porque algunos equipos no tienen el número correcto de jugadores.",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[player.user.email],
                 fail_silently=False,
@@ -175,7 +180,8 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
             Match.objects.create(
                 tournament=tournament,
                 round=round,
-                scheduled_at=timezone.now() + timezone.timedelta(minutes=2),  # Programar el partido para dentro de 2 minutos
+                scheduled_at=timezone.now()
+                + timezone.timedelta(minutes=2),  # Programar el partido para dentro de 2 minutos
                 team1=team1.team,  # Asignar el primer equipo
                 team2=team2.team,  # Asignar el segundo equipo
             )
@@ -185,11 +191,10 @@ def generate_matches_by_mmr(tournament_id, round=1, tournament_teams=None):
     tournament.save()
 
 
-
 def record_match_result(match, winner, team1_score, team2_score):
     """
     Registra el resultado de un partido y notifica a los jugadores involucrados.
-    
+
     Esta función realiza las siguientes operaciones:
     1. Crea un registro de resultado en la base de datos (MatchResult)
     2. Actualiza el estado del partido a 'completed'
@@ -207,28 +212,28 @@ def record_match_result(match, winner, team1_score, team2_score):
     Returns:
         None: La función no retorna ningún valor, pero tiene varios efectos secundarios.
     """
-    
+
     # Registrar el resultado del partido en la base de datos
     result = MatchResult.objects.create(
         match=match,  # Relacionar con el partido
         winner=winner,  # Registrar al equipo ganador
         team1_score=team1_score,  # Registrar la puntuación del primer equipo
-        team2_score=team2_score  # Registrar la puntuación del segundo equipo
+        team2_score=team2_score,  # Registrar la puntuación del segundo equipo
     )
 
     # Actualizar el estado del partido a 'completed' (finalizado)
-    match.status = 'completed'
+    match.status = "completed"
     match.save()  # Guardar el estado actualizado del partido
 
     # Enviar correos electrónicos a los jugadores del equipo 1
     for player in match.team1.player_set.all():
         send_mail(
-            subject='✅ ¡Partida finalizada!',  # Asunto del correo
+            subject="✅ ¡Partida finalizada!",  # Asunto del correo
             message=(
-                f'Hola {player.user.username},\n\n'  # Saludo al jugador
-                'La partida ha finalizado correctamente.\n\n'
-                f'Resultado del partido {match}: {team1_score}-{team2_score}\n\n'  # Resultado del partido
-                '- El equipo de ArenaGG'  # Firma
+                f"Hola {player.user.username},\n\n"  # Saludo al jugador
+                "La partida ha finalizado correctamente.\n\n"
+                f"Resultado del partido {match}: {team1_score}-{team2_score}\n\n"  # Resultado del partido
+                "- El equipo de ArenaGG"  # Firma
             ),
             from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
             recipient_list=[player.user.email],  # Lista de destinatarios
@@ -238,18 +243,17 @@ def record_match_result(match, winner, team1_score, team2_score):
     # Enviar correos electrónicos a los jugadores del equipo 2
     for player in match.team2.player_set.all():
         send_mail(
-            subject='✅ ¡Partida finalizada!',  # Asunto del correo
+            subject="✅ ¡Partida finalizada!",  # Asunto del correo
             message=(
-                f'Hola {player.user.username},\n\n'  # Saludo al jugador
-                'La partida ha finalizado correctamente.\n\n'
-                f'Resultado del partido {match}: {team1_score}-{team2_score}\n\n'  # Resultado del partido
-                '- El equipo de ArenaGG'  # Firma
+                f"Hola {player.user.username},\n\n"  # Saludo al jugador
+                "La partida ha finalizado correctamente.\n\n"
+                f"Resultado del partido {match}: {team1_score}-{team2_score}\n\n"  # Resultado del partido
+                "- El equipo de ArenaGG"  # Firma
             ),
             from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
             recipient_list=[player.user.email],  # Lista de destinatarios
             fail_silently=False,  # Si ocurre un error, se lanza una excepción
         )
-
 
 
 def create_match_log(match, event, team=None, player=None):
@@ -265,13 +269,9 @@ def create_match_log(match, event, team=None, player=None):
     Returns:
         MatchLog: El registro creado.
     """
-    log = MatchLog.objects.create(
-        match=match,
-        event=event,
-        team=team,
-        player=player
-    )
+    log = MatchLog.objects.create(match=match, event=event, team=team, player=player)
     return log
+
 
 def decrease_player_renombre(player, amount, reason=None):
     """
@@ -292,16 +292,17 @@ def decrease_player_renombre(player, amount, reason=None):
     player.save()
 
     # Crear log asociado si se proporciona razón
-    if reason and hasattr(player, 'match_set'):
-        last_match = player.match_set.order_by('-scheduled_at').first()
+    if reason and hasattr(player, "match_set"):
+        last_match = player.match_set.order_by("-scheduled_at").first()
         if last_match:
             create_match_log(
                 match=last_match,
                 event=f"Renombre reducido en {amount} por: {reason}",
-                player=player
+                player=player,
             )
 
     return player
+
 
 def increase_player_renombre(player, amount, reason=None):
     """
@@ -322,23 +323,24 @@ def increase_player_renombre(player, amount, reason=None):
     player.save()
 
     # Crear log asociado si se proporciona razón
-    if reason and hasattr(player, 'match_set'):
-        last_match = player.match_set.order_by('-scheduled_at').first()
+    if reason and hasattr(player, "match_set"):
+        last_match = player.match_set.order_by("-scheduled_at").first()
         if last_match:
             create_match_log(
                 match=last_match,
                 event=f"Renombre incrementado en {amount} por: {reason}",
-                player=player
+                player=player,
             )
 
     return player
+
 
 def process_final_match(tournament, completed_matches_queryset):
     """
     Procesa la lógica de un torneo cuando se completa la última partida
     y determina al ganador del torneo. También actualiza el estado del torneo
     y distribuye las recompensas entre los jugadores ganadores.
-    
+
     Argumentos:
     tournament (Tournament): El torneo cuyo resultado final se va a procesar.
     completed_matches_queryset (QuerySet): Un conjunto de partidos completados.
@@ -353,7 +355,7 @@ def process_final_match(tournament, completed_matches_queryset):
         with transaction.atomic():
             # Actualizar el ganador del torneo y cambiar su estado a 'completed' (finalizado)
             tournament.winner = winner
-            tournament.status = 'completed'
+            tournament.status = "completed"
             tournament.save()  # Guardar los cambios en el torneo
 
             # Obtener a todos los jugadores del equipo ganador
@@ -361,31 +363,33 @@ def process_final_match(tournament, completed_matches_queryset):
 
             # Si el torneo tiene un premio en efectivo, distribuirlo entre los jugadores
             if players.exists() and tournament.prize_pool:
-                reward_per_player = tournament.prize_pool / players.count()  # Dividir el pool de premios entre los jugadores
+                reward_per_player = (
+                    tournament.prize_pool / players.count()
+                )  # Dividir el pool de premios entre los jugadores
                 for player in players:
                     # Si el jugador es Premium, recibe el doble de recompensa
                     if player.role == "Premium":
                         player.coins += reward_per_player * 2
                     else:
-                        player.coins += reward_per_player  # Jugador regular recibe la recompensa normal
+                        player.coins += (
+                            reward_per_player  # Jugador regular recibe la recompensa normal
+                        )
                     player.save()  # Guardar los cambios en el jugador
 
             # Enviar correos electrónicos a los jugadores del equipo ganador
             for player in players:
                 send_mail(
-                    subject='✅ ¡Torneo finalizado!',  # Asunto del correo
+                    subject="✅ ¡Torneo finalizado!",  # Asunto del correo
                     message=(
-                        f'Hola {player.user.username},\n\n'  # Saludo al jugador
-                        'El torneo ha finalizado correctamente.\n\n'
-                        f'Enhorabuena por ganar el torneo!!\n\n'  # Felicitaciones por ganar
-                        '- El equipo de ArenaGG'  # Firma
+                        f"Hola {player.user.username},\n\n"  # Saludo al jugador
+                        "El torneo ha finalizado correctamente.\n\n"
+                        f"Enhorabuena por ganar el torneo!!\n\n"  # Felicitaciones por ganar
+                        "- El equipo de ArenaGG"  # Firma
                     ),
                     from_email=settings.DEFAULT_FROM_EMAIL,  # Remitente
                     recipient_list=[player.user.email],  # Correo del jugador
                     fail_silently=False,  # Si ocurre un error, lanzará una excepción
                 )
-
-
 
 
 def process_round(tournament, round_number):
@@ -403,9 +407,7 @@ def process_round(tournament, round_number):
     # Obtener los partidos completados de la ronda anterior
     previous_round = round_number - 1
     completed_matches_queryset = Match.objects.filter(
-        tournament=tournament,
-        round=previous_round,
-        winner__isnull=False
+        tournament=tournament, round=previous_round, winner__isnull=False
     )
 
     # Obtener los IDs de los equipos ganadores
@@ -413,13 +415,12 @@ def process_round(tournament, round_number):
 
     # Obtener los TournamentTeam correspondientes a los equipos ganadores
     winning_tournament_teams = TournamentTeam.objects.filter(
-        tournament=tournament,
-        team__id__in=winner_team_ids
+        tournament=tournament, team__id__in=winner_team_ids
     )
 
     # Validar que haya suficientes equipos (en número par) para emparejar
     if winning_tournament_teams.count() >= 2 and winning_tournament_teams.count() % 2 == 0:
         # Generar los partidos para la siguiente ronda usando los TournamentTeam ganadores
-        generate_matches_by_mmr(tournament.id, round=round_number, tournament_teams=winning_tournament_teams)
-
-
+        generate_matches_by_mmr(
+            tournament.id, round=round_number, tournament_teams=winning_tournament_teams
+        )

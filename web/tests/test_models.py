@@ -6,6 +6,7 @@ from datetime import timedelta
 from django.contrib.auth.models import User
 from ..models import *
 
+
 class ModelTests(TestCase):
     """
     Conjunto de pruebas unitarias para los modelos del sistema.
@@ -19,36 +20,36 @@ class ModelTests(TestCase):
         Configura los datos comunes para todas las pruebas.
         Se ejecuta antes de cada método de test.
         """
-        self.user = User.objects.create_user(username='testuser')
-        self.team1 = Team.objects.create(name='Team One')
-        self.team2 = Team.objects.create(name='Team Two')
-        self.game = Game.objects.create(name='Test Game')
+        self.user = User.objects.create_user(username="testuser")
+        self.team1 = Team.objects.create(name="Team One")
+        self.team2 = Team.objects.create(name="Team Two")
+        self.game = Game.objects.create(name="Test Game")
         self.tournament = Tournament.objects.create(
-            name='Test Tournament',
+            name="Test Tournament",
             game=self.game,
             start_date=timezone.now() + timedelta(days=1),
             created_by=self.user,
-            max_teams=2
+            max_teams=2,
         )
 
     def test_game_creation(self):
         """Verifica que el juego se crea correctamente y su representación como string es válida."""
-        self.assertEqual(str(self.game), 'Test Game')
+        self.assertEqual(str(self.game), "Test Game")
 
     def test_team_creation(self):
         """Verifica que el equipo se crea correctamente y su representación como string es válida."""
-        self.assertEqual(str(self.team1), 'Team One')
+        self.assertEqual(str(self.team1), "Team One")
 
     def test_player_creation(self):
         """Crea un jugador y valida su asociación al equipo y su representación textual."""
         player = Player.objects.create(user=self.user, team=self.team1, mmr=100)
-        self.assertEqual(player.team.name, 'Team One')
-        self.assertIn('testuser', str(player))
+        self.assertEqual(player.team.name, "Team One")
+        self.assertIn("testuser", str(player))
 
     def test_tournament_creation(self):
         """Verifica que el torneo se crea correctamente y su estado inicial es 'Upcoming'."""
-        self.assertEqual(self.tournament.name, 'Test Tournament')
-        self.assertEqual(str(self.tournament), 'Test Tournament (Upcoming)')
+        self.assertEqual(self.tournament.name, "Test Tournament")
+        self.assertEqual(str(self.tournament), "Test Tournament (Upcoming)")
 
     def test_tournament_team_unique(self):
         """
@@ -67,7 +68,7 @@ class ModelTests(TestCase):
             round=1,
             team1=self.team1,
             team2=self.team2,
-            scheduled_at=timezone.now() + timedelta(days=2)
+            scheduled_at=timezone.now() + timedelta(days=2),
         )
         self.assertIn("Partido", str(match))
 
@@ -78,13 +79,10 @@ class ModelTests(TestCase):
             round=1,
             team1=self.team1,
             team2=self.team2,
-            scheduled_at=timezone.now() + timedelta(days=2)
+            scheduled_at=timezone.now() + timedelta(days=2),
         )
         result = MatchResult.objects.create(
-            match=match,
-            winner=self.team1,
-            team1_score=3,
-            team2_score=1
+            match=match, winner=self.team1, team1_score=3, team2_score=1
         )
         self.assertEqual(result.winner, self.team1)
         self.assertIn("Resultado:", str(result))
@@ -97,13 +95,10 @@ class ModelTests(TestCase):
             round=1,
             team1=self.team1,
             team2=self.team2,
-            scheduled_at=timezone.now() + timedelta(days=2)
+            scheduled_at=timezone.now() + timedelta(days=2),
         )
         log = MatchLog.objects.create(
-            match=match,
-            player=player,
-            team=self.team1,
-            event="Kill event"
+            match=match, player=player, team=self.team1, event="Kill event"
         )
         self.assertIn("Kill event", str(log))
 

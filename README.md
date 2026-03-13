@@ -255,4 +255,26 @@ Puedes hacer login con:
 |---------|------------|
 | admin   | admin      |
 
+### Formato de código (Black)
+
+El proyecto usa Black para mantener un estilo de código consistente.
+
+Comandos útiles:
+
+```sh
+# Formatear todo el proyecto
+python -m black .
+
+# Solo validar formato (sin modificar archivos)
+python -m black --check .
+```
+
+Si usas entorno virtual en Windows:
+
+```powershell
+.\.venv\Scripts\python.exe -m black .
+```
+
+También existe un check automático en CI (`Black format check`) antes del build y despliegue.
+
 

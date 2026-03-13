@@ -1,5 +1,28 @@
 # ✅ Tests de Modelos (`test_models.py`)
 
+## 🎨 Calidad de código (Black)
+
+Además de los tests funcionales, el proyecto valida el formato Python con Black.
+
+Comandos:
+
+```sh
+# Aplicar formato
+python -m black .
+
+# Validar formato sin modificar archivos
+python -m black --check .
+```
+
+En CI se ejecuta el check de Black antes del build y del despliegue.
+
+Si quieres automatizarlo localmente antes de cada commit:
+
+```sh
+python -m pip install pre-commit
+python -m pre_commit install
+```
+
 Este archivo contiene pruebas unitarias para verificar que los modelos del sistema funcionen correctamente.
 
 ---

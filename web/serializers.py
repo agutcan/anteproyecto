@@ -30,23 +30,25 @@ from .models import *
 #         model = Tournament
 #         fields = ["id", "title", "game", "start"]
 
+
 class PlayerStatsSerializer(serializers.ModelSerializer):
     """Serializador para estadísticas públicas de jugadores
-    
+
     Atributos expuestos:
         username (str): Nombre de usuario obtenido del modelo User relacionado
         games_won (int): Número total de partidas ganadas
         winrate (float): Porcentaje de victorias (0-100)
-    
+
     Uso típico:
         - Tablas de clasificación
         - Perfiles públicos de jugadores
         - Componentes de estadísticas
     """
+
     username = serializers.CharField(
-        source='user.username',
+        source="user.username",
     )
 
     class Meta:
         model = Player
-        fields = ['username', 'games_won', 'winrate']
+        fields = ["username", "games_won", "winrate"]

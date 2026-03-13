@@ -10,10 +10,22 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, FormView, DetailView, CreateView, UpdateView
+from django.views.generic import (
+    ListView,
+    TemplateView,
+    FormView,
+    DetailView,
+    CreateView,
+    UpdateView,
+)
 from rest_framework import generics
 
-from .functions import record_match_result, create_match_log, update_players_stats, increase_player_renombre
+from .functions import (
+    record_match_result,
+    create_match_log,
+    update_players_stats,
+    increase_player_renombre,
+)
 from .serializers import *
 from web.models import *
 from django.core.mail import send_mail
@@ -22,10 +34,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.db.models import Prefetch
 
-
-
 # Create your views here.
-
 
 
 # class TournamentListAPI(generics.ListAPIView):
@@ -54,11 +63,12 @@ from django.db.models import Prefetch
 #                 QuerySet: Torneos con sus relaciones precargadas para mejor performance
 #             """
 #             return super().get_queryset().select_related('created_by')
-        
+
+
 class PlayerStatsListAPI(generics.ListAPIView):
     """
     API endpoint que permite ver las estadísticas de todos los jugadores en formato JSON.
-    
+
     Hereda de ListAPIView para proporcionar un endpoint de solo lectura (GET).
     Utiliza PlayerStatsSerializer para convertir los objetos Player a formato JSON.
 
@@ -69,22 +79,24 @@ class PlayerStatsListAPI(generics.ListAPIView):
     Métodos heredados de ListAPIView:
         get: Maneja las solicitudes GET y devuelve la lista de jugadores serializados.
     """
+
     queryset = Player.objects.all()
     serializer_class = PlayerStatsSerializer
 
     def get_queryset(self):
         """
         Opcional: Sobrescribe el queryset base para agregar filtros o optimizaciones.
-        
+
         Returns:
             QuerySet: Conjunto de jugadores potencialmente filtrado/optimizado.
         """
-        return super().get_queryset().select_related('team')
+        return super().get_queryset().select_related("team")
+
 
 class IndexView(TemplateView):
     """
     Vista principal que muestra la página de inicio de la aplicación.
-    
+
     Requiere que el usuario esté autenticado (heredando de LoginRequiredMixin)
     y muestra una lista de todos los juegos disponibles en el sistema.
 
@@ -94,7 +106,8 @@ class IndexView(TemplateView):
     Métodos:
         get_context_data(**kwargs): Añade la lista de juegos al contexto de renderizado.
     """
-    template_name = 'web/index.html'
+
+    template_name = "web/index.html"
 
     def get_context_data(self, **kwargs):
         """
@@ -107,62 +120,69 @@ class IndexView(TemplateView):
             dict: Contexto enriquecido con la lista de todos los juegos.
         """
         context = super().get_context_data(**kwargs)
-        context['game_list'] = Game.objects.all()
+        context["game_list"] = Game.objects.all()
         return context
+
 
 class PrivacyPolicyView(TemplateView):
     """
     Vista que muestra la política de privacidad del sitio web.
-    
+
     Hereda de TemplateView para renderizar una plantilla HTML estática
     que contiene los términos y condiciones de privacidad de la plataforma.
 
     Atributos:
         template_name (str): Ruta a la plantilla que contiene el contenido HTML de la política de privacidad.
     """
-    template_name = 'web/privacy_policy.html'
+
+    template_name = "web/privacy_policy.html"
+
 
 class TermsOfUseView(TemplateView):
     """
     Vista para mostrar los Términos y Condiciones de Uso de la plataforma.
-    
+
     Renderiza una plantilla estática con el contenido legal de los términos de servicio.
     Ideal para cumplir con requisitos legales y de transparencia con los usuarios.
 
     Atributos:
         template_name (str): Ruta al template HTML que contiene los términos de uso.
     """
-    template_name = 'web/terms_of_use.html'
+
+    template_name = "web/terms_of_use.html"
+
 
 class FaqView(TemplateView):
     """
     Vista para la página de Preguntas Frecuentes (FAQ) de la plataforma.
-    
+
     Muestra contenido estático organizado por categorías de preguntas y respuestas.
     Permite agregar lógica dinámica para FAQs personalizadas según el perfil del usuario.
 
     Atributos:
         template_name (str): Ruta al template HTML ('web/templates/web/faq.html')
-     """
+    """
 
-    template_name = 'web/faq.html'
+    template_name = "web/faq.html"
+
 
 class RankingView(LoginRequiredMixin, ListView):
     """
     Vista que muestra el ranking de jugadores ordenado por MMR (Match Making Rating).
-    
+
     Requiere autenticación (LoginRequiredMixin) y muestra una lista paginada de jugadores
     ordenados por su puntuación MMR de mayor a menor.
 
     Atributos:
         template_name (str): Ruta al template que muestra el ranking (web/ranking.html)
-        
+
     Métodos:
         get_context_data: Añade al contexto la lista de jugadores ordenada y paginada
     """
+
     model = Player
-    template_name = 'web/ranking.html'
-    context_object_name = 'ranking_list'
+    template_name = "web/ranking.html"
+    context_object_name = "ranking_list"
     paginate_by = 10
 
     def get_queryset(self):
@@ -173,20 +193,20 @@ class RankingView(LoginRequiredMixin, ListView):
         Returns:
             QuerySet: Jugadores ordenados por MMR
         """
-        return Player.objects.order_by('-mmr').select_related('user')
+        return Player.objects.order_by("-mmr").select_related("user")
 
 
 class TournamentListView(LoginRequiredMixin, ListView):
     """
     Vista que muestra una lista paginada de torneos con capacidades de filtrado.
-    
+
     Requiere autenticación (LoginRequiredMixin) y proporciona funcionalidad para filtrar
     torneos por nombre, juego asociado y estado del torneo.
 
     También optimiza las consultas a la base de datos utilizando `select_related` y `prefetch_related`
     para evitar el problema N+1 y mejorar el rendimiento al acceder a relaciones entre torneos, juegos,
     equipos y jugadores.
-    
+
     Atributos:
         model (Model): Modelo Tournament que representa los torneos
         template_name (str): Ruta al template que renderiza la lista (web/tournament_list.html)
@@ -196,9 +216,10 @@ class TournamentListView(LoginRequiredMixin, ListView):
         get_queryset: Personaliza el QuerySet base añadiendo filtros según parámetros GET
         get_context_data: Añade al contexto la lista de juegos disponibles
     """
+
     model = Tournament
-    template_name = 'web/tournament_list.html'
-    context_object_name = 'tournament_list'
+    template_name = "web/tournament_list.html"
+    context_object_name = "tournament_list"
 
     def get_queryset(self):
         """
@@ -215,27 +236,31 @@ class TournamentListView(LoginRequiredMixin, ListView):
         Returns:
             QuerySet: Torneos filtrados según los parámetros recibidos
         """
-        queryset = Tournament.objects.all().select_related('game').prefetch_related(
-            Prefetch(
-                'tournamentteam_set',
-                queryset=TournamentTeam.objects.select_related('team').prefetch_related(
-                    Prefetch('team__player_set')
+        queryset = (
+            Tournament.objects.all()
+            .select_related("game")
+            .prefetch_related(
+                Prefetch(
+                    "tournamentteam_set",
+                    queryset=TournamentTeam.objects.select_related("team").prefetch_related(
+                        Prefetch("team__player_set")
+                    ),
                 )
             )
         )
 
         # Filtrar por nombre de torneo
-        search_term = self.request.GET.get('search', '')
+        search_term = self.request.GET.get("search", "")
         if search_term:
             queryset = queryset.filter(name__icontains=search_term)
 
         # Filtrar por juego
-        game_filter = self.request.GET.get('game', '')
+        game_filter = self.request.GET.get("game", "")
         if game_filter:
             queryset = queryset.filter(game__id=game_filter)
 
         # Filtrar por estado
-        status_filter = self.request.GET.get('status', '')
+        status_filter = self.request.GET.get("status", "")
         if status_filter:
             queryset = queryset.filter(status=status_filter)
 
@@ -255,14 +280,14 @@ class TournamentListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         games = Game.objects.all()
 
-        context['games'] = games
+        context["games"] = games
         return context
 
 
 class MyTournamentListView(LoginRequiredMixin, ListView):
     """
     Vista que muestra la lista de torneos en los que participa el equipo del jugador actual.
-    
+
     Requiere autenticación y muestra solo los torneos donde el equipo del jugador
     está registrado. Si el jugador no tiene equipo asociado, devuelve una lista vacía.
 
@@ -274,32 +299,31 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
     Métodos:
         get_queryset: Filtra los torneos donde participa el equipo del jugador
     """
+
     model = Tournament
-    template_name = 'web/my_tournament_list.html'
-    context_object_name = 'tournament_list'
+    template_name = "web/my_tournament_list.html"
+    context_object_name = "tournament_list"
 
     def get_queryset(self):
         """
         Obtiene los torneos asociados al equipo del jugador actual.
-        
+
         Returns:
             QuerySet: Torneos donde participa el equipo del jugador o queryset vacío si:
                      - No existe jugador
                      - El jugador no tiene equipo
         """
-        player = get_object_or_404(Player, pk=self.kwargs['pk'])
+        player = get_object_or_404(Player, pk=self.kwargs["pk"])
 
         if player and player.team:
-            return Tournament.objects.filter(
-                tournamentteam__team=player.team
-            ).distinct()
+            return Tournament.objects.filter(tournamentteam__team=player.team).distinct()
         return Tournament.objects.none()
 
 
 class GameListView(LoginRequiredMixin, ListView):
     """
     Vista que muestra una lista paginada de todos los juegos disponibles en la plataforma.
-    
+
     Requiere que el usuario esté autenticado (LoginRequiredMixin) y muestra un listado
     completo de juegos registrados en el sistema.
 
@@ -311,18 +335,20 @@ class GameListView(LoginRequiredMixin, ListView):
     Métodos:
         get_queryset: Retorna todos los juegos sin filtros adicionales
     """
+
     model = Game
-    template_name = 'web/game_list.html'
-    context_object_name = 'game_list'
+    template_name = "web/game_list.html"
+    context_object_name = "game_list"
 
     def get_queryset(self):
         """
         Obtiene el QuerySet base de todos los juegos registrados en el sistema.
-        
+
         Returns:
             QuerySet: Todos los objetos Game existentes en la base de datos
         """
         return Game.objects.all()
+
 
 class TournamentDetailView(LoginRequiredMixin, DetailView):
     """
@@ -347,9 +373,10 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
         get_object: Obtiene el objeto Tournament basado en los parámetros de la URL
         get_context_data: Proporciona el contexto para renderizar el template
     """
+
     model = Tournament
-    template_name = 'web/tournament_detail.html'
-    context_object_name = 'tournament'
+    template_name = "web/tournament_detail.html"
+    context_object_name = "tournament"
 
     def get_context_data(self, **kwargs):
         """
@@ -368,7 +395,7 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
                 - tournament_teams: Lista de objetos tournamentTeams con los datos de los equipos que participan en el torneo
         """
         context = super().get_context_data(**kwargs)
-        tournament = context['tournament']
+        tournament = context["tournament"]
         user = self.request.user
 
         is_registered = False
@@ -376,31 +403,33 @@ class TournamentDetailView(LoginRequiredMixin, DetailView):
 
         if user.is_authenticated:
             try:
-                player = Player.objects.select_related('team').get(user=user)
+                player = Player.objects.select_related("team").get(user=user)
                 is_registered = TournamentTeam.objects.filter(
-                    tournament=tournament,
-                    team__player=player
+                    tournament=tournament, team__player=player
                 ).exists()
             except Player.DoesNotExist:
                 is_registered = False
 
         # Pre-cargar equipos del torneo con sus jugadores y usuarios
-        tournament_teams = TournamentTeam.objects.filter(tournament=tournament).select_related(
-            'team'
-        ).prefetch_related(
-        Prefetch('team__player_set', queryset=Player.objects.select_related('user'))
-    )
+        tournament_teams = (
+            TournamentTeam.objects.filter(tournament=tournament)
+            .select_related("team")
+            .prefetch_related(
+                Prefetch("team__player_set", queryset=Player.objects.select_related("user"))
+            )
+        )
 
-        context['is_registered'] = is_registered
-        context['player'] = player
-        context['tournament_teams'] = tournament_teams
+        context["is_registered"] = is_registered
+        context["player"] = player
+        context["tournament_teams"] = tournament_teams
 
         return context
+
 
 class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
     """
     Vista que muestra el perfil detallado de un jugador específico.
-    
+
     Requiere que el usuario esté autenticado (LoginRequiredMixin) para acceder
     a la información del perfil. Muestra los datos del jugador obtenidos a través
     del modelo Player.
@@ -416,14 +445,16 @@ class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
         get_object: Obtiene el objeto Player basado en los parámetros de la URL
         get_context_data: Proporciona el contexto para renderizar el template
     """
+
     model = Player
-    template_name = 'web/player_profile_detail.html'
-    context_object_name = 'player'
+    template_name = "web/player_profile_detail.html"
+    context_object_name = "player"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.player.pk != kwargs['pk']:
-            return redirect('web:playerProfileDetailView', pk=request.user.player.pk)
+        if request.user.player.pk != kwargs["pk"]:
+            return redirect("web:playerProfileDetailView", pk=request.user.player.pk)
         return super().dispatch(request, *args, **kwargs)
+
 
 class PlayerUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -441,13 +472,14 @@ class PlayerUpdateView(LoginRequiredMixin, UpdateView):
         get_context_data: Añade el objeto Player al contexto
         get_success_url: Define la URL de redirección tras actualización exitosa
     """
+
     model = Player
     form_class = PlayerForm
-    template_name = 'web/player_profile_update.html'
+    template_name = "web/player_profile_update.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.player.pk != kwargs['pk']:
-            return redirect('web:playerUpdateView', pk=request.user.player.pk)
+        if request.user.player.pk != kwargs["pk"]:
+            return redirect("web:playerUpdateView", pk=request.user.player.pk)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -461,7 +493,7 @@ class PlayerUpdateView(LoginRequiredMixin, UpdateView):
             dict: Contexto enriquecido con el objeto Player
         """
         context = super().get_context_data(**kwargs)
-        context['player'] = Player.objects.get(user=self.request.user)
+        context["player"] = Player.objects.get(user=self.request.user)
         return context
 
     def get_success_url(self):
@@ -471,7 +503,7 @@ class PlayerUpdateView(LoginRequiredMixin, UpdateView):
         Returns:
             str: URL para redirigir al detalle del perfil del jugador
         """
-        return reverse('web:playerProfileDetailView', kwargs={'pk': self.kwargs['pk']})
+        return reverse("web:playerProfileDetailView", kwargs={"pk": self.kwargs["pk"]})
 
 
 class RewardListView(LoginRequiredMixin, ListView):
@@ -490,9 +522,10 @@ class RewardListView(LoginRequiredMixin, ListView):
     Métodos heredados de ListView:
         get_queryset: Retorna todos los objetos Reward sin filtros
     """
+
     model = Reward
-    template_name = 'web/reward.html'
-    context_object_name = 'reward_list'
+    template_name = "web/reward.html"
+    context_object_name = "reward_list"
 
     def get_queryset(self):
         """
@@ -506,23 +539,24 @@ class RewardListView(LoginRequiredMixin, ListView):
 
 class JoinTeamInTournamentListView(LoginRequiredMixin, ListView):
     """
-        Vista que muestra la lista de equipos disponibles para unirse en un torneo específico.
+    Vista que muestra la lista de equipos disponibles para unirse en un torneo específico.
 
-        Requiere autenticación y muestra los equipos inscritos en un torneo
-        que están buscando compañeros de equipo.
+    Requiere autenticación y muestra los equipos inscritos en un torneo
+    que están buscando compañeros de equipo.
 
-        Atributos:
-            model (Model): Modelo TournamentTeam que contiene las relaciones torneo-equipo
-            template_name (str): Ruta al template que muestra la lista
-            context_object_name (str): Nombre de la variable de contexto para la lista
+    Atributos:
+        model (Model): Modelo TournamentTeam que contiene las relaciones torneo-equipo
+        template_name (str): Ruta al template que muestra la lista
+        context_object_name (str): Nombre de la variable de contexto para la lista
 
-        Métodos:
-            get_queryset: Obtiene los equipos inscritos en el torneo
-            get_context_data: Añade información adicional al contexto
-        """
+    Métodos:
+        get_queryset: Obtiene los equipos inscritos en el torneo
+        get_context_data: Añade información adicional al contexto
+    """
+
     model = TournamentTeam
-    template_name = 'web/join_team.html'
-    context_object_name = 'team_list'
+    template_name = "web/join_team.html"
+    context_object_name = "team_list"
 
     def get_queryset(self):
         """
@@ -531,7 +565,7 @@ class JoinTeamInTournamentListView(LoginRequiredMixin, ListView):
         Returns:
             QuerySet: Equipos inscritos en el torneo especificado
         """
-        tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
+        tournament = get_object_or_404(Tournament, pk=self.kwargs["pk"])
         return TournamentTeam.objects.filter(tournament=tournament)
 
     def get_context_data(self, **kwargs):
@@ -547,16 +581,16 @@ class JoinTeamInTournamentListView(LoginRequiredMixin, ListView):
             dict: Contexto enriquecido para el template
         """
         context = super().get_context_data(**kwargs)
-        tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
+        tournament = get_object_or_404(Tournament, pk=self.kwargs["pk"])
 
         tournament_teams = TournamentTeam.objects.filter(
-            tournament=tournament,
-            team__searching_teammates=True
+            tournament=tournament, team__searching_teammates=True
         )
 
-        context['tournament'] = tournament
-        context['team_list'] = tournament_teams
+        context["tournament"] = tournament
+        context["team_list"] = tournament_teams
         return context
+
 
 class JoinTeamView(LoginRequiredMixin, View):
     """
@@ -565,19 +599,20 @@ class JoinTeamView(LoginRequiredMixin, View):
     """
 
     def post(self, request, *args, **kwargs):
-        team_id = kwargs.get('pk')
+        team_id = kwargs.get("pk")
         team = get_object_or_404(Team, pk=team_id)
         player = get_object_or_404(Player, user=request.user)
 
         if player.team:
             messages.error(request, "Ya perteneces a un equipo.")
-            return redirect('web:playerTeamDetailView', pk=player.pk)
+            return redirect("web:playerTeamDetailView", pk=player.pk)
 
         player.team = team
         player.save()
 
         messages.success(request, f"Te has unido al equipo '{team.name}' correctamente.")
-        return redirect('web:playerTeamDetailView', pk=player.pk)
+        return redirect("web:playerTeamDetailView", pk=player.pk)
+
 
 class PremiumView(LoginRequiredMixin, TemplateView):
     """
@@ -592,7 +627,8 @@ class PremiumView(LoginRequiredMixin, TemplateView):
     Métodos:
         get_context_data: Añade al contexto el objeto Player del usuario actual
     """
-    template_name = 'web/premium.html'
+
+    template_name = "web/premium.html"
 
     def get_context_data(self, **kwargs):
         """
@@ -602,13 +638,14 @@ class PremiumView(LoginRequiredMixin, TemplateView):
             dict: Contexto con el objeto Player del usuario autenticado
         """
         context = super().get_context_data(**kwargs)
-        context['player'] = Player.objects.get(user=self.request.user)
+        context["player"] = Player.objects.get(user=self.request.user)
         return context
+
 
 class UpgradeToPremiumView(LoginRequiredMixin, View):
     """
     Vista que actualiza el rol del jugador a Premium de forma gratuita.
-    
+
     Requiere autenticación (LoginRequiredMixin) y realiza la conversión
     del rol del jugador a Premium cuando se accede a la vista mediante GET.
     Redirige a la página de Premium después de la actualización.
@@ -616,29 +653,33 @@ class UpgradeToPremiumView(LoginRequiredMixin, View):
     Métodos:
         get: Realiza la actualización del rol y redirecciona
     """
+
     def get(self, request, *args, **kwargs):
         """
         Actualiza el rol del jugador a Premium y redirige.
-        
+
         Returns:
             HttpResponseRedirect: Redirección a la vista premiumView
         """
         player = Player.objects.get(user=request.user)
         player.role = Player.PREMIUM
         player.save()
-        return redirect(reverse_lazy('web:premiumView'))
+        return redirect(reverse_lazy("web:premiumView"))
+
 
 class HowItWorkView(LoginRequiredMixin, TemplateView):
     """
     Vista que muestra la página de "Cómo funciona" de la plataforma.
-    
+
     Requiere autenticación (LoginRequiredMixin) y renderiza una plantilla estática
     con información sobre el funcionamiento de la plataforma.
 
     Atributos:
         template_name (str): Ruta al template que contiene la explicación
     """
-    template_name = 'web/how_it_work.html'
+
+    template_name = "web/how_it_work.html"
+
 
 class GameDetailView(LoginRequiredMixin, DetailView):
     """
@@ -656,9 +697,10 @@ class GameDetailView(LoginRequiredMixin, DetailView):
         get_object: Obtiene el objeto Game basado en los parámetros de la URL
         get_context_data: Proporciona el contexto para renderizar el template
     """
+
     model = Game
-    template_name = 'web/game_detail.html'
-    context_object_name = 'game'
+    template_name = "web/game_detail.html"
+    context_object_name = "game"
 
     def get_context_data(self, **kwargs):
         """
@@ -674,10 +716,10 @@ class GameDetailView(LoginRequiredMixin, DetailView):
         game = self.get_object()
 
         # Contar torneos finalizados asociados a este juego
-        finalized_tournaments_count = game.tournament_set.filter(status='completed').count()
+        finalized_tournaments_count = game.tournament_set.filter(status="completed").count()
 
         # Lo agregamos al contexto
-        context['finalized_tournaments_count'] = finalized_tournaments_count
+        context["finalized_tournaments_count"] = finalized_tournaments_count
         return context
 
 
@@ -691,7 +733,7 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
 
     model = Tournament
     form_class = TournamentForm
-    template_name = 'web/tournament_create.html'
+    template_name = "web/tournament_create.html"
 
     def form_valid(self, form):
         """
@@ -707,14 +749,14 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
 
             # Enviar correo de confirmación
             send_mail(
-                subject='🎮 Torneo creado en ArenaGG',
+                subject="🎮 Torneo creado en ArenaGG",
                 message=f'Hola {self.request.user.username},\n\nHas creado el torneo "{tournament.name}" para {tournament.max_teams} equipos.\n\nFecha: {tournament.start_date.strftime("%d/%m/%Y")}',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[self.request.user.email],
                 fail_silently=True,
             )
 
-            return redirect('web:tournamentListView')
+            return redirect("web:tournamentListView")
 
         except ValidationError as e:
             # Captura errores de validación del modelo y los muestra en el formulario
@@ -746,8 +788,9 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
         form_valid: Procesa el formulario válido creando las relaciones necesarias
         get_context_data: Añade el torneo al contexto del template
     """
+
     model = Team
-    template_name = 'web/team_create_in_tournament.html'
+    template_name = "web/team_create_in_tournament.html"
     form_class = TeamForm
 
     def dispatch(self, request, *args, **kwargs):
@@ -762,7 +805,7 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
         Returns:
             HttpResponse: Respuesta del método dispatch de la superclase
         """
-        self.tournament = get_object_or_404(Tournament, pk=self.kwargs['pk'])
+        self.tournament = get_object_or_404(Tournament, pk=self.kwargs["pk"])
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -781,7 +824,7 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
         """
         team = form.save()
         TournamentTeam.objects.create(tournament=self.tournament, team=team)
-        
+
         player = Player.objects.filter(user=self.request.user).first()
         if player:
             player.team = team
@@ -791,7 +834,7 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
             player.save()
             team.save()
 
-        return redirect('web:tournamentDetailView', pk=self.tournament.pk)
+        return redirect("web:tournamentDetailView", pk=self.tournament.pk)
 
     def get_context_data(self, **kwargs):
         """
@@ -804,8 +847,9 @@ class TeamCreateInTournamentView(LoginRequiredMixin, CreateView):
             dict: Contexto enriquecido con el objeto Tournament
         """
         context = super().get_context_data(**kwargs)
-        context['tournament'] = self.tournament
+        context["tournament"] = self.tournament
         return context
+
 
 class TeamCreateView(LoginRequiredMixin, CreateView):
     """
@@ -822,8 +866,9 @@ class TeamCreateView(LoginRequiredMixin, CreateView):
     Métodos:
         form_valid: Procesa el formulario válido creando el equipo y asignando al usuario
     """
+
     model = Team
-    template_name = 'web/team_create.html'
+    template_name = "web/team_create.html"
     form_class = TeamForm
 
     def form_valid(self, form):
@@ -847,7 +892,7 @@ class TeamCreateView(LoginRequiredMixin, CreateView):
             player.save()
             team.save()
 
-        return redirect('web:playerTeamDetailView', pk=player.id)
+        return redirect("web:playerTeamDetailView", pk=player.id)
 
 
 class TeamDeleteView(LoginRequiredMixin, View):
@@ -861,6 +906,7 @@ class TeamDeleteView(LoginRequiredMixin, View):
     Métodos:
         post: Maneja la solicitud de eliminación con las validaciones correspondientes
     """
+
     def post(self, request, *args, **kwargs):
         """
         Procesa la solicitud de eliminación de equipo realizando:
@@ -877,19 +923,22 @@ class TeamDeleteView(LoginRequiredMixin, View):
         Returns:
             HttpResponseRedirect: Redirección a la vista de detalle del jugador
         """
-        team = get_object_or_404(Team, pk=kwargs['pk'])
+        team = get_object_or_404(Team, pk=kwargs["pk"])
 
         if team.leader.user != request.user:
             messages.error(request, "No tienes permiso para eliminar este equipo.")
-            return redirect('web:playerTeamDetailView', pk=request.user.player.pk)
+            return redirect("web:playerTeamDetailView", pk=request.user.player.pk)
 
         if TournamentTeam.objects.filter(team=team).exists():
-            messages.error(request, "No se puede eliminar el equipo porque está inscrito en un torneo.")
-            return redirect('web:playerTeamDetailView', pk=request.user.player.pk)
+            messages.error(
+                request, "No se puede eliminar el equipo porque está inscrito en un torneo."
+            )
+            return redirect("web:playerTeamDetailView", pk=request.user.player.pk)
 
         team.delete()
         messages.success(request, "El equipo ha sido eliminado exitosamente.")
-        return redirect('web:playerTeamDetailView', pk=request.user.player.pk)
+        return redirect("web:playerTeamDetailView", pk=request.user.player.pk)
+
 
 class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
     """
@@ -902,6 +951,7 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
     Métodos:
         post: Maneja la solicitud de cambio de estado con todas las validaciones
     """
+
     def post(self, request, pk, *args, **kwargs):
         """
         Procesa la solicitud de cambio de estado de búsqueda realizando:
@@ -925,44 +975,41 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
 
         if team.leader != player:
             messages.error(request, "No tienes permiso para modificar este equipo.")
-            return redirect('web:playerTeamDetailView', pk=player.pk)
+            return redirect("web:playerTeamDetailView", pk=player.pk)
 
         if not team.searching_teammates:
             completed_tournaments = Tournament.objects.filter(
-                tournamentteam__team=team,
-                status='completed'
+                tournamentteam__team=team, status="completed"
             )
 
             if completed_tournaments.exists():
                 messages.error(
                     request,
-                    "No puedes activar la búsqueda de jugadores porque el equipo ya ha participado en un torneo."
+                    "No puedes activar la búsqueda de jugadores porque el equipo ya ha participado en un torneo.",
                 )
-                return redirect('web:playerTeamDetailView', pk=player.pk)
+                return redirect("web:playerTeamDetailView", pk=player.pk)
 
             ongoing_tournaments = Tournament.objects.filter(
-                tournamentteam__team=team,
-                status='ongoing'
+                tournamentteam__team=team, status="ongoing"
             )
             if ongoing_tournaments.exists():
                 messages.error(
                     request,
-                    "No puedes activar la búsqueda de jugadores mientras el equipo esté participando en un torneo en curso."
+                    "No puedes activar la búsqueda de jugadores mientras el equipo esté participando en un torneo en curso.",
                 )
-                return redirect('web:playerTeamDetailView', pk=player.pk)
+                return redirect("web:playerTeamDetailView", pk=player.pk)
 
             upcoming_tournaments = Tournament.objects.filter(
-                tournamentteam__team=team,
-                status='upcoming'
+                tournamentteam__team=team, status="upcoming"
             )
             if upcoming_tournaments.exists():
                 for tournament in upcoming_tournaments:
                     if team.player_set.count() >= tournament.max_player_per_team:
                         messages.error(
                             request,
-                            f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'."
+                            f"No puedes activar la búsqueda de jugadores porque el equipo ya está completo en el torneo '{tournament.name}'.",
                         )
-                        return redirect('web:playerTeamDetailView', pk=player.pk)
+                        return redirect("web:playerTeamDetailView", pk=player.pk)
 
         team.searching_teammates = not team.searching_teammates
         team.save()
@@ -972,28 +1019,30 @@ class ToggleSearchingTeammatesView(LoginRequiredMixin, View):
         else:
             messages.success(request, "La búsqueda de jugadores ha sido desactivada.")
 
-        return redirect('web:playerTeamDetailView', pk=player.pk)
+        return redirect("web:playerTeamDetailView", pk=player.pk)
+
 
 class LeaveTeamView(LoginRequiredMixin, View):
     """
-        Vista para que los jugadores se unan a equipos disponibles.
+    Vista para que los jugadores se unan a equipos disponibles.
 
-        Requiere autenticación y permite:
-        - Ver lista de equipos buscando jugadores (GET)
-        - Unirse a un equipo específico (POST)
+    Requiere autenticación y permite:
+    - Ver lista de equipos buscando jugadores (GET)
+    - Unirse a un equipo específico (POST)
 
-        Métodos:
-            get: Muestra lista de equipos disponibles
-            post: Procesa la solicitud de unión a equipo
-        """
+    Métodos:
+        get: Muestra lista de equipos disponibles
+        post: Procesa la solicitud de unión a equipo
+    """
+
     def post(self, request, *args, **kwargs):
-        player_id = kwargs.get('pk')
+        player_id = kwargs.get("pk")
         player = get_object_or_404(Player, pk=player_id)
 
         recipient_email = player.team.leader.user.email
         if not recipient_email:
             messages.error(request, "No se proporcionó una dirección de correo.")
-            return redirect('web:playerTeamDetailView', pk=player_id)
+            return redirect("web:playerTeamDetailView", pk=player_id)
 
         subject = "Quiero abandonar el equipo."
         message = f"Deseo abandonar el equipo. ¿Podrías expulsarme?"
@@ -1005,12 +1054,13 @@ class LeaveTeamView(LoginRequiredMixin, View):
         except Exception as e:
             messages.error(request, f"No se pudo enviar la petición: {e}")
 
-        return redirect('web:playerTeamDetailView', pk=player_id)
+        return redirect("web:playerTeamDetailView", pk=player_id)
+
 
 class TeamJoinListView(LoginRequiredMixin, ListView):
     model = Team
-    template_name = 'web/team_join.html'
-    context_object_name = 'teams'
+    template_name = "web/team_join.html"
+    context_object_name = "teams"
 
     def get_queryset(self):
         # Solo equipos que están buscando jugadores
@@ -1031,29 +1081,29 @@ class TeamJoinListView(LoginRequiredMixin, ListView):
         Returns:
             HttpResponseRedirect: Redirección a vista de detalle
         """
-        team_id = request.POST.get('team_id')
+        team_id = request.POST.get("team_id")
         team = get_object_or_404(Team, id=team_id)
         player = Player.objects.get(user=request.user)
 
         # Validar límite de jugadores por torneo
         upcoming_tournaments = Tournament.objects.filter(
-            tournamentteam__team=team,
-            status='upcoming'
+            tournamentteam__team=team, status="upcoming"
         ).distinct()
 
         for tournament in upcoming_tournaments:
             if team.player_set.count() >= tournament.max_player_per_team:
                 messages.error(
                     request,
-                    f"No puedes unirte porque el equipo ya está completo en el torneo '{tournament.name}'."
+                    f"No puedes unirte porque el equipo ya está completo en el torneo '{tournament.name}'.",
                 )
-                return redirect('web:teamJoinListView')
+                return redirect("web:teamJoinListView")
 
         # Unir al jugador al equipo
         player.team = team
         player.save()
 
-        return redirect('web:playerTeamDetailView', pk=player.pk)
+        return redirect("web:playerTeamDetailView", pk=player.pk)
+
 
 class TeamKickView(LoginRequiredMixin, View):
     """
@@ -1065,6 +1115,7 @@ class TeamKickView(LoginRequiredMixin, View):
     Métodos:
         post: Procesa la solicitud de expulsión con las validaciones correspondientes
     """
+
     def post(self, request, team_id, player_id, *args, **kwargs):
         """
         Procesa la solicitud POST para expulsar un jugador de un equipo:
@@ -1093,12 +1144,12 @@ class TeamKickView(LoginRequiredMixin, View):
             player.save()
             # Enviar correo de confirmación
             send_mail(
-                subject='Has sido expulsado!!',
+                subject="Has sido expulsado!!",
                 message=(
-                    f'Hola {player.user},\n\n'
-                    'Se te ha expulsado de tu equipo.\n\n'
-                    '¡Esperemos que este no sea un adios para siempre!\n\n'
-                    '- El equipo de ArenaGG'
+                    f"Hola {player.user},\n\n"
+                    "Se te ha expulsado de tu equipo.\n\n"
+                    "¡Esperemos que este no sea un adios para siempre!\n\n"
+                    "- El equipo de ArenaGG"
                 ),
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[player.user.email],
@@ -1106,9 +1157,13 @@ class TeamKickView(LoginRequiredMixin, View):
             )
             messages.success(request, "Has expulsado al jugador del equipo correctamente.")
         else:
-            messages.error(request, "El jugador que intentas expulsar no está en el equipo o el equipo ya está inscrito en algún torneo.")
+            messages.error(
+                request,
+                "El jugador que intentas expulsar no está en el equipo o el equipo ya está inscrito en algún torneo.",
+            )
 
-        return redirect('web:playerTeamDetailView', pk=team.leader.pk)
+        return redirect("web:playerTeamDetailView", pk=team.leader.pk)
+
 
 class RegisterView(FormView):
     """
@@ -1126,9 +1181,10 @@ class RegisterView(FormView):
     Métodos:
         form_valid: Procesa el formulario válido, crea usuario y perfil asociado
     """
-    template_name = 'registration/register.html'
+
+    template_name = "registration/register.html"
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('web:indexView')
+    success_url = reverse_lazy("web:indexView")
 
     def form_valid(self, form):
         """
@@ -1147,13 +1203,13 @@ class RegisterView(FormView):
         user = form.save()
         Player.objects.create(user=user)
         login(self.request, user)
-        
+
         send_mail(
-            subject='✅ ¡Bienvenido a ArenaGG!',
+            subject="✅ ¡Bienvenido a ArenaGG!",
             message=(
-                f'Hola {user.username},\n\n'
-                'Tu cuenta ha sido creada exitosamente.\n\n'
-                '- El equipo de ArenaGG'
+                f"Hola {user.username},\n\n"
+                "Tu cuenta ha sido creada exitosamente.\n\n"
+                "- El equipo de ArenaGG"
             ),
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[user.email],
@@ -1191,29 +1247,32 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
         Returns:
             HttpResponseRedirect: Redirección a la vista de detalle del torneo
         """
-        tournament_id = self.kwargs['pk']
+        tournament_id = self.kwargs["pk"]
         tournament = get_object_or_404(Tournament, pk=tournament_id)
         player = get_object_or_404(Player, user=request.user)
 
         team = player.team
         if not team:
             messages.warning(request, "No estás en ningún equipo.")
-            return redirect('web:tournamentDetailView', tournament.id)
+            return redirect("web:tournamentDetailView", tournament.id)
 
         tt = TournamentTeam.objects.filter(tournament=tournament, team=team).first()
         if not tt:
             messages.warning(request, "Tu equipo no pertenece a este torneo.")
-            return redirect('web:tournamentDetailView', tournament.id)
+            return redirect("web:tournamentDetailView", tournament.id)
 
         if player != team.leader:
-            messages.warning(request, "No eres el líder de tu equipo, no puedes realizar esta acción.")
-            return redirect('web:tournamentDetailView', tournament.id)
+            messages.warning(
+                request, "No eres el líder de tu equipo, no puedes realizar esta acción."
+            )
+            return redirect("web:tournamentDetailView", tournament.id)
 
         # Quitar al jugador del equipo
         tt.delete()
         messages.success(request, "Has abandonado el torneo.")
 
-        return redirect('web:tournamentDetailView', tournament.id)
+        return redirect("web:tournamentDetailView", tournament.id)
+
 
 class MatchDetailView(LoginRequiredMixin, DetailView):
     """
@@ -1234,9 +1293,10 @@ class MatchDetailView(LoginRequiredMixin, DetailView):
         get_object: Obtiene el objeto Match basado en los parámetros de la URL
         get_context_data: Proporciona el contexto para renderizar el template
     """
+
     model = Match
-    template_name = 'web/match_detail.html'
-    context_object_name = 'match'
+    template_name = "web/match_detail.html"
+    context_object_name = "match"
 
     def get_context_data(self, **kwargs):
         """
@@ -1256,25 +1316,26 @@ class MatchDetailView(LoginRequiredMixin, DetailView):
         is_team1_player = match.team1.player_set.filter(user=self.request.user).exists()
         is_team2_player = match.team2.player_set.filter(user=self.request.user).exists()
 
-        context['user_is_player'] = is_team1_player or is_team2_player
+        context["user_is_player"] = is_team1_player or is_team2_player
 
         if is_team1_player or is_team2_player:
             form = MatchResultForm()
-            form.fields['team1_score'].label = f"Puntaje de {match.team1.name}"
-            form.fields['team2_score'].label = f"Puntaje de {match.team2.name}"
-            context['form'] = form
+            form.fields["team1_score"].label = f"Puntaje de {match.team1.name}"
+            form.fields["team2_score"].label = f"Puntaje de {match.team2.name}"
+            context["form"] = form
 
         if is_team1_player:
-            context['team_ready'] = match.team1_ready
-            context['team_confirmed'] = match.team1_confirmed
+            context["team_ready"] = match.team1_ready
+            context["team_confirmed"] = match.team1_confirmed
         elif is_team2_player:
-            context['team_ready'] = match.team2_ready
-            context['team_confirmed'] = match.team2_confirmed
+            context["team_ready"] = match.team2_ready
+            context["team_confirmed"] = match.team2_confirmed
         else:
-            context['team_ready'] = False
-            context['team_confirmed'] = False
+            context["team_ready"] = False
+            context["team_confirmed"] = False
 
         return context
+
 
 class MatchConfirmView(LoginRequiredMixin, View):
     """
@@ -1289,6 +1350,7 @@ class MatchConfirmView(LoginRequiredMixin, View):
         get: Muestra el formulario de confirmación de resultados
         post: Procesa la confirmación del resultado con todas las validaciones
     """
+
     def dispatch(self, request, *args, **kwargs):
         """
         Prepara la vista obteniendo el partido asociado.
@@ -1301,7 +1363,7 @@ class MatchConfirmView(LoginRequiredMixin, View):
         Returns:
             HttpResponse: Respuesta del método dispatch de la superclase
         """
-        self.match = get_object_or_404(Match, pk=self.kwargs['pk'])
+        self.match = get_object_or_404(Match, pk=self.kwargs["pk"])
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -1325,63 +1387,66 @@ class MatchConfirmView(LoginRequiredMixin, View):
         form = MatchResultForm(request.POST)
 
         if not form.is_valid():
-            return render(request, 'web/match_detail.html', {
-                'form': form,
-                'match': match
-            })
+            return render(request, "web/match_detail.html", {"form": form, "match": match})
 
         # Verificar si el usuario pertenece a uno de los equipos
         user_team = request.user.player.team
         if user_team != match.team1 and user_team != match.team2:
-            return HttpResponse('No estás en ninguno de los equipos de este partido', status=403)
+            return HttpResponse("No estás en ninguno de los equipos de este partido", status=403)
 
-        winner = form.cleaned_data['winner']
-        team1_score = form.cleaned_data['team1_score']
-        team2_score = form.cleaned_data['team2_score']
+        winner = form.cleaned_data["winner"]
+        team1_score = form.cleaned_data["team1_score"]
+        team2_score = form.cleaned_data["team2_score"]
 
         # Verificar que el puntaje sea coherente con el ganador
-        if winner == 'team1' and team1_score <= team2_score:
+        if winner == "team1" and team1_score <= team2_score:
             send_mail(
-                'Inconsistencia en el puntaje del partido',
-                f'El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. Partido ID: {match.id}\n\n'
-                f'Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}',
+                "Inconsistencia en el puntaje del partido",
+                f"El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. Partido ID: {match.id}\n\n"
+                f"Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}",
                 settings.DEFAULT_FROM_EMAIL,  # Remitente
                 [settings.SUPPORT_EMAIL],  # Correo de soporte
-                fail_silently=False
+                fail_silently=False,
             )
-            messages.error(request,
-                           'El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. El administrador ha sido notificado.')
-            return render(request, 'web/match_detail.html', {
-                'form': form,
-                'match': match
-            })
+            messages.error(
+                request,
+                "El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. El administrador ha sido notificado.",
+            )
+            return render(request, "web/match_detail.html", {"form": form, "match": match})
 
-        elif winner == 'team2' and team2_score <= team1_score:
+        elif winner == "team2" and team2_score <= team1_score:
             send_mail(
-                'Inconsistencia en el puntaje del partido',
-                f'El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. Partido ID: {match.id}\n\n'
-                f'Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}',
+                "Inconsistencia en el puntaje del partido",
+                f"El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. Partido ID: {match.id}\n\n"
+                f"Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}",
                 settings.DEFAULT_FROM_EMAIL,  # Remitente
                 [settings.SUPPORT_EMAIL],  # Correo de soporte
-                fail_silently=False
+                fail_silently=False,
             )
-            messages.error(request,
-                           'El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. El administrador ha sido notificado.')
-            return render(request, 'web/match_detail.html', {
-                'form': form,
-                'match': match
-            })
+            messages.error(
+                request,
+                "El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. El administrador ha sido notificado.",
+            )
+            return render(request, "web/match_detail.html", {"form": form, "match": match})
 
         # Marcar la confirmación del equipo
         if user_team == match.team1:
             match.team1_confirmed = True
-            match.team1_winner = (winner == 'team1')
-            create_match_log(match, f"Equipo 1 ({match.team1.name}) ha confirmado el resultado. ({team1_score} - {team2_score})", team=match.team1)
+            match.team1_winner = winner == "team1"
+            create_match_log(
+                match,
+                f"Equipo 1 ({match.team1.name}) ha confirmado el resultado. ({team1_score} - {team2_score})",
+                team=match.team1,
+            )
 
         elif user_team == match.team2:
             match.team2_confirmed = True
-            match.team2_winner = (winner == 'team2')
-            create_match_log(match, f"Equipo 2 ({match.team2.name}) ha confirmado el resultado. ({team1_score} - {team2_score})", team=match.team2)
+            match.team2_winner = winner == "team2"
+            create_match_log(
+                match,
+                f"Equipo 2 ({match.team2.name}) ha confirmado el resultado. ({team1_score} - {team2_score})",
+                team=match.team2,
+            )
 
         # Verificar si ambos equipos han confirmado el resultado
         if match.team1_confirmed and match.team2_confirmed:
@@ -1389,48 +1454,58 @@ class MatchConfirmView(LoginRequiredMixin, View):
             if match.team1_winner == match.team2_winner:
                 # Enviar un correo de notificación al soporte si los equipos no están de acuerdo
                 send_mail(
-                    'Inconsistencia en el resultado del partido',
-                    f'El partido {match.id} tiene un desacuerdo entre los equipos sobre el ganador.\n\n'
-                    f'Equipo 1 seleccionado como ganador: {match.team1_winner}\n'
-                    f'Equipo 2 seleccionado como ganador: {match.team2_winner}',
+                    "Inconsistencia en el resultado del partido",
+                    f"El partido {match.id} tiene un desacuerdo entre los equipos sobre el ganador.\n\n"
+                    f"Equipo 1 seleccionado como ganador: {match.team1_winner}\n"
+                    f"Equipo 2 seleccionado como ganador: {match.team2_winner}",
                     settings.DEFAULT_FROM_EMAIL,  # Remitente
                     [settings.SUPPORT_EMAIL],  # Correo de soporte
-                    fail_silently=False
+                    fail_silently=False,
                 )
                 # Agregar el mensaje de error al formulario
-                messages.error(request, 'Los dos equipos no están de acuerdo sobre el ganador. El administrador ha sido notificado.')
-                return render(request, 'web/match_detail.html', {
-                    'form': form,
-                    'match': match
-                })
+                messages.error(
+                    request,
+                    "Los dos equipos no están de acuerdo sobre el ganador. El administrador ha sido notificado.",
+                )
+                return render(request, "web/match_detail.html", {"form": form, "match": match})
 
             # Si ambos equipos han confirmado y los resultados son coherentes
             if match.team1_winner:
                 match.winner = match.team1
                 update_players_stats(match.team1, is_winner=True)
-                update_players_stats(match.team2)  # Los jugadores del equipo perdedor también se actualizan
+                update_players_stats(
+                    match.team2
+                )  # Los jugadores del equipo perdedor también se actualizan
 
             elif match.team2_winner:
                 match.winner = match.team2
                 update_players_stats(match.team2, is_winner=True)
-                update_players_stats(match.team1)  # Los jugadores del equipo perdedor también se actualizan
+                update_players_stats(
+                    match.team1
+                )  # Los jugadores del equipo perdedor también se actualizan
 
             # Aumentar el renombre a todos los jugadores del partido
             for player in match.team1.player_set.all():
-                increase_player_renombre(player, amount=5, reason="Participación en partido completado con éxito")
+                increase_player_renombre(
+                    player, amount=5, reason="Participación en partido completado con éxito"
+                )
 
             for player in match.team2.player_set.all():
-                increase_player_renombre(player, amount=5, reason="Participación en partido completado con éxito")
-
+                increase_player_renombre(
+                    player, amount=5, reason="Participación en partido completado con éxito"
+                )
 
             # Llamar a la función `record_match_result` para guardar el resultado
             record_match_result(match, match.winner, team1_score, team2_score)
-            create_match_log(match, f"El partido ha sido completado. Ganador: {match.winner.name}. ({team1_score} - {team2_score})")
+            create_match_log(
+                match,
+                f"El partido ha sido completado. Ganador: {match.winner.name}. ({team1_score} - {team2_score})",
+            )
 
         match.save()
 
         # Redirigir a la vista de detalles del partido
-        return redirect('web:matchDetailView', pk=match.id)
+        return redirect("web:matchDetailView", pk=match.id)
 
     def get(self, request, *args, **kwargs):
         """
@@ -1445,15 +1520,15 @@ class MatchConfirmView(LoginRequiredMixin, View):
             HttpResponse: Renderizado del template con el formulario
         """
         match = self.match
-        form = MatchResultForm(initial={
-            'team1_score': 1,  # Valor predeterminado para el puntaje de team1
-            'team2_score': 1,  # Valor predeterminado para el puntaje de team2
-        })
+        form = MatchResultForm(
+            initial={
+                "team1_score": 1,  # Valor predeterminado para el puntaje de team1
+                "team2_score": 1,  # Valor predeterminado para el puntaje de team2
+            }
+        )
 
-        return render(request, 'web/match_detail.html', {
-            'form': form,
-            'match': match
-        })
+        return render(request, "web/match_detail.html", {"form": form, "match": match})
+
 
 class MatchReadyView(LoginRequiredMixin, View):
     """
@@ -1484,11 +1559,11 @@ class MatchReadyView(LoginRequiredMixin, View):
             HttpResponse: Error 403 si el usuario no pertenece a ningún equipo del partido
         """
         # Obtener el partido
-        match = get_object_or_404(Match, pk=self.kwargs['pk'])
+        match = get_object_or_404(Match, pk=self.kwargs["pk"])
 
         # Verificar que el usuario pertenece a uno de los equipos
         if request.user.player.team != match.team1 and request.user.player.team != match.team2:
-            return HttpResponse('No estás en ninguno de los equipos de este partido', status=403)
+            return HttpResponse("No estás en ninguno de los equipos de este partido", status=403)
 
         # Marcar el equipo como listo
         if request.user.player.team == match.team1:
@@ -1498,7 +1573,7 @@ class MatchReadyView(LoginRequiredMixin, View):
 
         match.save()
 
-        return redirect('web:matchDetailView', pk=match.id)
+        return redirect("web:matchDetailView", pk=match.id)
 
 
 class SupportView(LoginRequiredMixin, FormView):
@@ -1518,9 +1593,10 @@ class SupportView(LoginRequiredMixin, FormView):
         get_form_kwargs: Personaliza los argumentos del formulario
         get_context_data: Proporciona contexto adicional al template
     """
-    template_name = 'web/support.html'
+
+    template_name = "web/support.html"
     form_class = SupportForm
-    success_url = reverse_lazy('web:supportView')
+    success_url = reverse_lazy("web:supportView")
 
     def form_valid(self, form):
         """
@@ -1538,9 +1614,9 @@ class SupportView(LoginRequiredMixin, FormView):
         """
 
         # Procesar los datos del formulario
-        user_email = form.cleaned_data['email']
-        subject = form.cleaned_data['subject']
-        message_content = form.cleaned_data['message']
+        user_email = form.cleaned_data["email"]
+        subject = form.cleaned_data["subject"]
+        message_content = form.cleaned_data["message"]
         username = self.request.user.username
 
         # Construir el mensaje
@@ -1569,14 +1645,13 @@ class SupportView(LoginRequiredMixin, FormView):
 
             messages.success(
                 self.request,
-                '¡Mensaje enviado con éxito! '
-                'Nuestro equipo te responderá a la brevedad.'
+                "¡Mensaje enviado con éxito! " "Nuestro equipo te responderá a la brevedad.",
             )
         except Exception as e:
             messages.error(
                 self.request,
-                f'Ocurrió un error al enviar tu mensaje. '
-                f'Por favor intenta nuevamente. Error: {str(e)}'
+                f"Ocurrió un error al enviar tu mensaje. "
+                f"Por favor intenta nuevamente. Error: {str(e)}",
             )
             return self.form_invalid(form)
 
@@ -1592,7 +1667,7 @@ class SupportView(LoginRequiredMixin, FormView):
         """
         kwargs = super().get_form_kwargs()
         if self.request.user.is_authenticated:
-            kwargs['initial'] = {'email': self.request.user.email}
+            kwargs["initial"] = {"email": self.request.user.email}
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -1607,8 +1682,9 @@ class SupportView(LoginRequiredMixin, FormView):
             dict: Contexto para renderizar el template
         """
         context = super().get_context_data(**kwargs)
-        context['form'] = self.get_form()
+        context["form"] = self.get_form()
         return context
+
 
 class RewardRedemptionView(LoginRequiredMixin, View):
     """
@@ -1620,6 +1696,7 @@ class RewardRedemptionView(LoginRequiredMixin, View):
     Métodos:
         post: Procesa el canje de la recompensa
     """
+
     def post(self, request, pk):
         """
         Procesa la solicitud POST para canjear una recompensa:
@@ -1648,8 +1725,8 @@ class RewardRedemptionView(LoginRequiredMixin, View):
             reward.save()
             if reward.stock == 0:
                 send_mail(
-                    subject='Recompensa acabada',
-                    message=f'Se ha acabado el stock de la recompensa: {reward.name}',
+                    subject="Recompensa acabada",
+                    message=f"Se ha acabado el stock de la recompensa: {reward.name}",
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[settings.DEFAULT_FROM_EMAIL],
                     fail_silently=True,
@@ -1660,10 +1737,10 @@ class RewardRedemptionView(LoginRequiredMixin, View):
 
             messages.success(request, f'¡Has canjeado "{reward.name}" exitosamente!')
         else:
-            messages.error(request, 'No tienes suficientes monedas para esta recompensa.')
+            messages.error(request, "No tienes suficientes monedas para esta recompensa.")
 
         # Redirigir a la lista de recompensas
-        return redirect('web:rewardListView')
+        return redirect("web:rewardListView")
 
 
 class RedemptionListView(LoginRequiredMixin, ListView):
@@ -1681,9 +1758,10 @@ class RedemptionListView(LoginRequiredMixin, ListView):
     Métodos:
         get_queryset: Filtra y ordena las redenciones del usuario
     """
+
     model = Redemption
-    template_name = 'web/redemption_list.html'
-    context_object_name = 'redemption_list'
+    template_name = "web/redemption_list.html"
+    context_object_name = "redemption_list"
 
     def get_queryset(self):
         """
@@ -1693,7 +1771,7 @@ class RedemptionListView(LoginRequiredMixin, ListView):
             QuerySet: Redenciones del usuario ordenadas por fecha descendente
         """
         # Filtrar las redenciones del usuario actual
-        return Redemption.objects.filter(user=self.request.user).order_by('-redeemed_at')
+        return Redemption.objects.filter(user=self.request.user).order_by("-redeemed_at")
 
 
 class TournamentLogsView(LoginRequiredMixin, DetailView):
@@ -1711,9 +1789,10 @@ class TournamentLogsView(LoginRequiredMixin, DetailView):
     Métodos:
         get_context_data: Añade los logs de partidas al contexto de la vista
     """
+
     model = Tournament
-    template_name = 'web/tournament_logs.html'
-    context_object_name = 'tournament'
+    template_name = "web/tournament_logs.html"
+    context_object_name = "tournament"
 
     def get_context_data(self, **kwargs):
         """
@@ -1731,11 +1810,14 @@ class TournamentLogsView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         # Obtener todos los logs de partidas relacionados con este torneo
-        context['match_logs'] = MatchLog.objects.filter(match__tournament=self.object).select_related('match', 'player',
-                                                                                                      'team').order_by(
-            'match', 'created_at')
+        context["match_logs"] = (
+            MatchLog.objects.filter(match__tournament=self.object)
+            .select_related("match", "player", "team")
+            .order_by("match", "created_at")
+        )
 
         return context
+
 
 class PlayerTeamDetailView(LoginRequiredMixin, DetailView):
     """
@@ -1752,9 +1834,10 @@ class PlayerTeamDetailView(LoginRequiredMixin, DetailView):
     Métodos:
         get_queryset: Optimiza la consulta incluyendo la relación con el equipo
     """
+
     model = Player
-    template_name = 'web/player_team.html'
-    context_object_name = 'player'
+    template_name = "web/player_team.html"
+    context_object_name = "player"
 
     def get_queryset(self):
         """
@@ -1763,7 +1846,8 @@ class PlayerTeamDetailView(LoginRequiredMixin, DetailView):
         Returns:
             QuerySet: Jugadores con su relación de equipo precargada
         """
-        return Player.objects.select_related('team')
+        return Player.objects.select_related("team")
+
 
 class TeamInscribeInTournamentView(LoginRequiredMixin, View):
     """
@@ -1775,6 +1859,7 @@ class TeamInscribeInTournamentView(LoginRequiredMixin, View):
     Métodos:
         post: Procesa la solicitud de inscripción con todas las validaciones necesarias
     """
+
     def post(self, request, tournament_id, team_id):
         """
         Procesa la solicitud POST para inscribir un equipo en un torneo realizando:
@@ -1804,7 +1889,9 @@ class TeamInscribeInTournamentView(LoginRequiredMixin, View):
 
         # Verificar que el usuario sea líder del equipo
         if team.leader != player:
-            messages.error(request, "Solo el líder del equipo puede inscribir al equipo en el torneo.")
+            messages.error(
+                request, "Solo el líder del equipo puede inscribir al equipo en el torneo."
+            )
             return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
 
         # Verificar que el equipo no esté ya inscrito
@@ -1819,10 +1906,16 @@ class TeamInscribeInTournamentView(LoginRequiredMixin, View):
 
         # Verificar que el equipo tenga el número correcto de jugadores
         if team.player_set.count() != tournament.max_player_per_team:
-            messages.error(request, f"Tu equipo debe tener exactamente {tournament.max_player_per_team} jugadores para inscribirse.")
+            messages.error(
+                request,
+                f"Tu equipo debe tener exactamente {tournament.max_player_per_team} jugadores para inscribirse.",
+            )
             return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
 
         # Inscribir el equipo
         TournamentTeam.objects.create(tournament=tournament, team=team)
-        messages.success(request, f"¡Tu equipo {team.name} ha sido inscrito correctamente en el torneo {tournament.name}!")
+        messages.success(
+            request,
+            f"¡Tu equipo {team.name} ha sido inscrito correctamente en el torneo {tournament.name}!",
+        )
         return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
