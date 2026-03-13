@@ -420,6 +420,11 @@ class PlayerProfileDetailView(LoginRequiredMixin, DetailView):
     template_name = 'web/player_profile_detail.html'
     context_object_name = 'player'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.player.pk != kwargs['pk']:
+            return redirect('web:playerProfileDetailView', pk=request.user.player.pk)
+        return super().dispatch(request, *args, **kwargs)
+
 class PlayerUpdateView(LoginRequiredMixin, UpdateView):
     """
     Vista para actualizar el perfil de un jugador.
@@ -439,6 +444,11 @@ class PlayerUpdateView(LoginRequiredMixin, UpdateView):
     model = Player
     form_class = PlayerForm
     template_name = 'web/player_profile_update.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.player.pk != kwargs['pk']:
+            return redirect('web:playerUpdateView', pk=request.user.player.pk)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         """
