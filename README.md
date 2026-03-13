@@ -179,6 +179,7 @@ Esta plataforma permitirá a los usuarios:
 
 - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y celery-beat y mailpit)
 - Automatización de despliegue con actions de github.
+- Sistema de paginación.
 
 ## 📚 Bibliografía
 
