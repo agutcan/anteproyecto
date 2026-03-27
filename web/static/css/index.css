@@ -439,6 +439,70 @@
     padding: 20px;
 }
 
+.news-carousel {
+    padding-bottom: 64px;
+}
+
+.news-carousel .carousel-indicators {
+    bottom: 10px;
+}
+
+.news-carousel .carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 193, 7, 0.55);
+}
+
+.news-carousel .carousel-indicators .active {
+    background-color: var(--gold);
+}
+
+.news-carousel .carousel-control-prev,
+.news-carousel .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    top: auto;
+    bottom: 2px;
+    transform: none;
+    background: linear-gradient(145deg, rgba(18, 18, 18, 0.95), rgba(38, 38, 38, 0.92));
+    border: 1px solid rgba(255, 193, 7, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.15), 0 6px 16px rgba(0, 0, 0, 0.3);
+    opacity: 0.95;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+}
+
+.news-carousel .carousel-control-prev {
+    left: calc(50% - 68px);
+}
+
+.news-carousel .carousel-control-next {
+    right: calc(50% - 68px);
+}
+
+.news-carousel .carousel-control-prev-icon,
+.news-carousel .carousel-control-next-icon {
+    width: 1.55rem;
+    height: 1.55rem;
+    background-size: 100% 100%;
+    filter: invert(83%) sepia(91%) saturate(678%) hue-rotate(337deg) brightness(106%) contrast(101%);
+}
+
+.news-carousel .carousel-control-prev:hover,
+.news-carousel .carousel-control-next:hover {
+    opacity: 1;
+    border-color: var(--gold);
+    transform: scale(1.06);
+    box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.35), 0 10px 22px rgba(255, 193, 7, 0.18);
+}
+
+.news-carousel .carousel-control-prev:focus,
+.news-carousel .carousel-control-next:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2), 0 0 0 1px rgba(255, 193, 7, 0.35);
+}
+
 .news-date {
     /* Tamaño pequeño para la fecha */
     font-size: 0.9rem;
@@ -496,5 +560,24 @@
     font-size: 14px;
     padding: 10px;
   }
+
+    .news-carousel {
+        padding-bottom: 66px;
+    }
+
+    .news-carousel .carousel-control-prev,
+    .news-carousel .carousel-control-next {
+        width: 36px;
+        height: 36px;
+        bottom: 1px;
+    }
+
+    .news-carousel .carousel-control-prev {
+        left: calc(50% - 62px);
+    }
+
+    .news-carousel .carousel-control-next {
+        right: calc(50% - 62px);
+    }
 }
 
