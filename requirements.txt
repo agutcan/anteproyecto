@@ -13,3 +13,6 @@ redis
 gunicorn
 whitenoise
 black==25.1.0
+boto3
+botocore
+requests

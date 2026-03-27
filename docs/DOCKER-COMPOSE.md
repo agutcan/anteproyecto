@@ -19,6 +19,7 @@
   - Servido con Gunicorn (4 workers + 2 threads)
   - Variables de entorno desde `.env`
   - Volúmenes para archivos estáticos y media
+  - Integración de soporte IA con Bedrock (KB + modelo generativo)
 - **Routing**:
   - Disponible en `arenagg.aarongutierrez.tech`
   - Balanceador de carga en puerto 8000
@@ -44,6 +45,21 @@
 ### 🎯 Celery
 - **Workers**: Configurados con loglevel info
 - **Dependencias**: Requiere servicios web y redis
+
+## 🤖 Variables Bedrock en `.env`
+
+Para el chat de soporte IA, el servicio `web` consume estas variables:
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
+- `BEDROCK_KB_ID`
+- `BEDROCK_MODEL_ID`
+- `BEDROCK_MODEL_CANDIDATES` (opcional, recomendado para fallback)
+
+Nota operativa:
+
+- Si cambias `BEDROCK_MODEL_ID` o `BEDROCK_MODEL_CANDIDATES`, reinicia el servicio web para aplicar los cambios (`docker compose up -d --build web`).
 
 ### ⏱️ Celery Beat
 - **Función**: Programador de tareas

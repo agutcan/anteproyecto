@@ -838,6 +838,68 @@ class MatchConfirmView(LoginRequiredMixin, View):
             *args: Argumentos variables
             **kwargs: Argumentos clave variables
 
+---
+
+## 🆘 Página de Soporte + Chat IA (estado actual)
+
+La pantalla de soporte ahora combina dos flujos en la misma interfaz:
+
+1. Formulario tradicional de contacto humano.
+2. Chat de soporte IA con AWS Bedrock.
+
+### Frontend de soporte
+
+- Template: `web/templates/web/support.html`
+- Estilos: `web/static/css/support.css`
+
+Comportamiento implementado:
+
+- Historial de mensajes en tiempo real.
+- Envío por `fetch` a `/api/support/chat/` con CSRF.
+- Indicador de confianza visible para cada respuesta.
+- Aviso de escalado cuando el caso requiere humano.
+- Formateo de texto del asistente:
+    - Respeta saltos de línea.
+    - Renderiza negritas tipo markdown.
+    - Detecta URLs y las convierte en enlaces.
+- Mejora de contraste para legibilidad sobre fondo oscuro.
+
+### API `support_chat_api`
+
+Definida en `web/views.py` y expuesta en `web/urls.py`.
+
+Ruta:
+
+- `POST /api/support/chat/`
+
+Seguridad:
+
+- Requiere usuario autenticado (`IsAuthenticated`).
+
+Flujo:
+
+1. Valida entrada con `SupportChatMessageSerializer`.
+2. Ejecuta `bedrock_client.generate_response(...)`.
+3. Si hay riesgo o baja confianza, añade mensaje de escalado.
+4. Devuelve respuesta normalizada con:
+     - `response`
+     - `confidence`
+     - `should_escalate`
+     - `context_used`
+     - `success`
+
+### Criterio de confianza y escalado
+
+- La confianza se obtiene del retrieval de la KB y se normaliza para UI.
+- Escala automáticamente si:
+    - la consulta contiene temas sensibles,
+    - la confianza cae por debajo del umbral,
+    - o la respuesta indica incertidumbre.
+
+### Relación con soporte humano
+
+Cuando hay escalado, el usuario recibe recomendación explícita de usar el formulario de contacto de la misma página, manteniendo continuidad entre el canal IA y el canal humano.
+
         Returns:
             HttpResponseRedirect: Redirección a la vista de detalle del partido
         """

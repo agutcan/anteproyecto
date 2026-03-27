@@ -117,7 +117,198 @@
                 </div>
             </section>
 
+            <!-- Sección de Chat de Soporte con Bedrock AI -->
+            <section class="card bg-dark support-card mt-5">
+                <!-- Encabezado de la tarjeta del chat -->
+                <div class="card-header bg-black text-warning support-header">
+                    <h2 class="h4 mb-0"><i class="bi bi-robot me-2"></i> Asistente de IA (Respuestas Rápidas)</h2>
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- Área de historial de chat -->
+                    <div id="chat-messages" class="chat-messages-container mb-4" style="height: 300px; overflow-y: auto; border: 1px solid #444; border-radius: 8px; padding: 15px; background-color: #0d0d0d;">
+                        <div class="text-center text-white-50 py-4">
+                            <i class="bi bi-chat-dots me-2"></i>Hola, soy tu asistente de IA. ¿En qué puedo ayudarte?
+                        </div>
+                    </div>
+
+                    <!-- Formulario de entrada del chat -->
+                    <form id="chat-form" class="d-flex gap-2">
+                        {% csrf_token %}
+                        <input 
+                            type="text" 
+                            id="chat-input" 
+                            class="form-control form-control-dark" 
+                            placeholder="Escribe tu pregunta aquí..." 
+                            maxlength="1000"
+                            aria-label="Mensaje de soporte"
+                        >
+                        <button 
+                            type="submit" 
+                            id="chat-send-btn" 
+                            class="btn btn-warning px-4 fw-bold"
+                            aria-label="Enviar mensaje"
+                        >
+                            <i class="bi bi-send me-1"></i> Enviar
+                        </button>
+                    </form>
+
+                    <!-- Información de escalación -->
+                    <div id="escalation-message" class="alert support-escalation-alert mt-3" style="display: none;">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Tu consulta requiere atención de un especialista. Por favor, usa el formulario de contacto arriba para enviar más detalles.
+                    </div>
+
+                    <!-- Información de confianza -->
+                    <div id="confidence-info" class="small text-white-50 mt-2" style="display: none;">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Confianza de respuesta: <span id="confidence-value">N/A</span>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 </div>
+
+<!-- Script de chat -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatSendBtn = document.getElementById('chat-send-btn');
+    const chatMessagesContainer = document.getElementById('chat-messages');
+    const escalationMessage = document.getElementById('escalation-message');
+    const confidenceInfo = document.getElementById('confidence-info');
+    const confidenceValue = document.getElementById('confidence-value');
+
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function formatAssistantMessage(text) {
+        let safe = escapeHtml(text);
+
+        // Negritas tipo markdown.
+        safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Convierte URLs en enlaces.
+        safe = safe.replace(
+            /(https?:\/\/[^\s<]+)/g,
+            '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+        );
+
+        // Respeta saltos de línea del modelo.
+        safe = safe.replace(/\n/g, '<br>');
+        return safe;
+    }
+
+    function getConfidenceLabel(confidence) {
+        if (confidence >= 0.75) return 'alta';
+        if (confidence >= 0.5) return 'media';
+        return 'baja';
+    }
+
+    // Función para añadir mensaje al chat
+    function addMessageToChat(message, isUser = false, confidence = null, shouldEscalate = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = isUser ? 'mb-3 text-end' : 'mb-3';
+        
+        const messageBubble = document.createElement('div');
+        messageBubble.className = isUser 
+            ? 'bg-warning text-dark rounded-3 d-inline-block px-3 py-2 me-0' 
+            : 'bg-secondary text-white rounded-3 d-inline-block px-3 py-2 ms-0';
+        messageBubble.style.maxWidth = '70%';
+
+        if (isUser) {
+            messageBubble.textContent = message;
+        } else {
+            messageBubble.classList.add('assistant-message');
+            messageBubble.innerHTML = formatAssistantMessage(message);
+        }
+        
+        messageDiv.appendChild(messageBubble);
+        chatMessagesContainer.appendChild(messageDiv);
+        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+
+        // Mostrar información de confianza si es respuesta del bot
+        if (!isUser && confidence !== null) {
+            const percentage = (confidence * 100).toFixed(0);
+            confidenceValue.textContent = `${percentage}% (${getConfidenceLabel(confidence)})`;
+            confidenceInfo.style.display = 'block';
+        }
+
+        // Mostrar/ocultar mensaje de escalación según esta respuesta.
+        if (!isUser) {
+            escalationMessage.style.display = shouldEscalate ? 'block' : 'none';
+        }
+    }
+
+    // Evento del formulario de chat
+    chatForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Añadir mensaje del usuario
+        addMessageToChat(message, true);
+        escalationMessage.style.display = 'none';
+        chatInput.value = '';
+        chatSendBtn.disabled = true;
+        chatSendBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando...';
+
+        try {
+            // Enviar mensaje a la API
+            const response = await fetch('/api/support/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                addMessageToChat(
+                    data.response, 
+                    false, 
+                    data.confidence, 
+                    data.should_escalate
+                );
+            } else if (response.status === 400) {
+                addMessageToChat('Error: Por favor, verifica tu mensaje e intenta de nuevo.', false);
+            } else {
+                const data = await response.json();
+                addMessageToChat(
+                    data.response || 'Disculpa, ocurrió un error. Por favor intenta de nuevo.', 
+                    false,
+                    null,
+                    true
+                );
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            addMessageToChat('Error de conexión. Por favor intenta de nuevo.', false, null, true);
+        } finally {
+            chatSendBtn.disabled = false;
+            chatSendBtn.innerHTML = '<i class="bi bi-send me-1"></i> Enviar';
+        }
+    });
+
+    // Permitir Enter para enviar
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+});
+</script>
 {% endblock %}

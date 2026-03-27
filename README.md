@@ -226,6 +226,8 @@ Esta plataforma permitirá a los usuarios:
 - 🧠 [Funciones](docs/FUNCTIONS.md)
 - 🎯 [Workflows](docs/WORKFLOWS.md)
 - 🚀 [Compose](docs/DOCKER-COMPOSE.md)
+- 🤖 [Bot de soporte con AWS Bedrock](docs/BEDROCK_SUPPORT_BOT.md)
+- 🧾 [Base de conocimiento inicial para soporte IA](docs/SUPPORT_KB_SEED.md)
 
 ## 📄 Presentación
 

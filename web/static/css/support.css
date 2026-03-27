@@ -100,3 +100,111 @@
     /* Texto rojo */
     color: #dc3545;
 }
+
+/* Estilos para el chat de Bedrock */
+.chat-messages-container {
+    /* Scroll suave */
+    scroll-behavior: smooth;
+}
+
+.chat-messages-container div {
+    /* Animación de aparición de mensajes */
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para el input del chat */
+#chat-input {
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    color: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#chat-input:focus {
+    background-color: #1a1a1a;
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    color: white;
+}
+
+#chat-input::placeholder {
+    color: #666;
+}
+
+/* Estilos para el botón de envío */
+#chat-send-btn {
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+#chat-send-btn:hover {
+    background-color: #ffb300;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(255, 193, 7, 0.3);
+}
+
+#chat-send-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Alerta de escalación */
+#escalation-message {
+    background: rgba(23, 162, 184, 0.2);
+    border: 1px solid #17a2b8;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.support-escalation-alert {
+    color: #d7f5ff;
+}
+
+/* Mejor legibilidad del contenido del asistente */
+.assistant-message {
+    text-align: left;
+    line-height: 1.45;
+}
+
+.assistant-message a {
+    color: #ffd66b;
+    text-decoration: underline;
+}
+
+.assistant-message strong {
+    color: #fff1c1;
+}
+
+/* Información de confianza */
+#confidence-info {
+    padding: 8px 12px;
+    background-color: rgba(255, 193, 7, 0.12);
+    color: #ffecb3;
+    border: 1px solid rgba(255, 193, 7, 0.25);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Responsive para dispositivos móviles */
+@media (max-width: 576px) {
+    #chat-messages {
+        height: 250px !important;
+    }
+    
+    #chat-send-btn {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
