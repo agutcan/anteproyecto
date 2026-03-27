@@ -200,6 +200,8 @@ Esta plataforma permitirá a los usuarios:
 - Automatización de despliegue con actions de github.
 - Sistema de paginación.
 - Integrar Black (Libreria de Python)
+- AI para contestar a los mensajes de soporte automáticamente.
+
 
 ## 📚 Bibliografía
 
