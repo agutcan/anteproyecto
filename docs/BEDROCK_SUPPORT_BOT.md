@@ -110,13 +110,13 @@ Variables necesarias:
 ## 🏗️ Arquitectura recomendada (RAG)
 
 1. Frontend (página de soporte)
-- Chat UI en `web/support.html` (widget simple de mensajes).
+- Chat UI en `web/templates/web/support.html` (widget simple de mensajes).
 - Botón alternativo para "Contactar humano".
 - Mantener coherencia con acceso autenticado de soporte (fallback para usuarios sin sesion: FAQ publica + login).
 
 2. Backend Django
 - Endpoint API para chat (`POST /api/support/chat/`).
-- Endpoint opcional para feedback (`POST /api/support/feedback/`).
+- Endpoint de feedback: pendiente de implementación.
 - Registro de conversaciones (logs, métricas y auditoría).
 
 3. AWS Bedrock
@@ -126,7 +126,7 @@ Variables necesarias:
 
 4. Escalado a humano
 - Si baja confianza o caso sensible, redirigir a `SupportView` (email).
-- Incluir resumen automático del chat en el ticket para soporte.
+- Resumen automático del chat en ticket: pendiente de implementación.
 - Considerar que los adjuntos del formulario deben validarse en backend antes de prometer envio de evidencia.
 
 ---

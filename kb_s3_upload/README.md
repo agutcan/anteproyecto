@@ -1,8 +1,8 @@
-# Bedrock KB package for S3
+# Paquete de KB de Bedrock para S3
 
-This folder contains a ready-to-upload knowledge base package for ArenaGG support bot.
+Esta carpeta contiene un paquete de base de conocimiento listo para subir para el bot de soporte de ArenaGG.
 
-## Structure
+## Estructura
 
 - kb/01_faq
 - kb/02_guias
@@ -10,8 +10,8 @@ This folder contains a ready-to-upload knowledge base package for ArenaGG suppor
 - kb/04_soporte
 - kb/99_changelog
 
-## Upload notes
+## Notas de carga
 
-1. Upload the full kb folder to your S3 bucket.
-2. Keep file names stable and increase version suffix on updates.
-3. Re-sync the Bedrock Knowledge Base after any change.
+1. Sube la carpeta kb completa a tu bucket de S3.
+2. Mantén estables los nombres de archivo y aumenta el sufijo de versión en cada actualización.
+3. Vuelve a sincronizar la Knowledge Base de Bedrock después de cualquier cambio.
