@@ -209,8 +209,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getConfidenceLabel(confidence) {
-        if (confidence >= 0.75) return 'alta';
-        if (confidence >= 0.5) return 'media';
+        if (confidence >= 0.5) return 'alta';
+        if (confidence >= 0.25) return 'media';
         return 'baja';
     }
 

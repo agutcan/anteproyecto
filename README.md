@@ -189,6 +189,8 @@ Esta plataforma permitirá a los usuarios:
   MMR, fluctue más o menos al ganar o perder.
 - Historial de partidas jugadas con el modelo MatchResult.
 - Automatización de despliegue con actions de github.
+- Integrar Black (Libreria de Python)
+- Poner noticias y anuncion en un carrusel para que se vaya actualizando automáticamente
 
 ### Mejoras implementadas al proyecto
 
@@ -196,6 +198,8 @@ Esta plataforma permitirá a los usuarios:
   enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y
   celery-beat y mailpit)
 - Automatización de despliegue con actions de github.
+- Sistema de paginación.
+- Integrar Black (Libreria de Python)
 
 ## 📚 Bibliografía
 
