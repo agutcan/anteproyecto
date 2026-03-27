@@ -7,19 +7,20 @@ Producto: ArenaGG (plataforma web de torneos).
 Archivos de referencia:
 
 - Dockerfile: `Dockerfile`
-- Compose principal historico de despliegue: `docker-composeAntiguo.yml`
+- Compose principal historico de despliegue **(El que se usara en producción)**: `docker-composeAntiguo.yml`
 - Imagen Docker Hub: `agutcan/anteproyecto:latest`
 
 ## 2. Documentacion incluida en esta entrega
 
 1. Documentacion de la imagen Docker Hub:
-- `docs/README_DOCKER_IMAGE_DOCKERHUB.md`
+- [Markdown en repositorio](https://github.com/agutcan/anteproyecto/blob/sinFrontend2/docs/README_DOCKER_IMAGE_DOCKERHUB.md)
+- [Documentación en dockerhub](https://hub.docker.com/repository/docker/agutcan/anteproyecto/general)
 
 2. Documentacion de compose:
-- `docs/README_DOCKER_COMPOSE.md`
+- [Documentación en repositorio](https://github.com/agutcan/anteproyecto/blob/sinFrontend2/docs/README_DOCKER_COMPOSE.md)
 
 3. Documentacion general de compose del proyecto:
-- `docs/DOCKER-COMPOSE.md`
+- [Documentación en repositorio](https://github.com/agutcan/anteproyecto/blob/sinFrontend2/docs/DOCKER-COMPOSE.md)
 
 ## 3. Evidencia solicitada (enlaces internos)
 
