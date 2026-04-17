@@ -155,6 +155,22 @@ En este despliegue, el bot de soporte es una capa complementaria conectada a la 
 - Despliega la aplicacion en AWS mediante la instancia EC2 configurada.
 - El proceso completo se explica en [docs/WORKFLOWS.md](https://github.com/agutcan/anteproyecto/blob/sinFrontend2/docs/WORKFLOWS.md).
 
+### 3.7 Uso del dominio .tech
+
+**Funcion**: exponer la aplicacion y servicios asociados con una URL publica y profesional para pruebas de despliegue.
+
+**Configuracion usada**:
+
+- Dominio principal con extension `.tech` para la aplicacion web.
+- Subdominios `.tech` para servicios auxiliares (por ejemplo, correo de pruebas o paneles tecnicos).
+- Enrutamiento de peticiones hacia la instancia EC2 donde corre la aplicacion.
+
+**Ventajas para el proyecto**:
+
+- Permite validar el despliegue en condiciones cercanas a produccion.
+- Facilita pruebas de acceso externo sin depender de IP publica en bruto.
+- Mejora la presentacion de la plataforma durante la defensa y documentacion del proyecto.
+
 ---
 
 ## 4. Configuracion reproducible
