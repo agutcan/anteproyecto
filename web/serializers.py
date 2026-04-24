@@ -52,3 +52,23 @@ class PlayerStatsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ["username", "games_won", "winrate"]
+
+
+class SupportChatMessageSerializer(serializers.Serializer):
+    """Entrada para el chat de soporte."""
+
+    message = serializers.CharField(max_length=1000)
+
+    def validate_message(self, value):
+        if not value or not value.strip():
+            raise serializers.ValidationError("El mensaje no puede estar vacío.")
+        return value.strip()
+
+
+class SupportChatResponseSerializer(serializers.Serializer):
+    """Salida normalizada para el chat de soporte."""
+
+    response = serializers.CharField()
+    confidence = serializers.FloatField()
+    should_escalate = serializers.BooleanField()
+    sources = serializers.ListField(child=serializers.CharField(), required=False)

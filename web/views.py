@@ -19,7 +19,12 @@ from django.views.generic import (
     UpdateView,
 )
 from rest_framework import generics
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 import logging
+import requests
 
 from .functions import (
     record_match_result,
@@ -38,6 +43,53 @@ from django.db.models import Prefetch
 logger = logging.getLogger(__name__)
 
 # Create your views here.
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def support_chat_api(request):
+    """Proxy del chat de soporte hacia el servicio RAG de subirEC2."""
+    serializer = SupportChatMessageSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    support_ai_url = getattr(settings, "SUPPORT_AI_API_URL", "http://127.0.0.1:8081/chat")
+    timeout = getattr(settings, "SUPPORT_AI_TIMEOUT", 20)
+
+    try:
+        ai_response = requests.post(
+            support_ai_url,
+            json={"question": serializer.validated_data["message"]},
+            timeout=timeout,
+        )
+        ai_response.raise_for_status()
+        payload = ai_response.json()
+
+        normalized = {
+            "response": payload.get("answer", "No se pudo generar una respuesta."),
+            "confidence": float(payload.get("confidence", 0.0)),
+            "should_escalate": bool(payload.get("should_escalate", True)),
+            "sources": payload.get("sources", []),
+        }
+
+        output = SupportChatResponseSerializer(data=normalized)
+        output.is_valid(raise_exception=True)
+        return Response(output.validated_data, status=status.HTTP_200_OK)
+
+    except requests.RequestException as exc:
+        logger.error("Error calling support AI service: %s", str(exc))
+        return Response(
+            {
+                "response": (
+                    "El asistente no está disponible ahora mismo. "
+                    "Usa el formulario de contacto para soporte humano."
+                ),
+                "confidence": 0.0,
+                "should_escalate": True,
+                "sources": [],
+            },
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
 
 
 # class TournamentListAPI(generics.ListAPIView):
