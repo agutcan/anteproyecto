@@ -259,7 +259,7 @@ Variables mínimas requeridas:
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_REGION=us-east-1`
-- `BEDROCK_KB_ID=C5B2GIAZKP`
+- `BEDROCK_KB_ID=FNWPV3SCMP`
 - `BEDROCK_MODEL_ID=amazon.nova-lite-v1:0`
 
 Variables opcionales recomendadas:
