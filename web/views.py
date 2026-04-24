@@ -19,10 +19,6 @@ from django.views.generic import (
     UpdateView,
 )
 from rest_framework import generics
-from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 import logging
 
 from .functions import (
@@ -32,7 +28,6 @@ from .functions import (
     increase_player_renombre,
 )
 from .serializers import *
-from web.bedrock_client import bedrock_client
 from web.models import *
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
@@ -43,49 +38,6 @@ from django.db.models import Prefetch
 logger = logging.getLogger(__name__)
 
 # Create your views here.
-
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def support_chat_api(request):
-    """
-    Endpoint API para chat de soporte con Bedrock IA.
-    """
-    try:
-        serializer = SupportChatMessageSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                {"error": serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        user_message = serializer.validated_data["message"]
-        bedrock_response = bedrock_client.generate_response(user_message)
-
-        if bedrock_response["should_escalate"]:
-            bedrock_response["response"] = (
-                f"{bedrock_response['response']}\n\n"
-                "Para casos más complejos o que requieren verificación, "
-                "te recomendamos contactar directamente a nuestro equipo de soporte "
-                "usando el formulario de contacto."
-            )
-
-        response_serializer = SupportChatResponseSerializer(bedrock_response)
-
-        logger.info(
-            f"Chat support query from {request.user.username}: "
-            f"escalate={bedrock_response['should_escalate']}, "
-            f"confidence={bedrock_response['confidence']:.2f}"
-        )
-
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
-
-    except Exception as e:
-        logger.error(f"Error in support_chat_api: {str(e)}")
-        return Response(
-            {"error": "Error al procesar tu consulta. Por favor intenta de nuevo."},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
 
 
 # class TournamentListAPI(generics.ListAPIView):

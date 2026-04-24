@@ -39,15 +39,6 @@ docker run --rm -p 8000:8000 --env-file .env agutcan/anteproyecto:latest \
 - `EMAIL_PORT`
 - `CELERY_BROKER_URL`
 
-If AI support is enabled (AWS Bedrock), also configure:
-
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `AWS_REGION`
-- `BEDROCK_KB_ID`
-- `BEDROCK_MODEL_ID`
-- `BEDROCK_MODEL_CANDIDATES` (optional)
-
 ## Volumes (optional)
 
 For persistent static/media files:

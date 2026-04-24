@@ -12,9 +12,6 @@ urlpatterns = [
     path(
         "api/player-stats/", views.PlayerStatsListAPI.as_view(), name="playerStatsListApi"
     ),  # Api para el gráfico con las estadísticas de cada jugador
-    path(
-        "api/support/chat/", views.support_chat_api, name="support_chat_api"
-    ),  # API para el chat de soporte con Bedrock
     path("", views.IndexView.as_view(), name="indexView"),  # Vista principal
     path(
         "premium/", views.PremiumView.as_view(), name="premiumView"

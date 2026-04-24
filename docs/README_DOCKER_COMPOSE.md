@@ -49,14 +49,6 @@ Definidas via `.env`:
 - `EMAIL_PORT`
 - `CELERY_BROKER_URL`
 
-Opcionales (si soporte IA Bedrock esta activo):
-
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `AWS_REGION`
-- `BEDROCK_KB_ID`
-- `BEDROCK_MODEL_ID`
-
 ## 4. Comandos de uso
 
 ### 4.1 Arranque del stack

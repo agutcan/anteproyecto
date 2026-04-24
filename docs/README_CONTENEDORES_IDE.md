@@ -2,7 +2,7 @@
 
 ## 1. Introducción y contextualización
 
-El proyecto desarrollado ha sido ArenaGG, una plataforma web orientada a la organización y gestión de torneos de esports. La aplicación incluye funcionalidades como autenticación de usuarios, gestión de equipos, torneos, resultados, recompensas, soporte y un asistente de soporte IA con AWS Bedrock.
+El proyecto desarrollado ha sido ArenaGG, una plataforma web orientada a la organización y gestión de torneos de esports. La aplicación incluye funcionalidades como autenticación de usuarios, gestión de equipos, torneos, resultados, recompensas y soporte.
 
 ### Tecnologías principales usadas
 
@@ -27,7 +27,6 @@ Los contenedores se han usado durante todo el ciclo de desarrollo, especialmente
    - Verificación de logs de ejecución de servicios y errores de integración.
 
 3. Integración de nuevas funcionalidades:
-   - Pruebas de la API de soporte con Bedrock sin depender del entorno del sistema host.
    - Ajustes de configuración de variables de entorno y reinicio controlado de servicios.
 
 4. Preparación para despliegue:
