@@ -190,18 +190,21 @@ Esta plataforma permitirá a los usuarios:
 - Historial de partidas jugadas con el modelo MatchResult.
 - Automatización de despliegue con actions de github.
 - Integrar Black (Libreria de Python)
-- Poner noticias y anuncion en un carrusel para que se vaya actualizando automáticamente
+- Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente
+- Sistema de notificaciones
 
 ### Mejoras implementadas al proyecto
 
-- Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y
+- DAW
+  - Añadir tareas automatizadas para modificar el estado de cada torneo y partida (por empezar, en proceso, finalizado) y
   enviar emails cada vez que vaya a empezar un torneo por ejemplo o haya algún problema. (Con redis, celery y
   celery-beat y mailpit)
-- Automatización de despliegue con actions de github.
-- Sistema de paginación.
-- Integrar Black (Libreria de Python)
-- AI para contestar a los mensajes de soporte automáticamente.
-
+  - Automatización de despliegue con actions de github.
+- DAM
+  - Sistema de paginación.
+  - Integrar Black (Libreria de Python)
+  - AI para contestar a los mensajes de soporte automáticamente.
+  - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente
 
 ## 📚 Bibliografía
 
