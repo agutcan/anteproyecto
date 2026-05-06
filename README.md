@@ -191,7 +191,8 @@ Esta plataforma permitirá a los usuarios:
 - Automatización de despliegue con actions de github.
 - Integrar Black (Libreria de Python)
 - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente
-- Sistema de notificaciones
+- Sistema de notificaciones.
+- Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
 
 ### Mejoras implementadas al proyecto
 
