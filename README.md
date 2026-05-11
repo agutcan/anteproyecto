@@ -236,6 +236,9 @@ Esta plataforma permitirá a los usuarios:
 - 🧠 [Funciones](docs/FUNCTIONS.md)
 - 🎯 [Workflows](docs/WORKFLOWS.md)
 - 🚀 [Compose](docs/DOCKER-COMPOSE.md)
+- 🤖 [Soporte IA](docs/SUPPORT_AI.md)
+- ☁️ [Despliegue del soporte en AWS](docs/SUPPORT_AI_AWS.md)
+- 🔧 [Debug Console - Consola de Depuración](docs/DEBUG_CONSOLE.md)
 
 ## 📄 Presentación
 

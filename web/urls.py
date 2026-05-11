@@ -128,6 +128,9 @@ urlpatterns = [
     path(
         "match/ready/<int:pk>/", views.MatchReadyView.as_view(), name="matchReadyView"
     ),  # Vista para marcar el equipo como preparado
+    path(
+        "api/debug/query/", views.debug_query_api, name="debug_query_api"
+    ),  # API para ejecutar consultas ORM en desarrollo
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

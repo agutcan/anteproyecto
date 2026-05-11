@@ -11,6 +11,61 @@ from django.utils import timezone
 from datetime import timedelta
 
 
+class DebugConsoleAPITest(APITestCase):
+    """Pruebas para el endpoint de la consola de depuracion admin."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username="debug_user", password="testpass")
+        self.admin = User.objects.create_user(username="debug_admin", password="testpass")
+        self.admin.is_staff = True
+        self.admin.save()
+
+        Game.objects.create(name="TestGame")
+        self.url = "/api/debug/query/"
+
+    def test_non_staff_forbidden(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(self.url, {"query": "1+1", "eval": True}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_eval_query_returns_result(self):
+        self.client.force_authenticate(user=self.admin)
+        response = self.client.post(
+            self.url,
+            {"query": "list(Game.objects.values('name'))", "eval": True},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.json()
+        self.assertTrue(data.get("success"))
+        self.assertIn("TestGame", str(data.get("result")))
+
+    def test_exec_query_modifies_db(self):
+        self.client.force_authenticate(user=self.admin)
+        response = self.client.post(
+            self.url,
+            {"query": "Game.objects.create(name='CreatedByExec')", "eval": False},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(Game.objects.filter(name="CreatedByExec").exists())
+
+    def test_forbidden_keyword_blocked(self):
+        self.client.force_authenticate(user=self.admin)
+        response = self.client.post(
+            self.url,
+            {"query": "__import__('os').system('ls')", "eval": True},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        data = response.json()
+        self.assertFalse(data.get("success"))
+        self.assertIn("prohibidas", data.get("error"))
+
+
 class PlayerStatsListAPITest(APITestCase):
     """
     Pruebas para la API que lista las estadísticas de los jugadores.

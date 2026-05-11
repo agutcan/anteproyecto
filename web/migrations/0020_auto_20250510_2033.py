@@ -289,7 +289,7 @@ def poblar_datos(apps, schema_editor):
 
     # Creación de usuarios para la administración
     User.objects.create_user(username='prueba', password='prueba')  # Crear un usuario normal
-    User.objects.create_superuser(username='admin', email='admin@example.com', password='admin')  # Crear un superusuario
+    User.objects.create_superuser(username='admin', email='admin@example.com', password='admin', is_staff=True, is_superuser=True)  # Crear un superusuario
 
     players = [
         Player(user=get_object_or_404(User, username="prueba")),

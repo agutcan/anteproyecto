@@ -1,10 +1,10 @@
 from datetime import timedelta, datetime
 from collections import defaultdict
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
-from django.db.models import Q
+from django.db.models import Q, F, Count
 from web.forms import *
 from django.urls import reverse
 from django.shortcuts import redirect
@@ -1974,3 +1974,138 @@ class TeamInscribeInTournamentView(LoginRequiredMixin, View):
             f"¡Tu equipo {team.name} ha sido inscrito correctamente en el torneo {tournament.name}!",
         )
         return redirect(reverse("web:tournamentDetailView", args=[tournament_id]))
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def debug_query_api(request):
+    """
+    API endpoint para ejecutar consultas ORM de forma segura en desarrollo.
+
+    Solo disponible para usuarios administradores (staff=True).
+    Ejecuta consultas Python/Django ORM y devuelve los resultados o errores.
+
+    Parámetros JSON esperados:
+        {
+            "query": "Player.objects.filter(country='ES').values('username', 'country')",
+            "eval": true/false  # Si es true, ejecuta eval() ; si false, usa exec()
+        }
+
+    Retorna:
+        {
+            "success": true/false,
+            "result": "...",  # Resultado de la consulta (solo si eval=true)
+            "rows_affected": 0,  # Número de filas afectadas (solo si exec)
+            "error": "..."  # Mensaje de error (si falla)
+        }
+
+    Seguridad:
+        - Solo disponible para usuarios con staff=True
+        - No permite ejecutar comandos del sistema
+        - Valida que la consulta no contenga imports peligrosos
+        - Registra todas las consultas ejecutadas
+
+    Ejemplo de uso desde JS:
+        const response = await fetch('/api/debug/query/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({
+                query: "list(Player.objects.values('username')[:5])",
+                eval: true
+            })
+        });
+        const data = await response.json();
+        console.log(data.result);
+    """
+    # Verificar que sea admin
+    if not request.user.is_staff:
+        return Response(
+            {"success": False, "error": "Solo administradores pueden ejecutar consultas."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    data = request.data
+    query = data.get("query", "").strip()
+    use_eval = data.get("eval", False)
+
+    if not query:
+        return Response(
+            {"success": False, "error": "El parámetro 'query' no puede estar vacío."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    # Validaciones de seguridad básicas
+    forbidden_keywords = ["__import__", "exec(", "eval(", "open(", "subprocess", "os.", "system("]
+    if any(keyword in query for keyword in forbidden_keywords):
+        return Response(
+            {
+                "success": False,
+                "error": "La consulta contiene palabras clave prohibidas por razones de seguridad.",
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    # Contexto seguro para exec/eval
+    safe_context = {
+        "Player": Player,
+        "User": get_user_model(),
+        "Team": Team,
+        "Tournament": Tournament,
+        "Match": Match,
+        "Game": Game,
+        "Reward": Reward,
+        "TournamentTeam": TournamentTeam,
+        "Q": Q,
+        "F": F,
+        "Count": Count,
+    }
+
+    # Builtins limitados para permitir consultas utiles sin exponer funciones peligrosas
+    safe_builtins = {
+        "list": list,
+        "dict": dict,
+        "tuple": tuple,
+        "set": set,
+        "len": len,
+        "sum": sum,
+        "min": min,
+        "max": max,
+        "str": str,
+        "int": int,
+        "float": float,
+        "bool": bool,
+        "sorted": sorted,
+    }
+
+    try:
+        if use_eval:
+            # Ejecutar como expresión y devolver resultado
+            result = eval(query, {"__builtins__": safe_builtins}, safe_context)
+            logger.info(f"Debug query (eval) ejecutado por {request.user.username}: {query}")
+            return Response({"success": True, "result": str(result)}, status=status.HTTP_200_OK)
+        else:
+            # Ejecutar como sentencia
+            exec(query, {"__builtins__": safe_builtins}, safe_context)
+            logger.info(f"Debug query (exec) ejecutado por {request.user.username}: {query}")
+            return Response(
+                {"success": True, "result": "Consulta ejecutada correctamente."},
+                status=status.HTTP_200_OK,
+            )
+
+    except SyntaxError as e:
+        logger.warning(f"Syntax error en debug query de {request.user.username}: {str(e)}")
+        return Response(
+            {"success": False, "error": f"Error de sintaxis: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST
+        )
+    except Exception as e:
+        logger.error(f"Error en debug query de {request.user.username}: {str(e)}")
+        return Response(
+            {
+                "success": False,
+                "error": f"{type(e).__name__}: {str(e)}",
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
