@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --certificatesresolvers.myresolver.acme.email=agutcan1709@fp.iesromerovargas.com
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.myresolver.acme.httpChallenge.entryPoint=web
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # traefik dashboard (optional)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_letsencrypt:/letsencrypt
+    restart: always
+    networks:
+      - web
+
+  subirec2:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.subirec2.rule=Host(`arenagg.chat`)"
+      - "traefik.http.routers.subirec2.entrypoints=websecure"
+      - "traefik.http.routers.subirec2.tls=true"
+      - "traefik.http.routers.subirec2.tls.certresolver=myresolver"
+      - "traefik.http.services.subirec2.loadbalancer.server.port=8081"
+    restart: always
+    networks:
+      - web
+
+volumes:
+  traefik_letsencrypt:
+
+networks:
+  web:
+    external: false
