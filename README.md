@@ -189,10 +189,11 @@ Esta plataforma permitirá a los usuarios:
   MMR, fluctue más o menos al ganar o perder.
 - Historial de partidas jugadas con el modelo MatchResult.
 - Automatización de despliegue con actions de github.
-- Integrar Black (Libreria de Python)
-- Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente
+- Integrar Black (Libreria de Python).
+- Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
 - Sistema de notificaciones.
 - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
+
 
 ### Mejoras implementadas al proyecto
 
@@ -203,9 +204,11 @@ Esta plataforma permitirá a los usuarios:
   - Automatización de despliegue con actions de github.
 - DAM
   - Sistema de paginación.
-  - Integrar Black (Libreria de Python)
-  - AI para contestar a los mensajes de soporte automáticamente.
-  - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente
+  - Integrar Black (Libreria de Python).
+  - AI para contestar a los mensajes de soporte automáticamente (con base de conocimientos propia).
+  - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
+  - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
+  - Sistema de notificaciones (en celery).
 
 ## 📚 Bibliografía
 
