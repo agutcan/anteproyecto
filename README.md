@@ -191,7 +191,7 @@ Esta plataforma permitirá a los usuarios:
 - Automatización de despliegue con actions de github.
 - Integrar Black (Libreria de Python).
 - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
-- Sistema de notificaciones.
+- Sistema de notificaciones (meter aqui el envio de correos también).
 - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
 
 
@@ -208,7 +208,7 @@ Esta plataforma permitirá a los usuarios:
   - AI para contestar a los mensajes de soporte automáticamente (con base de conocimientos propia).
   - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
   - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
-  - Sistema de notificaciones (en celery).
+  - Sistema de notificaciones (meter aqui el envio de correos también).
 
 ## 📚 Bibliografía
 
