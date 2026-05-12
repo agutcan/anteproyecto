@@ -32,3 +32,111 @@
     color: #ffc107;
 }
 
+/* Estilos para el offcanvas de notificaciones */
+.offcanvas {
+    background-color: #1a1d23 !important;
+    border-left: 1px solid #444;
+}
+
+.offcanvas-header {
+    border-bottom: 2px solid #ffc107;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1a1d23 0%, #2c2f35 100%);
+}
+
+.offcanvas-header .btn-close {
+    background-color: #ffc107;
+    opacity: 0.8;
+}
+
+.offcanvas-header .btn-close:hover {
+    opacity: 1;
+}
+
+.offcanvas-title {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.offcanvas-body {
+    padding: 0;
+}
+
+#notificationList {
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+#notificationList .notification-item {
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+    transition: all 0.3s ease;
+    background-color: #1a1d23;
+}
+
+#notificationList .notification-item:hover {
+    background-color: #2c2f35;
+    border-left: 4px solid #ffc107;
+}
+
+#notificationList .notification-item strong {
+    color: #fff;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#notificationList .notification-item .notification-message {
+    color: #ccc;
+    font-size: 0.9rem;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    margin-bottom: 0.5rem;
+}
+
+#notificationList .notification-item .notification-date {
+    color: #999;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+#notificationList .btn-sm {
+    color: #ffc107;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: none;
+    text-decoration: none;
+}
+
+#notificationList .btn-sm:hover {
+    color: #fff;
+    background-color: #ffc107;
+}
+
+#notificationList .text-muted {
+    color: #999 !important;
+}
+
+.notification-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #999;
+}
+
+#notificationBell:hover {
+    color: #ffc107 !important;
+    transition: color 0.3s ease;
+}
+
+.offcanvas-header .btn-close {
+    background-color: #ffc107 !important;
+    opacity: 0.8;
+    border: none;
+    filter: invert(1);
+}
+
+.offcanvas-header .btn-close:hover {
+    opacity: 1;
+    filter: invert(1);
+}
+

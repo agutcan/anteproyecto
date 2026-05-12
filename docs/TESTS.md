@@ -209,6 +209,27 @@ Este archivo contiene pruebas para validar el comportamiento de las distintas vi
 
 ---
 
+## 🔔 Ajustes por el sistema de notificaciones
+
+Tras sustituir `send_mail` por `create_notification`, algunos tests de vistas se ajustaron para mockear la nueva función.
+
+### Casos actualizados
+- `SupportViewTests`
+- `TournamentCreateViewTests`
+
+### Qué se valida ahora
+- Que la vista crea la notificación correcta
+- Que la respuesta sigue siendo correcta aunque no se envíe correo real
+- Que el flujo de error se mantiene cuando `create_notification` falla
+
+```python
+@patch("web.views.create_notification")
+def test_successful_form_submission_sends_email(self, mock_create_notification):
+    ...
+```
+
+---
+
 ## 📊 `PlayerStatsListAPITest`
 
 Pruebas para la vista API que devuelve estadísticas de jugadores en formato JSON.

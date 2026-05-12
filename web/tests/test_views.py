@@ -515,11 +515,11 @@ class SupportViewTests(TestCase):
         self.assertIsInstance(response.context["form"], SupportForm)
         self.assertEqual(response.context["form"].initial["email"], self.user.email)
 
-    @patch("web.views.send_mail")
-    def test_successful_form_submission_sends_email(self, mock_send_mail):
+    @patch("web.views.create_notification")
+    def test_successful_form_submission_sends_email(self, mock_create_notification):
         """
         Simula el envío exitoso de un formulario de soporte y verifica
-        que se haya llamado a send_mail y la respuesta sea exitosa.
+        que se haya llamado a create_notification y la respuesta sea exitosa.
         """
         self.client.login(username="testuser", password="testpass")
         form_data = {
@@ -530,10 +530,10 @@ class SupportViewTests(TestCase):
         response = self.client.post(self.url, form_data, follow=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(mock_send_mail.called)
+        self.assertTrue(mock_create_notification.called)
 
-    @patch("web.views.send_mail", side_effect=Exception("SMTP error"))
-    def test_form_submission_error_shows_error_message(self, mock_send_mail):
+    @patch("web.views.create_notification", side_effect=Exception("Error creating notification"))
+    def test_form_submission_error_shows_error_message(self, mock_create_notification):
         """
         Simula un error en el envío del formulario de soporte y verifica
         que la vista maneja la excepción correctamente.
@@ -547,7 +547,7 @@ class SupportViewTests(TestCase):
         response = self.client.post(self.url, form_data, follow=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(mock_send_mail.called)
+        self.assertTrue(mock_create_notification.called)
 
     def tearDown(self):
         """
@@ -634,11 +634,11 @@ class TournamentCreateViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn("/accounts/login/", response.url)
 
-    @patch("web.views.send_mail")
-    def test_tournament_creation_and_email(self, mock_send_mail):
+    @patch("web.views.create_notification")
+    def test_tournament_creation_and_email(self, mock_create_notification):
         """
         Simula la creación de un torneo y verifica que se guarda correctamente,
-        se envía el correo y se redirige a la página de torneos.
+        se envía la notificación y se redirige a la página de torneos.
         """
         self.client.login(username="user1", password="pass")
         form_data = {
@@ -653,7 +653,7 @@ class TournamentCreateViewTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Tournament.objects.filter(name="New Tournament").exists())
-        self.assertTrue(mock_send_mail.called)
+        self.assertTrue(mock_create_notification.called)
 
     def tearDown(self):
         """

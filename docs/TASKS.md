@@ -334,3 +334,20 @@ def check_tournament_match_progress():
 - 🎯 [Workflows](WORKFLOWS.md)
 - 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
+
+---
+
+## 🔔 Tarea `process_notification_queue`
+
+Además de las tareas de torneo, el proyecto incluye una tarea de Celery para procesar notificaciones pendientes.
+
+### Qué hace
+- Busca notificaciones con `send_email=True` y estado `pending`
+- Envía el correo con los destinatarios guardados en `recipient_users`
+- Marca la notificación como `sent` o `failed`
+- Guarda la fecha de envío en `email_sent_at`
+
+### Dónde se usa
+- Se ejecuta desde Celery Beat
+- Complementa la creación de notificaciones hecha en las vistas
+- Permite usar Mailpit en local sin bloquear la petición HTTP

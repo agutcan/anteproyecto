@@ -387,6 +387,26 @@ def record_match_result(match, winner, team1_score, team2_score):
             fail_silently=False,  # Si ocurre un error, se lanza una excepción
         )
 
+---
+
+## 🔔 Función `create_notification`
+
+Esta función centraliza la creación de notificaciones internas de la plataforma.
+
+### Comportamiento
+- Recibe un `user` principal obligatorio.
+- Puede añadir destinatarios adicionales con `recipient_users`.
+- Crea una única fila en `Notification`.
+- Asocia los destinatarios al campo ManyToMany.
+- Devuelve la notificación creada para poder encadenar lógica adicional.
+
+### Uso típico
+- Torneos creados
+- Expulsión de jugadores
+- Mensajes de soporte
+- Avisos administrativos
+- Alertas de resultados inconsistentes
+
 ```
 
 ---

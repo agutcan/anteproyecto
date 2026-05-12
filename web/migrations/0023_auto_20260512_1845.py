@@ -27,6 +27,7 @@ def eliminar_datos(apps, schema_editor):
     User = apps.get_model('auth', 'User')  # Modelo User de Django
     Reward = apps.get_model('web', 'Reward')
     Redemption = apps.get_model('web', 'Redemption')
+    Notification = apps.get_model('web', 'Notification')
 
     # Eliminar tareas periódicas
     PeriodicTask.objects.all().delete()
@@ -54,6 +55,8 @@ def eliminar_datos(apps, schema_editor):
     Reward.objects.all().delete()
     # Eliminar las reclamaciones
     Redemption.objects.all().delete()
+    # Eliminar las notificaciones
+    Notification.objects.all().delete()
 
 # Función que pobla la base de datos con datos de prueba
 def poblar_datos(apps, schema_editor):
@@ -336,11 +339,21 @@ def poblar_datos(apps, schema_editor):
         args=json.dumps([]),
     )
 
+    # Nombre de la tarea para procesar la cola de notificaciones (usa el mismo intervalo)
+    task_name = 'web.tasks.process_notification_queue'
+
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name='Procesar cola de notificaciones cada 10 segundos',
+        task=task_name,
+        args=json.dumps([]),
+    )
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0019_team_searching_teammates_alter_team_leader'),
+        ('web', '0022_notification_recipient_users_and_more'),
     ]
 
     # Operaciones que se ejecutan: poblar los datos y definir cómo eliminarlos

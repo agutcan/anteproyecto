@@ -424,3 +424,59 @@ def process_round(tournament, round_number):
         generate_matches_by_mmr(
             tournament.id, round=round_number, tournament_teams=winning_tournament_teams
         )
+
+def create_notification(
+    user,
+    title="",
+    message="",
+    urgency=2,
+    send_email=False,
+    sender_email=None,
+    recipient_users=None,
+    tournament=None,
+    match=None,
+):
+    """
+    Crea una notificación en el sistema.
+
+    Args:
+        user: Usuario propietario/principal de la notificación (requerido)
+        title: Título de la notificación
+        message: Mensaje de la notificación
+        urgency: Nivel de urgencia (1-4)
+        send_email: Si se debe enviar por correo
+        sender_email: Email del remitente
+        recipient_users: Lista opcional de usuarios adicionales que recibirán la notificación
+                        Si no se especifica, solo se notifica a `user`
+        tournament: Torneo asociado (opcional)
+        match: Partido asociado (opcional)
+
+    Returns:
+        Notification: Objeto de notificación creado
+    """
+    # Determinar lista de destinatarios
+    if recipient_users:
+        recipients = list(recipient_users)
+        # Asegurar que user esté en la lista si no está
+        if user not in recipients:
+            recipients.insert(0, user)
+    else:
+        recipients = [user]
+
+    sender_email = sender_email or settings.DEFAULT_FROM_EMAIL
+
+    # Crear una única notificación con el user como propietario
+    notification = Notification.objects.create(
+        user=user,
+        title=title,
+        message=message,
+        urgency=urgency,
+        send_email=send_email,
+        sender_email=sender_email,
+        tournament=tournament,
+        match=match,
+    )
+    # Asignar todos los destinatarios al ManyToMany
+    notification.recipient_users.set(recipients)
+
+    return notification

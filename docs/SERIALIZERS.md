@@ -138,3 +138,20 @@ class PlayerStatsSerializer(serializers.ModelSerializer):
 - 🎯 [Workflows](WORKFLOWS.md)
 - 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
+
+---
+
+## 🔔 Nota sobre `NotificationSerializer`
+
+El proyecto incorporó `NotificationSerializer` para exponer las notificaciones del usuario en la API del frontend.
+
+### Campos principales
+- `id`, `title`, `message`, `urgency`, `status`
+- `created_at`, `read_at`
+- `sender_email`
+- `recipients`
+
+### Uso
+- Alimenta `/api/notifications/`
+- Se usa en la barra superior para el panel de notificaciones
+- Mantiene el filtrado por usuario autenticado

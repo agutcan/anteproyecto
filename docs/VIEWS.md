@@ -1073,3 +1073,27 @@ class LeaveTournamentView(LoginRequiredMixin, TemplateView):
 - 🎯 [Workflows](WORKFLOWS.md)
 - 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
+
+---
+
+## 🔔 Nota sobre notificaciones en vistas
+
+Las vistas que antes enviaban correo directamente ahora crean notificaciones con `create_notification`.
+
+### Vistas afectadas
+- `TournamentCreateView`
+- `LeaveTeamView`
+- `TeamKickView`
+- `RegisterView`
+- `MatchConfirmView`
+- `SupportView`
+- `RewardRedemptionView`
+
+### Endpoints añadidos
+- `/api/notifications/`
+- `/api/notifications/unread-count/`
+- `/api/notifications/<id>/mark-read/`
+
+### Resultado
+- Más trazabilidad en base de datos
+- El frontend puede cargar y marcar notificaciones sin recargar la página

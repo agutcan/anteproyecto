@@ -843,3 +843,15 @@ class RedemptionAdmin(admin.ModelAdmin):
 - 🎯 [Workflows](WORKFLOWS.md)
 - 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
+
+---
+
+## 🔔 Nota sobre `Notification`
+
+El admin incluye el modelo `Notification` para revisar avisos, destinatarios y estado de envío.
+
+### Secciones destacadas
+- `list_display` para usuario, título, estado, urgencia y fechas
+- `list_filter` para estado, urgencia y creación
+- `search_fields` por título y nombre de usuario
+- `filter_horizontal` para `recipient_users`

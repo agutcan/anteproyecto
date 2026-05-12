@@ -31,14 +31,16 @@ from .functions import (
     create_match_log,
     update_players_stats,
     increase_player_renombre,
+    create_notification,
 )
 from .serializers import *
 from web.models import *
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.contrib import messages
 from django.db.models import Prefetch
+from .serializers import NotificationSerializer
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -802,14 +804,23 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
 
             tournament = form.save()
 
-            # Enviar correo de confirmación
-            send_mail(
-                subject="🎮 Torneo creado en ArenaGG",
+            create_notification(
+                user=self.request.user,
+                title="🎮 Torneo creado en ArenaGG",
                 message=f'Hola {self.request.user.username},\n\nHas creado el torneo "{tournament.name}" para {tournament.max_teams} equipos.\n\nFecha: {tournament.start_date.strftime("%d/%m/%Y")}',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[self.request.user.email],
-                fail_silently=True,
+                urgency=3,
+                sender_email=settings.DEFAULT_FROM_EMAIL,
+                send_email=False,
             )
+            
+            # Enviar correo de confirmación
+            #send_mail(
+            #    subject="🎮 Torneo creado en ArenaGG",
+            #    message=f'Hola {self.request.user.username},\n\nHas creado el torneo "{tournament.name}" para {tournament.max_teams} equipos.\n\nFecha: {tournament.start_date.strftime("%d/%m/%Y")}',
+            #    from_email=settings.DEFAULT_FROM_EMAIL,
+            #    recipient_list=[self.request.user.email],
+            #    fail_silently=True,
+            #)
 
             return redirect("web:tournamentListView")
 
@@ -1094,20 +1105,22 @@ class LeaveTeamView(LoginRequiredMixin, View):
         player_id = kwargs.get("pk")
         player = get_object_or_404(Player, pk=player_id)
 
-        recipient_email = player.team.leader.user.email
-        if not recipient_email:
-            messages.error(request, "No se proporcionó una dirección de correo.")
+        if not player.team or not player.team.leader:
+            messages.error(request, "No perteneces a ningún equipo o el equipo no tiene líder.")
             return redirect("web:playerTeamDetailView", pk=player_id)
 
-        subject = "Quiero abandonar el equipo."
-        message = f"Deseo abandonar el equipo. ¿Podrías expulsarme?"
-        from_email = player.user.email
-
         try:
-            send_mail(subject, message, from_email, [recipient_email])
-            messages.success(request, "Petición enviada correctamente.")
+            create_notification(
+                user=player.team.leader.user,
+                title="Quiero abandonar el equipo.",
+                message=f"Deseo abandonar el equipo. ¿Podrías expulsarme?",
+                urgency=3,
+                sender_email=player.user.email,
+                send_email=False,
+            )
+            messages.success(request, "Notificación creada correctamente.")
         except Exception as e:
-            messages.error(request, f"No se pudo enviar la petición: {e}")
+            messages.error(request, f"No se pudo crear la notificación: {e}")
 
         return redirect("web:playerTeamDetailView", pk=player_id)
 
@@ -1197,19 +1210,34 @@ class TeamKickView(LoginRequiredMixin, View):
             # Desvincular al jugador del equipo
             player.team = None
             player.save()
-            # Enviar correo de confirmación
-            send_mail(
-                subject="Has sido expulsado!!",
+            
+            create_notification(
+                user=player.user,
+                title="Has sido expulsado!!",
                 message=(
                     f"Hola {player.user},\n\n"
                     "Se te ha expulsado de tu equipo.\n\n"
                     "¡Esperemos que este no sea un adios para siempre!\n\n"
                     "- El equipo de ArenaGG"
                 ),
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[player.user.email],
-                fail_silently=False,
+                urgency=3,
+                sender_email=request.user.email,
+                send_email=False,
             )
+
+            # Enviar correo de confirmación
+            #send_mail(
+            #    subject="Has sido expulsado!!",
+            #    message=(
+            #        f"Hola {player.user},\n\n"
+            #        "Se te ha expulsado de tu equipo.\n\n"
+            #        "¡Esperemos que este no sea un adios para siempre!\n\n"
+            #        "- El equipo de ArenaGG"
+            #    ),
+            #    from_email=settings.DEFAULT_FROM_EMAIL,
+            #    recipient_list=[player.user.email],
+            #    fail_silently=False,
+            #)
             messages.success(request, "Has expulsado al jugador del equipo correctamente.")
         else:
             messages.error(
@@ -1259,16 +1287,17 @@ class RegisterView(FormView):
         Player.objects.create(user=user)
         login(self.request, user)
 
-        send_mail(
-            subject="✅ ¡Bienvenido a ArenaGG!",
+        create_notification(
+            user=user,
+            title="✅ ¡Bienvenido a ArenaGG!",
             message=(
                 f"Hola {user.username},\n\n"
                 "Tu cuenta ha sido creada exitosamente.\n\n"
                 "- El equipo de ArenaGG"
             ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-            fail_silently=False,
+            urgency=2,
+            sender_email=settings.DEFAULT_FROM_EMAIL,
+            send_email=False,
         )
 
         return super().form_valid(form)
@@ -1455,14 +1484,21 @@ class MatchConfirmView(LoginRequiredMixin, View):
 
         # Verificar que el puntaje sea coherente con el ganador
         if winner == "team1" and team1_score <= team2_score:
-            send_mail(
-                "Inconsistencia en el puntaje del partido",
-                f"El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. Partido ID: {match.id}\n\n"
-                f"Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}",
-                settings.DEFAULT_FROM_EMAIL,  # Remitente
-                [settings.SUPPORT_EMAIL],  # Correo de soporte
-                fail_silently=False,
-            )
+            support_users = list(User.objects.filter(is_staff=True))
+            if support_users:
+                create_notification(
+                    user=support_users[0],
+                    recipient_users=support_users[1:] if len(support_users) > 1 else None,
+                    title="Inconsistencia en el puntaje del partido",
+                    message=(
+                        f"El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. Partido ID: {match.id}\n\n"
+                        f"Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}"
+                    ),
+                    urgency=4,
+                    sender_email=settings.DEFAULT_FROM_EMAIL,
+                    send_email=False,
+                    match=match,
+                )
             messages.error(
                 request,
                 "El equipo 1 no puede ganar con un puntaje inferior o igual al del equipo 2. El administrador ha sido notificado.",
@@ -1470,14 +1506,21 @@ class MatchConfirmView(LoginRequiredMixin, View):
             return render(request, "web/match_detail.html", {"form": form, "match": match})
 
         elif winner == "team2" and team2_score <= team1_score:
-            send_mail(
-                "Inconsistencia en el puntaje del partido",
-                f"El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. Partido ID: {match.id}\n\n"
-                f"Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}",
-                settings.DEFAULT_FROM_EMAIL,  # Remitente
-                [settings.SUPPORT_EMAIL],  # Correo de soporte
-                fail_silently=False,
-            )
+            support_users = list(User.objects.filter(is_staff=True))
+            if support_users:
+                create_notification(
+                    user=support_users[0],
+                    recipient_users=support_users[1:] if len(support_users) > 1 else None,
+                    title="Inconsistencia en el puntaje del partido",
+                    message=(
+                        f"El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. Partido ID: {match.id}\n\n"
+                        f"Puntaje del equipo 1: {team1_score}, Puntaje del equipo 2: {team2_score}"
+                    ),
+                    urgency=4,
+                    sender_email=settings.DEFAULT_FROM_EMAIL,
+                    send_email=False,
+                    match=match,
+                )
             messages.error(
                 request,
                 "El equipo 2 no puede ganar con un puntaje inferior o igual al del equipo 1. El administrador ha sido notificado.",
@@ -1507,16 +1550,22 @@ class MatchConfirmView(LoginRequiredMixin, View):
         if match.team1_confirmed and match.team2_confirmed:
             # Comparar si ambos equipos están de acuerdo con el ganador
             if match.team1_winner == match.team2_winner:
-                # Enviar un correo de notificación al soporte si los equipos no están de acuerdo
-                send_mail(
-                    "Inconsistencia en el resultado del partido",
-                    f"El partido {match.id} tiene un desacuerdo entre los equipos sobre el ganador.\n\n"
-                    f"Equipo 1 seleccionado como ganador: {match.team1_winner}\n"
-                    f"Equipo 2 seleccionado como ganador: {match.team2_winner}",
-                    settings.DEFAULT_FROM_EMAIL,  # Remitente
-                    [settings.SUPPORT_EMAIL],  # Correo de soporte
-                    fail_silently=False,
-                )
+                support_users = list(User.objects.filter(is_staff=True))
+                if support_users:
+                    create_notification(
+                        user=support_users[0],
+                        recipient_users=support_users,
+                        title="Inconsistencia en el resultado del partido",
+                        message=(
+                            f"El partido {match.id} tiene un desacuerdo entre los equipos sobre el ganador.\n\n"
+                            f"Equipo 1 seleccionado como ganador: {match.team1_winner}\n"
+                            f"Equipo 2 seleccionado como ganador: {match.team2_winner}"
+                        ),
+                        urgency=4,
+                        sender_email=settings.DEFAULT_FROM_EMAIL,
+                        send_email=False,
+                        match=match,
+                    )
                 # Agregar el mensaje de error al formulario
                 messages.error(
                     request,
@@ -1690,13 +1739,17 @@ class SupportView(LoginRequiredMixin, FormView):
 
         # Enviar el correo electrónico
         try:
-            send_mail(
-                subject=f"[Contacto ArenaGG] {subject}",
-                message=message,
-                from_email=user_email,
-                recipient_list=[settings.SUPPORT_EMAIL],
-                fail_silently=False,
-            )
+            support_users = list(User.objects.filter(is_staff=True))
+            if support_users:
+                create_notification(
+                    user=support_users[0],
+                    recipient_users=support_users,
+                    title=f"[Contacto ArenaGG] {subject}",
+                    message=message,
+                    urgency=3,
+                    sender_email=user_email,
+                    send_email=False,
+                )
 
             messages.success(
                 self.request,
@@ -1712,33 +1765,33 @@ class SupportView(LoginRequiredMixin, FormView):
 
         return super().form_valid(form)
 
-    def get_form_kwargs(self):
-        """
-        Personaliza los argumentos del formulario:
-        - Añade el email del usuario autenticado como valor inicial
 
-        Returns:
-            dict: Argumentos para instanciar el formulario
-        """
-        kwargs = super().get_form_kwargs()
-        if self.request.user.is_authenticated:
-            kwargs["initial"] = {"email": self.request.user.email}
-        return kwargs
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def notifications_api(request):
+    notifications = Notification.objects.filter(user=request.user).order_by("-created_at")[:50]
+    serializer = NotificationSerializer(notifications, many=True)
+    return Response({"notifications": serializer.data})
 
-    def get_context_data(self, **kwargs):
-        """
-        Proporciona contexto adicional al template:
-        - Añade el formulario al contexto
 
-        Args:
-            **kwargs: Argumentos clave variables
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def notification_unread_count_api(request):
+    count = Notification.objects.filter(user=request.user, read_at__isnull=True).count()
+    return Response({"unread_count": count})
 
-        Returns:
-            dict: Contexto para renderizar el template
-        """
-        context = super().get_context_data(**kwargs)
-        context["form"] = self.get_form()
-        return context
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def notification_mark_read_api(request, notification_id):
+    try:
+        notif = Notification.objects.get(id=notification_id, user=request.user)
+    except Notification.DoesNotExist:
+        return Response({"success": False, "error": "Not found"}, status=404)
+    if notif.read_at is None:
+        notif.read_at = timezone.now()
+        notif.save()
+    return Response({"success": True})
 
 
 class RewardRedemptionView(LoginRequiredMixin, View):
@@ -1779,13 +1832,17 @@ class RewardRedemptionView(LoginRequiredMixin, View):
             reward.stock -= 1
             reward.save()
             if reward.stock == 0:
-                send_mail(
-                    subject="Recompensa acabada",
-                    message=f"Se ha acabado el stock de la recompensa: {reward.name}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.DEFAULT_FROM_EMAIL],
-                    fail_silently=True,
-                )
+                support_users = list(User.objects.filter(is_staff=True))
+                if support_users:
+                    create_notification(
+                        user=support_users[0],
+                        recipient_users=support_users,
+                        title="Recompensa acabada",
+                        message=f"Se ha acabado el stock de la recompensa: {reward.name}",
+                        urgency=2,
+                        sender_email=settings.DEFAULT_FROM_EMAIL,
+                        send_email=False,
+                    )
 
             # Crear la redención
             Redemption.objects.create(user=request.user, reward=reward)

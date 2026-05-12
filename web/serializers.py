@@ -72,3 +72,17 @@ class SupportChatResponseSerializer(serializers.Serializer):
     confidence = serializers.FloatField()
     should_escalate = serializers.BooleanField()
     sources = serializers.ListField(child=serializers.CharField(), required=False)
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    """Serializador para notificaciones."""
+
+    sender_email = serializers.CharField(allow_null=True)
+    recipients = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Notification
+        fields = ["id", "title", "message", "urgency", "status", "created_at", "read_at", "sender_email", "recipients"]
+
+    def get_recipients(self, obj):
+        return [u.username for u in obj.recipient_users.all()]

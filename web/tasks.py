@@ -2,8 +2,10 @@ from functools import total_ordering
 
 from celery import shared_task
 from django.utils import timezone
+from django.core.mail import send_mail
 from .models import *
 from .functions import *
+from django.conf import settings
 import random
 
 
@@ -45,6 +47,8 @@ def update_tournament_status():
                 generate_matches_by_mmr(tournament.id)  # Llama a la función que genera las partidas
 
 
+
+
 @shared_task
 def check_teams_ready_for_match():
     """
@@ -78,32 +82,34 @@ def check_teams_ready_for_match():
             match.save()
             create_match_log(match, "Ambos equipos listos. El partido ha comenzado.")
 
-            # Notifica a cada jugador del equipo 1 por correo electrónico
+            # Notifica a cada jugador del equipo 1 mediante el sistema de notificaciones
             for player in match.team1.player_set.all():
-                send_mail(
-                    subject="✅ ¡Partida Comenzada!",
+                create_notification(
+                    user=player.user,
+                    title="✅ ¡Partida Comenzada!",
                     message=(
                         f"Hola {player.user},\n\n"
                         "La partida ha comenzado correctamente.\n\n"
                         "- El equipo de ArenaGG"
                     ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[player.user.email],
-                    fail_silently=False,
+                    sender_email=settings.DEFAULT_FROM_EMAIL,
+                    urgency=3,
+                    send_email=True
                 )
 
-            # Notifica a cada jugador del equipo 2 por correo electrónico
+            # Notifica a cada jugador del equipo 2 mediante el sistema de notificaciones
             for player in match.team2.player_set.all():
-                send_mail(
-                    subject="✅ ¡Partida finalizada!",
+                create_notification(
+                    user=player.user,
+                    title="✅ ¡Partida Comenzada!",
                     message=(
                         f"Hola {player.user},\n\n"
                         "La partida ha comenzado correctamente.\n\n"
                         "- El equipo de ArenaGG"
                     ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[player.user.email],
-                    fail_silently=False,
+                    sender_email=settings.DEFAULT_FROM_EMAIL,
+                    urgency=3,
+                    send_email=True
                 )
 
             # Pasa al siguiente partido (no continúa evaluando condiciones)
@@ -241,3 +247,42 @@ def check_tournament_match_progress():
                 process_round(tournament, round_number=3)
             elif completed_matches == 7:
                 process_final_match(tournament, completed_matches_queryset)
+
+@shared_task
+def process_notification_queue():
+    """Procesa la cola de notificaciones: envía emails para notificaciones pendientes.
+
+    Busca notificaciones con `send_email=True` y `status='pending'`, intenta enviar
+    por correo usando Django `send_mail` y actualiza el estado y `email_sent_at`.
+    """
+    notifications = Notification.objects.filter(send_email=True, status="pending").select_related("user").prefetch_related("recipient_users")[:200]
+    for notif in notifications:
+        # construir lista de destinatarios
+        recipient_qs = notif.recipient_users.all()
+        if recipient_qs.exists():
+            recipient_emails = [u.email for u in recipient_qs if u.email]
+        else:
+            recipient_emails = [notif.user.email] if notif.user and notif.user.email else []
+
+        if not recipient_emails:
+            notif.status = "failed"
+            notif.retries += 1
+            notif.save()
+            continue
+
+        subject = notif.title
+        message = notif.message
+        from_email = notif.sender_email or settings.DEFAULT_FROM_EMAIL
+
+        try:
+            send_mail(subject, message, from_email, recipient_emails, fail_silently=False)
+            notif.status = "sent"
+            notif.email_sent_at = timezone.now()
+            notif.save()
+        except Exception:
+            notif.retries += 1
+            if notif.retries >= notif.max_retries:
+                notif.status = "failed"
+            else:
+                notif.status = "pending"
+            notif.save()

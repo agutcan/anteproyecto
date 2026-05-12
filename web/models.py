@@ -390,3 +390,87 @@ class Redemption(models.Model):
     def __str__(self):
         """Representación: '[usuario] redeemed [recompensa] on [fecha]'"""
         return f"{self.user.username} redeemed {self.reward.name} on {self.redeemed_at}"
+
+class Notification(models.Model):
+
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("processing", "Processing"),
+        ("sent", "Sent"),
+        ("failed", "Failed"),
+    ]
+
+    URGENCY_CHOICES = [
+        (1, "Low"),
+        (2, "Normal"),
+        (3, "High"),
+        (4, "Critical"),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="notifications",
+    )
+
+    recipient_users = models.ManyToManyField(
+        User,
+        related_name="notification_recipients",
+        blank=True,
+    )
+
+    sender_email = models.EmailField(blank=True, null=True)
+
+    urgency = models.PositiveSmallIntegerField(
+        choices=URGENCY_CHOICES,
+        default=2,
+    )
+
+    title = models.CharField(max_length=255)
+    message = models.TextField()
+
+    send_email = models.BooleanField(default=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="pending",
+    )
+
+    retries = models.PositiveIntegerField(default=0)
+    max_retries = models.PositiveIntegerField(default=3)
+
+    email_sent_at = models.DateTimeField(null=True, blank=True)
+
+    tournament = models.ForeignKey(
+        Tournament,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    match = models.ForeignKey(
+        Match,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    read_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["-urgency", "-created_at"]
+        indexes = [
+            models.Index(fields=["status"]),
+            models.Index(fields=["urgency"]),
+            models.Index(fields=["created_at"]),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.title} ({self.status})"
+
+    @property
+    def is_read(self):
+        return self.read_at is not None

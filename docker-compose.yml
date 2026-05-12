@@ -8,6 +8,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - .:/app
       - ./staticfiles:/app/staticfiles
       - ./web/static/media:/app/web/static/media
     env_file:

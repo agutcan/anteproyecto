@@ -373,3 +373,39 @@ class RedemptionAdmin(admin.ModelAdmin):
     )
 
     list_filter = ("redeemed_at",)  # Filtro por fecha de canje
+
+
+# Configuración del administrador para el modelo Notification
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    """Configuración del panel de administración para el modelo Notification.
+
+    Personaliza la visualización y gestión de notificaciones en el admin de Django.
+    """
+
+    list_display = (
+        "user",  # Usuario propietario de la notificación
+        "title",  # Título de la notificación
+        "status",  # Estado (pendiente/procesando/enviado/fallido)
+        "urgency",  # Nivel de urgencia (1-4)
+        "created_at",  # Fecha de creación
+        "read_at",  # Fecha de lectura
+    )
+
+    list_filter = (
+        "status",  # Filtro por estado
+        "urgency",  # Filtro por nivel de urgencia
+        "created_at",  # Filtro por fecha de creación
+    )
+
+    search_fields = (
+        "title",  # Búsqueda por título de notificación
+        "user__username",  # Búsqueda por nombre de usuario
+    )
+
+    readonly_fields = (
+        "created_at",  # Campo de solo lectura
+        "updated_at",  # Campo de solo lectura
+    )
+
+    filter_horizontal = ("recipient_users",)  # Interfaz mejorada para ManyToMany

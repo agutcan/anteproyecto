@@ -585,3 +585,22 @@ class Redemption(models.Model):
 - 🎯 [Workflows](WORKFLOWS.md)
 - 🚀 [Compose](DOCKER-COMPOSE.md)
 - ⬅️ [Volver al README principal](../README.md)
+
+---
+
+## 🔔 Nota sobre `Notification`
+
+Se añadió el modelo `Notification` como eje del sistema de avisos.
+
+### Qué guarda
+- Usuario principal y destinatarios
+- Título, mensaje y urgencia
+- Estado de la cola de envío
+- Fecha de lectura y de envío
+- Relación opcional con torneo o partido
+
+### Para qué se usa
+- Avisos de soporte
+- Torneos y partidos
+- Gestión administrativa
+- Cola de correo con Celery

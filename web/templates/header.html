@@ -33,6 +33,16 @@
                 </li>
 
                 {% if user.is_authenticated %}
+                    <!-- Icono de notificaciones -->
+                    <li class="nav-item me-3">
+                        <a class="nav-link position-relative" href="#" id="notificationBell" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas" title="Notificaciones">
+                            <i class="bi bi-bell fs-5 text-light"></i>
+                            {% if notification_unread_count and notification_unread_count > 0 %}
+                                <span class="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:11px; padding: 4px 6px;">{{ notification_unread_count }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+
                     <!-- Dropdown de usuario -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -89,6 +99,18 @@
 </nav>
 
     <script src="{% static 'js/header.js' %}"></script>
+
+<!-- Offcanvas para notificaciones -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="notificationOffcanvas" aria-labelledby="notificationOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="notificationOffcanvasLabel">Notificaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="notificationList">Cargando notificaciones...</div>
+    </div>
+</div>
+
 
 
 
