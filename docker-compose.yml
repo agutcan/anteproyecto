@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: "traefik:v3.2"
+    image: "traefik:v2.11"
     container_name: "traefik"
 
     command:
@@ -9,7 +9,7 @@ services:
       # - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--entrypoints.web.address=:80"
 
       # Bloque letsencrypt
@@ -34,7 +34,10 @@ services:
         # Añade autenticación test/test
         - "traefik.http.routers.traefik.middlewares=myauth"
         - "traefik.http.middlewares.myauth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
-
+    env_file:
+      - .env
+    environment:
+      - DOCKER_API_VERSION=1.52
     ports:
       - "443:443"
       - "8080:8080"
