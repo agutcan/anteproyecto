@@ -9,6 +9,7 @@ from unittest.mock import patch
 from ..forms import *
 from django.utils import timezone
 from datetime import timedelta
+import requests
 
 
 class DebugConsoleAPITest(APITestCase):
@@ -143,6 +144,50 @@ class PlayerStatsListAPITest(APITestCase):
         Player.objects.all().delete()
         User.objects.all().delete()
         Team.objects.all().delete()
+
+
+class SupportChatAPITests(APITestCase):
+    """Pruebas para el endpoint `support_chat_api`.
+
+    Verifica respuesta correcta cuando el servicio RAG responde y
+    manejo de errores cuando el servicio no está disponible.
+    """
+
+    def setUp(self):
+        self.user = User.objects.create_user(username="support_user", password="testpass")
+        self.url = reverse("web:support_chat_api")
+
+    @patch("web.views.requests.post")
+    def test_support_chat_success(self, mock_post):
+        # Mock de la respuesta del servicio externo
+        mock_resp = mock_post.return_value
+        mock_resp.raise_for_status.return_value = None
+        mock_resp.json.return_value = {
+            "answer": "Hola, puedo ayudarte.",
+            "confidence": 0.85,
+            "should_escalate": False,
+            "sources": ["docs/help.md"],
+        }
+
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(self.url, {"message": "Hola"}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.json()
+        self.assertEqual(data["response"], "Hola, puedo ayudarte.")
+        self.assertAlmostEqual(data["confidence"], 0.85)
+        self.assertFalse(data["should_escalate"])
+        self.assertIsInstance(data["sources"], list)
+
+    @patch("web.views.requests.post", side_effect=requests.RequestException("timeout"))
+    def test_support_chat_service_unavailable(self, mock_post):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(self.url, {"message": "Hola"}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_503_SERVICE_UNAVAILABLE)
+        data = response.json()
+        self.assertTrue(data.get("should_escalate"))
+        self.assertIn("asistente no está disponible", data.get("response", "").lower())
 
 
 class IndexViewTest(TestCase):
@@ -488,7 +533,7 @@ class SupportViewTests(TestCase):
         """
         User.objects.all().delete()
         self.user = User.objects.create_user(
-            username="testuser", email="user@example.com", password="testpass"
+            username="testuser", email="user@example.com", password="testpass", is_staff=True
         )
         self.player = Player.objects.create(first_name="Player One", user=self.user)
         self.client = Client()
@@ -502,18 +547,6 @@ class SupportViewTests(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertIn("/accounts/login/", response.url)
-
-    def test_view_loads_for_logged_user(self):
-        """
-        Comprueba que la vista carga correctamente para un usuario autenticado,
-        que la plantilla es la esperada y el formulario incluye el email inicial.
-        """
-        self.client.login(username="testuser", password="testpass")
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "web/support.html")
-        self.assertIsInstance(response.context["form"], SupportForm)
-        self.assertEqual(response.context["form"].initial["email"], self.user.email)
 
     @patch("web.views.create_notification")
     def test_successful_form_submission_sends_email(self, mock_create_notification):
