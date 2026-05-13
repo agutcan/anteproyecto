@@ -1,0 +1,80 @@
+services:
+  web:
+    image: ${IMAGE}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_web
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./staticfiles:/app/staticfiles
+      - ./web/static/media:/app/web/static/media
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - mailpit
+      - redis
+    command: gunicorn ArenaGG.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 2
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    container_name: postgres_db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    volumes:
+      - ./data:/data
+    ports:
+      - "8025:8025"   # Web UI
+      - "1025:1025"   # SMTP
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: unless-stopped
+
+  celery:
+    image: ${IMAGE}
+    container_name: celery
+    command: celery -A ArenaGG worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - web
+      - redis
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  celery-beat:
+    image: ${IMAGE}
+    container_name: celery_beat
+    command: celery -A ArenaGG beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/app
+    depends_on:
+      - web
+      - redis
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
