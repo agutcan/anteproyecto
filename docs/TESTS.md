@@ -1,30 +1,5 @@
 # ✅ Tests de Modelos (`test_models.py`)
 
-## 🎨 Calidad de código (Black)
-
-Además de los tests funcionales, el proyecto valida el formato Python con Black.
-
-Comandos:
-
-```sh
-# Aplicar formato
-python -m black .
-
-# Validar formato sin modificar archivos
-python -m black --check .
-```
-
-En CI se ejecuta el check de Black antes del build y del despliegue.
-
-Si quieres automatizarlo localmente antes de cada commit:
-
-```sh
-python -m pip install pre-commit
-python -m pre_commit install
-```
-
-Este archivo contiene pruebas unitarias para verificar que los modelos del sistema funcionen correctamente.
-
 ---
 
 ## ⚙️ Configuración Inicial (`setUp`)
@@ -51,30 +26,6 @@ def setUp(self):
             created_by=self.user,
             max_teams=2
         )
-```
-
-## 🗣️ `SupportChatAPITests` (API de soporte RAG)
-
-Pruebas para el endpoint `/api/support/chat/` que actúa como proxy hacia el servicio RAG (subirEC2).
-
-### Casos de prueba
-- `test_support_chat_success`: Mockea `requests.post` para devolver un payload válido y comprueba `response`, `confidence`, `should_escalate` y `sources`.
-- `test_support_chat_service_unavailable`: Simula `requests.RequestException` y valida que la vista devuelve `503` y `should_escalate = True`.
-
-```python
-@patch("web.views.requests.post")
-def test_support_chat_success(self, mock_post):
-    mock_post.return_value.json.return_value = {
-        "answer": "Hola, puedo ayudarte.",
-        "confidence": 0.85,
-        "should_escalate": False,
-        "sources": ["docs/help.md"],
-    }
-    self.client.force_authenticate(user=self.user)
-    response = self.client.post(self.url, {"message": "Hola"}, format="json")
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
-    data = response.json()
-    self.assertEqual(data["response"], "Hola, puedo ayudarte.")
 ```
 
 ---
@@ -974,6 +925,55 @@ class TournamentCreateViewTests(TestCase):
         Game.objects.all().delete()
         Tournament.objects.all().delete()
 ```
+
+## 🗣️ `SupportChatAPITests` (API de soporte RAG)
+
+Pruebas para el endpoint `/api/support/chat/` que actúa como proxy hacia el servicio RAG (subirEC2).
+
+### Casos de prueba
+- `test_support_chat_success`: Mockea `requests.post` para devolver un payload válido y comprueba `response`, `confidence`, `should_escalate` y `sources`.
+- `test_support_chat_service_unavailable`: Simula `requests.RequestException` y valida que la vista devuelve `503` y `should_escalate = True`.
+
+```python
+@patch("web.views.requests.post")
+def test_support_chat_success(self, mock_post):
+    mock_post.return_value.json.return_value = {
+        "answer": "Hola, puedo ayudarte.",
+        "confidence": 0.85,
+        "should_escalate": False,
+        "sources": ["docs/help.md"],
+    }
+    self.client.force_authenticate(user=self.user)
+    response = self.client.post(self.url, {"message": "Hola"}, format="json")
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    data = response.json()
+    self.assertEqual(data["response"], "Hola, puedo ayudarte.")
+```
+
+## 🎨 Calidad de código (Black)
+
+Además de los tests funcionales, el proyecto valida el formato Python con Black.
+
+Comandos:
+
+```sh
+# Aplicar formato
+python -m black .
+
+# Validar formato sin modificar archivos
+python -m black --check .
+```
+
+En CI se ejecuta el check de Black antes del build y del despliegue.
+
+Si quieres automatizarlo localmente antes de cada commit:
+
+```sh
+python -m pip install pre-commit
+python -m pre_commit install
+```
+
+Este archivo contiene pruebas unitarias para verificar que los modelos del sistema funcionen correctamente.
 
 ---
 

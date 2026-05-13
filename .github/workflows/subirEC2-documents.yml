@@ -1,0 +1,40 @@
+name: subirEC2-documents
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'subirEC2/documents/**'
+
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'subirEC2/documents/**'
+
+jobs:
+  deploy:
+    name: Update documents + rebuild EC2 services
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute remote commands on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOSTNAME2 }}
+          username: ${{ secrets.AWS_USERNAME }}
+          key: ${{ secrets.AWS_PRIVATEKEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            set -e
+
+            cd /home/ubuntu/anteproyecto/subirEC2
+
+            source .venv/bin/activate
+
+            git pull
+
+            python -m app.ingest
+
+            docker compose down -v
+
+            docker compose up -d --build

@@ -26,7 +26,7 @@ services:
 
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.traefik.rule=Host(`aarongutierrez.tech`)"
+        - "traefik.http.routers.traefik.rule=Host(`arenagg.tech`)"
         - "traefik.http.routers.traefik.service=api@internal"
 
         - "traefik.http.routers.traefik.entrypoints=websecure"
@@ -50,7 +50,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Usar cada uno SU DOMINIO .tech
-      - "traefik.http.routers.whoami.rule=Host(`whoami.aarongutierrez.tech`)"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.arenagg.tech`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
@@ -71,7 +71,7 @@ services:
     restart: unless-stopped  # Asegura que el contenedor se reinicie si falla
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`arenagg.aarongutierrez.tech`)"
+      - "traefik.http.routers.web.rule=Host(`app.arenagg.tech`)"
       - "traefik.http.routers.web.entrypoints=websecure"
       - "traefik.http.routers.web.tls.certresolver=myresolver"
       - "traefik.http.services.web.loadbalancer.server.port=8000"
@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mailpit.rule=Host(`mailpit.aarongutierrez.tech`)"
+      - "traefik.http.routers.mailpit.rule=Host(`mailpit.arenagg.tech`)"
       - "traefik.http.routers.mailpit.entrypoints=websecure"
       - "traefik.http.routers.mailpit.tls.certresolver=myresolver"
       - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
@@ -144,7 +144,7 @@ services:
       - ./web/static/media:/usr/share/nginx/html/media:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.media.rule=Host(`arenagg.aarongutierrez.tech`) && PathPrefix(`/media`)"
+      - "traefik.http.routers.media.rule=Host(`app.arenagg.tech`) && PathPrefix(`/media`)"
       - "traefik.http.routers.media.entrypoints=websecure"
       - "traefik.http.routers.media.tls.certresolver=myresolver"
       - "traefik.http.services.media.loadbalancer.server.port=80"
