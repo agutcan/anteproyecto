@@ -32,7 +32,9 @@ class VectorStore:
         self.metadata_path.parent.mkdir(parents=True, exist_ok=True)
 
         faiss.write_index(self.index, str(self.index_path))
-        self.metadata_path.write_text(json.dumps(self.metadata, ensure_ascii=True, indent=2), encoding="utf-8")
+        self.metadata_path.write_text(
+            json.dumps(self.metadata, ensure_ascii=True, indent=2), encoding="utf-8"
+        )
 
     def load(self) -> None:
         if not self.index_path.exists() or not self.metadata_path.exists():

@@ -47,8 +47,6 @@ def update_tournament_status():
                 generate_matches_by_mmr(tournament.id)  # Llama a la función que genera las partidas
 
 
-
-
 @shared_task
 def check_teams_ready_for_match():
     """
@@ -94,7 +92,7 @@ def check_teams_ready_for_match():
                     ),
                     sender_email=settings.DEFAULT_FROM_EMAIL,
                     urgency=3,
-                    send_email=True
+                    send_email=True,
                 )
 
             # Notifica a cada jugador del equipo 2 mediante el sistema de notificaciones
@@ -109,7 +107,7 @@ def check_teams_ready_for_match():
                     ),
                     sender_email=settings.DEFAULT_FROM_EMAIL,
                     urgency=3,
-                    send_email=True
+                    send_email=True,
                 )
 
             # Pasa al siguiente partido (no continúa evaluando condiciones)
@@ -248,6 +246,7 @@ def check_tournament_match_progress():
             elif completed_matches == 7:
                 process_final_match(tournament, completed_matches_queryset)
 
+
 @shared_task
 def process_notification_queue():
     """Procesa la cola de notificaciones: envía emails para notificaciones pendientes.
@@ -255,7 +254,11 @@ def process_notification_queue():
     Busca notificaciones con `send_email=True` y `status='pending'`, intenta enviar
     por correo usando Django `send_mail` y actualiza el estado y `email_sent_at`.
     """
-    notifications = Notification.objects.filter(send_email=True, status="pending").select_related("user").prefetch_related("recipient_users")[:200]
+    notifications = (
+        Notification.objects.filter(send_email=True, status="pending")
+        .select_related("user")
+        .prefetch_related("recipient_users")[:200]
+    )
     for notif in notifications:
         # construir lista de destinatarios
         recipient_qs = notif.recipient_users.all()

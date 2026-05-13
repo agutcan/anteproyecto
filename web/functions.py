@@ -425,6 +425,7 @@ def process_round(tournament, round_number):
             tournament.id, round=round_number, tournament_teams=winning_tournament_teams
         )
 
+
 def create_notification(
     user,
     title="",

@@ -82,7 +82,17 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ["id", "title", "message", "urgency", "status", "created_at", "read_at", "sender_email", "recipients"]
+        fields = [
+            "id",
+            "title",
+            "message",
+            "urgency",
+            "status",
+            "created_at",
+            "read_at",
+            "sender_email",
+            "recipients",
+        ]
 
     def get_recipients(self, obj):
         return [u.username for u in obj.recipient_users.all()]

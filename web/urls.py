@@ -16,8 +16,16 @@ urlpatterns = [
         "api/support/chat/", views.support_chat_api, name="support_chat_api"
     ),  # API para chat de soporte IA (subirEC2)
     path("api/notifications/", views.notifications_api, name="notifications_api"),
-    path("api/notifications/unread-count/", views.notification_unread_count_api, name="notification_unread_count_api"),
-    path("api/notifications/<int:notification_id>/mark-read/", views.notification_mark_read_api, name="notification_mark_read_api"),
+    path(
+        "api/notifications/unread-count/",
+        views.notification_unread_count_api,
+        name="notification_unread_count_api",
+    ),
+    path(
+        "api/notifications/<int:notification_id>/mark-read/",
+        views.notification_mark_read_api,
+        name="notification_mark_read_api",
+    ),
     path("", views.IndexView.as_view(), name="indexView"),  # Vista principal
     path(
         "premium/", views.PremiumView.as_view(), name="premiumView"

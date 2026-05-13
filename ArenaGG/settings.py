@@ -37,7 +37,7 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = "administracion@arenagg.com"
-#SUPPORT_EMAIL = "soporte@arenagg.com"
+# SUPPORT_EMAIL = "soporte@arenagg.com"
 SUPPORT_AI_API_URL = env("SUPPORT_AI_API_URL", default="http://127.0.0.1:8081/chat")
 SUPPORT_AI_TIMEOUT = env.int("SUPPORT_AI_TIMEOUT", default=20)
 

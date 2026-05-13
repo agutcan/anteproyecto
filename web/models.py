@@ -391,6 +391,7 @@ class Redemption(models.Model):
         """Representación: '[usuario] redeemed [recompensa] on [fecha]'"""
         return f"{self.user.username} redeemed {self.reward.name} on {self.redeemed_at}"
 
+
 class Notification(models.Model):
 
     STATUS_CHOICES = [

@@ -812,15 +812,15 @@ class TournamentCreateView(LoginRequiredMixin, CreateView):
                 sender_email=settings.DEFAULT_FROM_EMAIL,
                 send_email=False,
             )
-            
+
             # Enviar correo de confirmación
-            #send_mail(
+            # send_mail(
             #    subject="🎮 Torneo creado en ArenaGG",
             #    message=f'Hola {self.request.user.username},\n\nHas creado el torneo "{tournament.name}" para {tournament.max_teams} equipos.\n\nFecha: {tournament.start_date.strftime("%d/%m/%Y")}',
             #    from_email=settings.DEFAULT_FROM_EMAIL,
             #    recipient_list=[self.request.user.email],
             #    fail_silently=True,
-            #)
+            # )
 
             return redirect("web:tournamentListView")
 
@@ -1210,7 +1210,7 @@ class TeamKickView(LoginRequiredMixin, View):
             # Desvincular al jugador del equipo
             player.team = None
             player.save()
-            
+
             create_notification(
                 user=player.user,
                 title="Has sido expulsado!!",
@@ -1226,7 +1226,7 @@ class TeamKickView(LoginRequiredMixin, View):
             )
 
             # Enviar correo de confirmación
-            #send_mail(
+            # send_mail(
             #    subject="Has sido expulsado!!",
             #    message=(
             #        f"Hola {player.user},\n\n"
@@ -1237,7 +1237,7 @@ class TeamKickView(LoginRequiredMixin, View):
             #    from_email=settings.DEFAULT_FROM_EMAIL,
             #    recipient_list=[player.user.email],
             #    fail_silently=False,
-            #)
+            # )
             messages.success(request, "Has expulsado al jugador del equipo correctamente.")
         else:
             messages.error(
@@ -2155,7 +2155,8 @@ def debug_query_api(request):
     except SyntaxError as e:
         logger.warning(f"Syntax error en debug query de {request.user.username}: {str(e)}")
         return Response(
-            {"success": False, "error": f"Error de sintaxis: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST
+            {"success": False, "error": f"Error de sintaxis: {str(e)}"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
     except Exception as e:
         logger.error(f"Error en debug query de {request.user.username}: {str(e)}")

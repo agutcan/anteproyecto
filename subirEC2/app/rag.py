@@ -34,7 +34,9 @@ class RAGService:
         context = "\n\n".join([item["text"] for item in retrieved])
         sources = list(dict.fromkeys([item["source"] for item in retrieved]))
 
-        should_escalate = self._should_escalate(question=question, confidence=confidence, context=context)
+        should_escalate = self._should_escalate(
+            question=question, confidence=confidence, context=context
+        )
 
         if not context:
             answer = (
