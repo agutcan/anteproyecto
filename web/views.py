@@ -50,7 +50,7 @@ logger = logging.getLogger(__name__)
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def support_chat_api(request):
-    """Proxy del chat de soporte hacia el servicio RAG de subirEC2."""
+    """Proxy del chat de soporte hacia el servicio RAG de subirEC2.sss"""
     serializer = SupportChatMessageSerializer(data=request.data)
     if not serializer.is_valid():
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
