@@ -3,7 +3,7 @@
 ## 🌐 Arquitectura de Servicios
 
 ### 🔒 Traefik (Reverse Proxy)
-- **Imagen**: `traefik:v3.2`
+- **Imagen**: `traefik:v2.11`
 - **Funcionalidades**:
   - Dashboard administrativo habilitado
   - Redirección HTTP → HTTPS automática
