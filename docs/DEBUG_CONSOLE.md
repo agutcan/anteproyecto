@@ -32,7 +32,7 @@ En el textarea de "Consulta ORM", ingresa consultas Python/Django válidas.
 **Modo Eval (✓ checkbox activado):**
 ```python
 # Devuelve el resultado de la expresión
-list(Player.objects.filter(country='ES').values('user', 'mmr')[:5])
+list(Player.objects.filter(country='ES').values('user__username', 'mmr')[:5])
 
 # Contar jugadores por país
 Player.objects.values('country').annotate(count=Count('id'))
@@ -71,9 +71,13 @@ La siguiente tabla muestra los modelos y funciones disponibles en el contexto de
 | `Team` | Model | Modelo de equipos |
 | `Tournament` | Model | Modelo de torneos |
 | `Match` | Model | Modelo de partidos |
+| `MatchResult` | Model | Modelo de resultados de partidos |
+| `MatchLog` | Model | Modelo de eventos/logs de partidos |
 | `Game` | Model | Modelo de juegos |
 | `Reward` | Model | Modelo de recompensas |
+| `Redemption` | Model | Modelo de canjes de recompensas |
 | `TournamentTeam` | Model | Modelo de equipos en torneos |
+| `Notification` | Model | Modelo de notificaciones |
 | `Q` | Function | Q objects para consultas complejas |
 | `F` | Function | F expressions para operaciones de campos |
 | `Count` | Function | Agregación Count para consultas |
@@ -84,14 +88,14 @@ La siguiente tabla muestra los modelos y funciones disponibles en el contexto de
 
 ```python
 # Modo eval
-list(Player.objects.filter(country='ES').values('username', 'country'))
+list(Player.objects.filter(country='ES').values('user__username', 'country'))
 ```
 
 **Resultado esperado:**
 ```
 [
-  {'username': 'jugador1', 'country': 'ES'},
-  {'username': 'jugador2', 'country': 'ES'}
+  {'user__username': 'jugador1', 'country': 'ES'},
+  {'user__username': 'jugador2', 'country': 'ES'}
 ]
 ```
 
@@ -115,14 +119,14 @@ list(Tournament.objects.values('status').annotate(count=Count('id')))
 
 ```python
 # Modo eval
-list(Player.objects.order_by('-mmr').values('username', 'mmr')[:5])
+list(Player.objects.order_by('-mmr').values('id', 'mmr')[:5])
 ```
 
 ### Ejemplo 4: Actualizar MMR de un jugador (Modo exec)
 
 ```python
 # Modo exec - No devuelve resultado, pero modifica BD
-player = Player.objects.get(username='testuser')
+player = Player.objects.get(id=1)
 player.mmr = 2500
 player.save()
 ```
@@ -138,7 +142,7 @@ list(Team.objects.values('name').annotate(players=Count('player')))
 
 ```python
 # Modo eval
-list(Match.objects.filter(winner__name='TeamA').values('tournament__name', 'created_at'))
+list(Match.objects.filter(winner__name='TeamA').values('tournament__name', 'scheduled_at'))
 ```
 
 ## Navegación del Historial
@@ -197,7 +201,7 @@ python manage.py createsuperuser
 **Solicitud:**
 ```json
 {
-    "query": "Player.objects.filter(country='ES').values('username')",
+    "query": "Player.objects.filter(country='ES').values('id')",
     "eval": true
 }
 ```
@@ -206,7 +210,7 @@ python manage.py createsuperuser
 ```json
 {
     "success": true,
-    "result": "[{'username': 'player1'}, {'username': 'player2'}]"
+    "result": "[{'username': 'player1'}, {'id': 'player2'}]"
 }
 ```
 
@@ -288,3 +292,21 @@ player.save()
 1. **Seguridad**: Los logs guardan quién ejecutó cada consulta - úsalo responsablemente
 2. **Datos**: Cualquier modificación a la BD es real - ¡ten cuidado con updates!
 3. **Performance**: Consultas muy complejas pueden bloquear el servidor brevemente
+
+## 🔄 Navegación
+
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](ADMIN.md)
+- 🖼️ [Vistas](VIEWS.md)
+- ⏰ [Tareas programadas](TASKS.md)
+- 🧩 [Modelos](MODELS.md)
+- 📝 [Formularios](FORMS.md)
+- ✅ [Test](TESTS.md)
+- 🔄 [Serializadores](SERIALIZERS.md)
+- 🧠 [Funciones](FUNCTIONS.md)
+- 🎯 [Workflows](WORKFLOWS.md)
+- 🚀 [Compose](DOCKER-COMPOSE.md)
+- 🤖 [Soporte IA](SUPPORT_AI.md)
+- ☁️ [Despliegue del soporte en AWS](SUPPORT_AI_AWS.md)
+- 🔧 [Debug Console](DEBUG_CONSOLE.md)
+- ⬅️ [Volver al README principal](../README.md)

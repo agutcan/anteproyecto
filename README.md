@@ -55,17 +55,20 @@ Esta plataforma permitirá a los usuarios:
 
 ## ✅ Objetivos
 
-| Funcionalidad                           | Estado |
-|-----------------------------------------|--------|
+| Funcionalidad                           | Estado   |
+|-----------------------------------------|----------|
 | 🔐 Registro de usuarios                 | ✅      |
 | 📝 Inscripción de equipos               | ✅      |
 | 🔄 Emparejamiento automático            | ✅      |
 | 📅 Resultados                           | ✅      |
-| 🗂️ Gestión múltiple de torneos         | ✅      |
+| 🗂️ Gestión múltiple de torneos          | ✅      |
 | 🔔 Sistema de notificaciones por correo | ✅      |
 | 🏆 Sistema de puntos/recompensas        | ✅      |
 | 👑 Membresía VIP                        | ✅      |
 | 🛟 Sistema de soporte                   | ✅      |
+| 🤖 Soporte IA con RAG y embeddings.     | ✅      |
+| 🔧 Debug Console para administradores.  | ✅      |
+
 
 ## 🛠️ Medios hw y sf
 
@@ -103,6 +106,8 @@ Esta plataforma permitirá a los usuarios:
 - 🏆 Sistema de puntos/recompensas.
 - 👑 Membresía VIP.
 - 🛟 Sistema de soporte.
+- 🤖 Soporte IA con RAG y embeddings.
+- 🔧 Debug Console para administradores.
 
 ### 🎨 3. Desarrollo del frontend (2 semanas)
 
@@ -142,6 +147,8 @@ Esta plataforma permitirá a los usuarios:
 - 🏆 Sistema de puntos/recompensas.
 - 👑 Membresía VIP.
 - 🛟 Sistema de soporte.
+- 🤖 Soporte IA con chatbot inteligente basado en documentación.
+- 🔧 Debug Console para consultas ORM en tiempo real.
 - 🛠️ Creación de tareas automatizadas.
 - 🔗 Integrar las vistas con el backend.
 - ✅ Realizar pruebas unitarias con **Django TestCase**.
@@ -149,14 +156,6 @@ Esta plataforma permitirá a los usuarios:
 - 🖌️ Diseñar las interfaces de usuario con **Bootstrap 5**.
 - 🌐 Configurar la infraestructura en **AWS** (EC2 o ECS para la ejecución de contenedores).
 - 📊 Validar el correcto funcionamiento de la plataforma.
-
-### Implementación reciente
-
-- 🔔 Sistema de notificaciones centralizado con modelo, serializador, vistas API, tareas de Celery y badge en la navegación.
-- 📨 Sustitución de envíos directos de correo por creación de notificaciones en vistas y tareas.
-- 🧾 Registro del modelo `Notification` en el panel de administración de Django.
-- 🧪 Actualización de pruebas de vistas para reflejar el flujo nuevo de notificaciones.
-
 ### En proceso
 
 ### Por hacer
@@ -249,19 +248,6 @@ Esta plataforma permitirá a los usuarios:
 - 🤖 [Soporte IA](docs/SUPPORT_AI.md)
 - ☁️ [Despliegue del soporte en AWS](docs/SUPPORT_AI_AWS.md)
 - 🔧 [Debug Console - Consola de Depuración](docs/DEBUG_CONSOLE.md)
-
-### 🔔 Sistema de notificaciones
-
-La funcionalidad de notificaciones se ha integrado como una capa transversal del proyecto:
-
-- El modelo `Notification` guarda el usuario principal, destinatarios, remitente, urgencia, estado, lectura y relaciones con torneo o partido.
-- Las vistas que antes enviaban correos ahora crean notificaciones con `create_notification`.
-- `web/urls.py` expone la API de notificaciones:
-  - `/api/notifications/`
-  - `/api/notifications/unread-count/`
-  - `/api/notifications/<id>/mark-read/`
-- Celery procesa la cola de notificaciones para enviar correos pendientes mediante Mailpit.
-- El navbar muestra un icono con contador de no leídas y un panel lateral para revisar y marcar notificaciones como leídas.
 
 ## 📄 Presentación
 

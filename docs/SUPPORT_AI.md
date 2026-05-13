@@ -178,3 +178,21 @@ Si aparece un error de permisos, hay que revisar:
 El usuario no interactua con FAISS, ni con embeddings, ni con el proveedor LLM.
 
 Solo ve una ventana de soporte que responde preguntas frecuentes de la aplicacion con un lenguaje simple y orientado a usuarios normales.
+
+## 🔄 Navegación
+
+- ️🏗️ [Estructura del Proyecto y esquema de base de datos](PROJECT_STRUCTURE.md)
+- ⚙️ [Admin](ADMIN.md)
+- 🖼️ [Vistas](VIEWS.md)
+- ⏰ [Tareas programadas](TASKS.md)
+- 🧩 [Modelos](MODELS.md)
+- 📝 [Formularios](FORMS.md)
+- ✅ [Test](TESTS.md)
+- 🔄 [Serializadores](SERIALIZERS.md)
+- 🧠 [Funciones](FUNCTIONS.md)
+- 🎯 [Workflows](WORKFLOWS.md)
+- 🚀 [Compose](DOCKER-COMPOSE.md)
+- 🤖 [Soporte IA](SUPPORT_AI.md)
+- ☁️ [Despliegue del soporte en AWS](SUPPORT_AI_AWS.md)
+- 🔧 [Debug Console](DEBUG_CONSOLE.md)
+- ⬅️ [Volver al README principal](../README.md)
