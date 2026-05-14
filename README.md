@@ -1,4 +1,4 @@
-# ![Portada](web/static/images/portada.png)
+<img width="1019" height="828" alt="image" src="https://github.com/user-attachments/assets/55034d4a-75bc-4993-98e1-504714842603" /><img width="1019" height="828" alt="image" src="https://github.com/user-attachments/assets/34893730-27cd-41e5-bdb4-7eb8d8d14175" /># ![Portada](web/static/images/portada.png)
 
 # Anteproyecto
 
@@ -199,6 +199,7 @@ Esta plataforma permitirá a los usuarios:
 - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
 - Sistema de notificaciones (meter aqui el envio de correos también).
 - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
+- Actión de github en el que al detectar un cambio en la carpeta con los documentos que indexa la API de soporte se suba automáticamente
 
 
 ### Mejoras implementadas al proyecto
@@ -215,6 +216,7 @@ Esta plataforma permitirá a los usuarios:
   - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
   - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
   - Sistema de notificaciones (meter aqui el envio de correos también).
+  - Actión de github en el que al detectar un cambio en la carpeta con los documentos que indexa la API de soporte se suba automáticamente
 
 ## 📚 Bibliografía
 
