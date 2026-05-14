@@ -229,10 +229,10 @@ Usuario → Soporte Django → POST /api/support/chat/ → subirEC2 (FastAPI)
 
 | Recurso               | Proveedor   | Coste mensual estimado |
 |-----------------------|-------------|------------------------|
-| EC2 t3.small          | AWS         | 15,00 €                |
-| Elastic IP            | AWS         | 3,50 €                 |
+| x2 EC2 t3.small          | AWS         | 30,00 €                |
+| x2 Elastic IP            | AWS         | 7,00 €                 |
 | Dominio (arenagg.tech)| Registrador | 1,00 €                 |
-| **Total mensual**     |             | **19,50 €**            |
+| **Total mensual**     |             | **38,00 €**            |
 
 #### 7.2 Herramientas y servicios
 
