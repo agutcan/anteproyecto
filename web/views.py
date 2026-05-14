@@ -277,7 +277,6 @@ class TournamentListView(LoginRequiredMixin, ListView):
     model = Tournament
     template_name = "web/tournament_list.html"
     context_object_name = "tournament_list"
-    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -361,7 +360,6 @@ class MyTournamentListView(LoginRequiredMixin, ListView):
     model = Tournament
     template_name = "web/my_tournament_list.html"
     context_object_name = "tournament_list"
-    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -398,7 +396,6 @@ class GameListView(LoginRequiredMixin, ListView):
     model = Game
     template_name = "web/game_list.html"
     context_object_name = "game_list"
-    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -586,7 +583,6 @@ class RewardListView(LoginRequiredMixin, ListView):
     model = Reward
     template_name = "web/reward.html"
     context_object_name = "reward_list"
-    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -618,7 +614,6 @@ class JoinTeamInTournamentListView(LoginRequiredMixin, ListView):
     model = TournamentTeam
     template_name = "web/join_team.html"
     context_object_name = "team_list"
-    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -1134,7 +1129,6 @@ class TeamJoinListView(LoginRequiredMixin, ListView):
     model = Team
     template_name = "web/team_join.html"
     context_object_name = "teams"
-    paginate_by = 10
 
     def get_queryset(self):
         # Solo equipos que están buscando jugadores
@@ -1880,7 +1874,6 @@ class RedemptionListView(LoginRequiredMixin, ListView):
     model = Redemption
     template_name = "web/redemption_list.html"
     context_object_name = "redemption_list"
-    paginate_by = 10
 
     def get_queryset(self):
         """

@@ -126,7 +126,7 @@ En el segundo curso (DAM) se ha ampliado significativamente el proyecto con func
 
 | Mejora | Descripción | Tecnologías |
 |--------|-------------|-------------|
-| **Sistema de paginación** | Paginación de todos los listados (torneos, ranking, juegos, equipos, recompensas, redenciones, unirse a equipos) para mejorar el rendimiento y la experiencia de usuario | Django Paginator |
+| **Sistema de paginación** | Paginación del ranking de jugadores (10 por página) para mejorar el rendimiento y la experiencia de usuario | Django Paginator |
 | **Black (Code Formatter)** | Formateo automático de código Python para mantener un estilo consistente en todo el proyecto | Black + pre-commit + CI check |
 | **Soporte IA con RAG** | Chatbot inteligente que responde preguntas frecuentes basándose en documentación real de la plataforma. Incluye microservicio independiente en FastAPI, embeddings multilingües, índice vectorial FAISS y múltiples backends LLM (OpenAI, Mistral, Together, Bedrock) | FastAPI, FAISS, sentence-transformers, OpenAI/Bedrock/Mistral/Together |
 | **Carrusel de noticias** | Carrusel automático en la página principal con noticias y anuncios de la plataforma, incluyendo streamers patrocinadores | Bootstrap 5 Carousel |
