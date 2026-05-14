@@ -1,4 +1,4 @@
-<img width="1019" height="828" alt="image" src="https://github.com/user-attachments/assets/55034d4a-75bc-4993-98e1-504714842603" /><img width="1019" height="828" alt="image" src="https://github.com/user-attachments/assets/34893730-27cd-41e5-bdb4-7eb8d8d14175" /># ![Portada](web/static/images/portada.png)
+# ![Portada](web/static/images/portada.png)
 
 # Anteproyecto
 
@@ -290,6 +290,12 @@ python -m black .
 
 # Solo validar formato (sin modificar archivos)
 python -m black --check .
+
+# Instalar pre-commit (para que antes de hacer commit te haga la validacion y el formateo
+pip install pre-commit
+
+# Vincular pre-commit con la rama actual
+pre-commit install
 ```
 
 Si usas entorno virtual en Windows:
