@@ -188,7 +188,7 @@ LOGOUT_REDIRECT_URL = "/accounts/logout/"
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://arenagg.aarongutierrez.tech",
+    "https://app.arenagg.tech",
 ]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
