@@ -145,7 +145,7 @@ class PlayerStatsListAPI(generics.ListAPIView):
         Opcional: Sobrescribe el queryset base para agregar filtros o optimizaciones.
 
         Returns:
-            QuerySet: Conjunto de jugadores potencialmente filtrado/optimizado.
+            QuerySet: Conjunto de jugadores potencialmente filtrado/optimizado..
         """
         return super().get_queryset().select_related("team")
 
