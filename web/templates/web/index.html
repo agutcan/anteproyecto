@@ -373,8 +373,8 @@
 </div>
 {% if user.is_staff %}
     <link rel="stylesheet" href="{% static 'css/debug_console.css' %}">
-    {% endif %}
-<script src="{% static 'js/debug_console.js' %}"></script>
+    <script src="{% static 'js/debug_console.js' %}"></script>
+{% endif %}
 
 
 {% endblock %}
