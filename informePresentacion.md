@@ -110,17 +110,31 @@ Esta plataforma permite a los usuarios:
 - El tamaño del equipo no puede variar una vez participa en un torneo.
 - No se ha realizado un manual de usuario independiente (en su lugar hay una página `how_it_work.html` que explica el uso de la plataforma).
 
-#### 5.3 Mejoras implementadas (DAW + DAM)
+#### 5.3 DAW — Mejoras del primer año
 
-- Tareas automatizadas para modificar estado de torneos y partidos (Celery + Celery-Beat).
-- Automatización de despliegue con GitHub Actions.
-- Sistema de paginación.
-- Integración de Black (formateo de código Python).
-- IA para contestar mensajes de soporte automáticamente (RAG con base de conocimientos propia).
-- Carrusel de noticias y anuncios en la página principal.
-- Debug Console (F12) para consultas ORM en tiempo real.
-- Sistema de notificaciones con cola de correo.
-- Workflow de GitHub Actions para reindexar documentos del chatbot al detectar cambios.
+Durante el primer curso (DAW) se implementaron las siguientes mejoras sobre la base inicial del proyecto:
+
+| Mejora | Descripción |
+|--------|-------------|
+| Tareas automatizadas | Actualización de estados de torneos y partidos (upcoming → ongoing → completed) mediante Celery, Celery-Beat y Redis |
+| Envío de correos | Notificaciones por email a jugadores sobre inicio de partidos y resultados usando Mailpit en desarrollo |
+| CI/CD con GitHub Actions | Workflow `docker_aws.yml` que construye la imagen Docker, la publica en Docker Hub y despliega automáticamente en AWS EC2 al hacer push a `main` |
+
+#### 5.4 DAM — Mejoras del segundo año (curso actual)
+
+En el segundo curso (DAM) se ha ampliado significativamente el proyecto con funcionalidades avanzadas:
+
+| Mejora | Descripción | Tecnologías |
+|--------|-------------|-------------|
+| **Sistema de paginación** | Paginación de listados (torneos, ranking, equipos) para mejorar el rendimiento y la experiencia de usuario | Django Paginator |
+| **Black (Code Formatter)** | Formateo automático de código Python para mantener un estilo consistente en todo el proyecto | Black + pre-commit + CI check |
+| **Soporte IA con RAG** | Chatbot inteligente que responde preguntas frecuentes basándose en documentación real de la plataforma. Incluye microservicio independiente en FastAPI, embeddings multilingües, índice vectorial FAISS y múltiples backends LLM (OpenAI, Mistral, Together, Bedrock) | FastAPI, FAISS, sentence-transformers, OpenAI/Bedrock/Mistral/Together |
+| **Carrusel de noticias** | Carrusel automático en la página principal con noticias y anuncios de la plataforma, incluyendo streamers patrocinadores | Bootstrap 5 Carousel |
+| **Debug Console** | Consola interactiva accesible con F12 que permite a administradores ejecutar consultas ORM de Django directamente desde el navegador, con historial de comandos y validación de seguridad | JavaScript, Django ORM |
+| **Sistema de notificaciones** | Modelo `Notification` con cola de envío, niveles de urgencia, destinatarios múltiples y procesamiento asíncrono vía Celery. Sustituye los `send_mail` directos por un sistema trazable | Django, Celery |
+| **Workflow reindexado de documentos** | GitHub Action `subirEC2-documents.yml` que detecta cambios en la base documental del chatbot y reindexa automáticamente el índice vectorial en la instancia EC2 | GitHub Actions, SSH |
+
+Estas mejoras de DAM representan la evolución del proyecto hacia una plataforma más madura, escalable y automatizada, incorporando inteligencia artificial, DevOps y experiencia de usuario avanzada.
 
 ### 6. Arquitectura del sistema
 
