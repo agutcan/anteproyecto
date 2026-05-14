@@ -75,7 +75,7 @@
 
 ```
 
-# 🗃️ Esquema de la base de datos (Generado desde pycharm)
+# 🗃️ Esquema de la base de datos
 
 ![Esquema de la base de datos](../web/static/images/diagrama.png)
 
