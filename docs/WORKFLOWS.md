@@ -163,4 +163,7 @@ El microservicio `subirEC2`:
 - 🧠 [Funciones](FUNCTIONS.md)
 - 🎯 [Workflows](WORKFLOWS.md)
 - 🚀 [Compose](DOCKER-COMPOSE.md)
+- 🤖 [Soporte IA](SUPPORT_AI.md)
+- ☁️ [Despliegue del soporte en AWS](SUPPORT_AI_AWS.md)
+- 🔧 [Debug Console](DEBUG_CONSOLE.md)
 - ⬅️ [Volver al README principal](../README.md)
