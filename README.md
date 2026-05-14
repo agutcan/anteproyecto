@@ -199,6 +199,7 @@ Esta plataforma permitirá a los usuarios:
 - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
 - Sistema de notificaciones (meter aqui el envio de correos también).
 - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
+- Actión de github en el que al detectar un cambio en la carpeta con los documentos que indexa la API de soporte se suba automáticamente
 
 
 ### Mejoras implementadas al proyecto
@@ -215,6 +216,7 @@ Esta plataforma permitirá a los usuarios:
   - Poner noticias y anuncios en un carrusel para que se vaya actualizando automáticamente.
   - Realizar un especie de dialogo que se habra al hacer F12 para hacer consultas a la base de datos si eres administrador.
   - Sistema de notificaciones (meter aqui el envio de correos también).
+  - Actión de github en el que al detectar un cambio en la carpeta con los documentos que indexa la API de soporte se suba automáticamente
 
 ## 📚 Bibliografía
 
@@ -288,6 +290,12 @@ python -m black .
 
 # Solo validar formato (sin modificar archivos)
 python -m black --check .
+
+# Instalar pre-commit (para que antes de hacer commit te haga la validacion y el formateo
+pip install pre-commit
+
+# Vincular pre-commit con la rama actual
+pre-commit install
 ```
 
 Si usas entorno virtual en Windows:
