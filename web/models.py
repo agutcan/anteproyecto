@@ -393,6 +393,26 @@ class Redemption(models.Model):
 
 
 class Notification(models.Model):
+    """Modelo que gestiona notificaciones enviadas a usuarios.
+
+    Atributos:
+        user (ForeignKey): Usuario propietario o creador de la notificación
+        recipient_users (ManyToManyField): Usuarios destinatarios de la notificación
+        sender_email (EmailField): Correo electrónico remitente
+        urgency (PositiveSmallIntegerField): Nivel de urgencia de la notificación
+        title (CharField): Título de la notificación
+        message (TextField): Contenido del mensaje
+        send_email (BooleanField): Indica si debe enviarse por correo electrónico
+        status (CharField): Estado actual del envío
+        retries (PositiveIntegerField): Número de reintentos realizados
+        max_retries (PositiveIntegerField): Máximo número de reintentos permitidos
+        email_sent_at (DateTimeField): Fecha y hora de envío del correo
+        tournament (ForeignKey): Torneo relacionado con la notificación
+        match (ForeignKey): Partido relacionado con la notificación
+        created_at (DateTimeField): Fecha de creación automática
+        updated_at (DateTimeField): Fecha de última actualización automática
+        read_at (DateTimeField): Fecha en la que la notificación fue leída
+    """
 
     STATUS_CHOICES = [
         ("pending", "Pending"),
@@ -470,8 +490,10 @@ class Notification(models.Model):
         ]
 
     def __str__(self):
+        """Representación: '[usuario] - [título] ([estado])'"""
         return f"{self.user.username} - {self.title} ({self.status})"
 
     @property
     def is_read(self):
+        """Indica si la notificación ya fue leída."""
         return self.read_at is not None
